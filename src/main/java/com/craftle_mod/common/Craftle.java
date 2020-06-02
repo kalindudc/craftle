@@ -1,5 +1,6 @@
 package com.craftle_mod.common;
 
+import com.craftle_mod.common.registries.CraftleBiomes;
 import com.craftle_mod.common.registries.CraftleBlocks;
 import com.craftle_mod.common.registries.CraftleItems;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
@@ -39,6 +40,7 @@ public class Craftle {
         CraftleItems.ITEMS.register(craftleEventBus);
         CraftleBlocks.BLOCKS.register(craftleEventBus);
         CraftleTileEntityTypes.TILE_ENTITY_TYPES.register(craftleEventBus);
+        CraftleBiomes.BIOMES.register(craftleEventBus);
 
         instance = this;
         MinecraftForge.EVENT_BUS.register(this);

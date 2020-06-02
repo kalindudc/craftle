@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 
 import java.util.function.Supplier;
 
-public class CraftleCreativeTab {
+public class CraftleCreativeTabs {
 
     public static final ItemGroup CRAFTLE_ITEM_GROUP =
             new CraftleItemGroup(Craftle.MODID, () -> new ItemStack(

@@ -1,9 +1,11 @@
 package com.craftle_mod.common;
 
+import com.craftle_mod.common.registries.CraftleBiomes;
 import com.craftle_mod.common.registries.CraftleBlocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
@@ -23,7 +25,7 @@ public class CraftleEventSubscriber {
                             .forEach(block -> {
                                 final Item.Properties properties =
                                         new Item.Properties()
-                                                .group(CraftleCreativeTab.CRAFTLE_ITEM_GROUP);
+                                                .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP);
                                 final BlockItem blockItem =
                                         new BlockItem(block, properties);
                                 blockItem.setRegistryName(
@@ -36,6 +38,11 @@ public class CraftleEventSubscriber {
 
     }
 
+    @SubscribeEvent
+    public static void onRegisterBiomes(
+            final RegistryEvent.Register<Biome> event) {
+        CraftleBiomes.registerBiomes();
+    }
 
     public static <T extends IForgeRegistryEntry<T>> T setup(final T entry,
                                                              final String name) {
