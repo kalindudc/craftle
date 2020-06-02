@@ -9,4 +9,5 @@ public class CraftleBlocks {
 
     public static final Block TEST_ORE      = null;
     public static final Block SPECIAL_BLOCK = null;
+    public static final Block QUARRY        = null;
 }

@@ -1,5 +1,6 @@
 package com.craftle_mod.common;
 
+import com.craftle_mod.common.block.CraftleQuarry;
 import com.craftle_mod.common.block.SpecialBlock;
 import com.craftle_mod.common.init.CraftleBlocks;
 import com.craftle_mod.common.init.CraftleItemGroups;
@@ -44,6 +45,11 @@ public class CraftleEventSubscriber {
                                                       new Item.Properties()
                                                               .group(CraftleItemGroups.CRAFTLE_ITEM_GROUP)),
                                               "special_block"),
+                                        setup(new BlockItem(
+                                                      CraftleBlocks.QUARRY,
+                                                      new Item.Properties()
+                                                              .group(CraftleItemGroups.CRAFTLE_ITEM_GROUP)),
+                                              "quarry"),
                                         setup(new Item(new Item.Properties()
                                                                .group(CraftleItemGroups.CRAFTLE_ITEM_GROUP)
                                                                .food(new Food.Builder()
@@ -94,7 +100,19 @@ public class CraftleEventSubscriber {
                                                                       ToolType.PICKAXE)
                                                               .sound(SoundType.METAL)
                                                               .lightValue(4)),
-                                              "special_block"));
+                                              "special_block"),
+                                        setup(new CraftleQuarry(
+                                                      Block.Properties
+                                                              .create(Material.IRON)
+                                                              .hardnessAndResistance(
+                                                                      2.0F,
+                                                                      10.0F)
+                                                              .harvestLevel(2)
+                                                              .harvestTool(
+                                                                      ToolType.PICKAXE)
+                                                              .sound(SoundType.METAL)
+                                                              .lightValue(4)),
+                                              "quarry"));
     }
 
     public static <T extends IForgeRegistryEntry<T>> T setup(final T entry,
