@@ -1,7 +1,7 @@
 package com.craftle_mod.common.item;
 
 import com.craftle_mod.client.util.handler.CraftleKeyHandler;
-import com.craftle_mod.common.init.CraftleBlocks;
+import com.craftle_mod.common.registries.CraftleBlocks;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -49,8 +49,7 @@ public class SpecialItem extends Item {
     public ActionResult<ItemStack> onItemRightClick(World worldIn,
                                                     PlayerEntity playerIn,
                                                     Hand handIn) {
-        playerIn.addPotionEffect(new EffectInstance(Effects.LEVITATION, 10,
-                                                    2));
+        playerIn.addPotionEffect(new EffectInstance(Effects.LEVITATION, 10, 2));
         worldIn.setRainStrength(3.0f);
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
@@ -58,7 +57,8 @@ public class SpecialItem extends Item {
     @Override
     public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entity) {
         entity.world.setBlockState(entity.getPosition().down(),
-                                   CraftleBlocks.TEST_ORE.getDefaultState());
+                                   CraftleBlocks.TEST_ORE.get()
+                                                         .getDefaultState());
         return super.onEntityItemUpdate(stack, entity);
     }
 

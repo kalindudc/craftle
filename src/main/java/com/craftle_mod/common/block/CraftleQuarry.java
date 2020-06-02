@@ -1,5 +1,6 @@
 package com.craftle_mod.common.block;
 
+import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -8,11 +9,15 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
+
+import javax.annotation.Nullable;
 
 public class CraftleQuarry extends Block {
 
@@ -28,6 +33,17 @@ public class CraftleQuarry extends Block {
                     .with(FACING, Direction.NORTH).with(LIT,
                                                         Boolean.valueOf(
                                                                 false)));
+    }
+
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return CraftleTileEntityTypes.QUARRY.get().create();
     }
 
     public BlockState getStateForPlacement(BlockItemUseContext context) {

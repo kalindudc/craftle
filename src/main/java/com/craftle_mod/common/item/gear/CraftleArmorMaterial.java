@@ -1,7 +1,7 @@
 package com.craftle_mod.common.item.gear;
 
 import com.craftle_mod.common.Craftle;
-import com.craftle_mod.common.init.CraftleItems;
+import com.craftle_mod.common.registries.CraftleItems;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.crafting.Ingredient;
@@ -17,7 +17,7 @@ public enum CraftleArmorMaterial implements IArmorMaterial {
 
     TEST_INGOT(Craftle.MODID + ":test", 5, new int[]{7, 9, 11, 7}, 420,
                SoundEvents.field_226142_fM_, 6.9F,
-               () -> Ingredient.fromItems(CraftleItems.TEST_INGOT));
+               () -> Ingredient.fromItems(CraftleItems.TEST_INGOT.get()));
 
     private static final int[] MAX_DAMAGE_ARRAY = new int[]{16, 16, 16, 16};
 

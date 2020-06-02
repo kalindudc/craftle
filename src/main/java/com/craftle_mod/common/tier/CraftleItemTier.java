@@ -1,6 +1,6 @@
 package com.craftle_mod.common.tier;
 
-import com.craftle_mod.common.init.CraftleItems;
+import com.craftle_mod.common.registries.CraftleItems;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.LazyValue;
@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 public enum CraftleItemTier implements IItemTier {
 
     TEST(4, 1500, 15.0F, 12.0F, 250,
-         () -> Ingredient.fromItems(CraftleItems.TEST_INGOT));
+         () -> Ingredient.fromItems(CraftleItems.TEST_INGOT.get()));
 
     private final int                   harvestLevel;
     private final int                   maxUses;

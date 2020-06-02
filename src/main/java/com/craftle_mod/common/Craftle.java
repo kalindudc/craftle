@@ -1,7 +1,11 @@
 package com.craftle_mod.common;
 
+import com.craftle_mod.common.registries.CraftleBlocks;
+import com.craftle_mod.common.registries.CraftleItems;
+import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.world.gen.TestOreGen;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -14,8 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(Craftle.MODID)
-@EventBusSubscriber(modid = Craftle.MODID,
-                    bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Craftle.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class Craftle {
 
     public static final String MODID       = "craftle";
@@ -27,13 +30,17 @@ public class Craftle {
 
     public Craftle() {
 
+        final IEventBus craftleEventBus =
+                FMLJavaModLoadingContext.get().getModEventBus();
+
+        craftleEventBus.addListener(this::setup);
+        craftleEventBus.addListener(this::clientRegistries);
+
+        CraftleItems.ITEMS.register(craftleEventBus);
+        CraftleBlocks.BLOCKS.register(craftleEventBus);
+        CraftleTileEntityTypes.TILE_ENTITY_TYPES.register(craftleEventBus);
+
         instance = this;
-
-        FMLJavaModLoadingContext.get().getModEventBus()
-                                .addListener(this::setup);
-        FMLJavaModLoadingContext.get().getModEventBus()
-                                .addListener(this::clientRegistries);
-
         MinecraftForge.EVENT_BUS.register(this);
     }
 
