@@ -1,0 +1,8 @@
+{
+    "replace": false,
+    "values": [
+        "#forge:purified/platinum",
+        "#forge:purified/steel",
+        "#forge:purified/uranium"
+    ]
+}

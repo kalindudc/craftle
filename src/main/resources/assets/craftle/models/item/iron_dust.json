@@ -1,0 +1,6 @@
+{
+    "textures": {
+        "layer0": "craftle:item/iron_dust"
+    }, 
+    "parent": "item/generated"
+}

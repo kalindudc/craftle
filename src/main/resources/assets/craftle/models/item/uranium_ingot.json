@@ -1,0 +1,6 @@
+{
+    "textures": {
+        "layer0": "craftle:item/uranium_ingot"
+    }, 
+    "parent": "item/generated"
+}

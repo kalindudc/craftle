@@ -1,6 +1,14 @@
 {
     "replace": false,
     "values": [
-        "#forge:ingots/test_ingot"
+        "#forge:ingots/test_ingot",
+        "#forge:ingots/aluminium",
+        "#forge:ingots/copper",
+        "#forge:ingots/platinum",
+        "#forge:ingots/steel",
+        "#forge:ingots/tin",
+        "#forge:ingots/uranium",
+        "#forge:ingots/ruby",
+        "#forge:ingots/sapphire"
     ]
 }
