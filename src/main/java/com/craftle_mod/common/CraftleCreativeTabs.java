@@ -10,7 +10,7 @@ public class CraftleCreativeTabs {
 
     public static final ItemGroup CRAFTLE_ITEM_GROUP =
             new CraftleItemGroup(Craftle.MODID, () -> new ItemStack(
-                    CraftleItems.TEST_INGOT.get()));
+                    CraftleItems.SPECIAL_ITEM.get()));
 
     private static class CraftleItemGroup extends ItemGroup {
 

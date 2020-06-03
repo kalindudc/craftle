@@ -21,7 +21,7 @@ public class TestBiome extends Biome {
         super(biomeBuilder);
         // DefaultBiomeFeature
         this.addSpawn(EntityClassification.CREATURE,
-                      new SpawnListEntry(EntityType.GIANT, 35, 2, 12));
+                      new SpawnListEntry(EntityType.GIANT, 20, 2, 12));
         this.addCarver(GenerationStage.Carving.AIR,
                        Biome.createCarver(WorldCarver.CAVE,
                                           new ProbabilityConfig(0.14285715f)));

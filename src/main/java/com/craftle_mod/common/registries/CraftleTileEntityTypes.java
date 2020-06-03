@@ -2,6 +2,7 @@ package com.craftle_mod.common.registries;
 
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.tile.TileEntityQuarry;
+import com.craftle_mod.common.tile.TileEntityTestChest;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -20,4 +21,13 @@ public class CraftleTileEntityTypes {
                                                                 CraftleBlocks.QUARRY
                                                                         .get())
                                                         .build(null));
+
+    public static final RegistryObject<TileEntityType<TileEntityTestChest>>
+            TEST_CHEST = TILE_ENTITY_TYPES.register("test_chest",
+                                                    () -> TileEntityType.Builder
+                                                            .create(TileEntityTestChest::new,
+                                                                    CraftleBlocks.TEST_CHEST
+                                                                            .get())
+                                                            .build(null));
+
 }

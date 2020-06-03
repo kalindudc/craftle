@@ -3,6 +3,7 @@ package com.craftle_mod.common.registries;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.CraftleQuarry;
 import com.craftle_mod.common.block.SpecialBlock;
+import com.craftle_mod.common.block.TestChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.SoundType;
@@ -40,9 +41,15 @@ public class CraftleBlocks {
             BLOCKS.register("quarry", () -> new CraftleQuarry(
                     Block.Properties.create(Material.IRON)
                                     .hardnessAndResistance(2.0F, 10.0F)
-                                    .harvestLevel(2)
+                                    .harvestLevel(1)
                                     .harvestTool(ToolType.PICKAXE)
                                     .sound(SoundType.METAL).lightValue(4)));
+    public static final RegistryObject<Block> TEST_CHEST    =
+            BLOCKS.register("test_chest", () -> new TestChest(
+                    Block.Properties.create(Material.WOOD)
+                                    .hardnessAndResistance(1.0F, 3.0F)
+                                    .harvestLevel(0).harvestTool(ToolType.AXE)
+                                    .sound(SoundType.WOOD).lightValue(4)));
     public static final RegistryObject<Block> TEST_STAIRS   =
             BLOCKS.register("test_stairs", () -> new StairsBlock(
                     () -> CraftleBlocks.TEST_ORE.get().getDefaultState(),

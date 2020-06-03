@@ -23,9 +23,9 @@ public class CraftleBiomes {
                                        .scale(1.2f).temperature(-1.0f)
                                        .waterColor(1751970)
                                        .waterFogColor(11794906)
-                                       .surfaceBuilder(SurfaceBuilder.MOUNTAIN,
+                                       .surfaceBuilder(SurfaceBuilder.DEFAULT,
                                                        new SurfaceBuilderConfig(
-                                                               Blocks.GRASS
+                                                               Blocks.GRASS_BLOCK
                                                                        .getDefaultState(),
                                                                CraftleBlocks.TEST_BLOCK
                                                                        .get()
@@ -44,6 +44,8 @@ public class CraftleBiomes {
 
     private static void registerBiome(Biome biome,
                                       BiomeDictionary.Type... types) {
+        BiomeManager.addBiome(BiomeManager.BiomeType.COOL,
+                              new BiomeManager.BiomeEntry(biome, 100));
         BiomeDictionary.addTypes(biome, types);
         BiomeManager.addSpawnBiome(biome);
     }

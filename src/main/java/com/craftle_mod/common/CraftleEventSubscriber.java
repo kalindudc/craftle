@@ -34,7 +34,7 @@ public class CraftleEventSubscriber {
                                 registry.register(blockItem);
                             });
 
-        Craftle.LOGGER.debug("CRAFTLE: Registered block items.");
+        Craftle.LOGGER.info("CRAFTLE: Registered block items.");
 
     }
 

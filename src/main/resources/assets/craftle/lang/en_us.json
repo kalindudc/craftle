@@ -8,7 +8,11 @@
     "block.craftle.quarry": "Craftle Quarry",
     "block.craftle.test_stairs": "Test Stairs",
     "block.craftle.test_fence": "Test Fence",
+    "block.craftle.test_chest": "Test Chest",
     "item.craftle.test_tool": "Test Tool",
     "item.craftle.special_item": "Special Item",
-    "item.craftle.test_boots": "Test Boots"
+    "item.craftle.test_boots": "Test Boots",
+    "biome.craftle.test_biome": "Test Biome",
+    "dimension.craftle.test_dimension": "Test Dimension",
+    "container.test_chest": "Test Chest"
 }

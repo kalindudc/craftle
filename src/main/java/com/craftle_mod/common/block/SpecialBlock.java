@@ -1,18 +1,12 @@
 package com.craftle_mod.common.block;
 
+import com.craftle_mod.common.block.base.CraftleBlockBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.IBooleanFunction;
@@ -23,33 +17,34 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
-import javax.annotation.Nullable;
 import java.util.stream.Stream;
 
-public class SpecialBlock extends Block {
+public class SpecialBlock extends CraftleBlockBase {
 
-    public static final DirectionProperty FACING =
-            HorizontalBlock.HORIZONTAL_FACING;
-
-    private static final VoxelShape SHAPE_N = Stream.of(
-            Block.makeCuboidShape(8, 0.1, 7, 9, 1.1, 8),
-            Block.makeCuboidShape(8.599999999999998, 0.6, 6.9,
-                                  8.799999999999997, 0.8, 7.1000000000000005),
-            Block.makeCuboidShape(8.2, 0.6, 6.9, 8.399999999999999, 0.8,
-                                  7.1000000000000005),
-            Block.makeCuboidShape(7.800000000000001, 0.5, 7.4,
-                                  9.200000000000001, 0.7, 7.6),
-            Block.makeCuboidShape(8.200000000000001, 0.30000000000000004,
-                                  6.900000000000002, 8.8, 0.5,
-                                  7.100000000000001),
-            Block.makeCuboidShape(8.2, -8.326672684688674e-17, 7.1,
-                                  8.799999999999999, 1.4000000000000001, 8.1),
-            Block.makeCuboidShape(7.9, 0.30000000000000004, 7.199999999999997,
-                                  9.1, 0.9000000000000001, 7.799999999999996)
-                                                       ).reduce((v1, v2) -> {
-        return VoxelShapes
-                .combineAndSimplify(v1, v2, IBooleanFunction.OR);
-    }).get();
+    private static final VoxelShape SHAPE_N =
+            Stream.of(Block.makeCuboidShape(8, 0.1, 7, 9, 1.1, 8),
+                      Block.makeCuboidShape(8.599999999999998, 0.6, 6.9,
+                                            8.799999999999997, 0.8,
+                                            7.1000000000000005),
+                      Block.makeCuboidShape(8.2, 0.6, 6.9, 8.399999999999999,
+                                            0.8, 7.1000000000000005),
+                      Block.makeCuboidShape(7.800000000000001, 0.5, 7.4,
+                                            9.200000000000001, 0.7, 7.6),
+                      Block.makeCuboidShape(8.200000000000001,
+                                            0.30000000000000004,
+                                            6.900000000000002, 8.8, 0.5,
+                                            7.100000000000001),
+                      Block.makeCuboidShape(8.2, -8.326672684688674e-17, 7.1,
+                                            8.799999999999999,
+                                            1.4000000000000001, 8.1),
+                      Block.makeCuboidShape(7.9, 0.30000000000000004,
+                                            7.199999999999997, 9.1,
+                                            0.9000000000000001,
+                                            7.799999999999996))
+                  .reduce((v1, v2) -> {
+                      return VoxelShapes
+                              .combineAndSimplify(v1, v2, IBooleanFunction.OR);
+                  }).get();
 
     private static final VoxelShape SHAPE_W = Stream.of(
             Block.makeCuboidShape(7.9999999999999964, 0.10000000000000009, 7,
@@ -67,10 +62,13 @@ public class SpecialBlock extends Block {
                                   9.099999999999996, 1.4000000000000001,
                                   7.800000000000001),
             Block.makeCuboidShape(8.199999999999994, 0.30000000000000004, 6.9,
-                                  8.799999999999992, 0.9000000000000001, 8.1)
-                                                       ).reduce((v1, v2) -> {
-        return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);
-    }).get();
+                                  8.799999999999992, 0.9000000000000001, 8.1))
+                                                    .reduce((v1, v2) -> {
+                                                        return VoxelShapes
+                                                                .combineAndSimplify(
+                                                                        v1, v2,
+                                                                        IBooleanFunction.OR);
+                                                    }).get();
 
     private static final VoxelShape SHAPE_S = Stream.of(
             Block.makeCuboidShape(7.9999999999999964, 0.10000000000000009,
@@ -90,10 +88,13 @@ public class SpecialBlock extends Block {
                                   7.900000000000004),
             Block.makeCuboidShape(7.899999999999997, 0.30000000000000004,
                                   7.200000000000008, 9.099999999999996,
-                                  0.9000000000000001, 7.800000000000006)
-                                                       ).reduce((v1, v2) -> {
-        return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);
-    }).get();
+                                  0.9000000000000001, 7.800000000000006))
+                                                    .reduce((v1, v2) -> {
+                                                        return VoxelShapes
+                                                                .combineAndSimplify(
+                                                                        v1, v2,
+                                                                        IBooleanFunction.OR);
+                                                    }).get();
 
     private static final VoxelShape SHAPE_E = Stream.of(
             Block.makeCuboidShape(8, 0.10000000000000009, 7.0000000000000036, 9,
@@ -111,22 +112,22 @@ public class SpecialBlock extends Block {
                                   1.4000000000000001, 7.8000000000000025),
             Block.makeCuboidShape(8.200000000000005, 0.30000000000000004,
                                   6.900000000000004, 8.800000000000002,
-                                  0.9000000000000001, 8.100000000000003)
-                                                       ).reduce((v1, v2) -> {
-        return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);
-    }).get();
+                                  0.9000000000000001, 8.100000000000003))
+                                                    .reduce((v1, v2) -> {
+                                                        return VoxelShapes
+                                                                .combineAndSimplify(
+                                                                        v1, v2,
+                                                                        IBooleanFunction.OR);
+                                                    }).get();
 
     public SpecialBlock(Properties properties) {
         super(properties);
-        this.setDefaultState(
-                this.getStateContainer().getBaseState()
-                    .with(FACING, Direction.NORTH));
     }
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn,
                                BlockPos pos, ISelectionContext context) {
-        switch (state.get(FACING)) {
+        switch (state.get(super.FACING)) {
             case NORTH:
                 return SHAPE_N;
             case SOUTH:
@@ -140,30 +141,6 @@ public class SpecialBlock extends Block {
         }
     }
 
-    @Nullable
-    @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(FACING,
-                                           context.getPlacementHorizontalFacing()
-                                                  .getOpposite());
-    }
-
-    @Override
-    public BlockState rotate(BlockState state, Rotation rot) {
-        return state.with(FACING, rot.rotate(state.get(FACING)));
-    }
-
-    @Override
-    public BlockState mirror(BlockState state, Mirror mirrorIn) {
-        return state.rotate(mirrorIn.toRotation(state.get(FACING)));
-    }
-
-    @Override
-    protected void fillStateContainer(
-            StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
-    }
-
     @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn,
                                              BlockPos pos, PlayerEntity player,
@@ -171,11 +148,9 @@ public class SpecialBlock extends Block {
                                              BlockRayTraceResult hit) {
         if (!worldIn.isRemote()) {
             ServerWorld serverWorld = (ServerWorld) worldIn;
-            LightningBoltEntity entity = new LightningBoltEntity(worldIn,
-                                                                 pos.getX(),
-                                                                 pos.getY(),
-                                                                 pos.getZ(),
-                                                                 false);
+            LightningBoltEntity entity =
+                    new LightningBoltEntity(worldIn, pos.getX(), pos.getY(),
+                                            pos.getZ(), false);
             serverWorld.addLightningBolt(entity);
         }
 

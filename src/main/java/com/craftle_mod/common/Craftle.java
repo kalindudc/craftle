@@ -2,9 +2,12 @@ package com.craftle_mod.common;
 
 import com.craftle_mod.common.registries.CraftleBiomes;
 import com.craftle_mod.common.registries.CraftleBlocks;
+import com.craftle_mod.common.registries.CraftleContainerTypes;
+import com.craftle_mod.common.registries.CraftleDimensions;
 import com.craftle_mod.common.registries.CraftleItems;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.world.gen.TestOreGen;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -25,7 +28,10 @@ public class Craftle {
     public static final String MODID       = "craftle";
     public static final String MOD_VERSION = "0.0.1.0";
 
-    public static final Logger LOGGER = LogManager.getLogger(Craftle.MODID);
+    public static final Logger           LOGGER        =
+            LogManager.getLogger(Craftle.MODID);
+    public static final ResourceLocation TEST_DIM_TYPE =
+            new ResourceLocation(MODID, "test_dimension");
 
     private static Craftle instance;
 
@@ -40,7 +46,9 @@ public class Craftle {
         CraftleItems.ITEMS.register(craftleEventBus);
         CraftleBlocks.BLOCKS.register(craftleEventBus);
         CraftleTileEntityTypes.TILE_ENTITY_TYPES.register(craftleEventBus);
+        CraftleContainerTypes.CONTAINER_TYPES.register(craftleEventBus);
         CraftleBiomes.BIOMES.register(craftleEventBus);
+        CraftleDimensions.DIMENSIONS.register(craftleEventBus);
 
         instance = this;
         MinecraftForge.EVENT_BUS.register(this);
