@@ -1,18 +1,20 @@
 package com.craftle_mod.common.block.base;
 
+import com.craftle_mod.common.resource.IBlockResource;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.RedstoneTorchBlock;
+import net.minecraft.block.SoundType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 
-public class CraftleActiveBlockBase extends CraftleBlockBase {
+public class ActiveBlockBase extends FacedBlockBase {
 
     public static final BooleanProperty LIT = RedstoneTorchBlock.LIT;
 
-    public CraftleActiveBlockBase(
-            net.minecraft.block.Block.Properties properties) {
-        super(properties);
+    public ActiveBlockBase(IBlockResource resource, BlockType blockType,
+                           SoundType soundType) {
+        super(resource, blockType, soundType);
         this.setDefaultState(this.getStateContainer().getBaseState()
                                  .with(FACING, Direction.NORTH)
                                  .with(LIT, Boolean.valueOf(false)));

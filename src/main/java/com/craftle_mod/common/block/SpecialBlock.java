@@ -1,8 +1,10 @@
 package com.craftle_mod.common.block;
 
-import com.craftle_mod.common.block.base.CraftleBlockBase;
+import com.craftle_mod.common.block.base.FacedBlockBase;
+import com.craftle_mod.common.resource.IBlockResource;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SoundType;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResultType;
@@ -19,7 +21,7 @@ import net.minecraft.world.server.ServerWorld;
 
 import java.util.stream.Stream;
 
-public class SpecialBlock extends CraftleBlockBase {
+public class SpecialBlock extends FacedBlockBase {
 
     private static final VoxelShape SHAPE_N =
             Stream.of(Block.makeCuboidShape(8, 0.1, 7, 9, 1.1, 8),
@@ -120,8 +122,9 @@ public class SpecialBlock extends CraftleBlockBase {
                                                                         IBooleanFunction.OR);
                                                     }).get();
 
-    public SpecialBlock(Properties properties) {
-        super(properties);
+    public SpecialBlock(IBlockResource resource, BlockType blockType,
+                        SoundType soundType) {
+        super(resource, blockType, soundType);
     }
 
     @Override

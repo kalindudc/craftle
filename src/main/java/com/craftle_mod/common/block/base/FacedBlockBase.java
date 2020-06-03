@@ -1,8 +1,10 @@
 package com.craftle_mod.common.block.base;
 
+import com.craftle_mod.common.resource.IBlockResource;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.SoundType;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
@@ -12,13 +14,14 @@ import net.minecraft.util.Rotation;
 
 import javax.annotation.Nullable;
 
-public class CraftleBlockBase extends Block {
+public class FacedBlockBase extends CraftleBlock {
 
     public static final DirectionProperty FACING =
             HorizontalBlock.HORIZONTAL_FACING;
 
-    public CraftleBlockBase(Properties properties) {
-        super(properties);
+    public FacedBlockBase(IBlockResource resource, BlockType blockType,
+                          SoundType soundType) {
+        super(resource, blockType, soundType);
         this.setDefaultState(this.getStateContainer().getBaseState()
                                  .with(FACING, Direction.NORTH));
     }

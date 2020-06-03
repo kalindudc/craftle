@@ -8,8 +8,19 @@ import java.util.function.Supplier;
 
 public class CraftleCreativeTabs {
 
-    public static final ItemGroup CRAFTLE_ITEM_GROUP =
-            new CraftleItemGroup(Craftle.MODID, () -> new ItemStack(
+    public static final ItemGroup CRAFTLE_ITEM_GROUP_MACHINES  =
+            new CraftleItemGroup(Craftle.MODID + "_machines",
+                                 () -> new ItemStack(
+                                         CraftleItems.SPECIAL_ITEM.get()));
+    public static final ItemGroup CRAFTLE_ITEM_GROUP_RESOURCES =
+            new CraftleItemGroup(Craftle.MODID + "_resources",
+                                 () -> new ItemStack(
+                                         CraftleItems.SPECIAL_ITEM.get()));
+    public static final ItemGroup CRAFTLE_ITEM_GROUP_MISC      =
+            new CraftleItemGroup(Craftle.MODID + "_misc", () -> new ItemStack(
+                    CraftleItems.SPECIAL_ITEM.get()));
+    public static final ItemGroup CRAFTLE_ITEM_GROUP_TOOLS     =
+            new CraftleItemGroup(Craftle.MODID + "_tools", () -> new ItemStack(
                     CraftleItems.SPECIAL_ITEM.get()));
 
     private static class CraftleItemGroup extends ItemGroup {

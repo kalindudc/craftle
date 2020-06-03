@@ -1,5 +1,6 @@
 package com.craftle_mod.common;
 
+import com.craftle_mod.common.block.base.CraftleBlock;
 import com.craftle_mod.common.registries.CraftleBiomes;
 import com.craftle_mod.common.registries.CraftleBlocks;
 import net.minecraft.item.BlockItem;
@@ -23,9 +24,30 @@ public class CraftleEventSubscriber {
 
         CraftleBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)
                             .forEach(block -> {
-                                final Item.Properties properties =
-                                        new Item.Properties()
-                                                .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP);
+                                final Item.Properties properties;
+
+                                if (block instanceof CraftleBlock) {
+                                    switch (((CraftleBlock) block)
+                                            .getBlockType()) {
+                                        case MACHINE:
+                                            properties = new Item.Properties()
+                                                    .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES);
+                                            break;
+                                        case RESOURCE:
+                                            properties = new Item.Properties()
+                                                    .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_RESOURCES);
+                                            break;
+                                        default:
+                                            properties = new Item.Properties()
+                                                    .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC);
+                                            break;
+                                    }
+                                }
+                                else {
+                                    properties = new Item.Properties()
+                                            .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC);
+                                }
+
                                 final BlockItem blockItem =
                                         new BlockItem(block, properties);
                                 blockItem.setRegistryName(

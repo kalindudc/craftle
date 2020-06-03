@@ -1,9 +1,11 @@
 package com.craftle_mod.common.block;
 
-import com.craftle_mod.common.block.base.CraftleBlockBase;
+import com.craftle_mod.common.block.base.FacedBlockBase;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
+import com.craftle_mod.common.resource.IBlockResource;
 import com.craftle_mod.common.tile.TileEntityTestChest;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SoundType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
@@ -18,10 +20,11 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
-public class TestChest extends CraftleBlockBase {
+public class TestChest extends FacedBlockBase {
 
-    public TestChest(Properties properties) {
-        super(properties);
+    public TestChest(IBlockResource resource, BlockType blockType,
+                     SoundType soundType) {
+        super(resource, blockType, soundType);
     }
 
     @Override
