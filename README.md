@@ -14,16 +14,14 @@ machine level followed by upgradable Tier{N} system.
 
 |           	| Ore 	| Dust 	| Bits 	| Ingots 	| Enhanced 	| Purified 	|
 |-----------	|-----	|------	|------	|--------	|----------	|----------	|
-| Aluminium 	| <ul><li>[ ]</li></ul> 	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>    	| <ul><li>[x]</li></ul>      	| <ul><li>[ ]</li></ul>      	|
-| Copper    	| <ul><li>[x]</li></ul> 	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>    	| <ul><li>[ ]</li></ul>      	| <ul><li>[ ]</li></ul>      	|
-| Diamond   	| N/A 	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>  	| N/A    	| <ul><li>[x]</li></ul>      	| <ul><li>[ ]</li></ul>      	|
-| Gold      	| N/A 	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>  	| N/A    	| <ul><li>[ ]</li></ul>      	| <ul><li>[ ]</li></ul>      	|
-| Iron      	| N/A 	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>  	| N/a    	| <ul><li>[x]</li></ul>      	| <ul><li>[ ]</li></ul>      	|
-| Platinum  	| <ul><li>[ ]</li></ul> 	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>    	| <ul><li>[x]</li></ul>      	| <ul><li>[x]</li></ul>      	|
-| Ruby      	| <ul><li>[x]</li></ul> 	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>    	| <ul><li>[x]</li></ul>      	| <ul><li>[ ]</li></ul>      	|
-| Sapphire  	| <ul><li>[x]</li></ul> 	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>    	| <ul><li>[x]</li></ul>      	| <ul><li>[ ]</li></ul>      	|
-| Steel     	| <ul><li>[ ]</li></ul> 	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>    	| <ul><li>[x]</li></ul>      	| <ul><li>[x]</li></ul>      	|
-| Tin       	| <ul><li>[x]</li></ul> 	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>    	| <ul><li>[ ]</li></ul>      	| <ul><li>[ ]</li></ul>      	|
-| Uranium   	| <ul><li>[x]</li></ul> 	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>  	| <ul><li>[x]</li></ul>    	| <ul><li>[ ]</li></ul>      	| <ul><li>[x]</li></ul>      	|
-
-
+| Aluminium 	| [ ] 	| [x]  	| [x]  	| [x]    	| [x]      	| [ ]      	|
+| Copper    	| [x] 	| [x]  	| [x]  	| [x]    	| [ ]      	| [ ]      	|
+| Diamond   	| N/A 	| [x]  	| [x]  	| N/A    	| [x]      	| [ ]      	|
+| Gold      	| N/A 	| [x]  	| [x]  	| N/A    	| [ ]      	| [ ]      	|
+| Iron      	| N/A 	| [x]  	| [x]  	| N/a    	| [x]      	| [ ]      	|
+| Platinum  	| [ ] 	| [x]  	| [x]  	| [x]    	| [x]      	| [x]      	|
+| Ruby      	| [x] 	| [x]  	| [x]  	| [x]    	| [x]      	| [ ]      	|
+| Sapphire  	| [x] 	| [x]  	| [x]  	| [x]    	| [x]      	| [ ]      	|
+| Steel     	| [ ] 	| [x]  	| [x]  	| [x]    	| [x]      	| [x]      	|
+| Tin       	| [x] 	| [x]  	| [x]  	| [x]    	| [ ]      	| [ ]      	|
+| Uranium   	| [x] 	| [x]  	| [x]  	| [x]    	| [ ]      	| [x]      	|
