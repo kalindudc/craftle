@@ -1,0 +1,19 @@
+{
+    "pattern": [
+        "xx", 
+        " y", 
+        " y"
+    ], 
+    "type": "minecraft:crafting_shaped", 
+    "result": {
+        "item": "craftle:sapphire_hoe"
+    }, 
+    "key": {
+        "y": {
+            "tag": "forge:rods/wooden"
+        }, 
+        "x": {
+            "tag": "forge:ingots/sapphire"
+        }
+    }
+}

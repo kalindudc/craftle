@@ -6,19 +6,19 @@ import com.craftle_mod.common.resource.ResourceType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class CraftleItem extends Item {
+public class CraftleResourceItem extends Item {
 
     private final Resource     resource;
     private final ResourceType type;
     private final boolean      hasEffect;
 
-    public CraftleItem(Resource resource, ResourceType type) {
+    public CraftleResourceItem(Resource resource, ResourceType type) {
         this(resource, type, false);
 
     }
 
-    public CraftleItem(Resource resource, ResourceType type,
-                       boolean hasEffect) {
+    public CraftleResourceItem(Resource resource, ResourceType type,
+                               boolean hasEffect) {
         super(getProperties(type));
         this.resource  = resource;
         this.type      = type;

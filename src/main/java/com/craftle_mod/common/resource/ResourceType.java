@@ -11,7 +11,6 @@ public enum ResourceType implements ICraftleResource {
 
     private final String name;
 
-
     ResourceType(String name) {
         this.name = name;
     }

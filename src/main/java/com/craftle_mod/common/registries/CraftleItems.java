@@ -3,8 +3,13 @@ package com.craftle_mod.common.registries;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.CraftleCreativeTabs;
 import com.craftle_mod.common.item.SpecialItem;
-import com.craftle_mod.common.item.base.CraftleItem;
+import com.craftle_mod.common.item.base.CraftleResourceItem;
 import com.craftle_mod.common.item.gear.CraftleArmorMaterial;
+import com.craftle_mod.common.item.tool.CraftleAxeItem;
+import com.craftle_mod.common.item.tool.CraftleHoeItem;
+import com.craftle_mod.common.item.tool.CraftlePickaxeItem;
+import com.craftle_mod.common.item.tool.CraftleShovelItem;
+import com.craftle_mod.common.item.tool.CraftleSwordItem;
 import com.craftle_mod.common.resource.Resource;
 import com.craftle_mod.common.resource.ResourceType;
 import com.craftle_mod.common.tier.CraftleItemTier;
@@ -145,18 +150,93 @@ public class CraftleItems {
     public static final RegistryObject<Item> URANIUM_PURIFIED  =
             registerResource(Resource.URANIUM, ResourceType.PURIFIED);
 
+    //tools
+    public static final RegistryObject<Item> RUBY_SWORD   =
+            registerSword(CraftleItemTier.RUBY);
+    public static final RegistryObject<Item> RUBY_PICKAXE =
+            registerPickaxe(CraftleItemTier.RUBY);
+    public static final RegistryObject<Item> RUBY_SHOVEL  =
+            registerShovel(CraftleItemTier.RUBY);
+    public static final RegistryObject<Item> RUBY_AXE     =
+            registerAxe(CraftleItemTier.RUBY);
+    public static final RegistryObject<Item> RUBY_HOE     =
+            registerHoe(CraftleItemTier.RUBY);
+
+    public static final RegistryObject<Item> SAPPHIRE_SWORD   =
+            registerSword(CraftleItemTier.SAPPHIRE);
+    public static final RegistryObject<Item> SAPPHIRE_PICKAXE =
+            registerPickaxe(CraftleItemTier.SAPPHIRE);
+    public static final RegistryObject<Item> SAPPHIRE_SHOVEL  =
+            registerShovel(CraftleItemTier.SAPPHIRE);
+    public static final RegistryObject<Item> SAPPHIRE_AXE     =
+            registerAxe(CraftleItemTier.SAPPHIRE);
+    public static final RegistryObject<Item> SAPPHIRE_HOE     =
+            registerHoe(CraftleItemTier.SAPPHIRE);
+
+    public static final RegistryObject<Item> STEEL_SWORD   =
+            registerSword(CraftleItemTier.STEEL);
+    public static final RegistryObject<Item> STEEL_PICKAXE =
+            registerPickaxe(CraftleItemTier.STEEL);
+    public static final RegistryObject<Item> STEEL_SHOVEL  =
+            registerShovel(CraftleItemTier.STEEL);
+    public static final RegistryObject<Item> STEEL_AXE     =
+            registerAxe(CraftleItemTier.STEEL);
+    public static final RegistryObject<Item> STEEL_HOE     =
+            registerHoe(CraftleItemTier.STEEL);
+
+    public static final RegistryObject<Item> PLATINUM_SWORD   =
+            registerSword(CraftleItemTier.PLATINUM);
+    public static final RegistryObject<Item> PLATINUM_PICKAXE =
+            registerPickaxe(CraftleItemTier.PLATINUM);
+    public static final RegistryObject<Item> PLATINUM_SHOVEL  =
+            registerShovel(CraftleItemTier.PLATINUM);
+    public static final RegistryObject<Item> PLATINUM_AXE     =
+            registerAxe(CraftleItemTier.PLATINUM);
+    public static final RegistryObject<Item> PLATINUM_HOE     =
+            registerHoe(CraftleItemTier.PLATINUM);
+
+
+    public static RegistryObject<Item> registerSword(CraftleItemTier tier) {
+        CraftleSwordItem item = new CraftleSwordItem(3, -2.4F, tier);
+        return registerItem(item.getResourceName(), item);
+    }
+
+    public static RegistryObject<Item> registerPickaxe(CraftleItemTier tier) {
+        CraftlePickaxeItem item = new CraftlePickaxeItem(1, -2.8F, tier);
+        return registerItem(item.getResourceName(), item);
+    }
+
+    public static RegistryObject<Item> registerAxe(CraftleItemTier tier) {
+        CraftleAxeItem item = new CraftleAxeItem(5.0F, -3.0F, tier);
+        return registerItem(item.getResourceName(), item);
+    }
+
+    public static RegistryObject<Item> registerHoe(CraftleItemTier tier) {
+        CraftleHoeItem item = new CraftleHoeItem(0.0F, tier);
+        return registerItem(item.getResourceName(), item);
+    }
+
+    public static RegistryObject<Item> registerShovel(CraftleItemTier tier) {
+        CraftleShovelItem item = new CraftleShovelItem(1.5F, -3.0F, tier);
+        return registerItem(item.getResourceName(), item);
+    }
 
     public static RegistryObject<Item> registerResource(Resource resource,
                                                         ResourceType type) {
-        CraftleItem item = new CraftleItem(resource, type);
-        return ITEMS.register(item.getCraftleRegistryName(), () -> item);
+        CraftleResourceItem item = new CraftleResourceItem(resource, type);
+        return registerItem(item.getCraftleRegistryName(), item);
     }
 
     public static RegistryObject<Item> registerResource(Resource resource,
                                                         ResourceType type,
                                                         boolean hasEffect) {
-        CraftleItem item = new CraftleItem(resource, type, hasEffect);
-        return ITEMS.register(item.getCraftleRegistryName(), () -> item);
+        CraftleResourceItem item =
+                new CraftleResourceItem(resource, type, hasEffect);
+        return registerItem(item.getCraftleRegistryName(), item);
+    }
+
+    public static RegistryObject<Item> registerItem(String name, Item item) {
+        return ITEMS.register(name, () -> item);
     }
 
 }

@@ -1,0 +1,6 @@
+{
+    "textures": {
+        "layer0": "craftle:item/sapphire_sword"
+    }, 
+    "parent": "item/handheld"
+}

@@ -1,0 +1,6 @@
+{
+    "textures": {
+        "layer0": "craftle:item/steel_pickaxe"
+    }, 
+    "parent": "item/handheld"
+}
