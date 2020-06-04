@@ -24,7 +24,7 @@
                                     }
                                 }
                             ],
-                            "name": "minecraft:sapphire_ore"
+                            "name": "craftle:sapphire_ore"
                         },
                         {
                             "type": "minecraft:item",
@@ -38,7 +38,7 @@
                                     "function": "minecraft:explosion_decay"
                                 }
                             ],
-                            "name": "minecraft:sapphire_ingot"
+                            "name": "craftle:sapphire_ingot"
                         }
                     ]
                 }

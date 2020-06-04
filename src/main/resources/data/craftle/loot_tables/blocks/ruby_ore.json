@@ -24,7 +24,7 @@
                                     }
                                 }
                             ],
-                            "name": "minecraft:ruby_ore"
+                            "name": "craftle:ruby_ore"
                         },
                         {
                             "type": "minecraft:item",
@@ -38,7 +38,7 @@
                                     "function": "minecraft:explosion_decay"
                                 }
                             ],
-                            "name": "minecraft:ruby_ingot"
+                            "name": "craftle:ruby_ingot"
                         }
                     ]
                 }
