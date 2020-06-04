@@ -1,0 +1,6 @@
+{
+    "textures": {
+        "all": "craftle:block/block/copper"
+    }, 
+    "parent": "block/cube_all"
+}

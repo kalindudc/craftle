@@ -6,6 +6,7 @@ public enum ResourceType implements ICraftleResource {
     INGOT("ingot"),
     BIT("bit"),
     PURIFIED("purified"),
+    BLOCK("block"),
     ENHANCED("enhanced");
 
     private final String name;

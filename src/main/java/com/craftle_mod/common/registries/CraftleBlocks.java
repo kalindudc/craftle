@@ -2,10 +2,11 @@ package com.craftle_mod.common.registries;
 
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.OreBlock;
-import com.craftle_mod.common.block.Quarry;
+import com.craftle_mod.common.block.ResourceBlock;
 import com.craftle_mod.common.block.SpecialBlock;
 import com.craftle_mod.common.block.TestChest;
 import com.craftle_mod.common.block.base.CraftleBlock;
+import com.craftle_mod.common.block.machine.Quarry;
 import com.craftle_mod.common.resource.BlockResource;
 import com.craftle_mod.common.resource.OreResource;
 import com.craftle_mod.common.resource.ResourceType;
@@ -74,6 +75,29 @@ public class CraftleBlocks {
     public static final RegistryObject<Block> URANIUM_ORE   =
             registerOre(OreResource.URANIUM, CraftleBlock.BlockType.RESOURCE);
 
+    //RESOURCE BLOCK
+    public static final RegistryObject<Block> ALUMINIUM_BLOCK =
+            registerResource(BlockResource.ALUMINIUM,
+                             CraftleBlock.BlockType.RESOURCE);
+    public static final RegistryObject<Block> COPPER_BLOCK    =
+            registerResource(BlockResource.COPPER,
+                             CraftleBlock.BlockType.RESOURCE);
+    public static final RegistryObject<Block> PLATINUM_BLOCK  =
+            registerResource(BlockResource.PLATINUM,
+                             CraftleBlock.BlockType.RESOURCE);
+    public static final RegistryObject<Block> RUBY_BLOCK      =
+            registerResource(BlockResource.RUBY,
+                             CraftleBlock.BlockType.RESOURCE);
+    public static final RegistryObject<Block> SAPPHIRE_BLOCK  =
+            registerResource(BlockResource.SAPPHIRE,
+                             CraftleBlock.BlockType.RESOURCE);
+    public static final RegistryObject<Block> STEEL_BLOCK     =
+            registerResource(BlockResource.STEEL,
+                             CraftleBlock.BlockType.RESOURCE);
+    public static final RegistryObject<Block> TIN_BLOCK       =
+            registerResource(BlockResource.TIN,
+                             CraftleBlock.BlockType.RESOURCE);
+
     // ore
     // resource block
     // machine
@@ -83,6 +107,15 @@ public class CraftleBlocks {
                          ResourceType.ORE.getResourceName();
         return BLOCKS.register(oreName, () -> new OreBlock(resource, blockType,
                                                            SoundType.STONE));
+    }
+
+    private static RegistryObject<Block> registerResource(
+            BlockResource resource, CraftleBlock.BlockType blockType) {
+        String resourceName = resource.getResourceName() + "_" +
+                              ResourceType.BLOCK.getResourceName();
+        return BLOCKS.register(resourceName,
+                               () -> new ResourceBlock(resource, blockType,
+                                                       SoundType.METAL));
     }
 
 }

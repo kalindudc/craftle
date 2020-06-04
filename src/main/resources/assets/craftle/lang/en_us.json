@@ -24,6 +24,14 @@
     "block.craftle.uranium_ore": "Uranium Ore",
     "block.craftle.ruby_ore": "Ruby Ore",
     "block.craftle.sapphire_ore": "Sapphire Ore",
+    "______________________________BLOCKS": "_____________________________",
+    "block.craftle.aluminium_block": "Aluminum Block",
+    "block.craftle.copper_block": "Copper Block",
+    "block.craftle.platinum_block": "Platinum Block",
+    "block.craftle.ruby_block": "Ruby Block",
+    "block.craftle.sapphire_block": "Sapphire Block",
+    "block.craftle.steel_block": "Steel Block",
+    "block.craftle.tin_block": "Tin Block",
     "______________________________BITS": "_____________________________",
     "item.craftle.aluminium_bit": "Aluminum Bit",
     "item.craftle.copper_bit": "Copper Bit",
@@ -66,7 +74,7 @@
     "item.craftle.sapphire_enhanced": "§6Sapphire Enhanced",
     "item.craftle.steel_enhanced": "§6Steel Enhanced",
     "______________________________PURIFIED": "_____________________________",
-    "item.craftle.platinum_purified": "§aPlatinum Enhanced",
-    "item.craftle.steel_purified": "§aSteel Enhanced",
-    "item.craftle.uranium_purified": "§aUranium Enhanced"
+    "item.craftle.platinum_purified": "§aPlatinum Purified",
+    "item.craftle.steel_purified": "§aSteel Purified",
+    "item.craftle.uranium_purified": "§aUranium Purified"
 }

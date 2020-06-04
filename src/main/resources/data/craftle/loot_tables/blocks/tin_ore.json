@@ -8,6 +8,11 @@
                     "type": "minecraft:item",
                     "name": "craftle:tin_ore"
                 }
+            ],
+            "conditions": [
+                {
+                    "condition": "minecraft:survives_explosion"
+                }
             ]
         }
     ]

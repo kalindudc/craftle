@@ -1,0 +1,16 @@
+{
+    "pattern": [
+        "xxx", 
+        "xxx", 
+        "xxx"
+    ], 
+    "type": "minecraft:crafting_shaped", 
+    "result": {
+        "item": "craftle:sapphire_block"
+    }, 
+    "key": {
+        "x": {
+            "item": "craftle:sapphire_ingot"
+        }
+    }
+}
