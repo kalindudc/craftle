@@ -6,7 +6,7 @@ import com.craftle_mod.common.registries.CraftleContainerTypes;
 import com.craftle_mod.common.registries.CraftleDimensions;
 import com.craftle_mod.common.registries.CraftleItems;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
-import com.craftle_mod.common.world.gen.TestOreGen;
+import com.craftle_mod.common.world.gen.OreGenHandler;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -74,6 +74,6 @@ public class Craftle {
 
     @SubscribeEvent
     public static void loadCompleteEvent(FMLLoadCompleteEvent event) {
-        TestOreGen.generateOre();
+        OreGenHandler.generateOre();
     }
 }
