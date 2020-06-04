@@ -3,6 +3,7 @@ package com.craftle_mod.common.registries;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.CraftleCreativeTabs;
 import com.craftle_mod.common.item.SpecialItem;
+import com.craftle_mod.common.item.base.CraftleItem;
 import com.craftle_mod.common.item.base.CraftleResourceItem;
 import com.craftle_mod.common.item.gear.CraftleArmorMaterial;
 import com.craftle_mod.common.item.tool.CraftleAxeItem;
@@ -195,30 +196,75 @@ public class CraftleItems {
     public static final RegistryObject<Item> PLATINUM_HOE     =
             registerHoe(CraftleItemTier.PLATINUM);
 
+    // circuit, tier (1-4) circuit
+    public static final RegistryObject<Item> CIRCUIT                =
+            registerCraftleItem(new CraftleItem("circuit",
+                                                CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+    public static final RegistryObject<Item> CIRCUIT_TIER_1         =
+            registerCraftleItem(new CraftleItem("circuit_tier_1",
+                                                CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+    public static final RegistryObject<Item> CIRCUIT_TIER_2         =
+            registerCraftleItem(new CraftleItem("circuit_tier_2",
+                                                CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+    public static final RegistryObject<Item> CIRCUIT_TIER_3         =
+            registerCraftleItem(new CraftleItem("circuit_tier_3",
+                                                CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+    public static final RegistryObject<Item> CIRCUIT_TIER_4         =
+            registerCraftleItem(new CraftleItem("circuit_tier_4",
+                                                CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+    // sheets (iron, steel), compressed sheets
+    public static final RegistryObject<Item> IRON_SHEET             =
+            registerCraftleItem(new CraftleItem("iron_sheet",
+                                                CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+    public static final RegistryObject<Item> STEEL_SHEET            =
+            registerCraftleItem(new CraftleItem("steel_sheet",
+                                                CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+    public static final RegistryObject<Item> IRON_SHEET_COMPRESSED  =
+            registerCraftleItem(new CraftleItem("iron_sheet_compressed",
+                                                CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+    public static final RegistryObject<Item> STEEL_SHEET_COMPRESSED =
+            registerCraftleItem(new CraftleItem("steel_sheet_compressed",
+                                                CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+    // coils, gear (basic and advanced)
+    public static final RegistryObject<Item> COIL                   =
+            registerCraftleItem(new CraftleItem("coil",
+                                                CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+    public static final RegistryObject<Item> COIL_ADVANCED          =
+            registerCraftleItem(new CraftleItem("coil_advanced",
+                                                CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+    public static final RegistryObject<Item> GEAR                   =
+            registerCraftleItem(new CraftleItem("gear",
+                                                CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+    public static final RegistryObject<Item> GEAR_ADVANCED          =
+            registerCraftleItem(new CraftleItem("gear_advanced",
+                                                CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+    // motor, tier (1-4)
+    // batteries, tier (1-4)
+
 
     public static RegistryObject<Item> registerSword(CraftleItemTier tier) {
         CraftleSwordItem item = new CraftleSwordItem(3, -2.4F, tier);
-        return registerItem(item.getResourceName(), item);
+        return registerItem(item.getCraftleRegistryName(), item);
     }
 
     public static RegistryObject<Item> registerPickaxe(CraftleItemTier tier) {
         CraftlePickaxeItem item = new CraftlePickaxeItem(1, -2.8F, tier);
-        return registerItem(item.getResourceName(), item);
+        return registerItem(item.getCraftleRegistryName(), item);
     }
 
     public static RegistryObject<Item> registerAxe(CraftleItemTier tier) {
         CraftleAxeItem item = new CraftleAxeItem(5.0F, -3.0F, tier);
-        return registerItem(item.getResourceName(), item);
+        return registerItem(item.getCraftleRegistryName(), item);
     }
 
     public static RegistryObject<Item> registerHoe(CraftleItemTier tier) {
         CraftleHoeItem item = new CraftleHoeItem(0.0F, tier);
-        return registerItem(item.getResourceName(), item);
+        return registerItem(item.getCraftleRegistryName(), item);
     }
 
     public static RegistryObject<Item> registerShovel(CraftleItemTier tier) {
         CraftleShovelItem item = new CraftleShovelItem(1.5F, -3.0F, tier);
-        return registerItem(item.getResourceName(), item);
+        return registerItem(item.getCraftleRegistryName(), item);
     }
 
     public static RegistryObject<Item> registerResource(Resource resource,
@@ -233,6 +279,10 @@ public class CraftleItems {
         CraftleResourceItem item =
                 new CraftleResourceItem(resource, type, hasEffect);
         return registerItem(item.getCraftleRegistryName(), item);
+    }
+
+    public static RegistryObject<Item> registerCraftleItem(CraftleItem item) {
+        return ITEMS.register(item.getCraftleRegistryName(), () -> item);
     }
 
     public static RegistryObject<Item> registerItem(String name, Item item) {

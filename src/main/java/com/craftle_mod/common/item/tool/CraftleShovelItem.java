@@ -20,7 +20,7 @@ public class CraftleShovelItem extends ShovelItem implements ICraftleToolItem {
     }
 
     @Override
-    public String getResourceName() {
+    public String getCraftleRegistryName() {
         return resourceName;
     }
 

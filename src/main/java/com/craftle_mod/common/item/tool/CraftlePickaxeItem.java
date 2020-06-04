@@ -21,7 +21,7 @@ public class CraftlePickaxeItem extends PickaxeItem
     }
 
     @Override
-    public String getResourceName() {
+    public String getCraftleRegistryName() {
         return resourceName;
     }
 

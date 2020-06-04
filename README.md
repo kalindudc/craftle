@@ -25,3 +25,19 @@ machine level followed by upgradable Tier{N} system.
 | Steel     	| [ ] 	| [x]  	| [x]  	| [x]    	| [x]      	| [x]      	|
 | Tin       	| [x] 	| [x]  	| [x]  	| [x]    	| [ ]      	| [ ]      	|
 | Uranium   	| [x] 	| [x]  	| [x]  	| [x]    	| [ ]      	| [x]      	|
+
+## Machines
+> All craftle machines have a base level and Tiers (1-4)
+
+### Generators
+Various machines to generate power.
+
+### Crusher
+Crushes ore and ingots in to their respective dusts.
+
+### Compressor
+Compresses multiple resources to generate machine ingredients
+
+### Purifier
+Purifies platinum, steel and uranium ingots in to their respective purified
+resource. 

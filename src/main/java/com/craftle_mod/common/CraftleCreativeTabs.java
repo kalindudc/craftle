@@ -21,7 +21,7 @@ public class CraftleCreativeTabs {
                     CraftleItems.TEST_FOOD.get()));
     public static final ItemGroup CRAFTLE_ITEM_GROUP_TOOLS     =
             new CraftleItemGroup(Craftle.MODID + "_tools", () -> new ItemStack(
-                    CraftleItems.SPECIAL_ITEM.get()));
+                    CraftleItems.RUBY_PICKAXE.get()));
 
     private static class CraftleItemGroup extends ItemGroup {
 

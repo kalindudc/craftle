@@ -20,7 +20,7 @@ public class CraftleAxeItem extends AxeItem implements ICraftleToolItem {
     }
 
     @Override
-    public String getResourceName() {
+    public String getCraftleRegistryName() {
         return resourceName;
     }
 

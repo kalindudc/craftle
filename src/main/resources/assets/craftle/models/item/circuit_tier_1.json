@@ -1,0 +1,6 @@
+{
+    "textures": {
+        "layer0": "craftle:item/circuit_tier_1"
+    }, 
+    "parent": "item/generated"
+}

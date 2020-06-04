@@ -20,7 +20,7 @@ public class CraftleHoeItem extends HoeItem implements ICraftleToolItem {
     }
 
     @Override
-    public String getResourceName() {
+    public String getCraftleRegistryName() {
         return resourceName;
     }
 

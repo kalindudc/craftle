@@ -21,7 +21,7 @@ public class CraftleSwordItem extends SwordItem implements ICraftleToolItem {
     }
 
     @Override
-    public String getResourceName() {
+    public String getCraftleRegistryName() {
         return resourceName;
     }
 

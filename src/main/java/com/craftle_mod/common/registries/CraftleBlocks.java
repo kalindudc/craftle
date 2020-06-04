@@ -98,9 +98,19 @@ public class CraftleBlocks {
             registerResource(BlockResource.TIN,
                              CraftleBlock.BlockType.RESOURCE);
 
-    // ore
-    // resource block
-    // machine
+    // Machines
+    // workbench, advanced workbench
+    // crusher, compressor , purifier, tier (1-4)
+    // machine base, tier (1-4)
+    // tanks
+    // energy: power blocks, tier (1-4)
+    // Hydro Generator
+    // Thermoelectric Generator
+    // Coal Generator
+    // infuser, tier (1-4) // infuse metals and other resources and fluids
+    // cable, tier (1-4)
+
+
     private static RegistryObject<Block> registerOre(OreResource resource,
                                                      CraftleBlock.BlockType blockType) {
         String oreName = resource.getResourceName() + "_" +
