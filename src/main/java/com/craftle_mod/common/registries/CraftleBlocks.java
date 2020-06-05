@@ -4,12 +4,15 @@ import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.SpecialBlock;
 import com.craftle_mod.common.block.TestChest;
 import com.craftle_mod.common.block.base.CraftleBlock;
+import com.craftle_mod.common.block.base.MachineBlock;
 import com.craftle_mod.common.block.base.OreBlock;
 import com.craftle_mod.common.block.base.ResourceBlock;
+import com.craftle_mod.common.block.machine.Crusher;
 import com.craftle_mod.common.block.machine.Quarry;
 import com.craftle_mod.common.resource.BlockResource;
 import com.craftle_mod.common.resource.OreResource;
 import com.craftle_mod.common.resource.ResourceType;
+import com.craftle_mod.common.tier.CraftleBaseTier;
 import net.minecraft.block.Block;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.SoundType;
@@ -99,7 +102,31 @@ public class CraftleBlocks {
                              CraftleBlock.BlockType.RESOURCE);
 
     // Crusher
-
+    public static final RegistryObject<Block> CRUSHER_BASIC  =
+            registerMachine("crusher", new Crusher(BlockResource.STEEL,
+                                                   CraftleBlock.BlockType.MACHINE,
+                                                   SoundType.METAL,
+                                                   CraftleBaseTier.BASIC));
+    public static final RegistryObject<Block> CRUSHER_TIER_1 =
+            registerMachine("crusher", new Crusher(BlockResource.STEEL,
+                                                   CraftleBlock.BlockType.MACHINE,
+                                                   SoundType.METAL,
+                                                   CraftleBaseTier.TIER_1));
+    public static final RegistryObject<Block> CRUSHER_TIER_2 =
+            registerMachine("crusher", new Crusher(BlockResource.STEEL,
+                                                   CraftleBlock.BlockType.MACHINE,
+                                                   SoundType.METAL,
+                                                   CraftleBaseTier.TIER_2));
+    public static final RegistryObject<Block> CRUSHER_TIER_3 =
+            registerMachine("crusher", new Crusher(BlockResource.STEEL,
+                                                   CraftleBlock.BlockType.MACHINE,
+                                                   SoundType.METAL,
+                                                   CraftleBaseTier.TIER_3));
+    public static final RegistryObject<Block> CRUSHER_TIER_4 =
+            registerMachine("crusher", new Crusher(BlockResource.STEEL,
+                                                   CraftleBlock.BlockType.MACHINE,
+                                                   SoundType.METAL,
+                                                   CraftleBaseTier.TIER_4));
     // Machines
     // workbench, advanced workbench
     // compressor , purifier, tier (1-4)
@@ -113,6 +140,12 @@ public class CraftleBlocks {
     // cable, tier (1-4)
     // Extractor: for rubber (tier 1-4)
 
+    private static RegistryObject<Block> registerMachine(String machineType,
+                                                         MachineBlock block) {
+        return BLOCKS
+                .register(machineType + "_" + block.getCraftleTier().getTier(),
+                          () -> block);
+    }
 
     private static RegistryObject<Block> registerOre(OreResource resource,
                                                      CraftleBlock.BlockType blockType) {

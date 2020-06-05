@@ -1,6 +1,6 @@
 package com.craftle_mod.common.block.machine;
 
-import com.craftle_mod.common.block.base.MachineBlock;
+import com.craftle_mod.common.block.base.ActiveBlockBase;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.resource.IBlockResource;
 import net.minecraft.block.BlockState;
@@ -12,7 +12,7 @@ import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
-public class Quarry extends MachineBlock {
+public class Quarry extends ActiveBlockBase {
 
     public static final BooleanProperty LIT = RedstoneTorchBlock.LIT;
 
