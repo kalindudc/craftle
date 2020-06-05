@@ -1,11 +1,11 @@
 package com.craftle_mod.common.registries;
 
 import com.craftle_mod.common.Craftle;
-import com.craftle_mod.common.block.OreBlock;
-import com.craftle_mod.common.block.ResourceBlock;
 import com.craftle_mod.common.block.SpecialBlock;
 import com.craftle_mod.common.block.TestChest;
 import com.craftle_mod.common.block.base.CraftleBlock;
+import com.craftle_mod.common.block.base.OreBlock;
+import com.craftle_mod.common.block.base.ResourceBlock;
 import com.craftle_mod.common.block.machine.Quarry;
 import com.craftle_mod.common.resource.BlockResource;
 import com.craftle_mod.common.resource.OreResource;
@@ -98,9 +98,11 @@ public class CraftleBlocks {
             registerResource(BlockResource.TIN,
                              CraftleBlock.BlockType.RESOURCE);
 
+    // Crusher
+
     // Machines
     // workbench, advanced workbench
-    // crusher, compressor , purifier, tier (1-4)
+    // compressor , purifier, tier (1-4)
     // machine base, tier (1-4)
     // tanks
     // energy: power blocks, tier (1-4)
@@ -109,6 +111,7 @@ public class CraftleBlocks {
     // Coal Generator
     // infuser, tier (1-4) // infuse metals and other resources and fluids
     // cable, tier (1-4)
+    // Extractor: for rubber (tier 1-4)
 
 
     private static RegistryObject<Block> registerOre(OreResource resource,

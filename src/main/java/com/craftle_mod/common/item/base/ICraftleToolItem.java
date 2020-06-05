@@ -1,9 +1,9 @@
 package com.craftle_mod.common.item.base;
 
-import com.craftle_mod.common.tier.CraftleItemTier;
+import com.craftle_mod.common.tier.CraftleToolTier;
 
 public interface ICraftleToolItem extends ICraftleItem {
 
-    public CraftleItemTier getTier();
+    public CraftleToolTier getTier();
 
 }

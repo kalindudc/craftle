@@ -2,16 +2,16 @@ package com.craftle_mod.common.item.tool;
 
 import com.craftle_mod.common.CraftleCreativeTabs;
 import com.craftle_mod.common.item.base.ICraftleToolItem;
-import com.craftle_mod.common.tier.CraftleItemTier;
+import com.craftle_mod.common.tier.CraftleToolTier;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.Item;
 
 public class CraftleHoeItem extends HoeItem implements ICraftleToolItem {
 
     private final String          resourceName;
-    private final CraftleItemTier tier;
+    private final CraftleToolTier tier;
 
-    public CraftleHoeItem(float attackSpeed, CraftleItemTier tier) {
+    public CraftleHoeItem(float attackSpeed, CraftleToolTier tier) {
 
         super(tier, attackSpeed, new Item.Properties()
                 .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_TOOLS));
@@ -25,7 +25,7 @@ public class CraftleHoeItem extends HoeItem implements ICraftleToolItem {
     }
 
     @Override
-    public CraftleItemTier getTier() {
+    public CraftleToolTier getTier() {
         return tier;
     }
 }

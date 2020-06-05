@@ -8,7 +8,7 @@ import net.minecraft.util.LazyValue;
 
 import java.util.function.Supplier;
 
-public enum CraftleItemTier implements IItemTier {
+public enum CraftleToolTier implements IItemTier {
 
     TEST("test", 4, 1500, 15.0F, 12.0F, 250,
          () -> Ingredient.fromItems(CraftleItems.TEST_INGOT.get())),
@@ -20,7 +20,7 @@ public enum CraftleItemTier implements IItemTier {
           () -> Ingredient.fromItems(CraftleItems.STEEL_INGOT.get())),
     PLATINUM(Resource.PLATINUM.getResourceName(), 4, 2400, 9.8F, 4.0F, 12,
              () -> Ingredient.fromItems(CraftleItems.PLATINUM_INGOT.get()));
-    
+
 
     private final String                materialName;
     private final int                   harvestLevel;
@@ -31,14 +31,14 @@ public enum CraftleItemTier implements IItemTier {
     private final LazyValue<Ingredient> repairMaterial;
     private final boolean               enhanced;
 
-    CraftleItemTier(String materialName, int harvestLevel, int maxUses,
+    CraftleToolTier(String materialName, int harvestLevel, int maxUses,
                     float efficiency, float attackDamage, int enchantability,
                     Supplier<Ingredient> repairMaterial) {
         this(materialName, harvestLevel, maxUses, efficiency, attackDamage,
              enchantability, repairMaterial, false);
     }
 
-    CraftleItemTier(String materialName, CraftleItemTier tier,
+    CraftleToolTier(String materialName, CraftleToolTier tier,
                     boolean enhanced) {
         this(materialName, tier.getHarvestLevel(), tier.getMaxUses(),
              tier.getEfficiency(), tier.getAttackDamage(),
@@ -46,7 +46,7 @@ public enum CraftleItemTier implements IItemTier {
              enhanced);
     }
 
-    CraftleItemTier(String materialName, int harvestLevel, int maxUses,
+    CraftleToolTier(String materialName, int harvestLevel, int maxUses,
                     float efficiency, float attackDamage, int enchantability,
                     Supplier<Ingredient> repairMaterial, boolean enhanced) {
         this.materialName   = materialName;

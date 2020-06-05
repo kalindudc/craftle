@@ -1,0 +1,6 @@
+{
+    "textures": {
+        "layer0": "craftle:item/battery_basic"
+    }, 
+    "parent": "item/generated"
+}

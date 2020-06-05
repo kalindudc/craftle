@@ -1,6 +1,6 @@
 package com.craftle_mod.common.block.machine;
 
-import com.craftle_mod.common.block.MachineBlock;
+import com.craftle_mod.common.block.base.MachineBlock;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.resource.IBlockResource;
 import net.minecraft.block.BlockState;

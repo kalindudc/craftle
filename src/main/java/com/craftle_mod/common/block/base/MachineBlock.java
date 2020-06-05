@@ -1,6 +1,5 @@
-package com.craftle_mod.common.block;
+package com.craftle_mod.common.block.base;
 
-import com.craftle_mod.common.block.base.ActiveBlockBase;
 import com.craftle_mod.common.resource.IBlockResource;
 import net.minecraft.block.SoundType;
 

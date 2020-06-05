@@ -115,5 +115,20 @@
     "item.craftle.coil": "Coil",
     "item.craftle.coil_advanced": "Advanced Coil",
     "item.craftle.gear": "Gear",
-    "item.craftle.gear_advanced": "Advanced Gear"
+    "item.craftle.gear_advanced": "Advanced Gear",
+    "______________________________MOTORS": "_____________________________",
+    "item.craftle.motor": "Motor",
+    "item.craftle.motor_tier_1": "Motor Tier 1",
+    "item.craftle.motor_tier_2": "Motor Tier 2",
+    "item.craftle.motor_tier_3": "Motor Tier 3",
+    "item.craftle.motor_tier_4": "Motor Tier 4",
+    "______________________________BATTERIES": "_____________________________",
+    "item.craftle.battery_basic": "Battery",
+    "item.craftle.battery_tier_1": "Battery Tier 1",
+    "item.craftle.battery_tier_2": "Battery Tier 2",
+    "item.craftle.battery_tier_3": "Battery Tier 3",
+    "item.craftle.battery_tier_4": "Battery Tier 4",
+    "item.craftle.battery_unlimited": "Battery Unlimited",
+    "item.craftle.rubber": "Rubber",
+    "item.craftle.insulation": "Insulation"
 }
