@@ -8,7 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.function.Supplier;
 
 public class RecipeSerializerDeferredRegister
-        extends CraftleDifferedRegister<IRecipeSerializer<?>> {
+        extends CraftleDeferredRegister<IRecipeSerializer<?>> {
 
     public RecipeSerializerDeferredRegister(String modid) {
         super(modid, ForgeRegistries.RECIPE_SERIALIZERS);

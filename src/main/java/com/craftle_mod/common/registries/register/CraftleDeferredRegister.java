@@ -11,15 +11,15 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
- * A Wrapper object for an Differed Register
+ * A Wrapper object for an Deferred Register
  *
  * @param <T>
  */
-public class CraftleDifferedRegister<T extends IForgeRegistryEntry<T>> {
+public class CraftleDeferredRegister<T extends IForgeRegistryEntry<T>> {
 
     protected final DeferredRegister<T> internal;
 
-    public CraftleDifferedRegister(String modid, IForgeRegistry<T> registry) {
+    public CraftleDeferredRegister(String modid, IForgeRegistry<T> registry) {
         internal = new DeferredRegister<>(registry, modid);
     }
 
