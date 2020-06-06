@@ -5,6 +5,7 @@ import com.craftle_mod.common.registries.CraftleBlocks;
 import com.craftle_mod.common.registries.CraftleContainerTypes;
 import com.craftle_mod.common.registries.CraftleDimensions;
 import com.craftle_mod.common.registries.CraftleItems;
+import com.craftle_mod.common.registries.CraftleRecipeSerializers;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.world.gen.OreGenHandler;
 import net.minecraft.util.ResourceLocation;
@@ -47,6 +48,7 @@ public class Craftle {
         CraftleBlocks.BLOCKS.register(craftleEventBus);
         CraftleTileEntityTypes.TILE_ENTITY_TYPES.register(craftleEventBus);
         CraftleContainerTypes.CONTAINER_TYPES.register(craftleEventBus);
+        CraftleRecipeSerializers.SERIALIZERS.register(craftleEventBus);
         CraftleBiomes.BIOMES.register(craftleEventBus);
         CraftleDimensions.DIMENSIONS.register(craftleEventBus);
 

@@ -1,8 +1,10 @@
 package com.craftle_mod.client;
 
 import com.craftle_mod.client.gui.CraftleChestScreen;
+import com.craftle_mod.client.gui.machine.crusher.CrusherScreenFactory;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.registries.CraftleContainerTypes;
+import com.craftle_mod.common.tier.CraftleBaseTier;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,5 +20,28 @@ public class CraftleClientEventSubscriber {
     public static void onClientSetup(FMLClientSetupEvent event) {
         ScreenManager.registerFactory(CraftleContainerTypes.TEST_CHEST.get(),
                                       CraftleChestScreen::new);
+
+
+        ScreenManager.registerFactory(CraftleContainerTypes.CRUSHER_BASIC.get(),
+                                      CrusherScreenFactory
+                                              .build(CraftleBaseTier.BASIC));
+        ScreenManager
+                .registerFactory(CraftleContainerTypes.CRUSHER_TIER_1.get(),
+                                 CrusherScreenFactory
+                                         .build(CraftleBaseTier.TIER_1));
+        ScreenManager
+                .registerFactory(CraftleContainerTypes.CRUSHER_TIER_2.get(),
+                                 CrusherScreenFactory
+                                         .build(CraftleBaseTier.TIER_2));
+        ScreenManager
+                .registerFactory(CraftleContainerTypes.CRUSHER_TIER_3.get(),
+                                 CrusherScreenFactory
+                                         .build(CraftleBaseTier.TIER_3));
+        ScreenManager
+                .registerFactory(CraftleContainerTypes.CRUSHER_TIER_4.get(),
+                                 CrusherScreenFactory
+                                         .build(CraftleBaseTier.TIER_4));
+
+
     }
 }

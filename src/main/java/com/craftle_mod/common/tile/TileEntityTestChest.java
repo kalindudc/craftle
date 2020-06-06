@@ -44,8 +44,6 @@ public class TileEntityTestChest extends LockableLootTileEntity {
 
     public TileEntityTestChest() {
         this(CraftleTileEntityTypes.TEST_CHEST.get());
-        init();
-
     }
 
     private void init() {

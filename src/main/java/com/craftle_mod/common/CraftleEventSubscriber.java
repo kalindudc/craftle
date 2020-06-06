@@ -5,6 +5,7 @@ import com.craftle_mod.common.registries.CraftleBiomes;
 import com.craftle_mod.common.registries.CraftleBlocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
@@ -64,6 +65,13 @@ public class CraftleEventSubscriber {
     public static void onRegisterBiomes(
             final RegistryEvent.Register<Biome> event) {
         CraftleBiomes.registerBiomes();
+    }
+
+    @SubscribeEvent
+    public static void registerRecipeSerializers(
+            RegistryEvent.Register<IRecipeSerializer<?>> event) {
+
+        //CraftleRecipeType.registerRecipeTypes(event.getRegistry());
     }
 
     public static <T extends IForgeRegistryEntry<T>> T setup(final T entry,

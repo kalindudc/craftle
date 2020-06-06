@@ -14,6 +14,15 @@ public interface ICraftleEnergy {
 
     public float getOutput();
 
+    /**
+     * Use this much energy from this item.
+     * <p>
+     * Reduce capacity by amount
+     *
+     * @param amount to reduce from capacity
+     */
+    public void useEnergy(float amount);
+
     public void setInput(float input);
 
     public void setOutput(float output);

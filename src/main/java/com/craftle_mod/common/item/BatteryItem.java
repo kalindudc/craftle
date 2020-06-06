@@ -12,7 +12,7 @@ public class BatteryItem extends CraftleItem implements ICraftleEnergy {
     private final static float BASE_MAX_INPUT  = BASE_CAPACITY * 0.01F;
     private final static float BASE_MAX_OUTPUT = BASE_MAX_INPUT * 10.0F;
 
-    private final float capacity;
+    private       float capacity;
     private final float maxCapacity;
     private final float maxInput;
     private final float maxOutput;
@@ -66,6 +66,12 @@ public class BatteryItem extends CraftleItem implements ICraftleEnergy {
     }
 
     @Override
+    public void useEnergy(float amount) {
+        this.capacity -= amount;
+        if (this.capacity < 0) this.capacity = 0;
+    }
+
+    @Override
     public void setInput(float input) {
         this.input = input;
     }
@@ -83,5 +89,10 @@ public class BatteryItem extends CraftleItem implements ICraftleEnergy {
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
         return 1.0F - ((double) getCapacity() / (double) getMaxCapacity());
+    }
+
+    @Override
+    public int getBurnTime(ItemStack itemStack) {
+        return (int) capacity;
     }
 }
