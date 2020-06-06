@@ -1,4 +1,4 @@
-package com.craftle_mod.common.inventory.machine.crusher;
+package com.craftle_mod.common.inventory.container.machine.crusher;
 
 import com.craftle_mod.common.registries.CraftleContainerTypes;
 import com.craftle_mod.common.tier.CraftleBaseTier;

@@ -2,8 +2,8 @@ package com.craftle_mod.common.registries;
 
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.inventory.container.CraftleChestContainer;
-import com.craftle_mod.common.inventory.machine.crusher.CrusherContainer;
-import com.craftle_mod.common.inventory.machine.crusher.CrusherContainerFactory;
+import com.craftle_mod.common.inventory.container.machine.crusher.CrusherContainer;
+import com.craftle_mod.common.inventory.container.machine.crusher.CrusherContainerFactory;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.common.extensions.IForgeContainerType;

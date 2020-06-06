@@ -1,7 +1,7 @@
 package com.craftle_mod.client.gui.machine.crusher;
 
 import com.craftle_mod.common.Craftle;
-import com.craftle_mod.common.inventory.machine.crusher.CrusherContainer;
+import com.craftle_mod.common.inventory.container.machine.crusher.CrusherContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;

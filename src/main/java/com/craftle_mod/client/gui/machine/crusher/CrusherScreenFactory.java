@@ -1,6 +1,6 @@
 package com.craftle_mod.client.gui.machine.crusher;
 
-import com.craftle_mod.common.inventory.machine.crusher.CrusherContainer;
+import com.craftle_mod.common.inventory.container.machine.crusher.CrusherContainer;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.ScreenManager;
