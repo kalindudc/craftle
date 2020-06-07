@@ -4,7 +4,7 @@ package com.craftle_mod.common.inventory.container.machine.crusher;
 import com.craftle_mod.common.inventory.container.base.CraftleContainer;
 import com.craftle_mod.common.registries.CraftleBlocks;
 import com.craftle_mod.common.tier.CraftleBaseTier;
-import com.craftle_mod.common.tile.machine.MachineTileEntity;
+import com.craftle_mod.common.tile.base.MachineTileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ContainerType;

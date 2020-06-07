@@ -7,6 +7,7 @@ import com.craftle_mod.common.block.base.CraftleBlock;
 import com.craftle_mod.common.block.base.MachineBlock;
 import com.craftle_mod.common.block.base.OreBlock;
 import com.craftle_mod.common.block.base.ResourceBlock;
+import com.craftle_mod.common.block.machine.CoalGenerator;
 import com.craftle_mod.common.block.machine.Crusher;
 import com.craftle_mod.common.block.machine.Quarry;
 import com.craftle_mod.common.resource.BlockResource;
@@ -127,6 +128,12 @@ public class CraftleBlocks {
                                                    CraftleBlock.BlockType.MACHINE,
                                                    SoundType.METAL,
                                                    CraftleBaseTier.TIER_4));
+    // Coal Generator
+    public static final RegistryObject<Block> COAL_GENERATOR =
+            registerMachineWithRegistryName("coal_generator", new CoalGenerator(
+                    BlockResource.STEEL, CraftleBlock.BlockType.MACHINE,
+                    SoundType.METAL, CraftleBaseTier.BASIC));
+
     // Machines
     // workbench, advanced workbench
     // compressor , purifier, tier (1-4)
@@ -135,7 +142,7 @@ public class CraftleBlocks {
     // energy: power blocks, tier (1-4)
     // Hydro Generator
     // Thermoelectric Generator
-    // Coal Generator
+
     // infuser, tier (1-4) // infuse metals and other resources and fluids
     // cable, tier (1-4)
     // Extractor: for rubber (tier 1-4)
@@ -145,6 +152,11 @@ public class CraftleBlocks {
         return BLOCKS
                 .register(machineType + "_" + block.getCraftleTier().getTier(),
                           () -> block);
+    }
+
+    private static RegistryObject<Block> registerMachineWithRegistryName(
+            String registryName, MachineBlock block) {
+        return BLOCKS.register(registryName, () -> block);
     }
 
     private static RegistryObject<Block> registerOre(OreResource resource,

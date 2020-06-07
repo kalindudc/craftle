@@ -70,9 +70,9 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
 
     @Override
     protected ITextComponent getDefaultName() {
-        Craftle.LOGGER.debug("CRAFTLE {ContainerizedTileEntity}: type " +
-                             "registry name " +
-                             this.getType().getRegistryName());
+        Craftle.LOGGER.info("CRAFTLE {ContainerizedTileEntity}: type " +
+                            "registry name " +
+                            this.getType().getRegistryName());
         return new TranslationTextComponent(
                 "container." + this.getType().getRegistryName());
     }
@@ -212,6 +212,10 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
 
     public LazyOptional<IItemHandlerModifiable> getItemHandler() {
         return itemHandler;
+    }
+
+    public IItemHandlerModifiable getTileEntityItems() {
+        return items;
     }
 
     public void setItemHandler(

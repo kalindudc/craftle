@@ -1,12 +1,11 @@
-package com.craftle_mod.common.tile.machine;
+package com.craftle_mod.common.tile.base;
 
 import com.craftle_mod.common.recipe.CraftleRecipeType;
-import com.craftle_mod.common.recipe.base.CraftleRecipe;
 import com.craftle_mod.common.tier.CraftleBaseTier;
-import com.craftle_mod.common.tile.base.ContainerizedTileEntity;
 import com.google.common.collect.Maps;
 import net.minecraft.inventory.IRecipeHelperPopulator;
 import net.minecraft.inventory.IRecipeHolder;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -20,12 +19,12 @@ public abstract class MachineTileEntity extends ContainerizedTileEntity
     private CraftleBaseTier tier;
 
     // using abstract furnace information
-    private final   Map<ResourceLocation, Integer>       recipesUsed =
+    private final   Map<ResourceLocation, Integer> recipesUsed =
             Maps.newHashMap();
-    protected final IRecipeType<? extends CraftleRecipe> recipeType;
+    protected final IRecipeType<? extends IRecipe> recipeType;
 
     public MachineTileEntity(TileEntityType<?> typeIn,
-                             IRecipeType<? extends CraftleRecipe> recipeTypeIn,
+                             IRecipeType<? extends IRecipe> recipeTypeIn,
                              int containerSize, CraftleBaseTier tier) {
         super(typeIn, 1);
         this.tier       = tier;
@@ -44,7 +43,7 @@ public abstract class MachineTileEntity extends ContainerizedTileEntity
         return tier;
     }
 
-    public abstract CraftleRecipeType<? extends CraftleRecipe> getRecipeType();
+    public abstract CraftleRecipeType<? extends IRecipe> getRecipeType();
 
     public Map<ResourceLocation, Integer> getRecipesUsed() {
         return recipesUsed;

@@ -4,6 +4,7 @@ import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.TileEntityQuarry;
 import com.craftle_mod.common.tile.TileEntityTestChest;
+import com.craftle_mod.common.tile.machine.CoalGeneratorTileEntity;
 import com.craftle_mod.common.tile.machine.CrusherTileEntity;
 import com.craftle_mod.common.tile.machine.CrusherTileEntityFactory;
 import net.minecraft.block.Block;
@@ -51,6 +52,16 @@ public class CraftleTileEntityTypes {
             CRUSHER_TIER_4 = registerCrusher(CraftleBlocks.CRUSHER_TIER_4,
                                              CraftleBaseTier.TIER_4);
 
+    // GENERATORS
+    public static final RegistryObject<TileEntityType<CoalGeneratorTileEntity>>
+            COAL_GENERATOR = TILE_ENTITY_TYPES.register("coal_generator",
+                                                        () -> TileEntityType.Builder
+                                                                .create(CoalGeneratorTileEntity::new,
+                                                                        CraftleBlocks.COAL_GENERATOR
+                                                                                .get())
+                                                                .build(null));
+    
+
     private static RegistryObject<TileEntityType<CrusherTileEntity>> registerCrusher(
             RegistryObject<Block> block, CraftleBaseTier tier) {
 
@@ -61,5 +72,4 @@ public class CraftleTileEntityTypes {
                                                            block.get())
                                                    .build(null)));
     }
-
 }

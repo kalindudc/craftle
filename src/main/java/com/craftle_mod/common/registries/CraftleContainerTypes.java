@@ -2,6 +2,7 @@ package com.craftle_mod.common.registries;
 
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.inventory.container.CraftleChestContainer;
+import com.craftle_mod.common.inventory.container.machine.coal_generator.CoalGeneratorContainer;
 import com.craftle_mod.common.inventory.container.machine.crusher.CrusherContainer;
 import com.craftle_mod.common.inventory.container.machine.crusher.CrusherContainerFactory;
 import com.craftle_mod.common.tier.CraftleBaseTier;
@@ -51,5 +52,9 @@ public class CraftleContainerTypes {
                                                               .create(CrusherContainerFactory
                                                                               .buildContainerFactory(
                                                                                       CraftleBaseTier.TIER_4)));
+    public static final RegistryObject<ContainerType<CoalGeneratorContainer>>
+            COAL_GENERATOR = CONTAINER_TYPES.register("coal_generator",
+                                                      () -> IForgeContainerType
+                                                              .create(CoalGeneratorContainer::new));
 
 }

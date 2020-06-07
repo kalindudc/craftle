@@ -1,7 +1,6 @@
 package com.craftle_mod.common.inventory.container.base;
 
 import com.craftle_mod.common.tile.base.ContainerizedTileEntity;
-import com.craftle_mod.common.tile.machine.CrusherTileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -55,7 +54,7 @@ public abstract class CraftleContainer extends Container {
 
         final TileEntity tileAtPos =
                 playerInventory.player.world.getTileEntity(data.readBlockPos());
-        if (tileAtPos instanceof CrusherTileEntity) {
+        if (tileAtPos instanceof ContainerizedTileEntity) {
             return (ContainerizedTileEntity) tileAtPos;
         }
 

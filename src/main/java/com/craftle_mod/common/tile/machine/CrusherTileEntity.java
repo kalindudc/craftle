@@ -6,6 +6,7 @@ import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.recipe.base.CraftleRecipe;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.tier.CraftleBaseTier;
+import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IRecipeHelperPopulator;
 import net.minecraft.inventory.IRecipeHolder;
@@ -16,8 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.RecipeItemHelper;
-import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
@@ -31,9 +30,8 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class CrusherTileEntity extends MachineTileEntity
-        implements ISidedInventory, IRecipeHolder, IRecipeHelperPopulator,
-                   ITickableTileEntity {
+public class CrusherTileEntity extends PoweredMachineTileEntity
+        implements ISidedInventory, IRecipeHolder, IRecipeHelperPopulator {
 
     private static final int[] SLOTS_UP         = new int[]{0};
     private static final int[] SLOTS_DOWN       = new int[]{2, 1};
@@ -132,23 +130,6 @@ public class CrusherTileEntity extends MachineTileEntity
         return CrusherContainerFactory
                 .buildWithTileEntity(this.getCraftleMachineTier(), id, player,
                                      this);
-    }
-
-    @Override
-    public void fillStackedContents(RecipeItemHelper helper) {
-        for (ItemStack itemstack : super.getContainerContents()) {
-            helper.accountStack(itemstack);
-        }
-    }
-
-    @Override
-    public void setRecipeUsed(@Nullable IRecipe<?> recipe) {
-        if (recipe != null) {
-            this.getRecipesUsed()
-                .compute(recipe.getId(), (p_214004_0_, usedCount) -> {
-                    return 1 + (usedCount == null ? 0 : usedCount);
-                });
-        }
     }
 
     @Nullable

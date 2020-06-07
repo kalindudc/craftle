@@ -1,6 +1,7 @@
 package com.craftle_mod.client;
 
 import com.craftle_mod.client.gui.CraftleChestScreen;
+import com.craftle_mod.client.gui.machine.CoalGeneratorScreen;
 import com.craftle_mod.client.gui.machine.crusher.CrusherScreenFactory;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.registries.CraftleContainerTypes;
@@ -42,6 +43,17 @@ public class CraftleClientEventSubscriber {
                                  CrusherScreenFactory
                                          .build(CraftleBaseTier.TIER_4));
 
+        registerCoalGenerator();
+
 
     }
+
+    public static void registerCoalGenerator() {
+        Craftle.logInfo("--- LOGING register coal generator");
+        Craftle.logInfo("energy");
+        ScreenManager
+                .registerFactory(CraftleContainerTypes.COAL_GENERATOR.get(),
+                                 CoalGeneratorScreen::new);
+    }
+
 }

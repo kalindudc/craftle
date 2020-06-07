@@ -78,4 +78,8 @@ public class Craftle {
     public static void loadCompleteEvent(FMLLoadCompleteEvent event) {
         OreGenHandler.generateOre();
     }
+
+    public static void logInfo(String string, Object... args) {
+        Craftle.LOGGER.info(String.format(string, args));
+    }
 }
