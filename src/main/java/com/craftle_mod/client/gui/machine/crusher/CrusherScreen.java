@@ -1,6 +1,5 @@
 package com.craftle_mod.client.gui.machine.crusher;
 
-import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.inventory.container.machine.crusher.CrusherContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -17,28 +16,20 @@ TODO: Factorize the screen gui.
 public class CrusherScreen extends ContainerScreen<CrusherContainer> {
 
     // TODO: make static, store in a config and load through the factory
-    private ResourceLocation backgroundTexture =
-            new ResourceLocation(Craftle.MODID,
-                                 "textures/gui/crusher_basic" + ".png");
+    private ResourceLocation backgroundTexture;
 
     public CrusherScreen(CrusherContainer screenContainer, PlayerInventory inv,
-                         ITextComponent titleIn, String resourceLocation) {
+                         ITextComponent titleIn, ResourceLocation resourceLocation) {
         super(screenContainer, inv, titleIn);
         this.guiLeft           = 0;
         this.guiTop            = 0;
         this.xSize             = 175;
         this.ySize             = 165;
-        this.backgroundTexture =
-                new ResourceLocation(Craftle.MODID, resourceLocation);
-    }
-
-    public void setBackgroundTexture(ResourceLocation backgroundTexture) {
-        this.backgroundTexture = backgroundTexture;
+        this.backgroundTexture = resourceLocation;
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY,
-                       final float partialTicks) {
+    public void render(final int mouseX, final int mouseY, final float partialTicks) {
         this.renderBackground();
         super.render(mouseX, mouseY, partialTicks);
         this.renderHoveredToolTip(mouseX, mouseY);
@@ -53,8 +44,7 @@ public class CrusherScreen extends ContainerScreen<CrusherContainer> {
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks,
-                                                   int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         this.minecraft.getTextureManager().bindTexture(backgroundTexture);
         int x = (this.width - this.xSize) / 2;

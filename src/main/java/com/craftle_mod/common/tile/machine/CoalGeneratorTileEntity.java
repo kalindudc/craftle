@@ -182,7 +182,6 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
             else {
 
                 super.setBlockActive(false);
-                Craftle.logInfo("Active state set: %b ", super.active);
                 this.resetBufferedEnergy();
                 this.burnPercentage = 0;
                 this.burnTime       = 0;
@@ -212,7 +211,6 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
         }
         else {
             super.setBlockActive(false);
-            Craftle.logInfo("Active state set: %b ", super.active);
             this.resetBufferedEnergy();
             this.burnPercentage = 0;
             this.burnTime       = 0;

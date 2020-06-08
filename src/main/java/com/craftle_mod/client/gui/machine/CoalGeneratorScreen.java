@@ -1,12 +1,11 @@
 package com.craftle_mod.client.gui.machine;
 
-import com.craftle_mod.common.Craftle;
+import com.craftle_mod.api.GUIConstants;
 import com.craftle_mod.common.inventory.container.machine.coal_generator.CoalGeneratorContainer;
 import com.craftle_mod.common.tile.machine.CoalGeneratorTileEntity;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -14,9 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer> {
 
-    private static final ResourceLocation        BACKGROUND_TEXTURE =
-            new ResourceLocation(Craftle.MODID, "textures/gui/coal_generator.png");
-    private              CoalGeneratorTileEntity entity;
+    private CoalGeneratorTileEntity entity;
 
     public CoalGeneratorScreen(CoalGeneratorContainer screenContainer, PlayerInventory inv,
                                ITextComponent titleIn) {
@@ -26,9 +23,6 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         this.xSize   = 175;
         this.ySize   = 165;
         this.entity  = (CoalGeneratorTileEntity) screenContainer.getEntity();
-        Craftle.logInfo("--------------\n--------------\n--------\n------ %d",
-                        screenContainer.getEnergy());
-
     }
 
     @Override
@@ -86,7 +80,7 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
-        this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
+        this.minecraft.getTextureManager().bindTexture(GUIConstants.COAL_GENERATOR);
         int x = (this.width - this.xSize) / 2;
         int y = (this.height - this.ySize) / 2;
 
