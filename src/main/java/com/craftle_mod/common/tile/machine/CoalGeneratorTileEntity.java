@@ -1,6 +1,7 @@
 package com.craftle_mod.common.tile.machine;
 
 import com.craftle_mod.api.NBTConstants;
+import com.craftle_mod.api.TagConstants;
 import com.craftle_mod.api.TileEntityConstants;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.inventory.container.machine.coal_generator.CoalGeneratorContainer;
@@ -147,7 +148,7 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
     @Nonnull
     @Override
     public ITextComponent getDisplayName() {
-        return new TranslationTextComponent("container.coal_generator");
+        return new TranslationTextComponent(TagConstants.COAL_GENERATOR);
     }
 
     public int getBurnPercentage() {

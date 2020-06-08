@@ -10,6 +10,7 @@ import com.craftle_mod.common.block.base.ResourceBlock;
 import com.craftle_mod.common.block.machine.CoalGenerator;
 import com.craftle_mod.common.block.machine.Crusher;
 import com.craftle_mod.common.block.machine.Quarry;
+import com.craftle_mod.common.block.storage.EnergyMatrix;
 import com.craftle_mod.common.resource.BlockResource;
 import com.craftle_mod.common.resource.OreResource;
 import com.craftle_mod.common.resource.ResourceType;
@@ -29,44 +30,57 @@ public class CraftleBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             new DeferredRegister<>(ForgeRegistries.BLOCKS, Craftle.MODID);
 
-    public static final RegistryObject<Block> TEST_ORE      =
-            BLOCKS.register("test_ore", () -> new Block(
-                    Block.Properties.create(Material.ROCK)
-                                    .hardnessAndResistance(3.0F, 3.0F)
-                                    .sound(SoundType.STONE)));
-    public static final RegistryObject<Block> TEST_BLOCK    =
-            BLOCKS.register("test_block", () -> new Block(
-                    Block.Properties.create(Material.ORGANIC)
-                                    .hardnessAndResistance(1.0F, 1.0F)
-                                    .sound(SoundType.GROUND)));
-    public static final RegistryObject<Block> SPECIAL_BLOCK =
-            BLOCKS.register("special_block",
-                            () -> new SpecialBlock(BlockResource.STEEL,
-                                                   CraftleBlock.BlockType.MISC,
-                                                   SoundType.METAL));
-    public static final RegistryObject<Block> QUARRY        =
-            BLOCKS.register("quarry", () -> new Quarry(BlockResource.STEEL,
-                                                       CraftleBlock.BlockType.MACHINE,
-                                                       SoundType.METAL));
-    public static final RegistryObject<Block> TEST_CHEST    =
-            BLOCKS.register("test_chest",
-                            () -> new TestChest(BlockResource.WOOD,
-                                                CraftleBlock.BlockType.MISC,
-                                                SoundType.WOOD));
-    public static final RegistryObject<Block> TEST_STAIRS   =
-            BLOCKS.register("test_stairs", () -> new StairsBlock(
-                    () -> CraftleBlocks.TEST_ORE.get().getDefaultState(),
-                    Block.Properties.create(Material.ROCK)
-                                    .hardnessAndResistance(3.0F, 3.0F)
-                                    .sound(SoundType.STONE)));
-    public static final RegistryObject<Block> TEST_FENCE    =
-            BLOCKS.register("test_fence", () -> new FenceBlock(Block.Properties
-                                                                       .create(Material.ROCK,
-                                                                               MaterialColor.DIAMOND)
-                                                                       .hardnessAndResistance(
-                                                                               3.0F,
-                                                                               3.0F)
-                                                                       .sound(SoundType.STONE)));
+    public static final RegistryObject<Block> TEST_ORE      = BLOCKS.register("test_ore",
+                                                                              () -> new Block(
+                                                                                      Block.Properties
+                                                                                              .create(Material.ROCK)
+                                                                                              .hardnessAndResistance(
+                                                                                                      3.0F,
+                                                                                                      3.0F)
+                                                                                              .sound(SoundType.STONE)));
+    public static final RegistryObject<Block> TEST_BLOCK    = BLOCKS.register("test_block",
+                                                                              () -> new Block(
+                                                                                      Block.Properties
+                                                                                              .create(Material.ORGANIC)
+                                                                                              .hardnessAndResistance(
+                                                                                                      1.0F,
+                                                                                                      1.0F)
+                                                                                              .sound(SoundType.GROUND)));
+    public static final RegistryObject<Block> SPECIAL_BLOCK = BLOCKS.register("special_block",
+                                                                              () -> new SpecialBlock(
+                                                                                      BlockResource.STEEL,
+                                                                                      CraftleBlock.BlockType.MISC,
+                                                                                      SoundType.METAL));
+    public static final RegistryObject<Block> QUARRY        = BLOCKS.register("quarry",
+                                                                              () -> new Quarry(
+                                                                                      BlockResource.STEEL,
+                                                                                      CraftleBlock.BlockType.MACHINE,
+                                                                                      SoundType.METAL));
+    public static final RegistryObject<Block> TEST_CHEST    = BLOCKS.register("test_chest",
+                                                                              () -> new TestChest(
+                                                                                      BlockResource.WOOD,
+                                                                                      CraftleBlock.BlockType.MISC,
+                                                                                      SoundType.WOOD));
+    public static final RegistryObject<Block> TEST_STAIRS   = BLOCKS.register("test_stairs",
+                                                                              () -> new StairsBlock(
+                                                                                      () -> CraftleBlocks.TEST_ORE
+                                                                                              .get()
+                                                                                              .getDefaultState(),
+                                                                                      Block.Properties
+                                                                                              .create(Material.ROCK)
+                                                                                              .hardnessAndResistance(
+                                                                                                      3.0F,
+                                                                                                      3.0F)
+                                                                                              .sound(SoundType.STONE)));
+    public static final RegistryObject<Block> TEST_FENCE    = BLOCKS.register("test_fence",
+                                                                              () -> new FenceBlock(
+                                                                                      Block.Properties
+                                                                                              .create(Material.ROCK,
+                                                                                                      MaterialColor.DIAMOND)
+                                                                                              .hardnessAndResistance(
+                                                                                                      3.0F,
+                                                                                                      3.0F)
+                                                                                              .sound(SoundType.STONE)));
     // ORES
     public static final RegistryObject<Block> COPPER_ORE    =
             registerOre(OreResource.COPPER, CraftleBlock.BlockType.RESOURCE);
@@ -81,58 +95,80 @@ public class CraftleBlocks {
 
     //RESOURCE BLOCK
     public static final RegistryObject<Block> ALUMINIUM_BLOCK =
-            registerResource(BlockResource.ALUMINIUM,
-                             CraftleBlock.BlockType.RESOURCE);
+            registerResource(BlockResource.ALUMINIUM, CraftleBlock.BlockType.RESOURCE);
     public static final RegistryObject<Block> COPPER_BLOCK    =
-            registerResource(BlockResource.COPPER,
-                             CraftleBlock.BlockType.RESOURCE);
+            registerResource(BlockResource.COPPER, CraftleBlock.BlockType.RESOURCE);
     public static final RegistryObject<Block> PLATINUM_BLOCK  =
-            registerResource(BlockResource.PLATINUM,
-                             CraftleBlock.BlockType.RESOURCE);
+            registerResource(BlockResource.PLATINUM, CraftleBlock.BlockType.RESOURCE);
     public static final RegistryObject<Block> RUBY_BLOCK      =
-            registerResource(BlockResource.RUBY,
-                             CraftleBlock.BlockType.RESOURCE);
+            registerResource(BlockResource.RUBY, CraftleBlock.BlockType.RESOURCE);
     public static final RegistryObject<Block> SAPPHIRE_BLOCK  =
-            registerResource(BlockResource.SAPPHIRE,
-                             CraftleBlock.BlockType.RESOURCE);
+            registerResource(BlockResource.SAPPHIRE, CraftleBlock.BlockType.RESOURCE);
     public static final RegistryObject<Block> STEEL_BLOCK     =
-            registerResource(BlockResource.STEEL,
-                             CraftleBlock.BlockType.RESOURCE);
+            registerResource(BlockResource.STEEL, CraftleBlock.BlockType.RESOURCE);
     public static final RegistryObject<Block> TIN_BLOCK       =
-            registerResource(BlockResource.TIN,
-                             CraftleBlock.BlockType.RESOURCE);
+            registerResource(BlockResource.TIN, CraftleBlock.BlockType.RESOURCE);
 
     // Crusher
-    public static final RegistryObject<Block> CRUSHER_BASIC  =
-            registerMachine("crusher", new Crusher(BlockResource.STEEL,
-                                                   CraftleBlock.BlockType.MACHINE,
-                                                   SoundType.METAL,
-                                                   CraftleBaseTier.BASIC));
-    public static final RegistryObject<Block> CRUSHER_TIER_1 =
-            registerMachine("crusher", new Crusher(BlockResource.STEEL,
-                                                   CraftleBlock.BlockType.MACHINE,
-                                                   SoundType.METAL,
-                                                   CraftleBaseTier.TIER_1));
-    public static final RegistryObject<Block> CRUSHER_TIER_2 =
-            registerMachine("crusher", new Crusher(BlockResource.STEEL,
-                                                   CraftleBlock.BlockType.MACHINE,
-                                                   SoundType.METAL,
-                                                   CraftleBaseTier.TIER_2));
-    public static final RegistryObject<Block> CRUSHER_TIER_3 =
-            registerMachine("crusher", new Crusher(BlockResource.STEEL,
-                                                   CraftleBlock.BlockType.MACHINE,
-                                                   SoundType.METAL,
-                                                   CraftleBaseTier.TIER_3));
-    public static final RegistryObject<Block> CRUSHER_TIER_4 =
-            registerMachine("crusher", new Crusher(BlockResource.STEEL,
-                                                   CraftleBlock.BlockType.MACHINE,
-                                                   SoundType.METAL,
-                                                   CraftleBaseTier.TIER_4));
+    public static final RegistryObject<Block> CRUSHER_BASIC  = registerMachine("crusher",
+                                                                               new Crusher(
+                                                                                       BlockResource.STEEL,
+                                                                                       CraftleBlock.BlockType.MACHINE,
+                                                                                       SoundType.METAL,
+                                                                                       CraftleBaseTier.BASIC));
+    public static final RegistryObject<Block> CRUSHER_TIER_1 = registerMachine("crusher",
+                                                                               new Crusher(
+                                                                                       BlockResource.STEEL,
+                                                                                       CraftleBlock.BlockType.MACHINE,
+                                                                                       SoundType.METAL,
+                                                                                       CraftleBaseTier.TIER_1));
+    public static final RegistryObject<Block> CRUSHER_TIER_2 = registerMachine("crusher",
+                                                                               new Crusher(
+                                                                                       BlockResource.STEEL,
+                                                                                       CraftleBlock.BlockType.MACHINE,
+                                                                                       SoundType.METAL,
+                                                                                       CraftleBaseTier.TIER_2));
+    public static final RegistryObject<Block> CRUSHER_TIER_3 = registerMachine("crusher",
+                                                                               new Crusher(
+                                                                                       BlockResource.STEEL,
+                                                                                       CraftleBlock.BlockType.MACHINE,
+                                                                                       SoundType.METAL,
+                                                                                       CraftleBaseTier.TIER_3));
+    public static final RegistryObject<Block> CRUSHER_TIER_4 = registerMachine("crusher",
+                                                                               new Crusher(
+                                                                                       BlockResource.STEEL,
+                                                                                       CraftleBlock.BlockType.MACHINE,
+                                                                                       SoundType.METAL,
+                                                                                       CraftleBaseTier.TIER_4));
     // Coal Generator
     public static final RegistryObject<Block> COAL_GENERATOR =
-            registerMachineWithRegistryName("coal_generator", new CoalGenerator(
-                    BlockResource.STEEL, CraftleBlock.BlockType.MACHINE,
-                    SoundType.METAL, CraftleBaseTier.BASIC));
+            registerMachineWithRegistryName("coal_generator", new CoalGenerator(BlockResource.STEEL,
+                                                                                CraftleBlock.BlockType.MACHINE,
+                                                                                SoundType.METAL,
+                                                                                CraftleBaseTier.BASIC));
+
+    // ENERGY MATRIX
+    public static final RegistryObject<Block> ENERGY_MATRIX_BASIC  =
+            registerMachine("energy_matrix", new EnergyMatrix(BlockResource.STEEL,
+                                                              CraftleBlock.BlockType.MACHINE,
+                                                              SoundType.METAL,
+                                                              CraftleBaseTier.BASIC));
+    public static final RegistryObject<Block> ENERGY_MATRIX_TIER_1 =
+            registerMachine("energy_matrix",
+                            new EnergyMatrix(BlockResource.STEEL, CraftleBlock.BlockType.MACHINE,
+                                             SoundType.METAL, CraftleBaseTier.TIER_1));
+    public static final RegistryObject<Block> ENERGY_MATRIX_TIER_2 =
+            registerMachine("energy_matrix",
+                            new EnergyMatrix(BlockResource.STEEL, CraftleBlock.BlockType.MACHINE,
+                                             SoundType.METAL, CraftleBaseTier.TIER_2));
+    public static final RegistryObject<Block> ENERGY_MATRIX_TIER_3 =
+            registerMachine("energy_matrix",
+                            new EnergyMatrix(BlockResource.STEEL, CraftleBlock.BlockType.MACHINE,
+                                             SoundType.METAL, CraftleBaseTier.TIER_3));
+    public static final RegistryObject<Block> ENERGY_MATRIX_TIER_4 =
+            registerMachine("energy_matrix",
+                            new EnergyMatrix(BlockResource.STEEL, CraftleBlock.BlockType.MACHINE,
+                                             SoundType.METAL, CraftleBaseTier.TIER_4));
 
     // Machines
     // workbench, advanced workbench
@@ -147,33 +183,27 @@ public class CraftleBlocks {
     // cable, tier (1-4)
     // Extractor: for rubber (tier 1-4)
 
-    private static RegistryObject<Block> registerMachine(String machineType,
-                                                         MachineBlock block) {
-        return BLOCKS
-                .register(machineType + "_" + block.getCraftleTier().getTier(),
-                          () -> block);
+    private static RegistryObject<Block> registerMachine(String machineType, MachineBlock block) {
+        return BLOCKS.register(machineType + "_" + block.getCraftleTier().getTier(), () -> block);
     }
 
-    private static RegistryObject<Block> registerMachineWithRegistryName(
-            String registryName, MachineBlock block) {
+    private static RegistryObject<Block> registerMachineWithRegistryName(String registryName,
+                                                                         MachineBlock block) {
         return BLOCKS.register(registryName, () -> block);
     }
 
     private static RegistryObject<Block> registerOre(OreResource resource,
                                                      CraftleBlock.BlockType blockType) {
-        String oreName = resource.getResourceName() + "_" +
-                         ResourceType.ORE.getResourceName();
-        return BLOCKS.register(oreName, () -> new OreBlock(resource, blockType,
-                                                           SoundType.STONE));
+        String oreName = resource.getResourceName() + "_" + ResourceType.ORE.getResourceName();
+        return BLOCKS.register(oreName, () -> new OreBlock(resource, blockType, SoundType.STONE));
     }
 
-    private static RegistryObject<Block> registerResource(
-            BlockResource resource, CraftleBlock.BlockType blockType) {
-        String resourceName = resource.getResourceName() + "_" +
-                              ResourceType.BLOCK.getResourceName();
+    private static RegistryObject<Block> registerResource(BlockResource resource,
+                                                          CraftleBlock.BlockType blockType) {
+        String resourceName =
+                resource.getResourceName() + "_" + ResourceType.BLOCK.getResourceName();
         return BLOCKS.register(resourceName,
-                               () -> new ResourceBlock(resource, blockType,
-                                                       SoundType.METAL));
+                               () -> new ResourceBlock(resource, blockType, SoundType.METAL));
     }
 
 }

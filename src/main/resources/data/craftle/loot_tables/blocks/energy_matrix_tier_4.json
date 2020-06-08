@@ -1,0 +1,14 @@
+{
+    "pools": [
+        {
+            "rolls": 1.0, 
+            "entries": [
+                {
+                    "type": "minecraft:item", 
+                    "name": "craftle:energy_matrix_tier_4"
+                }
+            ]
+        }
+    ], 
+    "type": "minecraft:block"
+}

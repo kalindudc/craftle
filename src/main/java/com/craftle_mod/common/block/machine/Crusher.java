@@ -4,7 +4,7 @@ import com.craftle_mod.common.block.base.MachineBlock;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.resource.IBlockResource;
 import com.craftle_mod.common.tier.CraftleBaseTier;
-import com.craftle_mod.common.tile.machine.CrusherTileEntity;
+import com.craftle_mod.common.tile.machine.crusher.CrusherTileEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,9 +23,9 @@ import javax.annotation.Nullable;
 
 public class Crusher extends MachineBlock {
 
-    public Crusher(IBlockResource resource, BlockType blockType,
-                   SoundType soundType, CraftleBaseTier tier) {
-        super(resource, blockType, soundType, tier);
+    public Crusher(IBlockResource resource, BlockType blockType, SoundType soundType,
+                   CraftleBaseTier tier) {
+        super(resource, blockType, soundType, tier, 0);
     }
 
     @Nullable
@@ -49,31 +49,27 @@ public class Crusher extends MachineBlock {
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn,
-                                             BlockPos pos, PlayerEntity player,
-                                             Hand handIn,
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos,
+                                             PlayerEntity player, Hand handIn,
                                              BlockRayTraceResult hit) {
         if (!worldIn.isRemote) {
             TileEntity entity = worldIn.getTileEntity(pos);
             if (entity instanceof CrusherTileEntity) {
-                NetworkHooks.openGui((ServerPlayerEntity) player,
-                                     (CrusherTileEntity) entity, pos);
+                NetworkHooks.openGui((ServerPlayerEntity) player, (CrusherTileEntity) entity, pos);
                 return ActionResultType.SUCCESS;
             }
         }
 
-        return ActionResultType.FAIL;
+        return ActionResultType.SUCCESS;
     }
 
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos,
-                           BlockState newState, boolean isMoving) {
+    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState,
+                           boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             TileEntity entity = worldIn.getTileEntity(pos);
             if (entity instanceof CrusherTileEntity) {
-                InventoryHelper.dropItems(worldIn, pos,
-                                          ((CrusherTileEntity) entity)
-                                                  .getItems());
+                InventoryHelper.dropItems(worldIn, pos, ((CrusherTileEntity) entity).getItems());
             }
         }
     }

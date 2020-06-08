@@ -12,6 +12,11 @@ public class CraftleItem extends Item implements ICraftleItem {
         this.name = registryName;
     }
 
+    public CraftleItem(String registryName, Properties properties, ItemGroup tab) {
+        super(properties.group(tab));
+        this.name = registryName;
+    }
+
     @Override
     public String getCraftleRegistryName() {
         return name;

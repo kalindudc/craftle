@@ -9,8 +9,7 @@ import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
-public abstract class MachineBlock extends ActiveBlockBase
-        implements ICraftleMachineBlock {
+public abstract class MachineBlock extends ActiveBlockBase implements ICraftleMachineBlock {
 
     private final static float BASE_CAPACITY = 235_000F;
 
@@ -19,12 +18,21 @@ public abstract class MachineBlock extends ActiveBlockBase
 
     private float capacity;
 
-    public MachineBlock(IBlockResource resource, BlockType blockType,
-                        SoundType soundType, CraftleBaseTier tier) {
+    public MachineBlock(IBlockResource resource, BlockType blockType, SoundType soundType,
+                        CraftleBaseTier tier) {
         super(resource, blockType, soundType);
 
         this.tier        = tier;
         this.maxCapacity = BASE_CAPACITY * tier.getMultiplier();
+        this.capacity    = 0;
+    }
+
+    public MachineBlock(IBlockResource resource, BlockType blockType, SoundType soundType,
+                        CraftleBaseTier tier, float maxCapacity) {
+        super(resource, blockType, soundType);
+
+        this.tier        = tier;
+        this.maxCapacity = maxCapacity;
         this.capacity    = 0;
     }
 
@@ -55,6 +63,5 @@ public abstract class MachineBlock extends ActiveBlockBase
 
     @Nullable
     @Override
-    public abstract TileEntity createTileEntity(BlockState state,
-                                                IBlockReader world);
+    public abstract TileEntity createTileEntity(BlockState state, IBlockReader world);
 }

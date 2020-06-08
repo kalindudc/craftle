@@ -54,9 +54,8 @@ public class CoalGenerator extends MachineBlock {
             }
         }
 
-        return ActionResultType.FAIL;
+        return ActionResultType.SUCCESS;
     }
-
 
     @Override
     public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState,

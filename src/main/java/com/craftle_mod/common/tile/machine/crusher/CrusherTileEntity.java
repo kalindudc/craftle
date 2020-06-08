@@ -1,4 +1,4 @@
-package com.craftle_mod.common.tile.machine;
+package com.craftle_mod.common.tile.machine.crusher;
 
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.inventory.container.machine.crusher.CrusherContainerFactory;
@@ -51,8 +51,8 @@ public class CrusherTileEntity extends PoweredMachineTileEntity
     }
 
     public CrusherTileEntity() {
-        this(CraftleTileEntityTypes.CRUSHER_BASIC.get(),
-             CraftleRecipeType.CRUSHING, CraftleBaseTier.BASIC);
+        this(CraftleTileEntityTypes.CRUSHER_BASIC.get(), CraftleRecipeType.CRUSHING,
+             CraftleBaseTier.BASIC);
     }
 
     // CONSTRUCTORS END -----------------
@@ -100,14 +100,12 @@ public class CrusherTileEntity extends PoweredMachineTileEntity
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack itemStackIn,
-                                 @Nullable Direction direction) {
+    public boolean canInsertItem(int index, ItemStack itemStackIn, @Nullable Direction direction) {
         return this.isItemValidForSlot(index, itemStackIn);
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack stack,
-                                  Direction direction) {
+    public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
         if (direction == Direction.DOWN && index == 1) {
             Item item = stack.getItem();
             if (item != Items.WATER_BUCKET && item != Items.BUCKET) {
@@ -121,15 +119,13 @@ public class CrusherTileEntity extends PoweredMachineTileEntity
     @Override
     protected ITextComponent getDefaultName() {
         return new TranslationTextComponent(
-                "block." + Craftle.MODID + ".crusher_" +
-                this.getCraftleMachineTier().getTier());
+                "block." + Craftle.MODID + ".crusher_" + this.getCraftleMachineTier().getTier());
     }
 
     @Override
     public Container createMenu(int id, PlayerInventory player) {
         return CrusherContainerFactory
-                .buildWithTileEntity(this.getCraftleMachineTier(), id, player,
-                                     this);
+                .buildWithTileEntity(this.getCraftleMachineTier(), id, player, this);
     }
 
     @Nullable
@@ -157,8 +153,7 @@ public class CrusherTileEntity extends PoweredMachineTileEntity
 
     @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap,
-                                             @Nonnull Direction side) {
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nonnull Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return this.getItemHandler().cast();
         }

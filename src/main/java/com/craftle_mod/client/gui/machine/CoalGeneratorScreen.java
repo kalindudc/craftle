@@ -44,15 +44,17 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
 
         int energy = this.entity.getEnergyContainer().getEnergyStored();
 
-        if (getBounds(mouseX, mouseY, 112 + offsetX, 12 + offsetY, 135 + offsetX, 73 + offsetY)) {
-            this.font.drawString(String.format("%.02f kJ", (energy / 1000f)), mouseX - offsetX + 8,
-                                 mouseY - offsetY - 5, 13785144);
-        }
+        //        if (getBounds(mouseX, mouseY, 112 + offsetX, 12 + offsetY, 135 + offsetX, 73 +
+        //        offsetY)) {
+        //            this.font.drawString(String.format("%.02f kJ", (energy / 1000f)), mouseX -
+        //            offsetX + 8,
+        //                                 mouseY - offsetY - 5, 13785144);
+        //        }
 
         int burnPercentage = this.entity.getBurnPercentage();
 
         float input;
-        float output = this.entity.getEnergyContainer().getMaxExtract() / 1000f;
+        float output = this.entity.getEnergyExtract() / 1000f;
 
         if (burnPercentage == 0 || burnPercentage >= 100) {
             input = 0;
@@ -62,7 +64,10 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         }
 
         this.font.drawString("Energy: ", 10.0f, 48.0f, 6805014);
-        this.font.drawString(String.format("%.02f kJ", (energy / 1000f)), 51.0f, 48.0f, 6805014);
+        this.font.drawString(String.format("%.02f kJ / %.02f kJ", (energy / 1000f),
+                                           ((float) this.entity.getEnergyContainer()
+                                                               .getMaxEnergyStored())), 51.0f,
+                             48.0f, 6805014);
 
         this.font.drawString("In: ", 10.0f, 63.0f, 6805014);
         this.font.drawString(String.format("%.02f kJ/t", (input)), 24.0f, 63.0f, 6805014);
