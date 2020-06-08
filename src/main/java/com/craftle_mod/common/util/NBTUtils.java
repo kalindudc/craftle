@@ -10,7 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class NBTUtils {
+public abstract class NBTUtils {
 
     public static CompoundNBT toNBT(Object object) {
         if (object instanceof ItemStack) {
@@ -55,8 +55,8 @@ public class NBTUtils {
     }
 
     private static ItemStack readItemStack(CompoundNBT compound) {
-        Item item = ForgeRegistries.ITEMS
-                .getValue(new ResourceLocation(compound.getString("item")));
+        Item item =
+                ForgeRegistries.ITEMS.getValue(new ResourceLocation(compound.getString("item")));
         int count = compound.getInt("count");
         return new ItemStack(item, count);
     }

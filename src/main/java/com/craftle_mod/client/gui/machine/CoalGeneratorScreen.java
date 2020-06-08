@@ -12,16 +12,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class CoalGeneratorScreen
-        extends ContainerScreen<CoalGeneratorContainer> {
+public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer> {
 
     private static final ResourceLocation        BACKGROUND_TEXTURE =
-            new ResourceLocation(Craftle.MODID,
-                                 "textures/gui/coal_generator.png");
+            new ResourceLocation(Craftle.MODID, "textures/gui/coal_generator.png");
     private              CoalGeneratorTileEntity entity;
 
-    public CoalGeneratorScreen(CoalGeneratorContainer screenContainer,
-                               PlayerInventory inv, ITextComponent titleIn) {
+    public CoalGeneratorScreen(CoalGeneratorContainer screenContainer, PlayerInventory inv,
+                               ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
         this.guiLeft = 0;
         this.guiTop  = 0;
@@ -34,8 +32,7 @@ public class CoalGeneratorScreen
     }
 
     @Override
-    public void render(final int mouseX, final int mouseY,
-                       final float partialTicks) {
+    public void render(final int mouseX, final int mouseY, final float partialTicks) {
         this.renderBackground();
         super.render(mouseX, mouseY, partialTicks);
         this.renderHoveredToolTip(mouseX, mouseY);
@@ -43,31 +40,51 @@ public class CoalGeneratorScreen
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-        this.font
-                .drawString(this.title.getFormattedText(), 8.0f, 6.0f, 4210752);
+
+        this.font.drawString(this.title.getFormattedText(), 8.0f, 6.0f, 4210752);
 
         int offsetX = (this.width - this.xSize) / 2;
         int offsetY = (this.height - this.ySize) / 2;
 
         int energy = this.entity.getEnergyContainer().getEnergyStored();
 
-        if (getBounds(mouseX, mouseY, 112 + offsetX, 12 + offsetY,
-                      135 + offsetX, 73 + offsetY)) this.font
-                .drawString(energy + "J/t", mouseX - offsetX + 8,
-                            mouseY - offsetY - 5, 13785144);
+        if (getBounds(mouseX, mouseY, 112 + offsetX, 12 + offsetY, 135 + offsetX, 73 + offsetY)) {
+            this.font.drawString(String.format("%.02f kJ", (energy / 1000f)), mouseX - offsetX + 8,
+                                 mouseY - offsetY - 5, 13785144);
+        }
+
+        int burnPercentage = this.entity.getBurnPercentage();
+
+        float input;
+        float output = this.entity.getEnergyContainer().getMaxExtract() / 1000f;
+
+        if (burnPercentage == 0 || burnPercentage >= 100) {
+            input = 0;
+        }
+        else {
+            input = ((float) this.entity.getEnergyReceive()) / 1000f;
+        }
+
+        this.font.drawString("Energy: ", 10.0f, 48.0f, 6805014);
+        this.font.drawString(String.format("%.02f kJ", (energy / 1000f)), 51.0f, 48.0f, 6805014);
+
+        this.font.drawString("In: ", 10.0f, 63.0f, 6805014);
+        this.font.drawString(String.format("%.02f kJ/t", (input)), 24.0f, 63.0f, 6805014);
+
+        this.font.drawString("Out: ", 74.0f, 63.0f, 14823215);
+        this.font.drawString(String.format("%.02f kJ/t", (output)), 93.0f, 63.0f, 14823215);
     }
 
 
-    public boolean getBounds(int x, int y, int xMin, int yMin, int xMax,
-                             int yMax) {
+    public boolean getBounds(int x, int y, int xMin, int yMin, int xMax, int yMax) {
         return x <= xMax && x >= xMin && y <= yMax && y >= yMin;
     }
 
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks,
-                                                   int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
         int x = (this.width - this.xSize) / 2;
@@ -81,8 +98,7 @@ public class CoalGeneratorScreen
         int energy    = this.entity.getEnergyContainer().getEnergyStored();
         int maxEnergy = this.entity.getEnergyContainer().getMaxEnergyStored();
 
-        float cookPercent = this.entity.getCookTime() / 200F;
-        //float cookPercent   = 1;
+        float burnPercent   = this.entity.getBurnPercentage();
         float energyPercent = ((float) energy) / ((float) maxEnergy);
 
         int textureX;
@@ -90,19 +106,16 @@ public class CoalGeneratorScreen
         int width;
         int height;
 
-        if (cookPercent > 0) {
-            width  = (int) Math.ceil(22 * (cookPercent)) + 1;
+        if (burnPercent > 0) {
+            width  = (int) Math.ceil(22 * (burnPercent / 100f)) + 1;
             height = 16;
 
-            x        = ((this.width - this.xSize) / 2) + 80;
-            y        = ((this.height - this.ySize) / 2) + 34;
+            x        = ((this.width - this.xSize) / 2) + 104;
+            y        = ((this.height - this.ySize) / 2) + 20;
             textureX = 177;
             textureY = 14;
 
             this.blit(x, y, textureX, textureY, width, height);
-
-            // blit something
-            Craftle.logInfo("%d %d %d %d", textureX, textureY, width, height);
         }
 
         if (energyPercent > 0) {
@@ -111,7 +124,7 @@ public class CoalGeneratorScreen
             width  = 23 + 1;
             height = (int) Math.ceil(61 * (energyPercent)) + 1;
 
-            x        = ((this.width - this.xSize) / 2) + 112;
+            x        = ((this.width - this.xSize) / 2) + 144;
             y        = ((this.height - this.ySize) / 2) + (74 - height);
             textureX = 177;
             textureY = 94 - height;

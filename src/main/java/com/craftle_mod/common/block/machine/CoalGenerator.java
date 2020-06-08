@@ -25,36 +25,31 @@ import javax.annotation.Nullable;
 
 public class CoalGenerator extends MachineBlock {
 
-    public CoalGenerator(IBlockResource resource, BlockType blockType,
-                         SoundType soundType, CraftleBaseTier tier) {
+    public CoalGenerator(IBlockResource resource, BlockType blockType, SoundType soundType,
+                         CraftleBaseTier tier) {
         super(resource, blockType, soundType, tier);
     }
 
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        CoalGeneratorTileEntity entity =
-                CraftleTileEntityTypes.COAL_GENERATOR.get().create();
-        entity.addBlock(this);
+        CoalGeneratorTileEntity entity = CraftleTileEntityTypes.COAL_GENERATOR.get().create();
         return entity;
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn,
-                                             BlockPos pos, PlayerEntity player,
-                                             Hand handIn,
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos,
+                                             PlayerEntity player, Hand handIn,
                                              BlockRayTraceResult hit) {
         if (!worldIn.isRemote) {
             TileEntity entity = worldIn.getTileEntity(pos);
             if (entity instanceof CoalGeneratorTileEntity) {
-                NetworkHooks.openGui((ServerPlayerEntity) player,
-                                     (CoalGeneratorTileEntity) entity, pos);
+                NetworkHooks.openGui((ServerPlayerEntity) player, (CoalGeneratorTileEntity) entity,
+                                     pos);
                 Craftle.logInfo("Openning GUI %d",
-                                ((PoweredMachineTileEntity) entity)
-                                        .getEnergyContainer()
-                                        .getEnergyStored());
-                Craftle.logInfo("HASH: " +
-                                ((PoweredMachineTileEntity) entity).hashCode());
+                                ((PoweredMachineTileEntity) entity).getEnergyContainer()
+                                                                   .getEnergyStored());
+                Craftle.logInfo("HASH: " + ((PoweredMachineTileEntity) entity).hashCode());
                 return ActionResultType.SUCCESS;
             }
         }
@@ -64,21 +59,19 @@ public class CoalGenerator extends MachineBlock {
 
 
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos,
-                           BlockState newState, boolean isMoving) {
+    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState,
+                           boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             TileEntity entity = worldIn.getTileEntity(pos);
             if (entity instanceof CoalGeneratorTileEntity) {
-                InventoryHelper.dropItems(worldIn, pos,
-                                          ((CoalGeneratorTileEntity) entity)
-                                                  .getItems());
+                InventoryHelper
+                        .dropItems(worldIn, pos, ((CoalGeneratorTileEntity) entity).getItems());
             }
         }
     }
 
     @Override
-    public void changeState(boolean b, BlockState state, World worldIn,
-                            BlockPos pos) {
+    public void changeState(boolean b, BlockState state, World worldIn, BlockPos pos) {
         this.setActive(b, state, worldIn, pos, this);
     }
 

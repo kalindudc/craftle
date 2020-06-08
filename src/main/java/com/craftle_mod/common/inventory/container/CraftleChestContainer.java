@@ -32,7 +32,7 @@ public class CraftleChestContainer extends Container {
                 IWorldPosCallable.of(entity.getWorld(), entity.getPos());
         this.numRows                 = 6;
         this.numCols                 = 9;
-
+        
         // Main Inventory
         int startX        = 8;
         int startY        = 18;

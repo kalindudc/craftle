@@ -17,11 +17,9 @@ public class ActiveBlockBase extends FacedBlockBase {
 
     public static final BooleanProperty LIT = RedstoneTorchBlock.LIT;
 
-    public ActiveBlockBase(IBlockResource resource, BlockType blockType,
-                           SoundType soundType) {
+    public ActiveBlockBase(IBlockResource resource, BlockType blockType, SoundType soundType) {
         super(resource, blockType, soundType);
-        this.setDefaultState(this.getStateContainer().getBaseState()
-                                 .with(FACING, Direction.NORTH)
+        this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, Direction.NORTH)
                                  .with(LIT, Boolean.valueOf(false)));
     }
 
@@ -31,26 +29,23 @@ public class ActiveBlockBase extends FacedBlockBase {
         builder.add(FACING, LIT);
     }
 
-    public void setActive(boolean b, BlockState state, World worldIn,
-                          BlockPos pos, ActiveBlockBase block) {
+    public void setActive(boolean b, BlockState state, World worldIn, BlockPos pos,
+                          ActiveBlockBase block) {
         if (!worldIn.isRemote) {
             TileEntity entity = worldIn.getTileEntity(pos);
             if (entity instanceof PoweredMachineTileEntity) {
 
                 Craftle.LOGGER.info("Adding updated block.");
                 this.setActive(b, state, worldIn, pos);
-                ((PoweredMachineTileEntity) entity).addBlock(block);
             }
         }
     }
 
-    private void setActive(boolean b, BlockState state, World worldIn,
-                           BlockPos pos) {
+    private void setActive(boolean b, BlockState state, World worldIn, BlockPos pos) {
         worldIn.setBlockState(pos, state.with(LIT, Boolean.valueOf(b)), 3);
     }
 
-    public void changeState(boolean b, BlockState state, World worldIn,
-                            BlockPos pos) {
+    public void changeState(boolean b, BlockState state, World worldIn, BlockPos pos) {
         this.setActive(b, state, worldIn, pos);
     }
 

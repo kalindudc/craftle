@@ -1,26 +1,28 @@
 package com.craftle_mod.common.capability.energy;
 
-import com.craftle_mod.common.Craftle;
+import com.craftle_mod.api.NBTConstants;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.energy.EnergyStorage;
 
 public class EnergyContainerCapability extends EnergyStorage {
 
+
     public EnergyContainerCapability(int capacity) {
         super(capacity, capacity, capacity, 0);
+
     }
 
     public EnergyContainerCapability(int capacity, int maxTransfer) {
         super(capacity, maxTransfer, maxTransfer, 0);
+
     }
 
-    public EnergyContainerCapability(int capacity, int maxReceive,
-                                     int maxExtract) {
+    public EnergyContainerCapability(int capacity, int maxReceive, int maxExtract) {
         super(capacity, maxReceive, maxExtract, 0);
+
     }
 
-    public EnergyContainerCapability(int capacity, int maxReceive,
-                                     int maxExtract, int energy) {
+    public EnergyContainerCapability(int capacity, int maxReceive, int maxExtract, int energy) {
         super(capacity, maxReceive, maxExtract, energy);
     }
 
@@ -58,38 +60,31 @@ public class EnergyContainerCapability extends EnergyStorage {
         this.energy = energy;
     }
 
-    public boolean incrementEnergy(int increment) {
-        this.energy += increment;
-        if (this.energy > this.capacity) {
-            this.energy = this.capacity;
-            return false;
-        }
-        return true;
-    }
-
     public void readFromNBT(CompoundNBT compound) {
 
-        int energy     = compound.getInt("Energy");
-        int capacity   = compound.getInt("Capacity");
-        int maxExtract = compound.getInt("MaxExtract");
-        int maxReceive = compound.getInt("MaxReceive");
+        int energy     = compound.getInt(NBTConstants.ENERGY_STORED);
+        int capacity   = compound.getInt(NBTConstants.ENERGY_CAPACITY);
+        int maxExtract = compound.getInt(NBTConstants.ENERGY_MAX_EXTRACT);
+        int maxReceive = compound.getInt(NBTConstants.ENERGY_MAX_RECEIVE);
 
         this.energy     = energy > 0 ? energy : this.energy;
         this.capacity   = capacity > 0 ? capacity : this.capacity;
         this.maxExtract = maxExtract > 0 ? maxExtract : this.maxExtract;
         this.maxReceive = maxReceive > 0 ? maxReceive : this.maxReceive;
-        
-        Craftle.LOGGER.info(String.format("CRAFTLE: Reading energy NBT."));
-        Craftle.LOGGER.info(String.format("CRAFTLE: Energy: %d.", this.energy));
-
     }
 
     public void writeToNBT(CompoundNBT compound) {
-        compound.putInt("Energy", this.energy);
-        compound.putInt("Capacity", this.capacity);
-        compound.putInt("MaxExtract", this.maxExtract);
-        compound.putInt("MaxReceive", this.maxReceive);
-        Craftle.LOGGER.info(String.format("CRAFTLE: writing energy NBT %d.",
-                                          compound.getInt("Energy")));
+        compound.putInt(NBTConstants.ENERGY_STORED, this.energy);
+        compound.putInt(NBTConstants.ENERGY_CAPACITY, this.capacity);
+        compound.putInt(NBTConstants.ENERGY_MAX_EXTRACT, this.maxExtract);
+        compound.putInt(NBTConstants.ENERGY_MAX_RECEIVE, this.maxReceive);
+    }
+
+    public int getMaxRecieve() {
+        return maxReceive;
+    }
+
+    public int getMaxExtract() {
+        return maxExtract;
     }
 }

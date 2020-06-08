@@ -34,7 +34,7 @@ public class CoalGeneratorContainer extends EnergyContainer {
     @Override
     public void initSlots() {
         // one slot
-        addContainerSlot(0, 56, 34);
+        addContainerSlot(0, 80, 20);
         //addContainerBlankSlot(0, 112, 12, 135 - 112, 73 - 12);
 
         // Main Player Inventory
