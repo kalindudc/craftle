@@ -16,6 +16,7 @@ TODO: Factorize the screen gui.
 @OnlyIn(Dist.CLIENT)
 public class CrusherScreen extends ContainerScreen<CrusherContainer> {
 
+    // TODO: make static, store in a config and load through the factory
     private ResourceLocation backgroundTexture =
             new ResourceLocation(Craftle.MODID,
                                  "textures/gui/crusher_basic" + ".png");
