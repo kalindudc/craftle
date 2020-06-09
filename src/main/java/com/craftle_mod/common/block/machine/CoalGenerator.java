@@ -48,7 +48,7 @@ public class CoalGenerator extends MachineBlock {
                                      pos);
                 Craftle.logInfo("Openning GUI %d",
                                 ((PoweredMachineTileEntity) entity).getEnergyContainer()
-                                                                   .getEnergyStored());
+                                                                   .getEnergy());
                 Craftle.logInfo("HASH: " + ((PoweredMachineTileEntity) entity).hashCode());
                 return ActionResultType.SUCCESS;
             }
@@ -77,5 +77,11 @@ public class CoalGenerator extends MachineBlock {
     @Override
     public boolean hasTileEntity(BlockState state) {
         return true;
+    }
+
+    @Override
+    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
+        // same as a minecraft furnace
+        return state.get(LIT) ? 13 : 0;
     }
 }

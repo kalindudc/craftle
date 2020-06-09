@@ -88,8 +88,8 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
 
         Craftle.logInfo("createMenu() %d %d %d", container.getEnergy(),
                         ((PoweredMachineTileEntity) container.getEntity()).getEnergyContainer()
-                                                                          .getEnergyStored(),
-                        this.getEnergyContainer().getEnergyStored());
+                                                                          .getEnergy(),
+                        this.getEnergyContainer().getEnergy());
 
         return container;
     }
@@ -161,14 +161,13 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
 
     @Override
     public void tick() {
-        if (this.getEnergyContainer().getEnergyStored() <
-            this.getEnergyContainer().getMaxEnergyStored()) {
+        if (this.getEnergyContainer().getEnergy() < this.getEnergyContainer().getCapacity()) {
 
             if (this.getBufferedEnergy() > 0) {
                 burnTime--;
                 if (burnTime % TileEntityConstants.COAL_GENERATOR_BURN_MULTIPLIER == 0) {
-                    int energyToIncrement = this.getEnergyReceive();
-                    this.getEnergyContainer().receiveEnergy(energyToIncrement, false);
+                    long energyToIncrement = this.getEnergyReceive();
+                    this.getEnergyContainer().receiveEnergy(energyToIncrement);
                     this.decrementBufferedEnergy(energyToIncrement);
 
                     if (this.getBufferedEnergy() < this.getEnergyReceive()) {
@@ -181,8 +180,6 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
                 }
             }
             else {
-
-                super.setBlockActive(false);
                 this.resetBufferedEnergy();
                 this.burnPercentage = 0;
                 this.burnTime       = 0;
@@ -206,6 +203,14 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
                         this.burnTime = 1;
                     }
                     this.getTileEntityItems().getStackInSlot(0).shrink(1);
+                }
+                else {
+                    this.resetBufferedEnergy();
+                    this.burnPercentage = 0;
+                    this.burnTime       = 0;
+                    this.totalBurnTime  = 0;
+                    if (active)
+                        super.setBlockActive(false);
                 }
 
             }

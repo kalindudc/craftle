@@ -1,5 +1,6 @@
 package com.craftle_mod.common.block.storage;
 
+import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.base.MachineBlock;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.resource.IBlockResource;
@@ -211,6 +212,9 @@ public class EnergyMatrix extends MachineBlock {
                                              BlockRayTraceResult hit) {
         if (!worldIn.isRemote) {
             TileEntity entity = worldIn.getTileEntity(pos);
+
+            Craftle.logInfo("Energy MATRIX: %b " + entity,
+                            entity instanceof EnergyMatrixTileEntity);
             if (entity instanceof EnergyMatrixTileEntity) {
                 NetworkHooks
                         .openGui((ServerPlayerEntity) player, (EnergyMatrixTileEntity) entity, pos);

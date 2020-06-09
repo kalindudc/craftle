@@ -1,6 +1,5 @@
 package com.craftle_mod.common.block.base;
 
-import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.resource.IBlockResource;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import net.minecraft.block.BlockState;
@@ -34,8 +33,6 @@ public class ActiveBlockBase extends FacedBlockBase {
         if (!worldIn.isRemote) {
             TileEntity entity = worldIn.getTileEntity(pos);
             if (entity instanceof PoweredMachineTileEntity) {
-
-                Craftle.LOGGER.info("Adding updated block.");
                 this.setActive(b, state, worldIn, pos);
             }
         }

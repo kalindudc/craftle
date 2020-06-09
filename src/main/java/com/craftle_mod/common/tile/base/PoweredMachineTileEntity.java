@@ -1,7 +1,6 @@
 package com.craftle_mod.common.tile.base;
 
 import com.craftle_mod.api.NBTConstants;
-import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.base.ActiveBlockBase;
 import com.craftle_mod.common.capability.energy.EnergyContainerCapability;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
@@ -38,42 +37,44 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
     private EnergyContainerCapability energyContainer;
 
     protected boolean active;
-    private   int     bufferedEnergy;
-    private   int     energyReceive;
-    private   int     energyExtract;
+    private   long    bufferedEnergy;
+    private   long    energyReceive;
+    private   long    energyExtract;
 
     public PoweredMachineTileEntity(TileEntityType<?> typeIn,
                                     IRecipeType<? extends IRecipe> recipeTypeIn, int containerSize,
                                     CraftleBaseTier tier) {
         super(typeIn, recipeTypeIn, containerSize, tier);
-        this.energyContainer = new EnergyContainerCapability(DEFAULT_POWER_CAPACITY);
+        this.energyContainer = new EnergyContainerCapability(DEFAULT_POWER_CAPACITY, tier);
         init();
     }
 
     public PoweredMachineTileEntity(TileEntityType<?> typeIn,
                                     IRecipeType<? extends IRecipe> recipeTypeIn, int containerSize,
-                                    CraftleBaseTier tier, int capacity) {
+                                    CraftleBaseTier tier, long capacity) {
         super(typeIn, recipeTypeIn, containerSize, tier);
-        this.energyContainer = new EnergyContainerCapability(capacity);
+        this.energyContainer = new EnergyContainerCapability(capacity, tier);
         init();
     }
 
     public PoweredMachineTileEntity(TileEntityType<?> typeIn,
                                     IRecipeType<? extends IRecipe> recipeTypeIn, int containerSize,
-                                    CraftleBaseTier tier, int capacity, int maxRecieve,
-                                    int maxExtract) {
-        super(typeIn, recipeTypeIn, containerSize, tier);
-        this.energyContainer = new EnergyContainerCapability(capacity, maxRecieve, maxExtract);
-        init();
-    }
-
-    public PoweredMachineTileEntity(TileEntityType<?> typeIn,
-                                    IRecipeType<? extends IRecipe> recipeTypeIn, int containerSize,
-                                    CraftleBaseTier tier, int capacity, int maxRecieve,
-                                    int maxExtract, int startingEnergy) {
+                                    CraftleBaseTier tier, long capacity, long maxRecieve,
+                                    long maxExtract) {
         super(typeIn, recipeTypeIn, containerSize, tier);
         this.energyContainer =
-                new EnergyContainerCapability(capacity, maxRecieve, maxExtract, startingEnergy);
+                new EnergyContainerCapability(capacity, maxRecieve, maxExtract, tier);
+        init();
+    }
+
+    public PoweredMachineTileEntity(TileEntityType<?> typeIn,
+                                    IRecipeType<? extends IRecipe> recipeTypeIn, int containerSize,
+                                    CraftleBaseTier tier, long capacity, long maxRecieve,
+                                    long maxExtract, long startingEnergy) {
+        super(typeIn, recipeTypeIn, containerSize, tier);
+        this.energyContainer =
+                new EnergyContainerCapability(capacity, maxRecieve, maxExtract, startingEnergy,
+                                              tier);
         init();
     }
 
@@ -90,11 +91,11 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
         this.bufferedEnergy += energy;
     }
 
-    public void decrementBufferedEnergy(int energy) {
+    public void decrementBufferedEnergy(long energy) {
         this.bufferedEnergy -= energy;
     }
 
-    public int getBufferedEnergy() {
+    public long getBufferedEnergy() {
         return bufferedEnergy;
     }
 
@@ -105,19 +106,19 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
         energyExtract  = 0;
     }
 
-    public int getEnergyReceive() {
+    public long getEnergyReceive() {
         return energyReceive;
     }
 
-    public void setEnergyReceive(int energyReceive) {
+    public void setEnergyReceive(long energyReceive) {
         this.energyReceive = energyReceive;
     }
 
-    public int getEnergyExtract() {
+    public long getEnergyExtract() {
         return energyExtract;
     }
 
-    public void setEnergyExtract(int energyExtract) {
+    public void setEnergyExtract(long energyExtract) {
         this.energyExtract = energyExtract;
     }
 
@@ -202,13 +203,11 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
 
         super.write(compound);
 
-        compound.putInt(NBTConstants.GENERATOR_BUFFERED_ENERGY, this.bufferedEnergy);
-        compound.putInt(NBTConstants.ENERGY_CURRENT_EXTRACT, this.energyExtract);
-        compound.putInt(NBTConstants.ENERGY_CURRENT_RECEIVE, this.energyReceive);
+        compound.putLong(NBTConstants.GENERATOR_BUFFERED_ENERGY, this.bufferedEnergy);
+        compound.putLong(NBTConstants.ENERGY_CURRENT_EXTRACT, this.energyExtract);
+        compound.putLong(NBTConstants.ENERGY_CURRENT_RECEIVE, this.energyReceive);
 
         this.getEnergyContainer().writeToNBT(compound);
-
-        Craftle.logInfo("%d %d %d", this.bufferedEnergy, this.energyExtract, this.energyReceive);
 
         return compound;
     }
@@ -219,14 +218,13 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
         super.read(compound);
         this.getEnergyContainer().readFromNBT(compound);
 
-        int bufferedEnergy = compound.getInt(NBTConstants.GENERATOR_BUFFERED_ENERGY);
-        int energyReceive  = compound.getInt(NBTConstants.ENERGY_CURRENT_RECEIVE);
-        int energyExtract  = compound.getInt(NBTConstants.ENERGY_CURRENT_EXTRACT);
+        long bufferedEnergy = compound.getLong(NBTConstants.GENERATOR_BUFFERED_ENERGY);
+        long energyReceive  = compound.getLong(NBTConstants.ENERGY_CURRENT_RECEIVE);
+        long energyExtract  = compound.getLong(NBTConstants.ENERGY_CURRENT_EXTRACT);
 
         this.bufferedEnergy = bufferedEnergy;
         this.energyReceive  = energyReceive;
         this.energyExtract  = energyExtract;
         this.active         = this.bufferedEnergy > 0;
-        Craftle.logInfo("%d %d %d", this.bufferedEnergy, this.energyExtract, this.energyReceive);
     }
 }

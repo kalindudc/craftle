@@ -80,7 +80,7 @@ public class CrusherTileEntity extends PoweredMachineTileEntity
                 break;
 
         }
-        super.resetConainerSize(chestSize);
+        super.resetContainerSize(chestSize);
     }
 
     @Nonnull

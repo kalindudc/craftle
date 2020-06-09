@@ -2,11 +2,14 @@ package com.craftle_mod.common.tile.storage.energy_matrix;
 
 import com.craftle_mod.api.TagConstants;
 import com.craftle_mod.common.inventory.container.storage.energy_matrix.EnergyMatrixContainerFactory;
+import com.craftle_mod.common.item.EnergyItem;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
+import com.craftle_mod.common.util.EnergyUtils;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.nbt.CompoundNBT;
@@ -27,11 +30,11 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
 
     public EnergyMatrixTileEntity(TileEntityType<?> typeIn,
                                   IRecipeType<? extends IRecipe> recipeTypeIn, int containerSize,
-                                  CraftleBaseTier tier, int capacity) {
+                                  CraftleBaseTier tier, long capacity) {
         super(typeIn, recipeTypeIn, containerSize, tier, capacity);
     }
 
-    public EnergyMatrixTileEntity(TileEntityType<?> typeIn, CraftleBaseTier tier, int capacity) {
+    public EnergyMatrixTileEntity(TileEntityType<?> typeIn, CraftleBaseTier tier, long capacity) {
         super(typeIn, CraftleRecipeType.CRAFTING, 2, tier, capacity);
     }
 
@@ -106,7 +109,80 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
 
     @Override
     public void tick() {
-        // complete tick
+
+        // check active status
+        if (!active) {
+            if (this.getEnergyContainer().getEnergy() > 0)
+                super.setBlockActive(true);
+        }
+
+        if (active) {
+            if (this.getEnergyContainer().getEnergy() == 0)
+                super.setBlockActive(false);
+        }
+
+        if (this.getEnergyContainer().getEnergy() < this.getEnergyContainer().getCapacity()) {
+
+            // TODO: all this logic can be handled in the energy container
+            // refactor later
+            if (this.getTileEntityItems() != null) {
+                // check for an item in inject
+                ItemStack injectStack = this.getTileEntityItems().getStackInSlot(0);
+                if (!injectStack.isEmpty() && isItemFuel(injectStack)) {
+
+                    long storedEnergy = getFuelValue(injectStack);
+                    if (storedEnergy < this.getEnergyContainer().getCapacity() && storedEnergy <
+                                                                                  (this.getEnergyContainer()
+                                                                                       .getCapacity() -
+                                                                                   this.getEnergyContainer()
+                                                                                       .getEnergy())) {
+                        long received  = this.getEnergyContainer().receiveEnergy(storedEnergy);
+                        long extracted = EnergyUtils.extractEnergyFromItem(injectStack, received);
+                    }
+                    else {
+                        long received = this.getEnergyContainer().receiveEnergy(
+                                this.getEnergyContainer().getCapacity() -
+                                this.getEnergyContainer().getEnergy());
+                        long extracted = EnergyUtils.extractEnergyFromItem(injectStack, received);
+                    }
+                }
+            }
+
+            // look for other blocks giving energy
+            
+        }
+
+        // check for an item in extract
+        ItemStack extractStack = this.getTileEntityItems().getStackInSlot(1);
+        if (validToReceive(extractStack) && this.getEnergyContainer().getEnergy() > 0) {
+
+            long toExtract = EnergyUtils.getEnergyRequiredForItem(extractStack);
+            if (toExtract < this.getEnergyContainer().getEnergy()) {
+                long received  = EnergyUtils.injectEnergyToItem(extractStack, toExtract);
+                long extracted = this.getEnergyContainer().extractEnergy(received);
+            }
+            else {
+                long received = EnergyUtils
+                        .injectEnergyToItem(extractStack, this.getEnergyContainer().getEnergy());
+                long extracted = this.getEnergyContainer().extractEnergy(received);
+            }
+        }
+    }
+
+    private long getFuelValue(ItemStack stack) {
+        if (stack.getItem() instanceof EnergyItem) {
+            return EnergyUtils.getEnergyStoredFromItem(stack);
+        }
+
+        return 0;
+    }
+
+    private boolean isItemFuel(ItemStack stackInSlot) {
+        return getFuelValue(stackInSlot) > 0;
+    }
+
+    private boolean validToReceive(ItemStack stack) {
+        return stack.getItem() instanceof EnergyItem;
     }
 
 }

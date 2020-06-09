@@ -19,19 +19,17 @@ public abstract class MachineTileEntity extends ContainerizedTileEntity
     private CraftleBaseTier tier;
 
     // using abstract furnace information
-    private final   Map<ResourceLocation, Integer> recipesUsed =
-            Maps.newHashMap();
+    private final   Map<ResourceLocation, Integer> recipesUsed = Maps.newHashMap();
     protected final IRecipeType<? extends IRecipe> recipeType;
 
-    public MachineTileEntity(TileEntityType<?> typeIn,
-                             IRecipeType<? extends IRecipe> recipeTypeIn,
+    public MachineTileEntity(TileEntityType<?> typeIn, IRecipeType<? extends IRecipe> recipeTypeIn,
                              int containerSize, CraftleBaseTier tier) {
-        super(typeIn, 1);
+        super(typeIn, containerSize);
         this.tier       = tier;
         this.recipeType = recipeTypeIn;
     }
 
-    public void resetConainerSize(int size) {
+    public void resetContainerSize(int size) {
         super.setContainerSize(size);
     }
 

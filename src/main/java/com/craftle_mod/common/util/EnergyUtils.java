@@ -1,5 +1,13 @@
 package com.craftle_mod.common.util;
 
+import com.craftle_mod.api.UnitConstants;
+import com.craftle_mod.common.capability.energy.EnergyContainerCapability;
+import com.craftle_mod.common.tier.CraftleBaseTier;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
+
 public abstract class EnergyUtils {
 
     public static float joulesToKiloJoules(float energy) {
@@ -120,6 +128,161 @@ public abstract class EnergyUtils {
 
     public static float kiloJoulesToJoules(float energy) {
         return energy * 1000f;
+    }
+
+    public static long extractEnergyFromItem(ItemStack stack, long energy) {
+
+        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
+
+        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+
+            EnergyContainerCapability container = (EnergyContainerCapability) items.orElse(null);
+
+            if (container != null && container.getEnergy() > 0) {
+                return container.extractEnergy(energy);
+            }
+        }
+
+        return 0;
+    }
+
+    public static long injectEnergyToItem(ItemStack stack, long energy) {
+
+        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
+
+        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+
+            EnergyContainerCapability container = (EnergyContainerCapability) items.orElse(null);
+
+            if (container != null)
+                return container.receiveEnergy(energy);
+        }
+
+        return 0;
+    }
+
+    public static long getEnergyRequiredForItem(ItemStack stack) {
+
+        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
+
+        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+
+            EnergyContainerCapability container = (EnergyContainerCapability) items.orElse(null);
+
+            if (container != null)
+                return container.getCapacity() - container.getEnergy();
+        }
+
+        return 0;
+    }
+
+    public static long getEnergyStoredFromItem(ItemStack stack) {
+
+        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
+
+        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+
+            EnergyContainerCapability container = (EnergyContainerCapability) items.orElse(null);
+
+            if (container != null)
+                return container.getEnergy();
+        }
+
+        return 0;
+    }
+
+    public static long getEnergyCapacityFromItem(ItemStack stack) {
+
+        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
+
+        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+
+            EnergyContainerCapability container = (EnergyContainerCapability) items.orElse(null);
+
+            if (container != null)
+                return container.getCapacity();
+        }
+
+        return 0;
+    }
+
+    public static double getEnergyPercentageFromItem(ItemStack stack) {
+
+        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
+
+        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+
+            EnergyContainerCapability container = (EnergyContainerCapability) items.orElse(null);
+
+            if (container != null)
+                return ((double) container.getEnergy()) / ((double) container.getCapacity());
+        }
+
+        return 0.0D;
+    }
+
+    public static String getUnitForTierItem(CraftleBaseTier tier) {
+
+        switch (tier) {
+            case UNLIMITED:
+            case TIER_4:
+            case TIER_3:
+                return UnitConstants.GIGAJOULES;
+            case TIER_2:
+            case TIER_1:
+                return UnitConstants.MEGAJOULES;
+            case BASIC:
+            default:
+                return UnitConstants.KILOJOULES;
+        }
+    }
+
+    public static String getUnitForTierBlock(CraftleBaseTier tier) {
+
+        switch (tier) {
+            case UNLIMITED:
+            case TIER_4:
+                return UnitConstants.TERAJOULES;
+            case TIER_3:
+            case TIER_2:
+                return UnitConstants.GIGAJOULES;
+            case TIER_1:
+            case BASIC:
+            default:
+                return UnitConstants.MEGAJOULES;
+        }
+    }
+
+    public static float getJoulesForTierItem(CraftleBaseTier tier, long energy) {
+
+        switch (tier) {
+            case UNLIMITED:
+            case TIER_4:
+            case TIER_3:
+                return joulesToGigaJoules(energy);
+            case TIER_2:
+            case TIER_1:
+                return joulesToMegaJoules(energy);
+            case BASIC:
+            default:
+                return joulesToKiloJoules(energy);
+        }
+    }
+
+    public static float getJoulesForTierBlock(CraftleBaseTier tier, long energy) {
+
+        switch (tier) {
+            case UNLIMITED:
+            case TIER_4:
+                return joulesToTeraJoules(energy);
+            case TIER_3:
+            case TIER_2:
+                return joulesToGigaJoules(energy);
+            case TIER_1:
+            case BASIC:
+            default:
+                return joulesToMegaJoules(energy);
+        }
     }
 
 }

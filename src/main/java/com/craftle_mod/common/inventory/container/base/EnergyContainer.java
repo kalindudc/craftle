@@ -9,14 +9,13 @@ import net.minecraft.network.PacketBuffer;
 public abstract class EnergyContainer extends CraftleContainer {
 
 
-    private int energy;
+    private long energy;
 
     public EnergyContainer(ContainerType<?> container, int windowId,
-                           PlayerInventory playerInventory,
-                           PoweredMachineTileEntity entity) {
+                           PlayerInventory playerInventory, PoweredMachineTileEntity entity) {
         super(container, windowId, playerInventory, entity);
 
-        this.energy = entity.getEnergyContainer().getEnergyStored();
+        this.energy = entity.getEnergyContainer().getEnergy();
     }
 
     public EnergyContainer(ContainerType<?> container, int windowId,
@@ -26,9 +25,7 @@ public abstract class EnergyContainer extends CraftleContainer {
         if (!(getEntity() instanceof PoweredMachineTileEntity))
             throw new IllegalStateException("Tile entity is not correct. ");
 
-        this.energy =
-                ((PoweredMachineTileEntity) getEntity()).getEnergyContainer()
-                                                        .getEnergyStored();
+        this.energy = ((PoweredMachineTileEntity) getEntity()).getEnergyContainer().getEnergy();
     }
 
     @Override
@@ -37,23 +34,22 @@ public abstract class EnergyContainer extends CraftleContainer {
 
         if (this.getEntity() instanceof PoweredMachineTileEntity) {
 
-            int energy = ((PoweredMachineTileEntity) this.getEntity())
-                    .getEnergyContainer().getEnergyStored();
+            long energy =
+                    ((PoweredMachineTileEntity) this.getEntity()).getEnergyContainer().getEnergy();
 
             if (this.energy != energy) {
                 this.energy = energy;
 
-                Craftle.logInfo("HASH: " +
-                                ((PoweredMachineTileEntity) this.getEntity())
-                                        .hashCode() + " %d %d", energy,
-                                ((PoweredMachineTileEntity) this.getEntity())
-                                        .getEnergyContainer()
-                                        .getEnergyStored());
+                Craftle.logInfo(
+                        "HASH: " + ((PoweredMachineTileEntity) this.getEntity()).hashCode() +
+                        " %d %d", energy,
+                        ((PoweredMachineTileEntity) this.getEntity()).getEnergyContainer()
+                                                                     .getEnergy());
             }
         }
     }
 
-    public int getEnergy() {
+    public long getEnergy() {
         return energy;
     }
 }

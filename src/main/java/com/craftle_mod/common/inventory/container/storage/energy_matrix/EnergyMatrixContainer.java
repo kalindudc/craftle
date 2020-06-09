@@ -25,7 +25,7 @@ public class EnergyMatrixContainer extends EnergyContainer {
     public void initSlots() {
         // twi slots
         addContainerSlot(0, 114, 23);
-        addContainerSlot(0, 114, 58);
+        addContainerSlot(1, 114, 58);
         //addContainerBlankSlot(0, 112, 12, 135 - 112, 73 - 12);
 
         // Main Player Inventory

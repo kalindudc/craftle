@@ -41,26 +41,31 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
         int offsetX = (this.width - this.xSize) / 2;
         int offsetY = (this.height - this.ySize) / 2;
 
-        int energy = this.entity.getEnergyContainer().getEnergyStored();
+        String units = EnergyUtils.getUnitForTierBlock(this.entity.getCraftleMachineTier());
 
-        float input  = EnergyUtils.joulesToKiloJoules(this.entity.getEnergyReceive());
-        float output = EnergyUtils.joulesToKiloJoules(this.entity.getEnergyExtract());
+        float energy = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
+                                                         this.entity.getEnergyContainer()
+                                                                    .getEnergy());
+        float capacity = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
+                                                           this.entity.getEnergyContainer()
+                                                                      .getCapacity());
 
+        float input = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
+                                                        this.entity.getEnergyReceive());
+        float output = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
+                                                         this.entity.getEnergyExtract());
 
         this.font.drawString("Max: ", 10.0f, 26.0f, 13816530);
-        this.font.drawString(String.format("%.02f mJ", EnergyUtils
-                                     .joulesToMegaJoules(this.entity.getEnergyContainer().getMaxEnergyStored())), 32.0f,
-                             26.0f, 13816530);
+        this.font.drawString(String.format("%.02f %s", capacity, units), 32.0f, 26.0f, 13816530);
 
         this.font.drawString("Energy: ", 10.0f, 39.0f, 6805014);
-        this.font.drawString(String.format("%.02f kJ", EnergyUtils.joulesToKiloJoules(energy)),
-                             51.0f, 39.0f, 6805014);
+        this.font.drawString(String.format("%.02f %s", energy, units), 51.0f, 39.0f, 6805014);
 
         this.font.drawString("In: ", 10.0f, 52.0f, 6805014);
-        this.font.drawString(String.format("%.02f kJ/t", (input)), 24.0f, 52.0f, 6805014);
+        this.font.drawString(String.format("%.02f %s/t", (input), units), 24.0f, 52.0f, 6805014);
 
         this.font.drawString("Out: ", 10.0f, 64.0f, 14823215);
-        this.font.drawString(String.format("%.02f kJ/t", (output)), 30.0f, 64.0f, 14823215);
+        this.font.drawString(String.format("%.02f %s/t", (output), units), 30.0f, 64.0f, 14823215);
     }
 
 
@@ -75,14 +80,14 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
         this.minecraft.getTextureManager().bindTexture(GUIConstants.ENERGY_MATRIX);
         int x = (this.width - this.xSize) / 2;
         int y = (this.height - this.ySize) / 2;
-        
+
         // Screen #blit draws a part of the current texture
         // The parameters are (x, y, u, v, width, height)
         this.blit(x, y, 0, 0, this.xSize, this.ySize);
 
         // draw the animations and other things
-        int   energy        = this.entity.getEnergyContainer().getEnergyStored();
-        int   maxEnergy     = this.entity.getEnergyContainer().getMaxEnergyStored();
+        long  energy        = this.entity.getEnergyContainer().getEnergy();
+        long  maxEnergy     = this.entity.getEnergyContainer().getCapacity();
         float energyPercent = ((float) energy) / ((float) maxEnergy);
 
         int textureX;
