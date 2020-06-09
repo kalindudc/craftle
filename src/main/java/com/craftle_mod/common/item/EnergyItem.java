@@ -1,5 +1,6 @@
 package com.craftle_mod.common.item;
 
+import com.craftle_mod.api.ItemConstants;
 import com.craftle_mod.client.util.handler.CraftleKeyHandler;
 import com.craftle_mod.common.item.base.CraftleItem;
 import com.craftle_mod.common.item.base.EnergyProvider;
@@ -26,8 +27,6 @@ import java.util.List;
 
 public class EnergyItem extends CraftleItem {
 
-    private final static int BASE_CAPACITY = 4600;
-
     private int             input;
     private int             output;
     private int             maxCapacity;
@@ -38,7 +37,7 @@ public class EnergyItem extends CraftleItem {
         super(registryName + "_" + tierConfig.getTier(), new Item.Properties().maxStackSize(1),
               tab);
 
-        this.maxCapacity = (int) (BASE_CAPACITY * tierConfig.getMultiplier());
+        this.maxCapacity = (int) (ItemConstants.BASE_ENERGY_CAPACITY * tierConfig.getMultiplier());
         this.input       = 0;
         this.output      = 0;
         this.tier        = tierConfig;
@@ -88,8 +87,8 @@ public class EnergyItem extends CraftleItem {
                                @Nonnull ITooltipFlag flagIn) {
         if (CraftleKeyHandler.isHoldingShift()) {
 
-            long energy   = EnergyUtils.getEnergyStoredFromItem(stack);
-            long capacity = EnergyUtils.getEnergyCapacityFromItem(stack);
+            int energy   = EnergyUtils.getEnergyStoredFromItem(stack);
+            int capacity = EnergyUtils.getEnergyCapacityFromItem(stack);
 
             tooltip.add(new StringTextComponent(String.format("Capacity: %.02f %s", EnergyUtils
                     .getJoulesForTierItem(tier, capacity), EnergyUtils.getUnitForTierItem(tier))));

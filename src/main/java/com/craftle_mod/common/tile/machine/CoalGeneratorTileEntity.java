@@ -3,7 +3,6 @@ package com.craftle_mod.common.tile.machine;
 import com.craftle_mod.api.NBTConstants;
 import com.craftle_mod.api.TagConstants;
 import com.craftle_mod.api.TileEntityConstants;
-import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.inventory.container.machine.coal_generator.CoalGeneratorContainer;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.registries.CraftleContainerTypes;
@@ -32,7 +31,6 @@ import javax.annotation.Nullable;
 
 public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
 
-    private int burnPercentage;
     private int burnTime;
     private int totalBurnTime;
 
@@ -41,9 +39,8 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
                                    CraftleBaseTier tier, int capacity, int maxReceive,
                                    int maxExtract) {
         super(typeIn, recipeTypeIn, 1, tier, capacity, maxReceive, maxExtract);
-        this.burnPercentage = 0;
-        this.burnTime       = 0;
-        this.totalBurnTime  = 0;
+        this.burnTime      = 0;
+        this.totalBurnTime = 0;
     }
 
     public CoalGeneratorTileEntity(TileEntityType<?> typeIn,
@@ -54,9 +51,8 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
               (int) (TileEntityConstants.COAL_GENERATOR_BASE_MAX_INPUT * tier.getMultiplier()),
               (int) (TileEntityConstants.COAL_GENERATOR_BASE_MAX_OUTPUT * tier.getMultiplier()) *
               2);
-        this.burnPercentage = 0;
-        this.burnTime       = 0;
-        this.totalBurnTime  = 0;
+        this.burnTime      = 0;
+        this.totalBurnTime = 0;
     }
 
     public CoalGeneratorTileEntity() {
@@ -85,13 +81,15 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
         CoalGeneratorContainer container =
                 new CoalGeneratorContainer(CraftleContainerTypes.COAL_GENERATOR.get(), id, player,
                                            this);
-
-        Craftle.logInfo("createMenu() %d %d %d", container.getEnergy(),
-                        ((PoweredMachineTileEntity) container.getEntity()).getEnergyContainer()
-                                                                          .getEnergy(),
-                        this.getEnergyContainer().getEnergy());
-
         return container;
+    }
+
+    public int getBurnTime() {
+        return burnTime;
+    }
+
+    public int getTotalBurnTime() {
+        return totalBurnTime;
     }
 
     @Nullable
@@ -119,10 +117,8 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
         int burnTime      = compound.getInt(NBTConstants.GENERATOR_CURRENT_BURN_TIME);
         int totalBurnTime = compound.getInt(NBTConstants.GENERATOR_TOTAL_BURN_TIME);
 
-        this.burnPercentage =
-                (int) ((((float) totalBurnTime - (float) burnTime) / (float) totalBurnTime) * 100f);
-        this.burnTime       = burnTime;
-        this.totalBurnTime  = totalBurnTime;
+        this.burnTime      = burnTime;
+        this.totalBurnTime = totalBurnTime;
     }
 
     @Nullable
@@ -152,38 +148,31 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
     }
 
     public int getBurnPercentage() {
-        return burnPercentage;
-    }
-
-    public void setBurnPercentage(int burnPercentage) {
-        this.burnPercentage = burnPercentage;
+        return 100 - (int) ((((float) this.burnTime) / ((float) this.totalBurnTime)) * 100);
     }
 
     @Override
     public void tick() {
-        if (this.getEnergyContainer().getEnergy() < this.getEnergyContainer().getCapacity()) {
+        if (this.getEnergyContainer().getEnergyStored() <
+            this.getEnergyContainer().getMaxEnergyStored()) {
 
             if (this.getBufferedEnergy() > 0) {
                 burnTime--;
                 if (burnTime % TileEntityConstants.COAL_GENERATOR_BURN_MULTIPLIER == 0) {
-                    long energyToIncrement = this.getEnergyReceive();
+                    int energyToIncrement = this.getEnergyReceive();
                     this.getEnergyContainer().receiveEnergy(energyToIncrement);
                     this.decrementBufferedEnergy(energyToIncrement);
 
                     if (this.getBufferedEnergy() < this.getEnergyReceive()) {
                         this.setEnergyReceive(this.getBufferedEnergy());
                     }
-                    this.burnPercentage = (int) Math
-                            .ceil(((float) (totalBurnTime - burnTime) / (float) totalBurnTime) *
-                                  100f);
                     super.setBlockActive(true);
                 }
             }
             else {
                 this.resetBufferedEnergy();
-                this.burnPercentage = 0;
-                this.burnTime       = 0;
-                this.totalBurnTime  = 0;
+                this.burnTime      = 0;
+                this.totalBurnTime = 0;
 
                 if (this.getTileEntityItems() != null &&
                     !this.getTileEntityItems().getStackInSlot(0).isEmpty() &&
@@ -191,10 +180,10 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
 
                     int energyToBuffer = getFuelValue(this.getTileEntityItems().getStackInSlot(0));
                     this.addToBufferedEnergy(energyToBuffer);
-                    if (energyToBuffer > this.getEnergyContainer().getMaxRecieve()) {
-                        this.setEnergyReceive(this.getEnergyContainer().getMaxRecieve());
+                    if (energyToBuffer > this.getEnergyContainer().getMaxReceive()) {
+                        this.setEnergyReceive(this.getEnergyContainer().getMaxReceive());
                         this.burnTime      = (int) Math
-                                .ceil(energyToBuffer / this.getEnergyContainer().getMaxRecieve()) *
+                                .ceil(energyToBuffer / this.getEnergyContainer().getMaxReceive()) *
                                              TileEntityConstants.COAL_GENERATOR_BURN_MULTIPLIER;
                         this.totalBurnTime = this.burnTime;
                     }
@@ -206,9 +195,8 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
                 }
                 else {
                     this.resetBufferedEnergy();
-                    this.burnPercentage = 0;
-                    this.burnTime       = 0;
-                    this.totalBurnTime  = 0;
+                    this.burnTime      = 0;
+                    this.totalBurnTime = 0;
                     if (active)
                         super.setBlockActive(false);
                 }
@@ -218,9 +206,8 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
         else {
             super.setBlockActive(false);
             this.resetBufferedEnergy();
-            this.burnPercentage = 0;
-            this.burnTime       = 0;
-            this.totalBurnTime  = 0;
+            this.burnTime      = 0;
+            this.totalBurnTime = 0;
         }
     }
 
@@ -228,11 +215,11 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
 
         if (Items.COAL.equals(stackInSlot.getItem()) ||
             Items.CHARCOAL.equals(stackInSlot.getItem())) {
-            return 1000;
+            return TileEntityConstants.COAL_FUEL_VALUE;
         }
 
         if (Items.COAL_BLOCK.equals(stackInSlot.getItem())) {
-            return (int) (1000 * 9 * 1.25);
+            return TileEntityConstants.COAL_BLOCK_FUEL_VALUE;
         }
 
         return 0;

@@ -1,11 +1,9 @@
 package com.craftle_mod.common.block.machine;
 
-import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.base.MachineBlock;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.resource.IBlockResource;
 import com.craftle_mod.common.tier.CraftleBaseTier;
-import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import com.craftle_mod.common.tile.machine.CoalGeneratorTileEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -46,10 +44,6 @@ public class CoalGenerator extends MachineBlock {
             if (entity instanceof CoalGeneratorTileEntity) {
                 NetworkHooks.openGui((ServerPlayerEntity) player, (CoalGeneratorTileEntity) entity,
                                      pos);
-                Craftle.logInfo("Openning GUI %d",
-                                ((PoweredMachineTileEntity) entity).getEnergyContainer()
-                                                                   .getEnergy());
-                Craftle.logInfo("HASH: " + ((PoweredMachineTileEntity) entity).hashCode());
                 return ActionResultType.SUCCESS;
             }
         }

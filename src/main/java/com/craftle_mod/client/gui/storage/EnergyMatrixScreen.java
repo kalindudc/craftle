@@ -45,10 +45,10 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
 
         float energy = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
                                                          this.entity.getEnergyContainer()
-                                                                    .getEnergy());
+                                                                    .getEnergyStored());
         float capacity = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
                                                            this.entity.getEnergyContainer()
-                                                                      .getCapacity());
+                                                                      .getMaxEnergyStored());
 
         float input = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
                                                         this.entity.getEnergyReceive());
@@ -86,8 +86,8 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
         this.blit(x, y, 0, 0, this.xSize, this.ySize);
 
         // draw the animations and other things
-        long  energy        = this.entity.getEnergyContainer().getEnergy();
-        long  maxEnergy     = this.entity.getEnergyContainer().getCapacity();
+        long  energy        = this.entity.getEnergyContainer().getEnergyStored();
+        long  maxEnergy     = this.entity.getEnergyContainer().getMaxEnergyStored();
         float energyPercent = ((float) energy) / ((float) maxEnergy);
 
         int textureX;

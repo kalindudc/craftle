@@ -47,10 +47,10 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
 
         float energy = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
                                                         this.entity.getEnergyContainer()
-                                                                   .getEnergy());
+                                                                   .getEnergyStored());
         float capacity = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
                                                           this.entity.getEnergyContainer()
-                                                                     .getCapacity());
+                                                                     .getMaxEnergyStored());
 
         //        if (getBounds(mouseX, mouseY, 112 + offsetX, 12 + offsetY, 135 + offsetX, 73 +
         //        offsetY)) {
@@ -77,10 +77,10 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         this.font.drawString(String.format("%.02f kJ %s", energy, unit), 51.0f, 48.0f, 6805014);
 
         this.font.drawString("In: ", 10.0f, 63.0f, 6805014);
-        this.font.drawString(String.format("%.02f %s/t", (input), unit), 24.0f, 63.0f, 6805014);
+        this.font.drawString(String.format("%.02f %s", (input), unit), 24.0f, 63.0f, 6805014);
 
         this.font.drawString("Out: ", 74.0f, 63.0f, 14823215);
-        this.font.drawString(String.format("%.02f %s/t", (output), unit), 93.0f, 63.0f, 14823215);
+        this.font.drawString(String.format("%.02f %s", (output), unit), 93.0f, 63.0f, 14823215);
     }
 
 
@@ -101,8 +101,8 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         this.blit(x, y, 0, 0, this.xSize, this.ySize);
 
         // draw the animations and other things
-        long energy    = this.entity.getEnergyContainer().getEnergy();
-        long maxEnergy = this.entity.getEnergyContainer().getCapacity();
+        long energy    = this.entity.getEnergyContainer().getEnergyStored();
+        long maxEnergy = this.entity.getEnergyContainer().getMaxEnergyStored();
 
         float burnPercent   = this.entity.getBurnPercentage();
         float energyPercent = ((float) energy) / ((float) maxEnergy);

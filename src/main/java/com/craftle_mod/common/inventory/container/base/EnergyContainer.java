@@ -1,6 +1,5 @@
 package com.craftle_mod.common.inventory.container.base;
 
-import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ContainerType;
@@ -15,7 +14,7 @@ public abstract class EnergyContainer extends CraftleContainer {
                            PlayerInventory playerInventory, PoweredMachineTileEntity entity) {
         super(container, windowId, playerInventory, entity);
 
-        this.energy = entity.getEnergyContainer().getEnergy();
+        this.energy = entity.getEnergyContainer().getEnergyStored();
     }
 
     public EnergyContainer(ContainerType<?> container, int windowId,
@@ -25,7 +24,8 @@ public abstract class EnergyContainer extends CraftleContainer {
         if (!(getEntity() instanceof PoweredMachineTileEntity))
             throw new IllegalStateException("Tile entity is not correct. ");
 
-        this.energy = ((PoweredMachineTileEntity) getEntity()).getEnergyContainer().getEnergy();
+        this.energy =
+                ((PoweredMachineTileEntity) getEntity()).getEnergyContainer().getEnergyStored();
     }
 
     @Override
@@ -34,17 +34,11 @@ public abstract class EnergyContainer extends CraftleContainer {
 
         if (this.getEntity() instanceof PoweredMachineTileEntity) {
 
-            long energy =
-                    ((PoweredMachineTileEntity) this.getEntity()).getEnergyContainer().getEnergy();
+            long energy = ((PoweredMachineTileEntity) this.getEntity()).getEnergyContainer()
+                                                                       .getEnergyStored();
 
             if (this.energy != energy) {
                 this.energy = energy;
-
-                Craftle.logInfo(
-                        "HASH: " + ((PoweredMachineTileEntity) this.getEntity()).hashCode() +
-                        " %d %d", energy,
-                        ((PoweredMachineTileEntity) this.getEntity()).getEnergyContainer()
-                                                                     .getEnergy());
             }
         }
     }

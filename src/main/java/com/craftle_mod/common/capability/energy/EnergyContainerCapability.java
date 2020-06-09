@@ -3,49 +3,40 @@ package com.craftle_mod.common.capability.energy;
 import com.craftle_mod.api.NBTConstants;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraftforge.energy.EnergyStorage;
 
-public class EnergyContainerCapability extends CraftleEnergyStorage {
+public class EnergyContainerCapability extends EnergyStorage {
 
     CraftleBaseTier tier;
 
-    public EnergyContainerCapability(long capacity, CraftleBaseTier tier) {
+    public EnergyContainerCapability(int capacity, CraftleBaseTier tier) {
         super(capacity, capacity, capacity, 0);
         this.tier = tier;
     }
 
-    public EnergyContainerCapability(long capacity, long maxTransfer, CraftleBaseTier tier) {
+    public EnergyContainerCapability(int capacity, int maxTransfer, CraftleBaseTier tier) {
         super(capacity, maxTransfer, maxTransfer, 0);
         this.tier = tier;
     }
 
-    public EnergyContainerCapability(long capacity, long maxReceive, long maxExtract,
+    public EnergyContainerCapability(int capacity, int maxReceive, int maxExtract,
                                      CraftleBaseTier tier) {
         super(capacity, maxReceive, maxExtract, 0);
         this.tier = tier;
     }
 
-    public EnergyContainerCapability(long capacity, long maxReceive, long maxExtract, long energy,
+    public EnergyContainerCapability(int capacity, int maxReceive, int maxExtract, int energy,
                                      CraftleBaseTier tier) {
         super(capacity, maxReceive, maxExtract, energy);
         this.tier = tier;
     }
 
-    public long receiveEnergy(long maxReceive) {
-        return super.injectEnergy(maxReceive, tier.equals(CraftleBaseTier.UNLIMITED));
+    public int receiveEnergy(int maxReceive) {
+        return super.receiveEnergy(maxReceive, tier.equals(CraftleBaseTier.UNLIMITED));
     }
 
-    public long extractEnergy(long maxExtract) {
-        return super.drainEnergy(maxExtract, tier.equals(CraftleBaseTier.UNLIMITED));
-    }
-
-    @Override
-    public long getEnergy() {
-        return super.getEnergy();
-    }
-
-    @Override
-    public long getCapacity() {
-        return super.getCapacity();
+    public int extractEnergy(int maxExtract) {
+        return super.extractEnergy(maxExtract, tier.equals(CraftleBaseTier.UNLIMITED));
     }
 
     @Override
@@ -64,10 +55,10 @@ public class EnergyContainerCapability extends CraftleEnergyStorage {
 
     public void readFromNBT(CompoundNBT compound) {
 
-        long energy     = compound.getLong(NBTConstants.ENERGY_STORED);
-        long capacity   = compound.getLong(NBTConstants.ENERGY_CAPACITY);
-        long maxExtract = compound.getLong(NBTConstants.ENERGY_MAX_EXTRACT);
-        long maxReceive = compound.getLong(NBTConstants.ENERGY_MAX_RECEIVE);
+        int energy     = compound.getInt(NBTConstants.ENERGY_STORED);
+        int capacity   = compound.getInt(NBTConstants.ENERGY_CAPACITY);
+        int maxExtract = compound.getInt(NBTConstants.ENERGY_MAX_EXTRACT);
+        int maxReceive = compound.getInt(NBTConstants.ENERGY_MAX_RECEIVE);
 
         this.energy     = energy > 0 ? energy : this.energy;
         this.capacity   = capacity > 0 ? capacity : this.capacity;
@@ -76,17 +67,17 @@ public class EnergyContainerCapability extends CraftleEnergyStorage {
     }
 
     public void writeToNBT(CompoundNBT compound) {
-        compound.putLong(NBTConstants.ENERGY_STORED, this.energy);
-        compound.putLong(NBTConstants.ENERGY_CAPACITY, this.capacity);
-        compound.putLong(NBTConstants.ENERGY_MAX_EXTRACT, this.maxExtract);
-        compound.putLong(NBTConstants.ENERGY_MAX_RECEIVE, this.maxReceive);
+        compound.putInt(NBTConstants.ENERGY_STORED, this.energy);
+        compound.putInt(NBTConstants.ENERGY_CAPACITY, this.capacity);
+        compound.putInt(NBTConstants.ENERGY_MAX_EXTRACT, this.maxExtract);
+        compound.putInt(NBTConstants.ENERGY_MAX_RECEIVE, this.maxReceive);
     }
 
-    public long getMaxRecieve() {
+    public int getMaxReceive() {
         return maxReceive;
     }
 
-    public long getMaxExtract() {
+    public int getMaxExtract() {
         return maxExtract;
     }
 }
