@@ -83,6 +83,7 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
 
     }
 
+    @Nonnull
     @Override
     public CompoundNBT getUpdateTag() {
         CompoundNBT nbt = super.getUpdateTag();
@@ -121,14 +122,12 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
     public void tick() {
 
         // check active status
-        if (!active) {
-            if (this.getEnergyContainer().getEnergyStored() > 0)
-                super.setBlockActive(true);
+        if (this.getEnergyContainer().getEnergyStored() > 0) {
+            super.setBlockActive(true);
         }
 
-        if (active) {
-            if (this.getEnergyContainer().getEnergyStored() == 0)
-                super.setBlockActive(false);
+        if (this.getEnergyContainer().getEnergyStored() == 0) {
+            super.setBlockActive(false);
         }
 
         if (this.getEnergyContainer().getEnergyStored() <
@@ -211,8 +210,7 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
 
     public List<ICapabilityProvider> getNeighborsWithEnergy() {
         List<ICapabilityProvider> energyProvidingBlocks = new ArrayList<>();
-        Point3D                   currentPos            =
-                new Point3D(this.pos.getX(), this.pos.getY(), this.pos.getZ());
+        Point3D currentPos = new Point3D(this.pos.getX(), this.pos.getY(), this.pos.getZ());
 
         for (int i = -1; i < 2; i++) {
 
@@ -242,7 +240,8 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
         if (!new Point3D(x, y, z).equals(currentPos)) {
             TileEntity entity = this.world.getTileEntity(new BlockPos(x, y, z));
 
-            if (entity instanceof ICapabilityProvider) {
+            if (entity instanceof ICapabilityProvider &&
+                !(entity instanceof EnergyMatrixTileEntity)) {
                 return entity;
             }
         }

@@ -1,7 +1,7 @@
 package com.craftle_mod.client.gui.machine;
 
 import com.craftle_mod.api.GUIConstants;
-import com.craftle_mod.common.inventory.container.machine.coal_generator.CoalGeneratorContainer;
+import com.craftle_mod.common.inventory.container.machine.CoalGeneratorContainer;
 import com.craftle_mod.common.tile.machine.CoalGeneratorTileEntity;
 import com.craftle_mod.common.util.EnergyUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -74,7 +74,7 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         }
 
         this.font.drawString("Energy: ", 10.0f, 48.0f, 6805014);
-        this.font.drawString(String.format("%.02f kJ %s", energy, unit), 51.0f, 48.0f, 6805014);
+        this.font.drawString(String.format("%.02f %s", energy, unit), 51.0f, 48.0f, 6805014);
 
         this.font.drawString("In: ", 10.0f, 63.0f, 6805014);
         this.font.drawString(String.format("%.02f %s", (input), unit), 24.0f, 63.0f, 6805014);

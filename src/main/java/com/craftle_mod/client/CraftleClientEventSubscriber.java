@@ -2,6 +2,7 @@ package com.craftle_mod.client;
 
 import com.craftle_mod.client.gui.CraftleChestScreen;
 import com.craftle_mod.client.gui.machine.CoalGeneratorScreen;
+import com.craftle_mod.client.gui.machine.WorkBenchScreen;
 import com.craftle_mod.client.gui.machine.crusher.CrusherScreenFactory;
 import com.craftle_mod.client.gui.storage.EnergyMatrixScreen;
 import com.craftle_mod.common.Craftle;
@@ -36,6 +37,8 @@ public class CraftleClientEventSubscriber {
 
         ScreenManager.registerFactory(CraftleContainerTypes.COAL_GENERATOR.get(),
                                       CoalGeneratorScreen::new);
+
+        ScreenManager.registerFactory(CraftleContainerTypes.WORKBENCH.get(), WorkBenchScreen::new);
 
         ScreenManager.registerFactory(CraftleContainerTypes.ENERGY_MATRIX_BASIC.get(),
                                       EnergyMatrixScreen::new);

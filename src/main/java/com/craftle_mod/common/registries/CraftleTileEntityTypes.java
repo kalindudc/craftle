@@ -5,6 +5,7 @@ import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.TileEntityQuarry;
 import com.craftle_mod.common.tile.TileEntityTestChest;
 import com.craftle_mod.common.tile.machine.CoalGeneratorTileEntity;
+import com.craftle_mod.common.tile.machine.WorkBenchTileEntity;
 import com.craftle_mod.common.tile.machine.crusher.CrusherTileEntity;
 import com.craftle_mod.common.tile.machine.crusher.CrusherTileEntityFactory;
 import com.craftle_mod.common.tile.storage.energy_matrix.EnergyMatrixTileEntity;
@@ -62,6 +63,11 @@ public class CraftleTileEntityTypes {
     public static final RegistryObject<TileEntityType<EnergyMatrixTileEntity>>
                                                                                ENERGY_MATRIX_TIER_4 =
             registerEnergyMatrix(CraftleBlocks.ENERGY_MATRIX_TIER_4, CraftleBaseTier.TIER_4);
+
+    // WORKBENCH
+    public static final RegistryObject<TileEntityType<WorkBenchTileEntity>> WORKBENCH =
+            TILE_ENTITY_TYPES.register("workbench", () -> TileEntityType.Builder
+                    .create(WorkBenchTileEntity::new, CraftleBlocks.WORKBENCH.get()).build(null));
 
 
     private static RegistryObject<TileEntityType<CrusherTileEntity>> registerCrusher(

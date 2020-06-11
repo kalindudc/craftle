@@ -45,7 +45,9 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
                                     IRecipeType<? extends IRecipe> recipeTypeIn, int containerSize,
                                     CraftleBaseTier tier) {
         super(typeIn, recipeTypeIn, containerSize, tier);
-        this.energyContainer = new EnergyContainerCapability(DEFAULT_POWER_CAPACITY, tier);
+        this.energyContainer =
+                new EnergyContainerCapability(DEFAULT_POWER_CAPACITY, DEFAULT_POWER_CAPACITY, 0,
+                                              tier);
         init();
     }
 
@@ -123,10 +125,7 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
     }
 
     public void setBlockActive(boolean b) {
-        if (active != b) {
-            this.active = b;
-            notifyBlockActive(b);
-        }
+        notifyBlockActive(b);
     }
 
     private void notifyBlockActive(boolean b) {
@@ -135,9 +134,10 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
         World      world = this.getWorld();
         BlockPos   pos   = this.pos;
 
-        if (state.getBlock() instanceof ActiveBlockBase)
-            ((ActiveBlockBase) state.getBlock()).changeState(b, state, world, pos);
-
+        if (!(state.get(ActiveBlockBase.LIT) && b)) {
+            assert world != null;
+            world.setBlockState(pos, state.with(ActiveBlockBase.LIT, b), 3);
+        }
     }
 
     @Nullable
@@ -147,6 +147,7 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
 
     }
 
+    @Nonnull
     @Override
     public CompoundNBT getUpdateTag() {
         CompoundNBT nbt = super.getUpdateTag();

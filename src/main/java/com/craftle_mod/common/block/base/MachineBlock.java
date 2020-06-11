@@ -1,17 +1,17 @@
 package com.craftle_mod.common.block.base;
 
+import com.craftle_mod.api.BlockConstants;
 import com.craftle_mod.common.resource.IBlockResource;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
 public abstract class MachineBlock extends ActiveBlockBase implements ICraftleMachineBlock {
-
-    private final static float BASE_CAPACITY = 235_000F;
 
     private final CraftleBaseTier tier;
     private final float           maxCapacity;
@@ -23,7 +23,7 @@ public abstract class MachineBlock extends ActiveBlockBase implements ICraftleMa
         super(resource, blockType, soundType);
 
         this.tier        = tier;
-        this.maxCapacity = BASE_CAPACITY * tier.getMultiplier();
+        this.maxCapacity = BlockConstants.MACHINE_BASE_CAPACITY * tier.getMultiplier();
         this.capacity    = 0;
     }
 
@@ -64,4 +64,10 @@ public abstract class MachineBlock extends ActiveBlockBase implements ICraftleMa
     @Nullable
     @Override
     public abstract TileEntity createTileEntity(BlockState state, IBlockReader world);
+
+    @Override
+    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
+        // same as a minecraft furnace
+        return state.get(LIT) ? 5 : 0;
+    }
 }

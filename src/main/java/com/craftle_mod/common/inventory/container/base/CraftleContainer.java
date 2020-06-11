@@ -26,16 +26,13 @@ public abstract class CraftleContainer extends Container {
         super(container, windowId);
         this.playerInventory         = playerInventory;
         this.entity                  = entity;
-        this.canInteractWithCallable =
-                IWorldPosCallable.of(entity.getWorld(), entity.getPos());
+        this.canInteractWithCallable = IWorldPosCallable.of(entity.getWorld(), entity.getPos());
         initSlots();
     }
 
     public CraftleContainer(ContainerType<?> container, final int windowId,
-                            final PlayerInventory playerInventory,
-                            final PacketBuffer data) {
-        this(container, windowId, playerInventory,
-             getTileEntity(playerInventory, data));
+                            final PlayerInventory playerInventory, final PacketBuffer data) {
+        this(container, windowId, playerInventory, getTileEntity(playerInventory, data));
     }
 
     public ContainerizedTileEntity getEntity() {
@@ -46,10 +43,9 @@ public abstract class CraftleContainer extends Container {
         return canInteractWithCallable;
     }
 
-    private static ContainerizedTileEntity getTileEntity(
-            final PlayerInventory playerInventory, final PacketBuffer data) {
-        Objects.requireNonNull(playerInventory,
-                               "playerInventory cannot be null");
+    private static ContainerizedTileEntity getTileEntity(final PlayerInventory playerInventory,
+                                                         final PacketBuffer data) {
+        Objects.requireNonNull(playerInventory, "playerInventory cannot be null");
         Objects.requireNonNull(data, "data cannot be null");
 
         final TileEntity tileAtPos =
@@ -58,8 +54,7 @@ public abstract class CraftleContainer extends Container {
             return (ContainerizedTileEntity) tileAtPos;
         }
 
-        throw new IllegalStateException(
-                "Tile entity is not correct. " + tileAtPos);
+        throw new IllegalStateException("Tile entity is not correct. " + tileAtPos);
     }
 
 
@@ -72,8 +67,7 @@ public abstract class CraftleContainer extends Container {
             ItemStack itemStack1 = slot.getStack();
             itemStack = itemStack1.copy();
             if (index < 54) {
-                if (!this.mergeItemStack(itemStack1, 54,
-                                         this.inventorySlots.size(), true)) {
+                if (!this.mergeItemStack(itemStack1, 54, this.inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
             }
@@ -96,8 +90,7 @@ public abstract class CraftleContainer extends Container {
         this.addSlot(new Slot(entity, index, inputX, inputY));
     }
 
-    public void addPlayerInventorySlots(int startX, int startY,
-                                        int totalSlotSpaceSize) {
+    public void addPlayerInventorySlots(int startX, int startY, int totalSlotSpaceSize) {
         // Main Player Inventory
         int startPlayerInvX = startX;
         int startPlayerInvY = startY;
@@ -105,10 +98,8 @@ public abstract class CraftleContainer extends Container {
             for (int col = 0; col < 9; col++) {
                 // extra 9 + is to account for the hotbar
                 this.addSlot(new Slot(playerInventory, (9 + (row * 9)) + col,
-                                      startPlayerInvX +
-                                      (col * totalSlotSpaceSize),
-                                      startPlayerInvY +
-                                      (row * totalSlotSpaceSize)));
+                                      startPlayerInvX + (col * totalSlotSpaceSize),
+                                      startPlayerInvY + (row * totalSlotSpaceSize)));
             }
         }
 
@@ -117,10 +108,13 @@ public abstract class CraftleContainer extends Container {
         int hotbarY = 142;
         for (int col = 0; col < 9; col++) {
             // extra 9 + is to account for the hotbar
-            this.addSlot(new Slot(playerInventory, col,
-                                  hotbarX + (col * totalSlotSpaceSize),
-                                  hotbarY));
+            this.addSlot(
+                    new Slot(playerInventory, col, hotbarX + (col * totalSlotSpaceSize), hotbarY));
         }
+    }
+
+    public PlayerInventory getPlayerInventory() {
+        return playerInventory;
     }
 
     public abstract void initSlots();

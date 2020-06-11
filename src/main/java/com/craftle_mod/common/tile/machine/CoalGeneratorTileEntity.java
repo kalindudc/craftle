@@ -3,7 +3,7 @@ package com.craftle_mod.common.tile.machine;
 import com.craftle_mod.api.NBTConstants;
 import com.craftle_mod.api.TagConstants;
 import com.craftle_mod.api.TileEntityConstants;
-import com.craftle_mod.common.inventory.container.machine.coal_generator.CoalGeneratorContainer;
+import com.craftle_mod.common.inventory.container.machine.CoalGeneratorContainer;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.registries.CraftleContainerTypes;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
@@ -128,6 +128,7 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
 
     }
 
+    @Nonnull
     @Override
     public CompoundNBT getUpdateTag() {
         CompoundNBT nbt = super.getUpdateTag();

@@ -21,6 +21,10 @@ public class GUIConstants {
     public static final ResourceLocation COAL_GENERATOR =
             new ResourceLocation(Craftle.MODID, "textures/gui/coal_generator.png");
 
+    // GENERATORS
+    public static final ResourceLocation WORKBENCH =
+            new ResourceLocation(Craftle.MODID, "textures/gui/workbench.png");
+
     // ENERGY MATRIX
     public static final ResourceLocation ENERGY_MATRIX =
             new ResourceLocation(Craftle.MODID, "textures/gui/energy_matrix.png");

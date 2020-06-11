@@ -1,4 +1,4 @@
-package com.craftle_mod.common.inventory.container.machine.coal_generator;
+package com.craftle_mod.common.inventory.container.machine;
 
 import com.craftle_mod.common.inventory.container.base.EnergyContainer;
 import com.craftle_mod.common.registries.CraftleBlocks;
@@ -20,15 +20,13 @@ public class CoalGeneratorContainer extends EnergyContainer {
     }
 
     public CoalGeneratorContainer(ContainerType<?> container, int windowId,
-                                  PlayerInventory playerInventory,
-                                  PacketBuffer data) {
+                                  PlayerInventory playerInventory, PacketBuffer data) {
         super(container, windowId, playerInventory, data);
     }
 
     public CoalGeneratorContainer(int windowId, PlayerInventory playerInventory,
                                   PacketBuffer packetBuffer) {
-        this(CraftleContainerTypes.COAL_GENERATOR.get(), windowId,
-             playerInventory, packetBuffer);
+        this(CraftleContainerTypes.COAL_GENERATOR.get(), windowId, playerInventory, packetBuffer);
     }
 
     @Override

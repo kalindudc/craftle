@@ -39,7 +39,8 @@ public class ActiveBlockBase extends FacedBlockBase {
     }
 
     private void setActive(boolean b, BlockState state, World worldIn, BlockPos pos) {
-        worldIn.setBlockState(pos, state.with(LIT, Boolean.valueOf(b)), 3);
+        if (!(state.get(LIT).booleanValue() && b))
+            worldIn.setBlockState(pos, state.with(LIT, Boolean.valueOf(b)), 3);
     }
 
     public void changeState(boolean b, BlockState state, World worldIn, BlockPos pos) {

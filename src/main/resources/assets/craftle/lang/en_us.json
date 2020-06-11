@@ -53,6 +53,8 @@
     "______________________________GENERATORS": "_____________________________",
     "block.craftle.coal_generator": "Coal Generator",
     "container.coal_generator": "Coal Generator",
+    "block.craftle.workbench": "Craftle Workbench",
+    "container.workbench": "Craftle Workbench",
     "______________________________ITEMS": "_____________________________",
     "______________________________BITS": "_____________________________",
     "item.craftle.aluminium_bit": "Aluminum Bit",
