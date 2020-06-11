@@ -193,6 +193,7 @@ public class EnergyMatrix extends MachineBlock {
                         .dropItems(worldIn, pos, ((EnergyMatrixTileEntity) entity).getItems());
             }
         }
+        super.onReplaced(state, worldIn, pos, newState, isMoving);
     }
 
     @Override

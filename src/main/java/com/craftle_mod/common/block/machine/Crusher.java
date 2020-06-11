@@ -72,5 +72,6 @@ public class Crusher extends MachineBlock {
                 InventoryHelper.dropItems(worldIn, pos, ((CrusherTileEntity) entity).getItems());
             }
         }
+        super.onReplaced(state, worldIn, pos, newState, isMoving);
     }
 }

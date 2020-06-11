@@ -15,5 +15,8 @@ public class NBTConstants {
     public static final String GENERATOR_TOTAL_BURN_TIME   = "generatorTotalBurnTime";
     public static final String GENERATOR_CURRENT_BURN_TIME = "generatorCurrentBurnTime";
 
+    // Workbench
+    public static final String CRAFTING_MATRIX = "CRAFTING_MATRIX";
+
 
 }

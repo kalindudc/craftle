@@ -74,11 +74,14 @@ public class WorkBench extends MachineBlock {
     @Override
     public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState,
                            boolean isMoving) {
+
         if (state.getBlock() != newState.getBlock()) {
             TileEntity entity = worldIn.getTileEntity(pos);
             if (entity instanceof WorkBenchTileEntity) {
                 InventoryHelper.dropItems(worldIn, pos, ((WorkBenchTileEntity) entity).getItems());
             }
         }
+
+        super.onReplaced(state, worldIn, pos, newState, isMoving);
     }
 }

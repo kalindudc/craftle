@@ -37,11 +37,9 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
     private   LazyOptional<IItemHandlerModifiable> itemHandler;
     private   int                                  containerSize;
 
-    public ContainerizedTileEntity(TileEntityType<?> typeIn,
-                                   int containerSize) {
+    public ContainerizedTileEntity(TileEntityType<?> typeIn, int containerSize) {
         super(typeIn);
-        this.containerContents =
-                NonNullList.withSize(containerSize, ItemStack.EMPTY);
+        this.containerContents = NonNullList.withSize(containerSize, ItemStack.EMPTY);
         this.items             = createHandler();
         this.itemHandler       = LazyOptional.of(() -> items);
         this.containerSize     = containerSize;
@@ -64,17 +62,14 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
 
     public void setContainerSize(int containerSize) {
         this.containerSize     = containerSize;
-        this.containerContents =
-                NonNullList.withSize(containerSize, ItemStack.EMPTY);
+        this.containerContents = NonNullList.withSize(containerSize, ItemStack.EMPTY);
     }
 
     @Override
     protected ITextComponent getDefaultName() {
-        Craftle.LOGGER.info("CRAFTLE {ContainerizedTileEntity}: type " +
-                            "registry name " +
+        Craftle.LOGGER.info("CRAFTLE {ContainerizedTileEntity}: type " + "registry name " +
                             this.getType().getRegistryName());
-        return new TranslationTextComponent(
-                "container." + this.getType().getRegistryName());
+        return new TranslationTextComponent("container." + this.getType().getRegistryName());
     }
 
     @Override
@@ -92,8 +87,7 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
     @Override
     public void read(CompoundNBT compound) {
         super.read(compound);
-        this.containerContents =
-                NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
+        this.containerContents = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
         if (!this.checkLootAndRead(compound)) {
             ItemStackHelper.loadAllItems(compound, this.containerContents);
         }
@@ -104,8 +98,7 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
         double dy = (double) this.pos.getY() + 0.5D;
         double dz = (double) this.pos.getZ() + 0.5D;
 
-        this.world.playSound((PlayerEntity) null, dx, dy, dz, sound,
-                             SoundCategory.BLOCKS, 0.5f,
+        this.world.playSound((PlayerEntity) null, dx, dy, dz, sound, SoundCategory.BLOCKS, 0.5f,
                              this.world.rand.nextFloat() * 0.1f + 0.9f);
     }
 
@@ -176,8 +169,7 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
 
     @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap,
-                                             @Nonnull Direction side) {
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nonnull Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return itemHandler.cast();
         }
@@ -198,15 +190,14 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
     }
 
     protected void reloadContainer() {
-        this.containerContents =
-                NonNullList.withSize(containerSize, ItemStack.EMPTY);
+        this.containerContents = NonNullList.withSize(containerSize, ItemStack.EMPTY);
     }
 
     public NonNullList<ItemStack> getContainerContents() {
         return containerContents;
     }
 
-    public int getNumplayersUsing() {
+    public int getNumPlayersUsing() {
         return numplayersUsing;
     }
 
@@ -218,8 +209,11 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
         return items;
     }
 
-    public void setItemHandler(
-            LazyOptional<IItemHandlerModifiable> itemHandler) {
+    public void setItemHandler(LazyOptional<IItemHandlerModifiable> itemHandler) {
         this.itemHandler = itemHandler;
+    }
+
+    public void addToContainer(ItemStack stack, int index) {
+        this.containerContents.set(index, stack);
     }
 }

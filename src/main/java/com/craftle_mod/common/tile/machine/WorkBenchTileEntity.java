@@ -56,10 +56,7 @@ public class WorkBenchTileEntity extends PoweredMachineTileEntity {
 
     @Override
     public Container createMenu(int id, PlayerInventory player) {
-
-        WorkBenchContainer container =
-                new WorkBenchContainer(CraftleContainerTypes.WORKBENCH.get(), id, player, this);
-        return container;
+        return new WorkBenchContainer(CraftleContainerTypes.WORKBENCH.get(), id, player, this);
     }
 
     @Nullable

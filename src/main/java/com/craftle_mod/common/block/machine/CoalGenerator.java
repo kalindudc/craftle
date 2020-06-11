@@ -61,6 +61,7 @@ public class CoalGenerator extends MachineBlock {
                         .dropItems(worldIn, pos, ((CoalGeneratorTileEntity) entity).getItems());
             }
         }
+        super.onReplaced(state, worldIn, pos, newState, isMoving);
     }
 
     @Override

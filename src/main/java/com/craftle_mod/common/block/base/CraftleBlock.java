@@ -15,15 +15,12 @@ public abstract class CraftleBlock extends Block {
     private IBlockResource resource;
     private BlockType      blockType;
 
-    public CraftleBlock(IBlockResource resource, BlockType blockType,
-                        SoundType soundType) {
+    public CraftleBlock(IBlockResource resource, BlockType blockType, SoundType soundType) {
 
         super(Block.Properties.create(resource.getMaterial())
-                              .hardnessAndResistance(resource.getHardness(),
-                                                     resource.getHardness())
+                              .hardnessAndResistance(resource.getHardness(), resource.getHardness())
                               .harvestTool(resource.getHarvestTool())
-                              .harvestLevel(resource.getHarvestLevel())
-                              .sound(soundType));
+                              .harvestLevel(resource.getHarvestLevel()).sound(soundType));
         this.resource  = resource;
         this.blockType = blockType;
     }
@@ -35,4 +32,5 @@ public abstract class CraftleBlock extends Block {
     public BlockType getBlockType() {
         return blockType;
     }
+
 }

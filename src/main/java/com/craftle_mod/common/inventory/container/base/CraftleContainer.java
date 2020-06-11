@@ -10,14 +10,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.world.World;
 
 import java.util.Objects;
 
 public abstract class CraftleContainer extends Container {
 
-    private IWorldPosCallable       canInteractWithCallable;
-    private ContainerizedTileEntity entity;
-    private PlayerInventory         playerInventory;
+    private       IWorldPosCallable       canInteractWithCallable;
+    private       ContainerizedTileEntity entity;
+    private       PlayerInventory         playerInventory;
+    private final World                   world;
+    private final IWorldPosCallable       worldPosCallable;
 
     public CraftleContainer(ContainerType<?> container, final int windowId,
                             final PlayerInventory playerInventory,
@@ -27,7 +30,9 @@ public abstract class CraftleContainer extends Container {
         this.playerInventory         = playerInventory;
         this.entity                  = entity;
         this.canInteractWithCallable = IWorldPosCallable.of(entity.getWorld(), entity.getPos());
-        initSlots();
+        this.world                   = entity.getWorld();
+        worldPosCallable             = IWorldPosCallable.of(this.getWorld(), entity.getPos());
+
     }
 
     public CraftleContainer(ContainerType<?> container, final int windowId,
@@ -57,6 +62,13 @@ public abstract class CraftleContainer extends Container {
         throw new IllegalStateException("Tile entity is not correct. " + tileAtPos);
     }
 
+    public World getWorld() {
+        return world;
+    }
+
+    public IWorldPosCallable getWorldPosCallable() {
+        return worldPosCallable;
+    }
 
     @Override
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
@@ -66,12 +78,13 @@ public abstract class CraftleContainer extends Container {
         if (slot != null && slot.getHasStack()) {
             ItemStack itemStack1 = slot.getStack();
             itemStack = itemStack1.copy();
-            if (index < 54) {
-                if (!this.mergeItemStack(itemStack1, 54, this.inventorySlots.size(), true)) {
+            if (index < entity.getSizeInventory()) {
+                if (!this.mergeItemStack(itemStack1, entity.getSizeInventory(),
+                                         this.inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
             }
-            else if (!this.mergeItemStack(itemStack1, 0, 54, false)) {
+            else if (!this.mergeItemStack(itemStack1, 0, entity.getSizeInventory(), false)) {
                 return ItemStack.EMPTY;
             }
 

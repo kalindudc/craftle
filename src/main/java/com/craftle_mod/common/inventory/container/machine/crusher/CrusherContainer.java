@@ -16,20 +16,18 @@ public class CrusherContainer extends CraftleContainer {
     private int numCols;
 
 
-    public CrusherContainer(ContainerType<CrusherContainer> container,
-                            final int windowId,
-                            final PlayerInventory playerInventory,
-                            final MachineTileEntity entity) {
+    public CrusherContainer(ContainerType<CrusherContainer> container, final int windowId,
+                            final PlayerInventory playerInventory, final MachineTileEntity entity) {
 
         super(container, windowId, playerInventory, entity);
+        initSlots();
     }
 
-    public CrusherContainer(ContainerType<CrusherContainer> container,
-                            final int windowId,
-                            final PlayerInventory playerInventory,
-                            final PacketBuffer data) {
+    public CrusherContainer(ContainerType<CrusherContainer> container, final int windowId,
+                            final PlayerInventory playerInventory, final PacketBuffer data) {
 
         super(container, windowId, playerInventory, data);
+        initSlots();
     }
 
 
@@ -67,8 +65,8 @@ public class CrusherContainer extends CraftleContainer {
         if (!(getEntity() instanceof MachineTileEntity))
             throw new IllegalStateException("Tile entity is not correct. ");
 
-        int[] slotsConfig = initSlotsHelper(
-                ((MachineTileEntity) getEntity()).getCraftleMachineTier());
+        int[] slotsConfig =
+                initSlotsHelper(((MachineTileEntity) getEntity()).getCraftleMachineTier());
         int totalSlotSize = 18;
         // Main Inventory
         //    base crusher slots
@@ -97,8 +95,7 @@ public class CrusherContainer extends CraftleContainer {
         // Main Player Inventory
         int startPlayerInvX = 8;
         int startPlayerInvY = 84;
-        addPlayerInventorySlots(startPlayerInvX, startPlayerInvY,
-                                totalSlotSize);
+        addPlayerInventorySlots(startPlayerInvX, startPlayerInvY, totalSlotSize);
     }
 
     @Override
@@ -110,32 +107,22 @@ public class CrusherContainer extends CraftleContainer {
         switch (((MachineTileEntity) getEntity()).getCraftleMachineTier()) {
 
             case TIER_1:
-                return isWithinUsableDistance(getCanInteractWithCallable(),
-                                              playerIn,
-                                              CraftleBlocks.CRUSHER_TIER_1
-                                                      .get());
+                return isWithinUsableDistance(getCanInteractWithCallable(), playerIn,
+                                              CraftleBlocks.CRUSHER_TIER_1.get());
             case TIER_2:
-                return isWithinUsableDistance(getCanInteractWithCallable(),
-                                              playerIn,
-                                              CraftleBlocks.CRUSHER_TIER_2
-                                                      .get());
+                return isWithinUsableDistance(getCanInteractWithCallable(), playerIn,
+                                              CraftleBlocks.CRUSHER_TIER_2.get());
             case TIER_3:
-                return isWithinUsableDistance(getCanInteractWithCallable(),
-                                              playerIn,
-                                              CraftleBlocks.CRUSHER_TIER_3
-                                                      .get());
+                return isWithinUsableDistance(getCanInteractWithCallable(), playerIn,
+                                              CraftleBlocks.CRUSHER_TIER_3.get());
             case TIER_4:
             case UNLIMITED:
-                return isWithinUsableDistance(getCanInteractWithCallable(),
-                                              playerIn,
-                                              CraftleBlocks.CRUSHER_TIER_4
-                                                      .get());
+                return isWithinUsableDistance(getCanInteractWithCallable(), playerIn,
+                                              CraftleBlocks.CRUSHER_TIER_4.get());
             case BASIC:
             default:
-                return isWithinUsableDistance(getCanInteractWithCallable(),
-                                              playerIn,
-                                              CraftleBlocks.CRUSHER_BASIC
-                                                      .get());
+                return isWithinUsableDistance(getCanInteractWithCallable(), playerIn,
+                                              CraftleBlocks.CRUSHER_BASIC.get());
         }
     }
 }

@@ -22,8 +22,7 @@ import javax.annotation.Nullable;
 
 public class TestChest extends FacedBlockBase {
 
-    public TestChest(IBlockResource resource, BlockType blockType,
-                     SoundType soundType) {
+    public TestChest(IBlockResource resource, BlockType blockType, SoundType soundType) {
         super(resource, blockType, soundType);
     }
 
@@ -39,15 +38,14 @@ public class TestChest extends FacedBlockBase {
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn,
-                                             BlockPos pos, PlayerEntity player,
-                                             Hand handIn,
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos,
+                                             PlayerEntity player, Hand handIn,
                                              BlockRayTraceResult hit) {
         if (!worldIn.isRemote) {
             TileEntity entity = worldIn.getTileEntity(pos);
             if (entity instanceof TileEntityTestChest) {
-                NetworkHooks.openGui((ServerPlayerEntity) player,
-                                     (TileEntityTestChest) entity, pos);
+                NetworkHooks
+                        .openGui((ServerPlayerEntity) player, (TileEntityTestChest) entity, pos);
                 return ActionResultType.SUCCESS;
             }
         }
@@ -56,15 +54,14 @@ public class TestChest extends FacedBlockBase {
     }
 
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos,
-                           BlockState newState, boolean isMoving) {
+    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState,
+                           boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             TileEntity entity = worldIn.getTileEntity(pos);
             if (entity instanceof TileEntityTestChest) {
-                InventoryHelper.dropItems(worldIn, pos,
-                                          ((TileEntityTestChest) entity)
-                                                  .getItems());
+                InventoryHelper.dropItems(worldIn, pos, ((TileEntityTestChest) entity).getItems());
             }
         }
+        super.onReplaced(state, worldIn, pos, newState, isMoving);
     }
 }

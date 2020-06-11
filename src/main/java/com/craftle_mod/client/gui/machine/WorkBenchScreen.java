@@ -49,12 +49,18 @@ public class WorkBenchScreen extends ContainerScreen<WorkBenchContainer> {
 
         float input = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
                                                        this.entity.getEnergyReceive());
+        float capacity = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
+                                                          this.entity.getEnergyContainer()
+                                                                     .getMaxEnergyStored());
 
-        this.font.drawString("Energy: ", 186.0f, 9.0f, 6805014);
-        this.font.drawString(String.format("%.02f %s", energy, unit), 231.0f, 9.0f, 6805014);
+        this.font.drawString("Max: ", 186.0f, 9.0f, 13816530);
+        this.font.drawString(String.format("%.02f %s", capacity, unit), 231.0f, 9.0f, 13816530);
 
-        this.font.drawString("In: ", 186.0f, 20.0f, 6805014);
-        this.font.drawString(String.format("%.02f %s", (input), unit), 231.0f, 20.0f, 6805014);
+        this.font.drawString("Energy: ", 186.0f, 22.0f, 6805014);
+        this.font.drawString(String.format("%.02f %s", energy, unit), 231.0f, 22.0f, 6805014);
+
+        this.font.drawString("In: ", 186.0f, 35.0f, 6805014);
+        this.font.drawString(String.format("%.02f %s", (input), unit), 231.0f, 35.0f, 6805014);
     }
 
     @Override
