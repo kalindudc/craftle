@@ -9,6 +9,9 @@ import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.fml.client.gui.GuiUtils;
+
+import java.util.ArrayList;
 
 public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
         implements IHasContainer<EnergyMatrixContainer> {
@@ -50,10 +53,8 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
                                                            this.entity.getEnergyContainer()
                                                                       .getMaxEnergyStored());
 
-        float input = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
-                                                        this.entity.getEnergyReceive());
-        float output = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
-                                                         this.entity.getEnergyExtract());
+        float input  = this.entity.getEnergyReceive();
+        float output = this.entity.getEnergyExtract();
 
         this.font.drawString("Max: ", 10.0f, 26.0f, 13816530);
         this.font.drawString(String.format("%.02f %s", capacity, units), 32.0f, 26.0f, 13816530);
@@ -61,11 +62,16 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
         this.font.drawString("Energy: ", 10.0f, 39.0f, 6805014);
         this.font.drawString(String.format("%.02f %s", energy, units), 51.0f, 39.0f, 6805014);
 
-        this.font.drawString("In: ", 10.0f, 52.0f, 6805014);
-        this.font.drawString(String.format("%.02f %s/t", (input), units), 24.0f, 52.0f, 6805014);
 
-        this.font.drawString("Out: ", 10.0f, 64.0f, 14823215);
-        this.font.drawString(String.format("%.02f %s/t", (output), units), 30.0f, 64.0f, 14823215);
+        if (getBounds(mouseX, mouseY, 144 + offsetX, 12 + offsetY, 167 + offsetX, 73 + offsetY)) {
+            GuiUtils.drawHoveringText(new ArrayList<String>() {{
+                add(String.format("Energy: %.02f kJ",
+                                  (float) entity.getEnergyContainer().getEnergyStored()));
+                add(String.format("Input: %.02f kJ", input));
+                add(String.format("Output: %.02f kJ", output));
+
+            }}, mouseX - offsetX, mouseY - offsetY, this.xSize, this.ySize, this.xSize, this.font);
+        }
     }
 
 

@@ -149,66 +149,76 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
     }
 
     public int getBurnPercentage() {
+        if (burnTime == 0 || totalBurnTime == 0)
+            return 0;
         return 100 - (int) ((((float) this.burnTime) / ((float) this.totalBurnTime)) * 100);
     }
 
     @Override
     public void tick() {
-        if (this.getEnergyContainer().getEnergyStored() <
-            this.getEnergyContainer().getMaxEnergyStored()) {
+        boolean notFilled = this.getEnergyContainer().getEnergyStored() <
+                            this.getEnergyContainer().getMaxEnergyStored();
+
+        if (notFilled) {
 
             if (this.getBufferedEnergy() > 0) {
-                burnTime--;
-                if (burnTime % TileEntityConstants.COAL_GENERATOR_BURN_MULTIPLIER == 0) {
-                    int energyToIncrement = this.getEnergyReceive();
-                    this.getEnergyContainer().receiveEnergy(energyToIncrement);
-                    this.decrementBufferedEnergy(energyToIncrement);
-
-                    if (this.getBufferedEnergy() < this.getEnergyReceive()) {
-                        this.setEnergyReceive(this.getBufferedEnergy());
-                    }
-                    super.setBlockActive(true);
-                }
+                burn();
             }
             else {
-                this.resetBufferedEnergy();
-                this.burnTime      = 0;
-                this.totalBurnTime = 0;
+                ItemStack stack = this.getContainerContents().get(0);
 
-                if (this.getTileEntityItems() != null &&
-                    !this.getTileEntityItems().getStackInSlot(0).isEmpty() &&
-                    isItemFuel(this.getTileEntityItems().getStackInSlot(0))) {
+                if (isItemFuel(stack)) {
 
-                    int energyToBuffer = getFuelValue(this.getTileEntityItems().getStackInSlot(0));
+                    int energyToBuffer = getFuelValue(stack);
                     this.addToBufferedEnergy(energyToBuffer);
                     if (energyToBuffer > this.getEnergyContainer().getMaxReceive()) {
                         this.setEnergyReceive(this.getEnergyContainer().getMaxReceive());
-                        this.burnTime      = (int) Math
-                                .ceil(energyToBuffer / this.getEnergyContainer().getMaxReceive()) *
+                        this.burnTime      = (int) Math.ceil((float) energyToBuffer /
+                                                             (float) this.getEnergyContainer()
+                                                                         .getMaxReceive()) *
                                              TileEntityConstants.COAL_GENERATOR_BURN_MULTIPLIER;
                         this.totalBurnTime = this.burnTime;
                     }
                     else {
                         this.setEnergyReceive(energyToBuffer);
-                        this.burnTime = 1;
+                        this.burnTime      = 1;
+                        this.totalBurnTime = 1;
                     }
-                    this.getTileEntityItems().getStackInSlot(0).shrink(1);
+                    stack.shrink(1);
+                    burn();
                 }
                 else {
                     this.resetBufferedEnergy();
                     this.burnTime      = 0;
                     this.totalBurnTime = 0;
-                    if (active)
-                        super.setBlockActive(false);
+                    super.setBlockActive(false);
                 }
 
             }
         }
-        else {
+
+
+        if (!notFilled) {
+
             super.setBlockActive(false);
             this.resetBufferedEnergy();
             this.burnTime      = 0;
             this.totalBurnTime = 0;
+            this.markDirty();
+        }
+    }
+
+    private void burn() {
+        burnTime--;
+        if (burnTime % TileEntityConstants.COAL_GENERATOR_BURN_MULTIPLIER == 0) {
+            int energyToIncrement = this.getEnergyReceive();
+            this.getEnergyContainer().receiveEnergy(energyToIncrement);
+            this.decrementBufferedEnergy(energyToIncrement);
+
+            if (this.getBufferedEnergy() < this.getEnergyReceive()) {
+                this.setEnergyReceive(this.getBufferedEnergy());
+            }
+            super.setBlockActive(true);
         }
     }
 

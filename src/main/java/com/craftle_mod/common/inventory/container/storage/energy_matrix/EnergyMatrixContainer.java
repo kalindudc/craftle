@@ -14,11 +14,13 @@ public class EnergyMatrixContainer extends EnergyContainer {
     public EnergyMatrixContainer(ContainerType<?> container, int windowId,
                                  PlayerInventory playerInventory, PoweredMachineTileEntity entity) {
         super(container, windowId, playerInventory, entity);
+        initSlots();
     }
 
     public EnergyMatrixContainer(ContainerType<?> container, int windowId,
                                  PlayerInventory playerInventory, PacketBuffer data) {
         super(container, windowId, playerInventory, data);
+        initSlots();
     }
 
     @Override

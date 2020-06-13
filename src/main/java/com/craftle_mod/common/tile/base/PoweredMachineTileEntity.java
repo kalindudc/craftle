@@ -1,6 +1,7 @@
 package com.craftle_mod.common.tile.base;
 
 import com.craftle_mod.api.NBTConstants;
+import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.base.ActiveBlockBase;
 import com.craftle_mod.common.capability.energy.EnergyContainerCapability;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
@@ -81,6 +82,7 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
     }
 
     public void resetBufferedEnergy() {
+        Craftle.logInfo("resetting buffer!");
         this.bufferedEnergy = 0;
         this.setEnergyReceive(0);
     }

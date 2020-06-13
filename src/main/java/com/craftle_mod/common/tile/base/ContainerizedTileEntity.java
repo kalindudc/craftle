@@ -205,9 +205,6 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
         return itemHandler;
     }
 
-    public IItemHandlerModifiable getTileEntityItems() {
-        return items;
-    }
 
     public void setItemHandler(LazyOptional<IItemHandlerModifiable> itemHandler) {
         this.itemHandler = itemHandler;

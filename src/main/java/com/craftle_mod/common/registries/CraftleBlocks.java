@@ -188,6 +188,7 @@ public class CraftleBlocks {
     // infuser, tier (1-4) // infuse metals and other resources and fluids
     // cable, tier (1-4)
     // Extractor: for rubber (tier 1-4)
+    // monitor and camera
 
     private static RegistryObject<Block> registerMachine(String machineType, MachineBlock block) {
         return BLOCKS.register(machineType + "_" + block.getCraftleTier().getTier(), () -> block);

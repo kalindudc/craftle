@@ -10,6 +10,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.client.gui.GuiUtils;
+
+import java.util.ArrayList;
 
 @OnlyIn(Dist.CLIENT)
 public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer> {
@@ -52,13 +55,6 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
                                                           this.entity.getEnergyContainer()
                                                                      .getMaxEnergyStored());
 
-        //        if (getBounds(mouseX, mouseY, 112 + offsetX, 12 + offsetY, 135 + offsetX, 73 +
-        //        offsetY)) {
-        //            this.font.drawString(String.format("%.02f kJ", (energy / 1000f)), mouseX -
-        //            offsetX + 8,
-        //                                 mouseY - offsetY - 5, 13785144);
-        //        }
-
         int burnPercentage = this.entity.getBurnPercentage();
 
         float input;
@@ -81,6 +77,14 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
 
         this.font.drawString("Out: ", 74.0f, 63.0f, 14823215);
         this.font.drawString(String.format("%.02f %s", (output), unit), 93.0f, 63.0f, 14823215);
+
+        if (getBounds(mouseX, mouseY, 144 + offsetX, 12 + offsetY, 167 + offsetX, 73 + offsetY)) {
+            GuiUtils.drawHoveringText(new ArrayList<String>() {{
+                add(String.format("Max Capacity"));
+                add(String.format("%.02f kJ", capacity));
+
+            }}, mouseX - offsetX, mouseY - offsetY, this.xSize, this.ySize, this.xSize, this.font);
+        }
     }
 
 
