@@ -50,6 +50,11 @@ public class CrusherTileEntity extends PoweredMachineTileEntity
 
     }
 
+    public CrusherTileEntity(TileEntityType<?> typeIn, CraftleBaseTier tier, int energy) {
+        this(typeIn, CraftleRecipeType.CRUSHING, tier);
+        this.getEnergyContainer().setEnergy(energy);
+    }
+
     public CrusherTileEntity() {
         this(CraftleTileEntityTypes.CRUSHER_BASIC.get(), CraftleRecipeType.CRUSHING,
              CraftleBaseTier.BASIC);

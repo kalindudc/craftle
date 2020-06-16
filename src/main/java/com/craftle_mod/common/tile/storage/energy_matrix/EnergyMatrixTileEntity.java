@@ -47,6 +47,11 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
         super(typeIn, CraftleRecipeType.CRAFTING, 2, tier, capacity);
     }
 
+    public EnergyMatrixTileEntity(TileEntityType<?> typeIn, CraftleBaseTier tier, int capacity,
+                                  int energy) {
+        super(typeIn, CraftleRecipeType.CRAFTING, 2, tier, capacity, capacity, capacity, energy);
+    }
+
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability,
@@ -217,8 +222,7 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
 
     public List<ICapabilityProvider> getNeighborsWithEnergy() {
         List<ICapabilityProvider> energyProvidingBlocks = new ArrayList<>();
-        Point3D                   currentPos            =
-                new Point3D(this.pos.getX(), this.pos.getY(), this.pos.getZ());
+        Point3D currentPos = new Point3D(this.pos.getX(), this.pos.getY(), this.pos.getZ());
 
         for (int i = -1; i < 2; i++) {
 

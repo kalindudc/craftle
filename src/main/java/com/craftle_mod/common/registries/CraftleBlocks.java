@@ -11,6 +11,7 @@ import com.craftle_mod.common.block.machine.CoalGenerator;
 import com.craftle_mod.common.block.machine.Crusher;
 import com.craftle_mod.common.block.machine.Quarry;
 import com.craftle_mod.common.block.machine.WorkBench;
+import com.craftle_mod.common.block.storage.CableConnector;
 import com.craftle_mod.common.block.storage.EnergyMatrix;
 import com.craftle_mod.common.resource.BlockResource;
 import com.craftle_mod.common.resource.OreResource;
@@ -172,11 +173,17 @@ public class CraftleBlocks {
                                              SoundType.METAL, CraftleBaseTier.TIER_4));
 
     // workbench
-    public static final RegistryObject<Block> WORKBENCH =
+    public static final RegistryObject<Block> WORKBENCH       =
             registerMachineWithRegistryName("workbench", new WorkBench(BlockResource.STEEL,
                                                                        CraftleBlock.BlockType.MACHINE,
                                                                        SoundType.WOOD,
                                                                        CraftleBaseTier.BASIC));
+    // energy relay
+    public static final RegistryObject<Block> CABLE_CONNECTOR =
+            registerMachineWithRegistryName("cable_connector",
+                                            new CableConnector(BlockResource.STEEL,
+                                                               CraftleBlock.BlockType.MACHINE,
+                                                               SoundType.METAL));
 
     // compressor , purifier, tier (1-4)
     // machine base, tier (1-4)
