@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Polly.JS" width="400px" src="https://craftle-mod.com/media/logo.png" />
+  <img alt="Craftle" width="400px" src="https://craftle-mod.com/media/logo.png" />
 </p>
 
 # Craftle for Minecraft 1.15.x
