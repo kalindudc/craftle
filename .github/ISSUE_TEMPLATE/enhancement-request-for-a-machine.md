@@ -2,7 +2,7 @@
 name: Enhancement request for a machine
 about: Create a detailed report for a new machine
 title: Add <Machine name> machine to <purpose>
-labels: ''
+labels: block, gui
 assignees: ''
 
 ---
