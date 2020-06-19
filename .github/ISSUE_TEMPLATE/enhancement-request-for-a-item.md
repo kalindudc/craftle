@@ -24,4 +24,4 @@ Tier 4: 6 input / output with (5x4 container)
 
 ** optional, depends on the functionality of the item
 
-Complete container and screen to go with each tiered machine. (if valid)
+Complete container and screen to go with each tiered item. (if valid)
