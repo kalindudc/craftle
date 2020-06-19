@@ -1,7 +1,7 @@
 ---
 name: Enhancement request for a item
 about: Create a detailed report for a new item
-title: Add <Item name> machine to <purpose>
+title: Add <Item name> item to <purpose>
 labels: item
 assignees: ''
 
