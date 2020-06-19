@@ -178,24 +178,25 @@ public class CraftleBlocks {
                                                                        CraftleBlock.BlockType.MACHINE,
                                                                        SoundType.WOOD,
                                                                        CraftleBaseTier.BASIC));
-    // energy relay
+    // cable connector
     public static final RegistryObject<Block> CABLE_CONNECTOR =
             registerMachineWithRegistryName("cable_connector",
                                             new CableConnector(BlockResource.STEEL,
                                                                CraftleBlock.BlockType.MACHINE,
                                                                SoundType.METAL));
 
-    // compressor , purifier, tier (1-4)
-    // machine base, tier (1-4)
-    // tanks
+    // compressor , purifier, tier (1-4) -
+    // machine base, tier (1-4) -
+    // tanks -
     // energy: power blocks, tier (1-4)
-    // Hydro Generator
-    // Thermoelectric Generator
+    // Hydro Generator -
+    // Thermoelectric Generator -
 
     // infuser, tier (1-4) // infuse metals and other resources and fluids
-    // cable, tier (1-4)
-    // Extractor: for rubber (tier 1-4)
+    // cable, tier (1-4) -
+    // Extractor: for rubber (tier 1-4) -
     // monitor and camera
+    // coolant FLUID
 
     private static RegistryObject<Block> registerMachine(String machineType, MachineBlock block) {
         return BLOCKS.register(machineType + "_" + block.getCraftleTier().getTier(), () -> block);
