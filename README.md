@@ -1,43 +1,16 @@
 # Craftle for Minecraft 1.15.x
 > A minecraft addon
 
-Craftle adds high tech machinery along with an assortment of new tools and
-resources. Craftle follows a tiered system for its machinery and are powered 
-through forge energy.
+Welcome to the offical Craftle documentation. Here you will find information regarding all Craftle blocks / items and all core functionality, including general strategies and use cases for all machines. Craftle adds many high tech machinery along with an assortment of new tools and resources such as new ore and metals. Craftle follows a tiered system for its machinery and are powered through forge energy and will use j (joules) as a unit of energy.
 
-## Craftle Tiers
+### Homepage 
 
-Craftle machinery follows a multi-tier system. All machine comes in a base
-machine level followed by upgradable Tier{N} system.
+[Craftle homepage](https://craftle-mod.com)
 
-## Resources
+[Curseforge](#)
 
-|           	| Ore 	| Dust 	| Bits 	| Ingots 	| Enhanced 	| Purified 	|
-|-----------	|-----	|------	|------	|--------	|----------	|----------	|
-| Aluminium 	| [ ] 	| [x]  	| [x]  	| [x]    	| [x]      	| [ ]      	|
-| Copper    	| [x] 	| [x]  	| [x]  	| [x]    	| [ ]      	| [ ]      	|
-| Diamond   	| N/A 	| [x]  	| [x]  	| N/A    	| [x]      	| [ ]      	|
-| Gold      	| N/A 	| [x]  	| [x]  	| N/A    	| [ ]      	| [ ]      	|
-| Iron      	| N/A 	| [x]  	| [x]  	| N/a    	| [x]      	| [ ]      	|
-| Platinum  	| [ ] 	| [x]  	| [x]  	| [x]    	| [x]      	| [x]      	|
-| Ruby      	| [x] 	| [x]  	| [x]  	| [x]    	| [x]      	| [ ]      	|
-| Sapphire  	| [x] 	| [x]  	| [x]  	| [x]    	| [x]      	| [ ]      	|
-| Steel     	| [ ] 	| [x]  	| [x]  	| [x]    	| [x]      	| [x]      	|
-| Tin       	| [x] 	| [x]  	| [x]  	| [x]    	| [ ]      	| [ ]      	|
-| Uranium   	| [x] 	| [x]  	| [x]  	| [x]    	| [ ]      	| [x]      	|
+### License
 
-## Machines
-> All craftle machines have a base level and Tiers (1-4)
+Craftle is licensed under CC-NC-SA 4.0. That means you are allowed to make modifications and addons to this mod but you have to give Craftle credit for the original work, you're not allowed to profit from it commercially in any way and you have to license it under the exact same CC license. You also cannot submit anything to any form of store or any form of sale platform. Under the current license you are allowed to include this mod in any modpack or as part of any other collection as long as all criteria that was just mentioned and all criteria of the following [license](https://craftle-mod.com/#/LICENSE) are met.
 
-### Generators
-Various machines to generate power.
-
-### Crusher
-Crushes ore and ingots in to their respective dusts.
-
-### Compressor
-Compresses multiple resources to generate machine ingredients
-
-### Purifier
-Purifies platinum, steel and uranium ingots in to their respective purified
-resource. 
+©2020 Craftle / Kalindu De Costa
