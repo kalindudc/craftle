@@ -27,6 +27,8 @@ group = "${mod_group}"
 archivesBaseName = "${mod_name}"
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
+project.logger.lifecycle('build number: ' + System.getenv().BUILD_NUMBER)
+
 minecraft {
     mappings channel: 'snapshot', version: "${mappings_version}"
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
