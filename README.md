@@ -2,7 +2,7 @@
   <img alt="Craftle" width="400px" src="https://craftle-mod.com/media/logo.png" />
 </p>
 
-[![Build Status](https://travis-ci.com/kalindudc/craftle.svg?branch=develop)](https://travis-ci.com/kalindudc/craftle)
+[![Build Status](https://travis-ci.org/kalindudc/craftle.svg?branch=develop)](https://travis-ci.org/kalindudc/craftle)
 
 # Craftle for Minecraft 1.15.x
 > A minecraft addon
@@ -14,10 +14,6 @@ Welcome to the offical Craftle documentation. Here you will find information reg
 [Craftle homepage](https://craftle-mod.com)
 
 [Curseforge](#)
-
-### Do you want to contribute?
-
-Please read the contributing [guidelines](CONTRIBUTING.md) for a detailed explanation of the structure of this project and methods of contributing.
 
 ### License
 
