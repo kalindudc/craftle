@@ -1,4 +1,6 @@
-sudo: required
+
+os: 
+  - linux
 dist: trusty
 
 language: java
@@ -23,8 +25,10 @@ notifications:
   email: false
 
 deploy:
+  skip_cleanup: true
   provider: script
-  script: ./gradlew deployRelease
+  script: 
+    - ./gradlew build
   on:
     all_branches: true
     condition: $TRAVIS_BRANCH =~ ^(1.15.x)$
