@@ -2,6 +2,8 @@
   <img alt="Craftle" width="400px" src="https://craftle-mod.com/media/logo.png" />
 </p>
 
+[![Build Status](https://travis-ci.org/kalindudc/craftle.svg?branch=develop)](https://travis-ci.org/kalindudc/craftle)
+
 # Craftle for Minecraft 1.15.x
 > A minecraft addon
 
