@@ -67,7 +67,7 @@ Consider the following as an example template for any issue
 - Detaile description (if enhancement)
 - Steps to reproduce (if bug)
   - Be specific!
-  - Give sample code if you can. [My stackoverflow question](http://stackoverflow.com/q/12488905/180626) includes sample code that *anyone* with a base R setup can run to reproduce what I was seeing
+  - Give sample code if you can.
 - What you expected would happen
 - What actually happens (if bug)
 - Additional notes
