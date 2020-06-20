@@ -27,8 +27,6 @@ group = "${mod_group}"
 archivesBaseName = "${mod_name}"
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
-project.logger.lifecycle('build number: ' + System.getenv().BUILD_NUMBER)
-
 minecraft {
     mappings channel: 'snapshot', version: "${mappings_version}"
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -186,6 +184,12 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 }
 
 build.dependsOn(sourcesJar)
+
+task deployRelease {
+    project.logger.lifecycle('Deploy new Craftle release: ' + project.version)
+}
+
+tasks.deployRelease.dependsOn build
 
 //tasks.curseforge.dependsOn coreJar
 //
