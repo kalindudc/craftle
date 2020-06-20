@@ -185,8 +185,8 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 build.dependsOn(sourcesJar)
 
-task deployRelease {
-    project.logger.lifecycle('Deploy new Craftle release: ' + project.version)
+task deployRelease(type: Delete) {
+    delete jar
 }
 
 tasks.deployRelease.dependsOn build
