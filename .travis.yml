@@ -21,3 +21,10 @@ script:
 
 notifications:
   email: false
+
+deploy:
+  provider: script
+  script: ./gradlew deployRelease
+  on:
+    all_branches: true
+    condition: $TRAVIS_BRANCH =~ ^(1.15.x)$
