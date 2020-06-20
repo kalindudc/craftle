@@ -28,7 +28,7 @@ deploy:
   skip_cleanup: true
   provider: script
   script: 
-    - ./gradlew deployRelease
+    - ./gradlew build
   on:
     all_branches: true
     condition: $TRAVIS_BRANCH =~ ^(1.15.x)$
