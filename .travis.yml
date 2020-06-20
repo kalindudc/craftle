@@ -1,4 +1,6 @@
-sudo: required
+
+os: 
+  - linux
 dist: trusty
 
 language: java
@@ -23,6 +25,7 @@ notifications:
   email: false
 
 deploy:
+  skip_cleanup: true
   provider: script
   script: 
     - ./gradlew deployRelease
