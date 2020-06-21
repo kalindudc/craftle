@@ -17,6 +17,7 @@ plugins {
     id 'idea'
     id 'maven'
     id 'maven-publish'
+    id "com.github.breadmoirai.github-release" version "2.2.10"
 }
 
 apply plugin: 'idea'
@@ -140,56 +141,75 @@ reobf {
 }
 
 // Credit: Mekanism
-uploadArchives {
-    if (System.getenv("LOCAL_MAVEN") != null) {
-        repositories {
-            mavenDeployer {
-                repository(url: "file://" + System.getenv("LOCAL_MAVEN"))
-                pom {
-                    groupId = project.group
-                    version = project.version
-                    if (System.getenv("MAVEN_ARTIFACT") != null) {
-                        artifactId = System.getenv("MAVEN_ARTIFACT")
-                    } else {
-                        artifactId = "Craftle"
-                    }
-                    project {
-                        name = "Craftle"
-                        packaging 'jar'
-                        description 'Craftle is a Minecraft modification, providing highly technical machines, tools and other resources.'
-                        url 'https://kdecosta.com/craftle/'
-                        scm {
-                            url 'https://github.com/kalindudc/craftle.git'
-                        }
-                        issueManagement {
-                            system 'github'
-                            url 'https://github.com/kalindudc/craftle/issues'
-                        }
-                        licenses {
-                            license {
-                                name = 'CC-NC-SA 4.0'
-                                distribution 'repo'
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
+//uploadArchives {
+//    if (System.getenv("LOCAL_MAVEN") != null) {
+//        repositories {
+//            mavenDeployer {
+//                repository(url: "file://" + System.getenv("LOCAL_MAVEN"))
+//                pom {
+//                    groupId = project.group
+//                    version = project.version
+//                    if (System.getenv("MAVEN_ARTIFACT") != null) {
+//                        artifactId = System.getenv("MAVEN_ARTIFACT")
+//                    } else {
+//                        artifactId = "Craftle"
+//                    }
+//                    project {
+//                        name = "Craftle"
+//                        packaging 'jar'
+//                        description 'Craftle is a Minecraft modification, providing highly technical machines, tools and other resources.'
+//                        url 'https://kdecosta.com/craftle/'
+//                        scm {
+//                            url 'https://github.com/kalindudc/craftle.git'
+//                        }
+//                        issueManagement {
+//                            system 'github'
+//                            url 'https://github.com/kalindudc/craftle/issues'
+//                        }
+//                        licenses {
+//                            license {
+//                                name = 'CC-NC-SA 4.0'
+//                                distribution 'repo'
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource
 }
 
-build.dependsOn(sourcesJar)
+tasks.build.dependsOn sourcesJar
 
-task deployRelease(type: Delete) {
-    delete jar
+githubRelease {
+    token "" + System.getenv("RELEASE_TOKEN")
+    owner "kalindudc"
+    repo "craftle"
+    tagName "v${project.version}"
+    targetCommitish System.getenv("TRAVIS_BRANCH") ?: "master"
+    releaseName
+    "v${project.version}"
+    body ""
+    draft false
+    prerelease new String("${curse_release_type}").equalsIgnoreCase("alpha") || new String("${curse_release_type}").equalsIgnoreCase("beta")
+    FilenameFilter filter = { dir, filename -> filename.contains(project.version) }
+    releaseAssets jar.destinationDir.listFiles(filter)
+    // complain if tag already exists, I probably forgot to bump the patch number
+    overwrite false
+    apiEndpoint "https://api.github.com"
 }
 
-tasks.deployRelease.dependsOn build
+task deployRelease {
+    dependsOn 'build'
+    dependsOn 'githubRelease'
+    // add curseforge
+    tasks.findByName('githubRelease').mustRunAfter 'build'
+}
 
 //tasks.curseforge.dependsOn coreJar
 //
