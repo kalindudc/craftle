@@ -1,6 +1,6 @@
 {
     "textures": {
         "all": "craftle:block/resource/machine_base_basic"
-    },
+    }, 
     "parent": "block/cube_all"
 }

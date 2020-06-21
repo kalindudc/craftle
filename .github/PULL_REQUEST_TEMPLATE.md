@@ -6,7 +6,7 @@ Closes # (issue)
 
 ## How Has This Been Tested?
 
-Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration. Please include any relavant curl commands and example outputs for backend features
+Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce, if this is a bug fix.
 
 ## Checklist:
 
