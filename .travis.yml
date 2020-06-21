@@ -25,17 +25,10 @@ notifications:
   email: false
 
 deploy:
-  # build and generate main and sources
+  # kick off release
   - provider: script
     skip_cleanup: true
-    script: ./gradlew build
-    on:
-      all_branches: true
-      condition: $TRAVIS_BRANCH =~ ^(\d*.\d*.x|travis-tests)$
-  # create github release
-  - provider: script
-    skip_cleanup: true
-    script: ./gradlew githubRelease
+    script: ./gradlew deployRelease
     on:
       all_branches: true
       condition: $TRAVIS_BRANCH =~ ^(\d*.\d*.x|travis-tests)$

@@ -187,31 +187,28 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 tasks.build.dependsOn sourcesJar
 
 githubRelease {
-
     token "" + System.getenv("RELEASE_TOKEN")
-
     owner "kalindudc"
     repo "craftle"
     tagName "v${project.version}"
-
     targetCommitish System.getenv("TRAVIS_BRANCH") ?: "master"
-
     releaseName
     "v${project.version}"
     body ""
     draft false
     prerelease new String("${curse_release_type}").equalsIgnoreCase("alpha") || new String("${curse_release_type}").equalsIgnoreCase("beta")
-
     FilenameFilter filter = { dir, filename -> filename.contains(project.version) }
     releaseAssets jar.destinationDir.listFiles(filter)
-
-    overwrite true
-
+    // complain if tag already exists, I probably forgot to bump the patch number
+    overwrite false
     apiEndpoint "https://api.github.com"
 }
 
-task deployRelease(type: Delete) {
-    delete jar
+task deployRelease {
+    dependsOn 'build'
+    dependsOn 'githubRelease'
+    // add curseforge
+    tasks.findByName('githubRelease').mustRunAfter 'build'
 }
 
 //tasks.curseforge.dependsOn coreJar
