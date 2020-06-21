@@ -25,6 +25,13 @@ notifications:
   email: false
 
 deploy:
+  # build and generate jars
+  - provider: script
+    skip_cleanup: true
+    script: ./gradlew build
+    on:
+      all_branches: true
+      condition: $TRAVIS_BRANCH =~ ^(\d*.\d*.x|travis-tests)$
   # kick off release
   - provider: script
     skip_cleanup: true
