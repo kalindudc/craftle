@@ -185,8 +185,24 @@ public class CraftleBlocks {
                                                                CraftleBlock.BlockType.MACHINE,
                                                                SoundType.METAL));
 
-    // compressor , purifier, tier (1-4) -
     // machine base, tier (1-4) -
+    public static final RegistryObject<Block> MACHINE_BASE_BASIC  =
+            registerResource("machine_base_basic", BlockResource.STEEL,
+                             CraftleBlock.BlockType.MACHINE, SoundType.METAL);
+    public static final RegistryObject<Block> MACHINE_BASE_TIER_1 =
+            registerResource("machine_base_tier_1", BlockResource.STEEL,
+                             CraftleBlock.BlockType.MACHINE, SoundType.METAL);
+    public static final RegistryObject<Block> MACHINE_BASE_TIER_2 =
+            registerResource("machine_base_tier_2", BlockResource.STEEL,
+                             CraftleBlock.BlockType.MACHINE, SoundType.METAL);
+    public static final RegistryObject<Block> MACHINE_BASE_TIER_3 =
+            registerResource("machine_base_tier_3", BlockResource.STEEL,
+                             CraftleBlock.BlockType.MACHINE, SoundType.METAL);
+    public static final RegistryObject<Block> MACHINE_BASE_TIER_4 =
+            registerResource("machine_base_tier_4", BlockResource.STEEL,
+                             CraftleBlock.BlockType.MACHINE, SoundType.METAL);
+
+    // compressor , purifier, tier (1-4) -
     // tanks -
     // energy: power blocks, tier (1-4)
     // Hydro Generator -
@@ -219,6 +235,14 @@ public class CraftleBlocks {
                 resource.getResourceName() + "_" + ResourceType.BLOCK.getResourceName();
         return BLOCKS.register(resourceName,
                                () -> new ResourceBlock(resource, blockType, SoundType.METAL));
+    }
+
+    private static RegistryObject<Block> registerResource(String resourceName,
+                                                          BlockResource resource,
+                                                          CraftleBlock.BlockType blockType,
+                                                          SoundType sound) {
+
+        return BLOCKS.register(resourceName, () -> new ResourceBlock(resource, blockType, sound));
     }
 
 }
