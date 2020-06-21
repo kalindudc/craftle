@@ -194,29 +194,20 @@ githubRelease {
     repo "craftle"
     tagName "v${project.version}"
 
-    //targetCommitish System.getenv("TRAVIS_BRANCH")
-    targetCommitish "master"
+    targetCommitish System.getenv("TRAVIS_BRANCH") ?: "master"
 
-    releaseName "v${project.version}"
+    releaseName
+    "v${project.version}"
     body ""
     draft false
     prerelease new String("${curse_release_type}").equalsIgnoreCase("alpha") || new String("${curse_release_type}").equalsIgnoreCase("beta")
 
-
-    //FilenameFilter filter = { dir, filename -> filename.contains(project.version) }
-
-    releaseAssets.from('build/libs/')
-
-    //releaseAssets jar.destinationDir.list()
+    FilenameFilter filter = { dir, filename -> filename.contains(project.version) }
+    releaseAssets jar.destinationDir.listFiles(filter)
 
     overwrite true
 
-    //dryRun System.getenv("TRAVIS_BRANCH") != null && !System.getenv("TRAVIS_BRANCH").equalsIgnoreCase("travis-tests")
-    //dryRun false
-
     apiEndpoint "https://api.github.com"
-
-    println "List of files: " + jar.destinationDir.list()
 }
 
 task deployRelease(type: Delete) {
