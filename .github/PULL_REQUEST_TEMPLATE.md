@@ -4,10 +4,6 @@ Please include a summary of the change and which issue is fixed. Please also inc
 
 Closes # (issue)
 
-## How Has This Been Tested?
-
-Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce, if this is a bug fix.
-
 ## Checklist:
 
 - [ ] My code follows the style guidelines of this project
