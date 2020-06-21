@@ -1,4 +1,4 @@
-os: 
+os:
   - linux
 dist: trusty
 
@@ -26,9 +26,10 @@ notifications:
 
 deploy:
   skip_cleanup: true
-  provider: script
-  script: 
-    - ./gradlew deployRelease
+  provider: releases
+  script:
+    - ./gradlew build
+    - ./gradlew githubRelease
   on:
     all_branches: true
-    condition: $TRAVIS_BRANCH =~ ^(\d*.\d*.x)$
+    condition: $TRAVIS_BRANCH =~ ^(\d*.\d*.x|travis-tests)$
