@@ -20,7 +20,8 @@ public abstract class CraftleBlock extends Block {
         super(Block.Properties.create(resource.getMaterial())
                               .hardnessAndResistance(resource.getHardness(), resource.getHardness())
                               .harvestTool(resource.getHarvestTool())
-                              .harvestLevel(resource.getHarvestLevel()).sound(soundType));
+                              .harvestLevel(resource.getHarvestLevel()).sound(soundType).notSolid()
+                              .variableOpacity());
         this.resource  = resource;
         this.blockType = blockType;
     }
