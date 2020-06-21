@@ -52,6 +52,18 @@ public class CraftleClientEventSubscriber {
                                       EnergyMatrixScreen::new);
 
 
+        // set transparent blocks
+        //        RenderTypeLookup.setRenderLayer(CraftleBlocks.ENERGY_MATRIX_BASIC.get(),
+        //                                        RenderType.getTranslucent());
+        //        RenderTypeLookup.setRenderLayer(CraftleBlocks.ENERGY_MATRIX_TIER_1.get(),
+        //                                        RenderType.getTranslucent());
+        //        RenderTypeLookup.setRenderLayer(CraftleBlocks.ENERGY_MATRIX_TIER_2.get(),
+        //                                        RenderType.getTranslucent());
+        //        RenderTypeLookup.setRenderLayer(CraftleBlocks.ENERGY_MATRIX_TIER_3.get(),
+        //                                        RenderType.getTranslucent());
+        //        RenderTypeLookup.setRenderLayer(CraftleBlocks.ENERGY_MATRIX_TIER_4.get(),
+        //                                        RenderType.getTranslucent());
+
     }
 
 }

@@ -173,18 +173,17 @@ public class CraftleBlocks {
                                              SoundType.METAL, CraftleBaseTier.TIER_4));
 
     // workbench
-    public static final RegistryObject<Block> WORKBENCH       =
+    public static final RegistryObject<Block> WORKBENCH           =
             registerMachineWithRegistryName("workbench", new WorkBench(BlockResource.STEEL,
                                                                        CraftleBlock.BlockType.MACHINE,
                                                                        SoundType.WOOD,
                                                                        CraftleBaseTier.BASIC));
     // cable connector
-    public static final RegistryObject<Block> CABLE_CONNECTOR =
+    public static final RegistryObject<Block> CABLE_CONNECTOR     =
             registerMachineWithRegistryName("cable_connector",
                                             new CableConnector(BlockResource.STEEL,
                                                                CraftleBlock.BlockType.MACHINE,
                                                                SoundType.METAL));
-
     // machine base, tier (1-4) -
     public static final RegistryObject<Block> MACHINE_BASE_BASIC  =
             registerResource("machine_base_basic", BlockResource.STEEL,
