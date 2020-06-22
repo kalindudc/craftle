@@ -164,7 +164,7 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
     }
 
     @Override
-    public CraftleRecipeType<? extends IRecipe<?>> getRecipeType() {
+    public CraftleRecipeType<? extends IRecipe<?> getRecipeType() {
         return null;
     }
 
