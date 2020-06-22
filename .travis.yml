@@ -1,5 +1,4 @@
-
-os: 
+os:
   - linux
 dist: trusty
 
@@ -11,6 +10,7 @@ before_cache:
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
   - rm -f  $HOME/.gradle/caches/minecraft/deobfedDeps/providedDummy.jar
   - rm -f  $HOME/.gradle/caches/minecraft/deobfedDeps/compileDummy.jar
+
 cache:
   directories:
     - $HOME/.gradle/caches/
@@ -25,10 +25,17 @@ notifications:
   email: false
 
 deploy:
-  skip_cleanup: true
-  provider: script
-  script: 
-    - ./gradlew deployRelease
-  on:
-    all_branches: true
-    condition: $TRAVIS_BRANCH =~ ^(1.15.x)$
+  # build and generate jars
+  - provider: script
+    skip_cleanup: true
+    script: if [ "$DEPLOY_RELEASE" = "true" ]; then ./gradlew build; else echo "Skip deploy"; fi
+    on:
+      all_branches: true
+      condition: $TRAVIS_BRANCH =~ ^(\d*.\d*.x|travis-tests)$
+  # kick off release
+  - provider: script
+    skip_cleanup: true
+    script: if [ "$DEPLOY_RELEASE" = "true" ]; then ./gradlew deployRelease; else echo "Skip deploy"; fi
+    on:
+      all_branches: true
+      condition: $TRAVIS_BRANCH =~ ^(\d*.\d*.x|travis-tests)$

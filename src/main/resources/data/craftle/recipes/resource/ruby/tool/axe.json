@@ -1,17 +1,17 @@
 {
     "pattern": [
-        "xx", 
-        "xy", 
+        "xx",
+        "xy",
         " y"
-    ], 
-    "type": "minecraft:crafting_shaped", 
+    ],
+    "type": "minecraft:crafting_shaped",
     "result": {
         "item": "craftle:ruby_axe"
-    }, 
+    },
     "key": {
         "y": {
             "tag": "forge:rods/wooden"
-        }, 
+        },
         "x": {
             "tag": "forge:ingots/ruby"
         }

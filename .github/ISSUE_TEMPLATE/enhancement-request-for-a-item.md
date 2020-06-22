@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 ## Description
-<Item> is used for <detailed purpose>. For example <input for the Item>will yield <ouput of the Item>. The <Item> should integrate to the tiered system starting with the basic item - tiers 1-4. * This is optional
+\<Item> is used for \<detailed purpose>. For example \<input for the Item>will yield \<ouput of the Item>. The \<Item> should integrate to the tiered system starting with the basic item - tiers 1-4. This is optional
 
 The <Item> should have different texture variations to indicate when it is active.
 

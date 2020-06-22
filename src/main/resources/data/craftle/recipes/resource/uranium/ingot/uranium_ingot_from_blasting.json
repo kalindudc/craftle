@@ -1,8 +1,8 @@
 {
-    "cookingtime": 100, 
-    "type": "minecraft:blasting", 
-    "result": "craftle:uranium_ingot", 
-    "experience": 1.0, 
+    "cookingtime": 100,
+    "type": "minecraft:blasting",
+    "result": "craftle:uranium_ingot",
+    "experience": 1.0,
     "ingredient": {
         "item": "craftle:uranium_ore"
     }

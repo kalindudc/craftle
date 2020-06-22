@@ -1,20 +1,19 @@
 package com.craftle_mod.common.recipe.input;
 
 import com.google.gson.JsonElement;
+import java.util.List;
+import java.util.function.Predicate;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 
-import java.util.List;
-import java.util.function.Predicate;
-
 public interface IInputIngredient<T> extends Predicate<T> {
 
-    public void write(PacketBuffer buffer);
+    void write(PacketBuffer buffer);
 
-    public List<T> getRepresentations();
+    List<T> getRepresentations();
 
-    public JsonElement serialize();
+    JsonElement serialize();
 
-    public ItemStack getMatchingInstance(ItemStack stack);
+    ItemStack getMatchingInstance(ItemStack stack);
 
 }

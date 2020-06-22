@@ -44,10 +44,21 @@ Craftle is licensed under CC-NC-SA 4.0 and any contributions you make will that 
 5. Make sure your code lints.
 6. Issue that pull request!
 
-Note: Craftle follows [Forge versioning convensions](https://mcforge.readthedocs.io/en/1.14.x/conventions/versioning/). If your changes affect 
+#### Commit message format
+
+1. Start the subject line with a verb (e.g. Change header styles)
+2. Use the imperative mood in the subject line (e.g. Fix, not Fixed or Fixes header styles)
+3. Limit the subject line to about 50 characters
+4. Do not end the subject line with a period
+5. Separate subject from body with a blank line
+6. Wrap the body at 72 characters
+
+#### Additional Notes
+
+1. Craftle follows [Forge versioning convensions](https://mcforge.readthedocs.io/en/1.14.x/conventions/versioning/). If your changes affect 
 any of the MAJORMOD/MAJORAPI/MINOR conventions as described in the Forge documentation, please indicate it within the pull reques.
 
-Note: All pull requests must come attached to a github [issue](https://github.com/kalindudc/craftle/issues). If your code change resolves an existing issue, please
+2. All pull requests must come attached to a github [issue](https://github.com/kalindudc/craftle/issues). If your code change resolves an existing issue, please
 indicate that within the pull request description. If your code change partially affects an existing issue, please create a new issue that covers your code change
 and attach both issues to the pull request via the description. Finally if your code change does not relate to any existing issues, please create a new issue and 
 wait for approval from the Craftle team before submitting your pull request.
@@ -64,7 +75,7 @@ Craftle team.
 Consider the following as an example template for any issue
 
 - A quick summary and/or background
-- Detaile description (if enhancement)
+- Detailed description (if enhancement)
 - Steps to reproduce (if bug)
   - Be specific!
   - Give sample code if you can.
@@ -74,5 +85,13 @@ Consider the following as an example template for any issue
 
 ## Use a Consistent Coding Style
 
-* 4 spaces for indentation rather than tabs
+* Craftle uses the Google Style guide with indentations set to 4 spaces rather than 2
 * Use the provided [code style](docs/code-style.xml) for IntelIJ users
+* For other IDEs please use the [Google Java Style](https://google.github.io/styleguide/javaguide.html) guide with 4 spaces  for indentation
+
+##  Credits
+
+This contributing document adapted using the following templates
+- https://gist.github.com/briandk/3d2e8b3ec8daf5a27a62
+- https://github.com/atom/atom/blob/master/CONTRIBUTING.md
+- https://github.com/github-tools/github-release-notes

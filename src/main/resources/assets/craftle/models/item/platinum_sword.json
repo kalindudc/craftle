@@ -1,6 +1,6 @@
 {
     "textures": {
         "layer0": "craftle:item/platinum_sword"
-    }, 
+    },
     "parent": "item/handheld"
 }

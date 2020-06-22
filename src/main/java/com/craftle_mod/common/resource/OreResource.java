@@ -11,21 +11,18 @@ public enum OreResource implements IBlockResource {
     SAPPHIRE("sapphire", 2);
 
     private final String name;
-    private final float  hardness;
-    private final float  resistance;
+    private final float hardness;
+    private final float resistance;
     /**
-     * 0: wood/gold
-     * 1: stone
-     * 2: iron
-     * 3: diamond
+     * 0: wood/gold 1: stone 2: iron 3: diamond
      */
-    private final int    harvestLevel;
+    private final int harvestLevel;
 
     OreResource(String name, int harvestLevel) {
-        this.name         = name;
+        this.name = name;
         this.harvestLevel = harvestLevel;
-        this.hardness     = 3.0f;
-        this.resistance   = 10.0f;
+        this.hardness = 3.0f;
+        this.resistance = 10.0f;
     }
 
     @Override

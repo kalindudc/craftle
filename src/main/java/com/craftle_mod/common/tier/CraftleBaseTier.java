@@ -9,12 +9,12 @@ public enum CraftleBaseTier {
     UNLIMITED("unlimited", 1_000_000_000.0f, "UNLIMITED");
 
     private final String tier;
-    private final float  multiplier;
+    private final float multiplier;
     private final String formattedName;
 
     CraftleBaseTier(String tier, float multiplier, String formattedName) {
-        this.tier          = tier;
-        this.multiplier    = multiplier;
+        this.tier = tier;
+        this.multiplier = multiplier;
         this.formattedName = formattedName;
     }
 

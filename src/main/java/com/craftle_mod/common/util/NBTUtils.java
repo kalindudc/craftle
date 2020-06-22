@@ -1,14 +1,14 @@
 package com.craftle_mod.common.util;
 
 import com.craftle_mod.common.tile.TileEntityQuarry;
+import java.util.Objects;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public abstract class NBTUtils {
 
@@ -38,7 +38,8 @@ public abstract class NBTUtils {
         CompoundNBT compound = new CompoundNBT();
 
         compound.putInt("count", o.getCount());
-        compound.putString("item", o.getItem().getRegistryName().toString());
+        compound
+            .putString("item", Objects.requireNonNull(o.getItem().getRegistryName()).toString());
         compound.putByte("type", (byte) 0);
 
         return compound;
@@ -46,17 +47,15 @@ public abstract class NBTUtils {
 
     @Nullable
     public static Object fromNBT(@Nonnull CompoundNBT compound) {
-        switch (compound.getByte("type")) {
-            case 0:
-                return readItemStack(compound);
-            default:
-                return null;
+        if (compound.getByte("type") == 0) {
+            return readItemStack(compound);
         }
+        return null;
     }
 
     private static ItemStack readItemStack(CompoundNBT compound) {
         Item item =
-                ForgeRegistries.ITEMS.getValue(new ResourceLocation(compound.getString("item")));
+            ForgeRegistries.ITEMS.getValue(new ResourceLocation(compound.getString("item")));
         int count = compound.getInt("count");
         return new ItemStack(item, count);
     }

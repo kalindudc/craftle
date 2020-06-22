@@ -2,17 +2,17 @@ package com.craftle_mod.common.shared;
 
 public interface ICraftleEnergy {
 
-    public float getCapacity();
+    float getCapacity();
 
-    public float getMaxCapacity();
+    float getMaxCapacity();
 
-    public float getMaxInput();
+    float getMaxInput();
 
-    public float getMaxOutput();
+    float getMaxOutput();
 
-    public float getInput();
+    float getInput();
 
-    public float getOutput();
+    float getOutput();
 
     /**
      * Use this much energy from this item.
@@ -21,9 +21,9 @@ public interface ICraftleEnergy {
      *
      * @param amount to reduce from capacity
      */
-    public void useEnergy(float amount);
+    void useEnergy(float amount);
 
-    public void setInput(float input);
+    void setInput(float input);
 
-    public void setOutput(float output);
+    void setOutput(float output);
 }

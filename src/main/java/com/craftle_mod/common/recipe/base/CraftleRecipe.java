@@ -1,13 +1,12 @@
 package com.craftle_mod.common.recipe.base;
 
 import com.craftle_mod.common.recipe.inventory.EmptyInventory;
+import javax.annotation.Nonnull;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-
-import javax.annotation.Nonnull;
 
 /**
  * A class to represent a CraftleRecipe for a custom recipe
@@ -20,6 +19,7 @@ public abstract class CraftleRecipe implements IRecipe<EmptyInventory> {
         this.resourceLocation = resourceLocation;
     }
 
+    @Nonnull
     @Override
     public ResourceLocation getId() {
         return resourceLocation;
@@ -36,8 +36,9 @@ public abstract class CraftleRecipe implements IRecipe<EmptyInventory> {
         return false;
     }
 
+    @Nonnull
     @Override
-    public ItemStack getCraftingResult(EmptyInventory inv) {
+    public ItemStack getCraftingResult(@Nonnull EmptyInventory inv) {
         // This is not a valid recipe... Yet.
         return ItemStack.EMPTY;
     }
@@ -47,6 +48,7 @@ public abstract class CraftleRecipe implements IRecipe<EmptyInventory> {
         return true;
     }
 
+    @Nonnull
     @Override
     public ItemStack getRecipeOutput() {
         // Not yet!

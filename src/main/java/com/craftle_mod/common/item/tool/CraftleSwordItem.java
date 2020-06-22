@@ -3,21 +3,22 @@ package com.craftle_mod.common.item.tool;
 import com.craftle_mod.common.CraftleCreativeTabs;
 import com.craftle_mod.common.item.base.ICraftleToolItem;
 import com.craftle_mod.common.tier.CraftleToolTier;
+import javax.annotation.Nonnull;
 import net.minecraft.item.Item;
 import net.minecraft.item.SwordItem;
 
 public class CraftleSwordItem extends SwordItem implements ICraftleToolItem {
 
-    private final String          resourceName;
+    private final String resourceName;
     private final CraftleToolTier tier;
 
     public CraftleSwordItem(int attackDamage, float attackSpeed,
-                            CraftleToolTier tier) {
+        CraftleToolTier tier) {
 
         super(tier, attackDamage, attackSpeed, new Item.Properties()
-                .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_TOOLS));
+            .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_TOOLS));
         this.resourceName = tier.getMaterialName() + "_sword";
-        this.tier         = tier;
+        this.tier = tier;
     }
 
     @Override
@@ -25,6 +26,7 @@ public class CraftleSwordItem extends SwordItem implements ICraftleToolItem {
         return resourceName;
     }
 
+    @Nonnull
     @Override
     public CraftleToolTier getTier() {
         return tier;

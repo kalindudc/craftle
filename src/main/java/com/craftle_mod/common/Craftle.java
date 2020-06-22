@@ -26,20 +26,20 @@ import org.apache.logging.log4j.Logger;
 @EventBusSubscriber(modid = Craftle.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class Craftle {
 
-    public static final String MODID       = "craftle";
+    public static final String MODID = "craftle";
     public static final String MOD_VERSION = "0.0.1.0";
 
-    public static final Logger           LOGGER        =
-            LogManager.getLogger(Craftle.MODID);
+    public static final Logger LOGGER =
+        LogManager.getLogger(Craftle.MODID);
     public static final ResourceLocation TEST_DIM_TYPE =
-            new ResourceLocation(MODID, "test_dimension");
+        new ResourceLocation(MODID, "test_dimension");
 
     private static Craftle instance;
 
     public Craftle() {
 
         final IEventBus craftleEventBus =
-                FMLJavaModLoadingContext.get().getModEventBus();
+            FMLJavaModLoadingContext.get().getModEventBus();
 
         craftleEventBus.addListener(this::setup);
         craftleEventBus.addListener(this::clientRegistries);

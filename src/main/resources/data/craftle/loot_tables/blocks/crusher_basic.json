@@ -1,14 +1,14 @@
 {
     "pools": [
         {
-            "rolls": 1.0, 
+            "rolls": 1.0,
             "entries": [
                 {
-                    "type": "minecraft:item", 
+                    "type": "minecraft:item",
                     "name": "craftle:crusher_basic"
                 }
             ]
         }
-    ], 
+    ],
     "type": "minecraft:block"
 }

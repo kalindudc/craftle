@@ -1,17 +1,17 @@
 ---
 name: Enhancement request for a machine
 about: Create a detailed report for a new machine
-title: Add <Machine name> machine to <purpose>
+title: Add \<Machine name> machine to \<purpose>
 labels: block, gui
 assignees: ''
 
 ---
 
 ## Description
-<Machine> is used for <detailed purpose>. For example <input for the machine>will yield <ouput of the machine>. The <Machine> should integrate to the tiered system starting with the basic machine - tiers 1-4.
+\<Machine> is used for \<detailed purpose>. For example \<input for the machine>will yield \<ouput of the machine>. The \<Machine> should integrate to the tiered system starting with the basic machine - tiers 1-4.
 
-The <Machine> should come with a custom block model.
-The <Machine> should have different model variations to indicate when it is active.
+The \<Machine> should come with a custom block model.
+The \<Machine> should have different model variations to indicate when it is active.
 
 Base Capacity: 100 (default units are in kJ)
 Base Fluid level: 100

@@ -4,11 +4,11 @@ import com.craftle_mod.common.tier.CraftleBaseTier;
 
 public interface ICraftleMachineBlock {
 
-    public float getMaxEnergyCapacity();
+    float getMaxEnergyCapacity();
 
-    public float getEnergyCapacity();
+    float getEnergyCapacity();
 
-    public void setEnergyCapacity(float capacity);
+    void setEnergyCapacity(float capacity);
 
-    public CraftleBaseTier getCraftleTier();
+    CraftleBaseTier getCraftleTier();
 }

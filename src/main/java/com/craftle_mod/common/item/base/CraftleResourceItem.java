@@ -3,14 +3,15 @@ package com.craftle_mod.common.item.base;
 import com.craftle_mod.common.CraftleCreativeTabs;
 import com.craftle_mod.common.resource.Resource;
 import com.craftle_mod.common.resource.ResourceType;
+import javax.annotation.Nonnull;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class CraftleResourceItem extends Item {
 
-    private final Resource     resource;
+    private final Resource resource;
     private final ResourceType type;
-    private final boolean      hasEffect;
+    private final boolean hasEffect;
 
     public CraftleResourceItem(Resource resource, ResourceType type) {
         this(resource, type, false);
@@ -18,10 +19,10 @@ public class CraftleResourceItem extends Item {
     }
 
     public CraftleResourceItem(Resource resource, ResourceType type,
-                               boolean hasEffect) {
+        boolean hasEffect) {
         super(getProperties(type));
-        this.resource  = resource;
-        this.type      = type;
+        this.resource = resource;
+        this.type = type;
         this.hasEffect = hasEffect;
     }
 
@@ -30,7 +31,7 @@ public class CraftleResourceItem extends Item {
     }
 
     @Override
-    public boolean hasEffect(ItemStack stack) {
+    public boolean hasEffect(@Nonnull ItemStack stack) {
         return hasEffect;
     }
 
@@ -52,11 +53,11 @@ public class CraftleResourceItem extends Item {
             case ENHANCED:
             case PURIFIED:
                 properties = new Item.Properties()
-                        .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_RESOURCES);
+                    .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_RESOURCES);
                 break;
             default:
                 properties = new Item.Properties()
-                        .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC);
+                    .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC);
                 break;
         }
 

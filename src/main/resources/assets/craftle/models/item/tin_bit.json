@@ -1,6 +1,6 @@
 {
     "textures": {
         "layer0": "craftle:item/tin_bit"
-    }, 
+    },
     "parent": "item/generated"
 }

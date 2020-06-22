@@ -6,19 +6,18 @@ import net.minecraftforge.common.ToolType;
 /**
  * An interface to represent a resource class for a Craftle Block.
  * <p>
- * Every Resource must contain a hardness value, resistance value and a
- * harvest level.
+ * Every Resource must contain a hardness value, resistance value and a harvest level.
  */
 public interface IBlockResource extends ICraftleResource {
 
-    public float getHardness();
+    float getHardness();
 
-    public float getResistance();
+    float getResistance();
 
-    public int getHarvestLevel();
+    int getHarvestLevel();
 
-    public ToolType getHarvestTool();
+    ToolType getHarvestTool();
 
-    public Material getMaterial();
+    Material getMaterial();
 
 }
