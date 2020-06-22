@@ -85,8 +85,9 @@ Consider the following as an example template for any issue
 
 ## Use a Consistent Coding Style
 
-* 4 spaces for indentation rather than tabs
+* Craftle uses the Google Style guide with indentations set to 4 spaces rather than 2
 * Use the provided [code style](docs/code-style.xml) for IntelIJ users
+* For other IDEs please use the [Google Java Style](https://google.github.io/styleguide/javaguide.html) guide with 4 spaces  for indentation
 
 ##  Credits
 

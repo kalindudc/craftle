@@ -3,6 +3,8 @@ package com.craftle_mod.common.inventory.container;
 import com.craftle_mod.common.registries.CraftleBlocks;
 import com.craftle_mod.common.registries.CraftleContainerTypes;
 import com.craftle_mod.common.tile.TileEntityTestChest;
+import java.util.Objects;
+import javax.annotation.Nonnull;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -12,37 +14,33 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 
-import java.util.Objects;
-
 public class CraftleChestContainer extends Container {
 
 
-    public final  TileEntityTestChest entity;
-    private final IWorldPosCallable   canInteractWithCallable;
-    private       int                 numRows;
-    private       int                 numCols;
+    public final TileEntityTestChest entity;
+    private final IWorldPosCallable canInteractWithCallable;
 
 
     public CraftleChestContainer(final int windowId,
-                                 final PlayerInventory playerInventory,
-                                 final TileEntityTestChest entity) {
+        final PlayerInventory playerInventory,
+        final TileEntityTestChest entity) {
         super(CraftleContainerTypes.TEST_CHEST.get(), windowId);
-        this.entity                  = entity;
+        this.entity = entity;
         this.canInteractWithCallable =
-                IWorldPosCallable.of(entity.getWorld(), entity.getPos());
-        this.numRows                 = 6;
-        this.numCols                 = 9;
-        
+            IWorldPosCallable.of(Objects.requireNonNull(entity.getWorld()), entity.getPos());
+        int numRows = 6;
+        int numCols = 9;
+
         // Main Inventory
-        int startX        = 8;
-        int startY        = 18;
+        int startX = 8;
+        int startY = 18;
         int slotSizePlus2 = 18;
 
-        for (int row = 0; row < this.numRows; row++) {
-            for (int col = 0; col < this.numCols; col++) {
-                this.addSlot(new Slot(entity, (row * this.numCols) + col,
-                                      startX + (col * slotSizePlus2),
-                                      startY + (row * slotSizePlus2)));
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
+                this.addSlot(new Slot(entity, (row * numCols) + col,
+                    startX + (col * slotSizePlus2),
+                    startY + (row * slotSizePlus2)));
             }
         }
 
@@ -53,8 +51,8 @@ public class CraftleChestContainer extends Container {
             for (int col = 0; col < 9; col++) {
                 // extra 9 + is to account for the hotbar
                 this.addSlot(new Slot(playerInventory, (9 + (row * 9)) + col,
-                                      startPlayerInvX + (col * slotSizePlus2),
-                                      startPlayerInvY + (row * slotSizePlus2)));
+                    startPlayerInvX + (col * slotSizePlus2),
+                    startPlayerInvY + (row * slotSizePlus2)));
             }
         }
 
@@ -64,60 +62,59 @@ public class CraftleChestContainer extends Container {
         for (int col = 0; col < 9; col++) {
             // extra 9 + is to account for the hotbar
             this.addSlot(new Slot(playerInventory, col,
-                                  hotbarX + (col * slotSizePlus2), hotbarY));
+                hotbarX + (col * slotSizePlus2), hotbarY));
         }
     }
 
     public CraftleChestContainer(final int windowId,
-                                 final PlayerInventory playerInventory,
-                                 final PacketBuffer data) {
+        final PlayerInventory playerInventory,
+        final PacketBuffer data) {
         this(windowId, playerInventory, getTileEntity(playerInventory, data));
     }
 
     private static TileEntityTestChest getTileEntity(
-            final PlayerInventory playerInventory, final PacketBuffer data) {
+        final PlayerInventory playerInventory, final PacketBuffer data) {
         Objects.requireNonNull(playerInventory,
-                               "playerInventory cannot be null");
+            "playerInventory cannot be null");
         Objects.requireNonNull(data, "data cannot be null");
 
         final TileEntity tileAtPos =
-                playerInventory.player.world.getTileEntity(data.readBlockPos());
+            playerInventory.player.world.getTileEntity(data.readBlockPos());
         if (tileAtPos instanceof TileEntityTestChest) {
             return (TileEntityTestChest) tileAtPos;
         }
 
         throw new IllegalStateException(
-                "Tile entity is not correct. " + tileAtPos);
+            "Tile entity is not correct. " + tileAtPos);
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
+    public boolean canInteractWith(@Nonnull PlayerEntity playerIn) {
         return isWithinUsableDistance(canInteractWithCallable, playerIn,
-                                      CraftleBlocks.TEST_CHEST.get());
+            CraftleBlocks.TEST_CHEST.get());
     }
 
+    @Nonnull
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+    public ItemStack transferStackInSlot(@Nonnull PlayerEntity playerIn, int index) {
         ItemStack itemStack = ItemStack.EMPTY;
-        Slot      slot      = this.inventorySlots.get(index);
+        Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemStack1 = slot.getStack();
             itemStack = itemStack1.copy();
             if (index < 54) {
                 if (!this.mergeItemStack(itemStack1, 54,
-                                         this.inventorySlots.size(), true)) {
+                    this.inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (!this.mergeItemStack(itemStack1, 0, 54, false)) {
+            } else if (!this.mergeItemStack(itemStack1, 0, 54, false)) {
                 return ItemStack.EMPTY;
             }
 
             if (itemStack1.isEmpty()) {
-                slot.putStack(itemStack.EMPTY);
-            }
-            else {
+                slot.putStack(ItemStack.EMPTY);
+            } else {
                 slot.onSlotChanged();
             }
         }

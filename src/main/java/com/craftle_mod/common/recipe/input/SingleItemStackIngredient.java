@@ -3,24 +3,23 @@ package com.craftle_mod.common.recipe.input;
 import com.craftle_mod.api.JsonConstants;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.annotation.Nonnull;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.network.PacketBuffer;
 
 public class SingleItemStackIngredient extends ItemStackIngredient {
 
     @Nonnull
     private final Ingredient ingredient;
-    private final int        amount;
+    private final int amount;
 
     public SingleItemStackIngredient(Ingredient ingredient, int amount) {
         this.ingredient = Objects.requireNonNull(ingredient);
-        this.amount     = amount;
+        this.amount = amount;
     }
 
     @Override
@@ -47,8 +46,7 @@ public class SingleItemStackIngredient extends ItemStackIngredient {
         for (ItemStack stack : ingredient.getMatchingStacks()) {
             if (stack.getCount() == amount) {
                 representations.add(stack);
-            }
-            else {
+            } else {
                 ItemStack copy = stack.copy();
                 copy.setCount(amount);
                 representations.add(copy);
@@ -76,7 +74,7 @@ public class SingleItemStackIngredient extends ItemStackIngredient {
 
     public static SingleItemStackIngredient read(PacketBuffer buffer) {
         return new SingleItemStackIngredient(Ingredient.read(buffer),
-                                             buffer.readVarInt());
+            buffer.readVarInt());
     }
 
 }

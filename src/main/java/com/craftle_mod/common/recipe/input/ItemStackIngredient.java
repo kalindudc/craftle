@@ -5,16 +5,15 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 public abstract class ItemStackIngredient
-        implements IInputIngredient<ItemStack> {
+    implements IInputIngredient<ItemStack> {
 
 
     public static ItemStackIngredient deserialize(@Nullable JsonElement json) {
@@ -24,38 +23,37 @@ public abstract class ItemStackIngredient
         }
         if (json.isJsonArray()) {
             JsonArray jsonArray = json.getAsJsonArray();
-            int       size      = jsonArray.size();
+            int size = jsonArray.size();
             if (size == 0) {
                 throw new JsonSyntaxException(
-                        "Ingredient array cannot be empty.");
+                    "Ingredient array cannot be empty.");
             }
 
             // TODO: handle array of objects for multiple ingredients
-
 
             json = jsonArray.get(0);
         }
         if (!json.isJsonObject()) {
             throw new JsonSyntaxException(
-                    "Item must be an object or an array" + " of objects");
+                "Item must be an object or an array" + " of objects");
         }
 
         JsonObject jsonObject = json.getAsJsonObject();
-        int        amount     = 1;
+        int amount = 1;
         if (jsonObject.has(JsonConstants.AMOUNT)) {
             JsonElement count = jsonObject.get(JsonConstants.AMOUNT);
             if (!JSONUtils.isNumber(count)) {
                 throw new JsonSyntaxException(
-                        "Amount must be a number larger than 0.");
+                    "Amount must be a number larger than 0.");
             }
             amount = count.getAsJsonPrimitive().getAsInt();
             if (amount < 1) {
                 throw new JsonSyntaxException(
-                        "Amount must be larger than or equal to one");
+                    "Amount must be larger than or equal to one");
             }
         }
         JsonElement jsonelement =
-                JSONUtils.isJsonArray(jsonObject, JsonConstants.INGREDIENT) ?
+            JSONUtils.isJsonArray(jsonObject, JsonConstants.INGREDIENT) ?
                 JSONUtils.getJsonArray(jsonObject, JsonConstants.INGREDIENT) :
                 JSONUtils.getJsonObject(jsonObject, JsonConstants.INGREDIENT);
         Ingredient ingredient = Ingredient.deserialize(jsonelement);
@@ -63,7 +61,7 @@ public abstract class ItemStackIngredient
     }
 
     public static ItemStackIngredient create(@Nonnull Ingredient ingredient,
-                                             int amount) {
+        int amount) {
         return new SingleItemStackIngredient(ingredient, amount);
     }
 

@@ -2,6 +2,8 @@ package com.craftle_mod.common.tile.base;
 
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.TestChest;
+import java.util.Objects;
+import javax.annotation.Nonnull;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,22 +29,20 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-import javax.annotation.Nonnull;
-
 public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
 
-    private   NonNullList<ItemStack>               containerContents;
-    protected int                                  numplayersUsing;
-    private   IItemHandlerModifiable               items;
-    private   LazyOptional<IItemHandlerModifiable> itemHandler;
-    private   int                                  containerSize;
+    private NonNullList<ItemStack> containerContents;
+    protected int numplayersUsing;
+    private final IItemHandlerModifiable items;
+    private LazyOptional<IItemHandlerModifiable> itemHandler;
+    private int containerSize;
 
     public ContainerizedTileEntity(TileEntityType<?> typeIn, int containerSize) {
         super(typeIn);
         this.containerContents = NonNullList.withSize(containerSize, ItemStack.EMPTY);
-        this.items             = createHandler();
-        this.itemHandler       = LazyOptional.of(() -> items);
-        this.containerSize     = containerSize;
+        this.items = createHandler();
+        this.itemHandler = LazyOptional.of(() -> items);
+        this.containerSize = containerSize;
     }
 
     @Override
@@ -50,33 +50,37 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
         return containerSize;
     }
 
+    @Nonnull
     @Override
     public NonNullList<ItemStack> getItems() {
         return this.containerContents;
     }
 
     @Override
-    public void setItems(NonNullList<ItemStack> itemsIn) {
+    public void setItems(@Nonnull NonNullList<ItemStack> itemsIn) {
         this.containerContents = itemsIn;
     }
 
     public void setContainerSize(int containerSize) {
-        this.containerSize     = containerSize;
+        this.containerSize = containerSize;
         this.containerContents = NonNullList.withSize(containerSize, ItemStack.EMPTY);
     }
 
+    @Nonnull
     @Override
     protected ITextComponent getDefaultName() {
         Craftle.LOGGER.info("CRAFTLE {ContainerizedTileEntity}: type " + "registry name " +
-                            this.getType().getRegistryName());
+            this.getType().getRegistryName());
         return new TranslationTextComponent("container." + this.getType().getRegistryName());
     }
 
+    @Nonnull
     @Override
-    public abstract Container createMenu(int id, PlayerInventory player);
+    public abstract Container createMenu(int id, @Nonnull PlayerInventory player);
 
+    @Nonnull
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
         super.write(compound);
         if (!this.checkLootAndWrite(compound)) {
             ItemStackHelper.saveAllItems(compound, this.containerContents);
@@ -85,7 +89,7 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
     }
 
     @Override
-    public void read(CompoundNBT compound) {
+    public void read(@Nonnull CompoundNBT compound) {
         super.read(compound);
         this.containerContents = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
         if (!this.checkLootAndRead(compound)) {
@@ -98,8 +102,9 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
         double dy = (double) this.pos.getY() + 0.5D;
         double dz = (double) this.pos.getZ() + 0.5D;
 
-        this.world.playSound((PlayerEntity) null, dx, dy, dz, sound, SoundCategory.BLOCKS, 0.5f,
-                             this.world.rand.nextFloat() * 0.1f + 0.9f);
+        assert this.world != null;
+        this.world.playSound(null, dx, dy, dz, sound, SoundCategory.BLOCKS, 0.5f,
+            this.world.rand.nextFloat() * 0.1f + 0.9f);
     }
 
     @Override
@@ -107,8 +112,7 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
         if (id == 1) {
             this.numplayersUsing = type;
             return true;
-        }
-        else {
+        } else {
             return super.receiveClientEvent(id, type);
         }
     }
@@ -135,6 +139,7 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
     protected void onOpenOrClose() {
         Block block = this.getBlockState().getBlock();
         if (block instanceof TestChest) {
+            assert this.world != null;
             this.world.addBlockEvent(this.pos, block, 1, this.numplayersUsing);
             this.world.notifyNeighborsOfStateChange(this.pos, block);
         }
@@ -152,7 +157,7 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
     }
 
     public static void swapContents(ContainerizedTileEntity entity,
-                                    ContainerizedTileEntity otherEntity) {
+        ContainerizedTileEntity otherEntity) {
         NonNullList<ItemStack> list = entity.getItems();
         entity.setItems(otherEntity.getItems());
         otherEntity.setItems(list);
@@ -169,12 +174,12 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
 
     @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nonnull Direction side) {
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return itemHandler.cast();
         }
 
-        return super.getCapability(cap, side);
+        return Objects.requireNonNull(super.getCapability(cap, side));
     }
 
     private IItemHandlerModifiable createHandler() {

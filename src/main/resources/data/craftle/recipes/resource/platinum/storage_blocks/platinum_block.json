@@ -1,13 +1,13 @@
 {
     "pattern": [
-        "xxx", 
-        "xxx", 
+        "xxx",
+        "xxx",
         "xxx"
-    ], 
-    "type": "minecraft:crafting_shaped", 
+    ],
+    "type": "minecraft:crafting_shaped",
     "result": {
         "item": "craftle:platinum_block"
-    }, 
+    },
     "key": {
         "x": {
             "item": "craftle:platinum_ingot"

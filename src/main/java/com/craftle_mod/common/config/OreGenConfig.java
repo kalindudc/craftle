@@ -10,13 +10,13 @@ public enum OreGenConfig {
     SAPPHIRE(CraftleBlocks.SAPPHIRE_ORE.get(), new OreConfig(16, 0, 0, 40), 8),
     URANIUM(CraftleBlocks.URANIUM_ORE.get(), new OreConfig(6, 0, 0, 12), 8);
 
-    private final Block     block;
+    private final Block block;
     private final OreConfig config;
-    private final int       maxVeinSize;
+    private final int maxVeinSize;
 
     OreGenConfig(Block block, OreConfig config, int maxVeinSize) {
-        this.block       = block;
-        this.config      = config;
+        this.block = block;
+        this.config = config;
         this.maxVeinSize = maxVeinSize;
     }
 
@@ -40,11 +40,11 @@ public enum OreGenConfig {
         private final int maximum;
 
         private OreConfig(int count, int bottomOffset, int topOffset,
-                          int maximum) {
-            this.count        = count;
+            int maximum) {
+            this.count = count;
             this.bottomOffset = bottomOffset;
-            this.topOffset    = topOffset;
-            this.maximum      = maximum;
+            this.topOffset = topOffset;
+            this.maximum = maximum;
         }
 
         public int getCount() {

@@ -5,6 +5,9 @@ import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.resource.IBlockResource;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.machine.WorkBenchTileEntity;
+import java.util.stream.Stream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -24,28 +27,25 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-import javax.annotation.Nullable;
-import java.util.stream.Stream;
-
 public class WorkBench extends MachineBlock {
 
     private static final VoxelShape SHAPE = Stream.of(Block.makeCuboidShape(2, 0, 2, 14, 2, 14),
-                                                      Block.makeCuboidShape(6, 2, 6, 10, 12, 10),
-                                                      Block.makeCuboidShape(0, 12, 0, 16, 16, 16))
-                                                  .reduce((v1, v2) -> {
-                                                      return VoxelShapes.combineAndSimplify(v1, v2,
-                                                                                            IBooleanFunction.OR);
-                                                  }).get();
-    ;
+        Block.makeCuboidShape(6, 2, 6, 10, 12, 10),
+        Block.makeCuboidShape(0, 12, 0, 16, 16, 16))
+        .reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2,
+            IBooleanFunction.OR)).get();
 
     public WorkBench(IBlockResource resource, BlockType blockType, SoundType soundType,
-                     CraftleBaseTier tier) {
+        CraftleBaseTier tier) {
         super(resource, blockType, soundType, tier);
     }
 
+    @SuppressWarnings("deprecation")
+    @Nonnull
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos,
-                               ISelectionContext context) {
+    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull IBlockReader worldIn,
+        @Nonnull BlockPos pos,
+        @Nonnull ISelectionContext context) {
         return SHAPE;
     }
 
@@ -55,15 +55,18 @@ public class WorkBench extends MachineBlock {
         return CraftleTileEntityTypes.WORKBENCH.get().create();
     }
 
+    @SuppressWarnings("deprecation")
+    @Nonnull
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos,
-                                             PlayerEntity player, Hand handIn,
-                                             BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(@Nonnull BlockState state, World worldIn,
+        @Nonnull BlockPos pos,
+        @Nonnull PlayerEntity player, @Nonnull Hand handIn,
+        @Nonnull BlockRayTraceResult hit) {
         if (!worldIn.isRemote) {
             TileEntity entity = worldIn.getTileEntity(pos);
             if (entity instanceof WorkBenchTileEntity) {
                 NetworkHooks
-                        .openGui((ServerPlayerEntity) player, (WorkBenchTileEntity) entity, pos);
+                    .openGui((ServerPlayerEntity) player, (WorkBenchTileEntity) entity, pos);
                 return ActionResultType.SUCCESS;
             }
         }
@@ -71,9 +74,11 @@ public class WorkBench extends MachineBlock {
         return ActionResultType.SUCCESS;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState,
-                           boolean isMoving) {
+    public void onReplaced(BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos,
+        BlockState newState,
+        boolean isMoving) {
 
         if (state.getBlock() != newState.getBlock()) {
             TileEntity entity = worldIn.getTileEntity(pos);

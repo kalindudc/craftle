@@ -7,5 +7,5 @@ package com.craftle_mod.common.resource;
  */
 public interface ICraftleResource {
 
-    public String getResourceName();
+    String getResourceName();
 }

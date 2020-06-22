@@ -1,6 +1,6 @@
 {
     "textures": {
         "layer0": "craftle:item/coil"
-    }, 
+    },
     "parent": "item/generated"
 }

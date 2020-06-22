@@ -16,15 +16,15 @@ TODO: Factorize the screen gui.
 public class CrusherScreen extends ContainerScreen<CrusherContainer> {
 
     // TODO: make static, store in a config and load through the factory
-    private ResourceLocation backgroundTexture;
+    private final ResourceLocation backgroundTexture;
 
     public CrusherScreen(CrusherContainer screenContainer, PlayerInventory inv,
-                         ITextComponent titleIn, ResourceLocation resourceLocation) {
+        ITextComponent titleIn, ResourceLocation resourceLocation) {
         super(screenContainer, inv, titleIn);
-        this.guiLeft           = 0;
-        this.guiTop            = 0;
-        this.xSize             = 175;
-        this.ySize             = 165;
+        this.guiLeft = 0;
+        this.guiTop = 0;
+        this.xSize = 175;
+        this.ySize = 165;
         this.backgroundTexture = resourceLocation;
     }
 
@@ -46,6 +46,7 @@ public class CrusherScreen extends ContainerScreen<CrusherContainer> {
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
+        assert this.minecraft != null;
         this.minecraft.getTextureManager().bindTexture(backgroundTexture);
         int x = (this.width - this.xSize) / 2;
         int y = (this.height - this.ySize) / 2;

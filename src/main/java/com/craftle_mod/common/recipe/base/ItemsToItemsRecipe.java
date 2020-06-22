@@ -8,12 +8,12 @@ import net.minecraft.util.ResourceLocation;
 public abstract class ItemsToItemsRecipe extends CraftleRecipe {
 
     private final ItemStackIngredient input;
-    private final ItemStack           output;
+    private final ItemStack output;
 
     public ItemsToItemsRecipe(ResourceLocation resourceLocation,
-                              ItemStackIngredient input, ItemStack output) {
+        ItemStackIngredient input, ItemStack output) {
         super(resourceLocation);
-        this.input  = input;
+        this.input = input;
         this.output = output;
     }
 

@@ -1,6 +1,6 @@
 {
     "textures": {
         "layer0": "craftle:item/sapphire_dust"
-    }, 
+    },
     "parent": "item/generated"
 }

@@ -14,39 +14,36 @@ public enum BlockResource implements IBlockResource {
     STEEL("steel", 5.0f, 15.0f, 2, Material.IRON),
     WOOD("wood", 3.0f, 4.0f, 0, Material.WOOD, ToolType.AXE);
 
-    private final String   name;
-    private final float    hardness;
-    private final float    resistance;
+    private final String name;
+    private final float hardness;
+    private final float resistance;
     /**
-     * 0: wood/gold
-     * 1: stone
-     * 2: iron
-     * 3: diamond
+     * 0: wood/gold 1: stone 2: iron 3: diamond
      */
-    private final int      harvestLevel;
+    private final int harvestLevel;
     private final Material material;
     private final ToolType tool;
 
     BlockResource(String name, float hardness, float resistance,
-                  int harvestLevel) {
+        int harvestLevel) {
         this(name, hardness, resistance, harvestLevel, Material.ROCK,
-             ToolType.PICKAXE);
+            ToolType.PICKAXE);
     }
 
     BlockResource(String name, float hardness, float resistance,
-                  int harvestLevel, Material material) {
+        int harvestLevel, Material material) {
         this(name, hardness, resistance, harvestLevel, material,
-             ToolType.PICKAXE);
+            ToolType.PICKAXE);
     }
 
     BlockResource(String name, float hardness, float resistance,
-                  int harvestLevel, Material material, ToolType tool) {
-        this.name         = name;
-        this.hardness     = hardness;
-        this.resistance   = resistance;
+        int harvestLevel, Material material, ToolType tool) {
+        this.name = name;
+        this.hardness = hardness;
+        this.resistance = resistance;
         this.harvestLevel = harvestLevel;
-        this.material     = material;
-        this.tool         = tool;
+        this.material = material;
+        this.tool = tool;
     }
 
 

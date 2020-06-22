@@ -136,9 +136,10 @@ public abstract class EnergyUtils {
 
         if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
 
-            EnergyContainerCapability container = (EnergyContainerCapability) items.orElse(null);
+            EnergyContainerCapability container = (EnergyContainerCapability) items
+                .orElse(EnergyContainerCapability.EMPTY_IE);
 
-            if (container != null && container.getEnergyStored() > 0) {
+            if (container.canExtract() && container.getEnergyStored() > 0) {
                 return container.extractEnergy(energy);
             }
         }
@@ -152,10 +153,12 @@ public abstract class EnergyUtils {
 
         if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
 
-            EnergyContainerCapability container = (EnergyContainerCapability) items.orElse(null);
+            EnergyContainerCapability container = (EnergyContainerCapability) items
+                .orElse(EnergyContainerCapability.EMPTY_IE);
 
-            if (container != null)
+            if (container.canReceive()) {
                 return container.receiveEnergy(energy);
+            }
         }
 
         return 0;
@@ -167,10 +170,12 @@ public abstract class EnergyUtils {
 
         if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
 
-            EnergyContainerCapability container = (EnergyContainerCapability) items.orElse(null);
+            EnergyContainerCapability container = (EnergyContainerCapability) items
+                .orElse(EnergyContainerCapability.EMPTY_IE);
 
-            if (container != null)
+            if (container.getMaxEnergyStored() > 0) {
                 return container.getMaxEnergyStored() - container.getEnergyStored();
+            }
         }
 
         return 0;
@@ -182,10 +187,12 @@ public abstract class EnergyUtils {
 
         if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
 
-            EnergyContainerCapability container = (EnergyContainerCapability) items.orElse(null);
+            EnergyContainerCapability container = (EnergyContainerCapability) items
+                .orElse(EnergyContainerCapability.EMPTY_IE);
 
-            if (container != null)
+            if (container.getEnergyStored() > 0) {
                 return container.getEnergyStored();
+            }
         }
 
         return 0;
@@ -197,10 +204,12 @@ public abstract class EnergyUtils {
 
         if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
 
-            EnergyContainerCapability container = (EnergyContainerCapability) items.orElse(null);
+            EnergyContainerCapability container = (EnergyContainerCapability) items
+                .orElse(EnergyContainerCapability.EMPTY_IE);
 
-            if (container != null)
+            if (container.getMaxEnergyStored() > 0) {
                 return container.getMaxEnergyStored();
+            }
         }
 
         return 0;
@@ -212,11 +221,13 @@ public abstract class EnergyUtils {
 
         if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
 
-            EnergyContainerCapability container = (EnergyContainerCapability) items.orElse(null);
+            EnergyContainerCapability container = (EnergyContainerCapability) items
+                .orElse(EnergyContainerCapability.EMPTY_IE);
 
-            if (container != null)
+            if (container.getMaxEnergyStored() > 0) {
                 return ((double) container.getEnergyStored()) /
-                       ((double) container.getMaxEnergyStored());
+                    ((double) container.getMaxEnergyStored());
+            }
         }
 
         return 0.0D;

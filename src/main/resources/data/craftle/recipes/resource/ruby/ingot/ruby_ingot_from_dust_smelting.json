@@ -1,8 +1,8 @@
 {
-    "cookingtime": 200, 
-    "type": "minecraft:smelting", 
-    "result": "craftle:ruby_ingot", 
-    "experience": 1.0, 
+    "cookingtime": 200,
+    "type": "minecraft:smelting",
+    "result": "craftle:ruby_ingot",
+    "experience": 1.0,
     "ingredient": {
         "item": "craftle:ruby_dust"
     }

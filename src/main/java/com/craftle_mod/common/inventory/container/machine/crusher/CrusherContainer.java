@@ -5,6 +5,7 @@ import com.craftle_mod.common.inventory.container.base.CraftleContainer;
 import com.craftle_mod.common.registries.CraftleBlocks;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.base.MachineTileEntity;
+import javax.annotation.Nonnull;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ContainerType;
@@ -17,14 +18,14 @@ public class CrusherContainer extends CraftleContainer {
 
 
     public CrusherContainer(ContainerType<CrusherContainer> container, final int windowId,
-                            final PlayerInventory playerInventory, final MachineTileEntity entity) {
+        final PlayerInventory playerInventory, final MachineTileEntity entity) {
 
         super(container, windowId, playerInventory, entity);
         initSlots();
     }
 
     public CrusherContainer(ContainerType<CrusherContainer> container, final int windowId,
-                            final PlayerInventory playerInventory, final PacketBuffer data) {
+        final PlayerInventory playerInventory, final PacketBuffer data) {
 
         super(container, windowId, playerInventory, data);
         initSlots();
@@ -62,11 +63,12 @@ public class CrusherContainer extends CraftleContainer {
     @Override
     public void initSlots() {
 
-        if (!(getEntity() instanceof MachineTileEntity))
+        if (!(getEntity() instanceof MachineTileEntity)) {
             throw new IllegalStateException("Tile entity is not correct. ");
+        }
 
         int[] slotsConfig =
-                initSlotsHelper(((MachineTileEntity) getEntity()).getCraftleMachineTier());
+            initSlotsHelper(((MachineTileEntity) getEntity()).getCraftleMachineTier());
         int totalSlotSize = 18;
         // Main Inventory
         //    base crusher slots
@@ -80,14 +82,13 @@ public class CrusherContainer extends CraftleContainer {
 
         if (base) {
             addContainerSlot(2, slotsConfig[4], slotsConfig[5]);
-        }
-        else {
+        } else {
             for (int row = 0; row < numRows; row++) {
                 for (int col = 0; col < numCols; col++) {
                     // extra 9 + is to account for the hotbar
                     addContainerSlot((2 + (row * numCols)) + col,
-                                     slotsConfig[4] + (col * totalSlotSize),
-                                     slotsConfig[5] + (row * totalSlotSize));
+                        slotsConfig[4] + (col * totalSlotSize),
+                        slotsConfig[5] + (row * totalSlotSize));
                 }
             }
         }
@@ -99,30 +100,31 @@ public class CrusherContainer extends CraftleContainer {
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
+    public boolean canInteractWith(@Nonnull PlayerEntity playerIn) {
 
-        if (!(getEntity() instanceof MachineTileEntity))
+        if (!(getEntity() instanceof MachineTileEntity)) {
             throw new IllegalStateException("Tile entity is not correct. ");
+        }
 
         switch (((MachineTileEntity) getEntity()).getCraftleMachineTier()) {
 
             case TIER_1:
                 return isWithinUsableDistance(getCanInteractWithCallable(), playerIn,
-                                              CraftleBlocks.CRUSHER_TIER_1.get());
+                    CraftleBlocks.CRUSHER_TIER_1.get());
             case TIER_2:
                 return isWithinUsableDistance(getCanInteractWithCallable(), playerIn,
-                                              CraftleBlocks.CRUSHER_TIER_2.get());
+                    CraftleBlocks.CRUSHER_TIER_2.get());
             case TIER_3:
                 return isWithinUsableDistance(getCanInteractWithCallable(), playerIn,
-                                              CraftleBlocks.CRUSHER_TIER_3.get());
+                    CraftleBlocks.CRUSHER_TIER_3.get());
             case TIER_4:
             case UNLIMITED:
                 return isWithinUsableDistance(getCanInteractWithCallable(), playerIn,
-                                              CraftleBlocks.CRUSHER_TIER_4.get());
+                    CraftleBlocks.CRUSHER_TIER_4.get());
             case BASIC:
             default:
                 return isWithinUsableDistance(getCanInteractWithCallable(), playerIn,
-                                              CraftleBlocks.CRUSHER_BASIC.get());
+                    CraftleBlocks.CRUSHER_BASIC.get());
         }
     }
 }
