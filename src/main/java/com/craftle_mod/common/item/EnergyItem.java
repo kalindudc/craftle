@@ -6,6 +6,9 @@ import com.craftle_mod.common.item.base.CraftleItem;
 import com.craftle_mod.common.item.base.EnergyProvider;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.util.EnergyUtils;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -21,26 +24,22 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
-
 public class EnergyItem extends CraftleItem {
 
-    private int             input;
-    private int             output;
-    private int             maxCapacity;
-    private CraftleBaseTier tier;
+    private int input;
+    private int output;
+    private final int maxCapacity;
+    private final CraftleBaseTier tier;
 
     public EnergyItem(String registryName, ItemGroup tab, CraftleBaseTier tierConfig) {
 
         super(registryName + "_" + tierConfig.getTier(), new Item.Properties().maxStackSize(1),
-              tab);
+            tab);
 
         this.maxCapacity = (int) (ItemConstants.BASE_ENERGY_CAPACITY * tierConfig.getMultiplier());
-        this.input       = 0;
-        this.output      = 0;
-        this.tier        = tierConfig;
+        this.input = 0;
+        this.output = 0;
+        this.tier = tierConfig;
     }
 
     public float getInput() {
@@ -72,8 +71,9 @@ public class EnergyItem extends CraftleItem {
 
     @Nonnull
     @Override
-    public ActionResult<ItemStack> onItemRightClick(@Nonnull World worldIn, PlayerEntity playerIn,
-                                                    @Nonnull Hand handIn) {
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull World worldIn,
+        @Nonnull PlayerEntity playerIn,
+        @Nonnull Hand handIn) {
         // TODO: use on armor
 
         return super.onItemRightClick(worldIn, playerIn, handIn);
@@ -82,20 +82,19 @@ public class EnergyItem extends CraftleItem {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World worldIn,
-                               @Nonnull List<ITextComponent> tooltip,
-                               @Nonnull ITooltipFlag flagIn) {
+    public void addInformation(@Nonnull ItemStack stack, @Nullable World worldIn,
+        @Nonnull List<ITextComponent> tooltip,
+        @Nonnull ITooltipFlag flagIn) {
         if (CraftleKeyHandler.isHoldingShift()) {
 
-            int energy   = EnergyUtils.getEnergyStoredFromItem(stack);
+            int energy = EnergyUtils.getEnergyStoredFromItem(stack);
             int capacity = EnergyUtils.getEnergyCapacityFromItem(stack);
 
             tooltip.add(new StringTextComponent(String.format("Capacity: %.02f %s", EnergyUtils
-                    .getJoulesForTierItem(tier, capacity), EnergyUtils.getUnitForTierItem(tier))));
+                .getJoulesForTierItem(tier, capacity), EnergyUtils.getUnitForTierItem(tier))));
             tooltip.add(new StringTextComponent(String.format("\u00A7aEnergy: %.02f %s", EnergyUtils
-                    .getJoulesForTierItem(tier, energy), EnergyUtils.getUnitForTierItem(tier))));
-        }
-        else {
+                .getJoulesForTierItem(tier, energy), EnergyUtils.getUnitForTierItem(tier))));
+        } else {
             tooltip.add(new StringTextComponent("Hold \u00A7eSHIFT\u00A77 for more information."));
         }
         super.addInformation(stack, worldIn, tooltip, flagIn);
@@ -105,7 +104,7 @@ public class EnergyItem extends CraftleItem {
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
         return new EnergyProvider(maxCapacity, maxCapacity, maxCapacity,
-                                  tier.equals(CraftleBaseTier.UNLIMITED) ? maxCapacity : 0, tier);
+            tier.equals(CraftleBaseTier.UNLIMITED) ? maxCapacity : 0, tier);
     }
 
 

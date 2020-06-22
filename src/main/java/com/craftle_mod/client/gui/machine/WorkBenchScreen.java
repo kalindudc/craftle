@@ -11,17 +11,17 @@ import net.minecraft.util.text.ITextComponent;
 
 public class WorkBenchScreen extends ContainerScreen<WorkBenchContainer> {
 
-    private WorkBenchTileEntity entity;
+    private final WorkBenchTileEntity entity;
 
     public WorkBenchScreen(WorkBenchContainer screenContainer, PlayerInventory inv,
-                           ITextComponent titleIn) {
+        ITextComponent titleIn) {
 
         super(screenContainer, inv, titleIn);
         this.guiLeft = 0;
-        this.guiTop  = 0;
-        this.xSize   = 176;
-        this.ySize   = 166;
-        this.entity  = (WorkBenchTileEntity) screenContainer.getEntity();
+        this.guiTop = 0;
+        this.xSize = 176;
+        this.ySize = 166;
+        this.entity = (WorkBenchTileEntity) screenContainer.getEntity();
     }
 
     @Override
@@ -44,14 +44,14 @@ public class WorkBenchScreen extends ContainerScreen<WorkBenchContainer> {
         String unit = EnergyUtils.getUnitForTierItem(this.entity.getCraftleMachineTier());
 
         float energy = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-                                                        this.entity.getEnergyContainer()
-                                                                   .getEnergyStored());
+            this.entity.getEnergyContainer()
+                .getEnergyStored());
 
         float input = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-                                                       this.entity.getEnergyReceive());
+            this.entity.getEnergyReceive());
         float capacity = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-                                                          this.entity.getEnergyContainer()
-                                                                     .getMaxEnergyStored());
+            this.entity.getEnergyContainer()
+                .getMaxEnergyStored());
 
         this.font.drawString("Max: ", 186.0f, 9.0f, 13816530);
         this.font.drawString(String.format("%.02f %s", capacity, unit), 231.0f, 9.0f, 13816530);
@@ -66,6 +66,7 @@ public class WorkBenchScreen extends ContainerScreen<WorkBenchContainer> {
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
+        assert this.minecraft != null;
         this.minecraft.getTextureManager().bindTexture(GUIConstants.WORKBENCH);
         int x = (this.width - this.xSize) / 2;
         int y = (this.height - this.ySize) / 2;
@@ -79,7 +80,7 @@ public class WorkBenchScreen extends ContainerScreen<WorkBenchContainer> {
         this.blit(x + this.xSize, y + 79, 134, 166, 104, 87);
 
         // draw the animations and other things
-        long energy    = this.entity.getEnergyContainer().getEnergyStored();
+        long energy = this.entity.getEnergyContainer().getEnergyStored();
         long maxEnergy = this.entity.getEnergyContainer().getMaxEnergyStored();
 
         float energyPercent = ((float) energy) / ((float) maxEnergy);
@@ -92,11 +93,11 @@ public class WorkBenchScreen extends ContainerScreen<WorkBenchContainer> {
         if (energyPercent > 0) {
             // blit something
             // the energy percent
-            width  = 8 + 1;
+            width = 8 + 1;
             height = (int) Math.ceil(70 * (energyPercent)) + 1;
 
-            x        = ((this.width - this.xSize) / 2) + 159;
-            y        = ((this.height - this.ySize) / 2) + (77 - height);
+            x = ((this.width - this.xSize) / 2) + 159;
+            y = ((this.height - this.ySize) / 2) + (77 - height);
             textureX = 21;
             textureY = 237 - height;
 

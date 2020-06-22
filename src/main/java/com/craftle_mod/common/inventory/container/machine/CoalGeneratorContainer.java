@@ -5,6 +5,7 @@ import com.craftle_mod.common.registries.CraftleBlocks;
 import com.craftle_mod.common.registries.CraftleContainerTypes;
 import com.craftle_mod.common.tile.base.MachineTileEntity;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
+import javax.annotation.Nonnull;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ContainerType;
@@ -14,20 +15,20 @@ public class CoalGeneratorContainer extends EnergyContainer {
 
 
     public CoalGeneratorContainer(ContainerType<?> container, int windowId,
-                                  PlayerInventory playerInventory,
-                                  PoweredMachineTileEntity entity) {
+        PlayerInventory playerInventory,
+        PoweredMachineTileEntity entity) {
         super(container, windowId, playerInventory, entity);
         initSlots();
     }
 
     public CoalGeneratorContainer(ContainerType<?> container, int windowId,
-                                  PlayerInventory playerInventory, PacketBuffer data) {
+        PlayerInventory playerInventory, PacketBuffer data) {
         super(container, windowId, playerInventory, data);
         initSlots();
     }
 
     public CoalGeneratorContainer(int windowId, PlayerInventory playerInventory,
-                                  PacketBuffer packetBuffer) {
+        PacketBuffer packetBuffer) {
         this(CraftleContainerTypes.COAL_GENERATOR.get(), windowId, playerInventory, packetBuffer);
     }
 
@@ -44,12 +45,13 @@ public class CoalGeneratorContainer extends EnergyContainer {
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
+    public boolean canInteractWith(@Nonnull PlayerEntity playerIn) {
 
-        if (!(getEntity() instanceof MachineTileEntity))
+        if (!(getEntity() instanceof MachineTileEntity)) {
             throw new IllegalStateException("Tile entity is not correct. ");
+        }
 
         return isWithinUsableDistance(getCanInteractWithCallable(), playerIn,
-                                      CraftleBlocks.COAL_GENERATOR.get());
+            CraftleBlocks.COAL_GENERATOR.get());
     }
 }

@@ -4,39 +4,38 @@ import com.craftle_mod.common.recipe.base.CraftleRecipe;
 import com.craftle_mod.common.recipe.base.ItemsToItemsRecipe;
 import com.craftle_mod.common.recipe.inventory.EmptyInventory;
 import com.craftle_mod.common.recipe.serializer.ItemsToItemsRecipeSerializer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+import javax.annotation.Nullable;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistry;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
 public class CraftleRecipeType<T extends CraftleRecipe>
-        implements IRecipeType<T> {
+    implements IRecipeType<T> {
 
-    public static final List<CraftleRecipeType> RECIPE_CONTAINER =
-            new ArrayList<>();
+    public static final List<CraftleRecipeType<?>> RECIPE_CONTAINER =
+        new ArrayList<>();
 
     public static final CraftleRecipeType<ItemsToItemsRecipe> CRUSHING =
-            addToList("crushing",
-                      new ItemsToItemsRecipeSerializer<ItemsToItemsRecipe>(
-                              CrushingRecipe::new));
+        addToList("crushing",
+            new ItemsToItemsRecipeSerializer<>(
+                CrushingRecipe::new));
 
-    private       List<T>              validRecipes;
-    private final String               recipeName;
+    private List<T> validRecipes;
+    private final String recipeName;
     private final IRecipeSerializer<T> serializer;
 
     private CraftleRecipeType(String recipeName,
-                              IRecipeSerializer<T> serializer) {
+        IRecipeSerializer<T> serializer) {
         this.validRecipes = Collections.emptyList();
-        this.recipeName   = recipeName;
-        this.serializer   = serializer;
+        this.recipeName = recipeName;
+        this.serializer = serializer;
     }
 
     public String getRegistryName() {
@@ -55,13 +54,12 @@ public class CraftleRecipeType<T extends CraftleRecipe>
         // collect valid recipes
         if (validRecipes.isEmpty()) {
             RecipeManager recipeManager = world.getRecipeManager();
-            List<T> validRecipes = recipeManager
-                    .getRecipes(this, EmptyInventory.INSTANCE, world);
 
             // configure other machine type
             // default vanila recipes may need to be acquired
 
-            this.validRecipes = validRecipes;
+            this.validRecipes = recipeManager
+                .getRecipes(this, EmptyInventory.INSTANCE, world);
         }
 
         return validRecipes;
@@ -72,9 +70,9 @@ public class CraftleRecipeType<T extends CraftleRecipe>
     }
 
     public static <T extends CraftleRecipe> CraftleRecipeType<T> addToList(
-            String recipeName, IRecipeSerializer<T> serializer) {
+        String recipeName, IRecipeSerializer<T> serializer) {
         CraftleRecipeType<T> type =
-                new CraftleRecipeType<>(recipeName, serializer);
+            new CraftleRecipeType<>(recipeName, serializer);
         RECIPE_CONTAINER.add(type);
         return type;
     }
@@ -84,9 +82,9 @@ public class CraftleRecipeType<T extends CraftleRecipe>
     }
 
     public static void registerRecipeTypes(
-            IForgeRegistry<IRecipeSerializer<?>> registry) {
+        IForgeRegistry<IRecipeSerializer<?>> registry) {
         RECIPE_CONTAINER
-                .forEach(type -> registry.register(type.getSerializer()));
+            .forEach(type -> registry.register(type.getSerializer()));
     }
 
     public boolean contains(@Nullable World wold, Predicate<T> match) {
@@ -101,7 +99,7 @@ public class CraftleRecipeType<T extends CraftleRecipe>
      */
     @Override
     public String toString() {
-        return recipeName.toString();
+        return recipeName;
     }
 
 }

@@ -1,5 +1,7 @@
 package com.craftle_mod.common.dimension;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -9,23 +11,22 @@ import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
 
-import javax.annotation.Nullable;
-
 public class TestDimension extends Dimension {
 
     public TestDimension(World world, DimensionType type) {
         super(world, type, 0.0f);
     }
 
+    @Nonnull
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
         return new TestChunkGenerator(world, new TestBiomeProvider(),
-                                      new TestGenSettings());
+            new TestGenSettings());
     }
 
     @Nullable
     @Override
-    public BlockPos findSpawn(ChunkPos chunkPosIn, boolean checkValid) {
+    public BlockPos findSpawn(@Nonnull ChunkPos chunkPosIn, boolean checkValid) {
         return null;
     }
 
@@ -37,7 +38,7 @@ public class TestDimension extends Dimension {
 
     @Override
     public float calculateCelestialAngle(long worldTime, float partialTicks) {
-        int   j  = 6000;
+        int j = 6000;
         float f1 = (j + partialTicks) / 24000.0f - 0.25f;
         if (f1 < 0.0f) {
             f1 += 1.0f;
@@ -58,6 +59,7 @@ public class TestDimension extends Dimension {
         return false;
     }
 
+    @Nonnull
     @Override
     public Vec3d getFogColor(float celestialAngle, float partialTicks) {
         return new Vec3d(30, 50, 255);

@@ -3,6 +3,8 @@ package com.craftle_mod.common.tile;
 import com.craftle_mod.common.block.TestChest;
 import com.craftle_mod.common.inventory.container.CraftleChestContainer;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
+import java.util.Objects;
+import javax.annotation.Nonnull;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,14 +30,12 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-import javax.annotation.Nonnull;
-
 public class TileEntityTestChest extends LockableLootTileEntity {
 
-    private   NonNullList<ItemStack>               chestContents;
-    protected int                                  numplayersUsing;
-    private   IItemHandlerModifiable               items;
-    private   LazyOptional<IItemHandlerModifiable> itemHandler;
+    private NonNullList<ItemStack> chestContents;
+    protected int numplayersUsing;
+    private IItemHandlerModifiable items;
+    private LazyOptional<IItemHandlerModifiable> itemHandler;
 
     public TileEntityTestChest(TileEntityType<?> typeIn) {
         super(typeIn);
@@ -48,8 +48,8 @@ public class TileEntityTestChest extends LockableLootTileEntity {
 
     private void init() {
         this.chestContents = NonNullList.withSize(54, ItemStack.EMPTY);
-        this.items         = createHandler();
-        this.itemHandler   = LazyOptional.of(() -> items);
+        this.items = createHandler();
+        this.itemHandler = LazyOptional.of(() -> items);
     }
 
     @Override
@@ -57,28 +57,32 @@ public class TileEntityTestChest extends LockableLootTileEntity {
         return 54;
     }
 
+    @Nonnull
     @Override
     public NonNullList<ItemStack> getItems() {
         return this.chestContents;
     }
 
     @Override
-    public void setItems(NonNullList<ItemStack> itemsIn) {
+    public void setItems(@Nonnull NonNullList<ItemStack> itemsIn) {
         this.chestContents = itemsIn;
     }
 
+    @Nonnull
     @Override
     protected ITextComponent getDefaultName() {
         return new TranslationTextComponent("container.test_chest");
     }
 
+    @Nonnull
     @Override
-    protected Container createMenu(int id, PlayerInventory player) {
+    protected Container createMenu(int id, @Nonnull PlayerInventory player) {
         return new CraftleChestContainer(id, player, this);
     }
 
+    @Nonnull
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
         super.write(compound);
         if (!this.checkLootAndWrite(compound)) {
             ItemStackHelper.saveAllItems(compound, this.chestContents);
@@ -87,10 +91,10 @@ public class TileEntityTestChest extends LockableLootTileEntity {
     }
 
     @Override
-    public void read(CompoundNBT compound) {
+    public void read(@Nonnull CompoundNBT compound) {
         super.read(compound);
         this.chestContents =
-                NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
+            NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
         if (!this.checkLootAndRead(compound)) {
             ItemStackHelper.loadAllItems(compound, this.chestContents);
         }
@@ -101,9 +105,10 @@ public class TileEntityTestChest extends LockableLootTileEntity {
         double dy = (double) this.pos.getY() + 0.5D;
         double dz = (double) this.pos.getZ() + 0.5D;
 
-        this.world.playSound((PlayerEntity) null, dx, dy, dz, sound,
-                             SoundCategory.BLOCKS, 0.5f,
-                             this.world.rand.nextFloat() * 0.1f + 0.9f);
+        assert this.world != null;
+        this.world.playSound(null, dx, dy, dz, sound,
+            SoundCategory.BLOCKS, 0.5f,
+            this.world.rand.nextFloat() * 0.1f + 0.9f);
     }
 
     @Override
@@ -111,8 +116,7 @@ public class TileEntityTestChest extends LockableLootTileEntity {
         if (id == 1) {
             this.numplayersUsing = type;
             return true;
-        }
-        else {
+        } else {
             return super.receiveClientEvent(id, type);
         }
     }
@@ -139,6 +143,7 @@ public class TileEntityTestChest extends LockableLootTileEntity {
     protected void onOpenOrClose() {
         Block block = this.getBlockState().getBlock();
         if (block instanceof TestChest) {
+            assert this.world != null;
             this.world.addBlockEvent(this.pos, block, 1, this.numplayersUsing);
             this.world.notifyNeighborsOfStateChange(this.pos, block);
         }
@@ -156,7 +161,7 @@ public class TileEntityTestChest extends LockableLootTileEntity {
     }
 
     public static void swapContents(TileEntityTestChest entity,
-                                    TileEntityTestChest otherEntity) {
+        TileEntityTestChest otherEntity) {
         NonNullList<ItemStack> list = entity.getItems();
         entity.setItems(otherEntity.getItems());
         otherEntity.setItems(list);
@@ -174,12 +179,12 @@ public class TileEntityTestChest extends LockableLootTileEntity {
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap,
-                                             @Nonnull Direction side) {
+        Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return itemHandler.cast();
         }
 
-        return super.getCapability(cap, side);
+        return Objects.requireNonNull(super.getCapability(cap, side));
     }
 
     private IItemHandlerModifiable createHandler() {

@@ -13,11 +13,11 @@ public class CraftleForgeEventSubscriber {
 
     @SubscribeEvent
     public static void onRegisterDimensions(
-            final RegisterDimensionsEvent event) {
+        final RegisterDimensionsEvent event) {
         if (DimensionType.byName(Craftle.TEST_DIM_TYPE) == null) {
             DimensionManager.registerDimension(Craftle.TEST_DIM_TYPE,
-                                               CraftleDimensions.TEST_DIMENSION
-                                                       .get(), null, true);
+                CraftleDimensions.TEST_DIMENSION
+                    .get(), null, true);
         }
 
         Craftle.LOGGER.info("CRAFTLE: Registered Dimensions.");

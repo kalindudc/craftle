@@ -5,6 +5,7 @@ import com.craftle_mod.common.inventory.container.machine.CoalGeneratorContainer
 import com.craftle_mod.common.tile.machine.CoalGeneratorTileEntity;
 import com.craftle_mod.common.util.EnergyUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
+import java.util.ArrayList;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -12,21 +13,19 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.gui.GuiUtils;
 
-import java.util.ArrayList;
-
 @OnlyIn(Dist.CLIENT)
 public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer> {
 
-    private CoalGeneratorTileEntity entity;
+    private final CoalGeneratorTileEntity entity;
 
     public CoalGeneratorScreen(CoalGeneratorContainer screenContainer, PlayerInventory inv,
-                               ITextComponent titleIn) {
+        ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
         this.guiLeft = 0;
-        this.guiTop  = 0;
-        this.xSize   = 175;
-        this.ySize   = 165;
-        this.entity  = (CoalGeneratorTileEntity) screenContainer.getEntity();
+        this.guiTop = 0;
+        this.xSize = 175;
+        this.ySize = 165;
+        this.entity = (CoalGeneratorTileEntity) screenContainer.getEntity();
     }
 
     @Override
@@ -49,24 +48,23 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         String unit = EnergyUtils.getUnitForTierItem(this.entity.getCraftleMachineTier());
 
         float energy = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-                                                        this.entity.getEnergyContainer()
-                                                                   .getEnergyStored());
+            this.entity.getEnergyContainer()
+                .getEnergyStored());
         float capacity = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-                                                          this.entity.getEnergyContainer()
-                                                                     .getMaxEnergyStored());
+            this.entity.getEnergyContainer()
+                .getMaxEnergyStored());
 
         int burnPercentage = this.entity.getBurnPercentage();
 
         float input;
         float output = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-                                                        this.entity.getEnergyExtract());
+            this.entity.getEnergyExtract());
 
         if (burnPercentage == 0 || burnPercentage >= 100) {
             input = 0;
-        }
-        else {
+        } else {
             input = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-                                                     this.entity.getEnergyReceive());
+                this.entity.getEnergyReceive());
         }
 
         this.font.drawString("Energy: ", 10.0f, 48.0f, 6805014);
@@ -80,7 +78,7 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
 
         if (getBounds(mouseX, mouseY, 144 + offsetX, 12 + offsetY, 167 + offsetX, 73 + offsetY)) {
             GuiUtils.drawHoveringText(new ArrayList<String>() {{
-                add(String.format("Max Capacity"));
+                add("Max Capacity");
                 add(String.format("%.02f kJ", capacity));
 
             }}, mouseX - offsetX, mouseY - offsetY, this.xSize, this.ySize, this.xSize, this.font);
@@ -96,6 +94,7 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
+        assert this.minecraft != null;
         this.minecraft.getTextureManager().bindTexture(GUIConstants.COAL_GENERATOR);
         int x = (this.width - this.xSize) / 2;
         int y = (this.height - this.ySize) / 2;
@@ -105,10 +104,10 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         this.blit(x, y, 0, 0, this.xSize, this.ySize);
 
         // draw the animations and other things
-        long energy    = this.entity.getEnergyContainer().getEnergyStored();
+        long energy = this.entity.getEnergyContainer().getEnergyStored();
         long maxEnergy = this.entity.getEnergyContainer().getMaxEnergyStored();
 
-        float burnPercent   = this.entity.getBurnPercentage();
+        float burnPercent = this.entity.getBurnPercentage();
         float energyPercent = ((float) energy) / ((float) maxEnergy);
 
         int textureX;
@@ -117,11 +116,11 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         int height;
 
         if (burnPercent > 0) {
-            width  = (int) Math.ceil(22 * (burnPercent / 100f)) + 1;
+            width = (int) Math.ceil(22 * (burnPercent / 100f)) + 1;
             height = 16;
 
-            x        = ((this.width - this.xSize) / 2) + 104;
-            y        = ((this.height - this.ySize) / 2) + 20;
+            x = ((this.width - this.xSize) / 2) + 104;
+            y = ((this.height - this.ySize) / 2) + 20;
             textureX = 177;
             textureY = 14;
 
@@ -131,11 +130,11 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         if (energyPercent > 0) {
             // blit something
             // the energy percent
-            width  = 23 + 1;
+            width = 23 + 1;
             height = (int) Math.ceil(61 * (energyPercent)) + 1;
 
-            x        = ((this.width - this.xSize) / 2) + 144;
-            y        = ((this.height - this.ySize) / 2) + (74 - height);
+            x = ((this.width - this.xSize) / 2) + 144;
+            y = ((this.height - this.ySize) / 2) + (74 - height);
             textureX = 177;
             textureY = 94 - height;
 

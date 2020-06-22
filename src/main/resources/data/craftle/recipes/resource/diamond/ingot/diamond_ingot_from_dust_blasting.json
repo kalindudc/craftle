@@ -1,8 +1,8 @@
 {
-    "cookingtime": 100, 
-    "type": "minecraft:blasting", 
-    "result": "minecraft:diamond", 
-    "experience": 1.0, 
+    "cookingtime": 100,
+    "type": "minecraft:blasting",
+    "result": "minecraft:diamond",
+    "experience": 1.0,
     "ingredient": {
         "item": "craftle:diamond_dust"
     }

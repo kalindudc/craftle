@@ -5,6 +5,8 @@ import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.resource.IBlockResource;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.machine.crusher.CrusherTileEntity;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,12 +21,10 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-import javax.annotation.Nullable;
-
 public class Crusher extends MachineBlock {
 
     public Crusher(IBlockResource resource, BlockType blockType, SoundType soundType,
-                   CraftleBaseTier tier) {
+        CraftleBaseTier tier) {
         super(resource, blockType, soundType, tier, 0);
     }
 
@@ -48,10 +48,13 @@ public class Crusher extends MachineBlock {
 
     }
 
+    @SuppressWarnings("deprecation")
+    @Nonnull
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos,
-                                             PlayerEntity player, Hand handIn,
-                                             BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(@Nonnull BlockState state, World worldIn,
+        @Nonnull BlockPos pos,
+        @Nonnull PlayerEntity player, @Nonnull Hand handIn,
+        @Nonnull BlockRayTraceResult hit) {
         if (!worldIn.isRemote) {
             TileEntity entity = worldIn.getTileEntity(pos);
             if (entity instanceof CrusherTileEntity) {
@@ -63,9 +66,11 @@ public class Crusher extends MachineBlock {
         return ActionResultType.SUCCESS;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState,
-                           boolean isMoving) {
+    public void onReplaced(BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos,
+        BlockState newState,
+        boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             TileEntity entity = worldIn.getTileEntity(pos);
             if (entity instanceof CrusherTileEntity) {

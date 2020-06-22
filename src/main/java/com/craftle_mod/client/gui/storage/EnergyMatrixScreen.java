@@ -5,26 +5,26 @@ import com.craftle_mod.common.inventory.container.storage.energy_matrix.EnergyMa
 import com.craftle_mod.common.tile.storage.energy_matrix.EnergyMatrixTileEntity;
 import com.craftle_mod.common.util.EnergyUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
+import java.util.ArrayList;
 import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.client.gui.GuiUtils;
 
-import java.util.ArrayList;
-
 public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
-        implements IHasContainer<EnergyMatrixContainer> {
-    private EnergyMatrixTileEntity entity;
+    implements IHasContainer<EnergyMatrixContainer> {
+
+    private final EnergyMatrixTileEntity entity;
 
     public EnergyMatrixScreen(EnergyMatrixContainer screenContainer, PlayerInventory inv,
-                              ITextComponent titleIn) {
+        ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
         this.guiLeft = 0;
-        this.guiTop  = 0;
-        this.xSize   = 175;
-        this.ySize   = 165;
-        this.entity  = (EnergyMatrixTileEntity) screenContainer.getEntity();
+        this.guiTop = 0;
+        this.xSize = 175;
+        this.ySize = 165;
+        this.entity = (EnergyMatrixTileEntity) screenContainer.getEntity();
     }
 
     @Override
@@ -47,13 +47,13 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
         String units = EnergyUtils.getUnitForTierBlock(this.entity.getCraftleMachineTier());
 
         float energy = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
-                                                         this.entity.getEnergyContainer()
-                                                                    .getEnergyStored());
+            this.entity.getEnergyContainer()
+                .getEnergyStored());
         float capacity = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
-                                                           this.entity.getEnergyContainer()
-                                                                      .getMaxEnergyStored());
+            this.entity.getEnergyContainer()
+                .getMaxEnergyStored());
 
-        float input  = this.entity.getEnergyReceive();
+        float input = this.entity.getEnergyReceive();
         float output = this.entity.getEnergyExtract();
 
         this.font.drawString("Max: ", 10.0f, 26.0f, 13816530);
@@ -62,11 +62,10 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
         this.font.drawString("Energy: ", 10.0f, 39.0f, 6805014);
         this.font.drawString(String.format("%.02f %s", energy, units), 51.0f, 39.0f, 6805014);
 
-
         if (getBounds(mouseX, mouseY, 144 + offsetX, 12 + offsetY, 167 + offsetX, 73 + offsetY)) {
             GuiUtils.drawHoveringText(new ArrayList<String>() {{
                 add(String.format("Energy: %.02f kJ",
-                                  (float) entity.getEnergyContainer().getEnergyStored()));
+                    (float) entity.getEnergyContainer().getEnergyStored()));
                 add(String.format("Input: %.02f kJ", input));
                 add(String.format("Output: %.02f kJ", output));
 
@@ -83,6 +82,7 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
+        assert this.minecraft != null;
         this.minecraft.getTextureManager().bindTexture(GUIConstants.ENERGY_MATRIX);
         int x = (this.width - this.xSize) / 2;
         int y = (this.height - this.ySize) / 2;
@@ -92,8 +92,8 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
         this.blit(x, y, 0, 0, this.xSize, this.ySize);
 
         // draw the animations and other things
-        long  energy        = this.entity.getEnergyContainer().getEnergyStored();
-        long  maxEnergy     = this.entity.getEnergyContainer().getMaxEnergyStored();
+        long energy = this.entity.getEnergyContainer().getEnergyStored();
+        long maxEnergy = this.entity.getEnergyContainer().getMaxEnergyStored();
         float energyPercent = ((float) energy) / ((float) maxEnergy);
 
         int textureX;
@@ -104,11 +104,11 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
         if (energyPercent > 0) {
             // blit something
             // the energy percent
-            width  = 23 + 1;
+            width = 23 + 1;
             height = (int) Math.ceil(61 * (energyPercent)) + 1;
 
-            x        = ((this.width - this.xSize) / 2) + 143;
-            y        = ((this.height - this.ySize) / 2) + (75 - height);
+            x = ((this.width - this.xSize) / 2) + 143;
+            y = ((this.height - this.ySize) / 2) + (75 - height);
             textureX = 177;
             textureY = 94 - height;
 

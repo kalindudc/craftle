@@ -1,0 +1,19 @@
+{
+    "pools": [
+        {
+            "conditions": [
+                {
+                    "condition": "minecraft:survives_explosion"
+                }
+            ],
+            "rolls": 1.0,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "craftle:machine_base_tier_1"
+                }
+            ]
+        }
+    ],
+    "type": "minecraft:block"
+}

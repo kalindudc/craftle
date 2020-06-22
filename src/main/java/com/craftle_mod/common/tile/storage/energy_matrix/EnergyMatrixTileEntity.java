@@ -8,7 +8,11 @@ import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import com.craftle_mod.common.util.EnergyUtils;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.geometry.Point3D;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
@@ -30,16 +34,11 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-
 public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
 
     public EnergyMatrixTileEntity(TileEntityType<?> typeIn,
-                                  IRecipeType<? extends IRecipe> recipeTypeIn, int containerSize,
-                                  CraftleBaseTier tier, int capacity) {
+        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize,
+        CraftleBaseTier tier, int capacity) {
         super(typeIn, recipeTypeIn, containerSize, tier, capacity);
     }
 
@@ -48,30 +47,31 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
     }
 
     public EnergyMatrixTileEntity(TileEntityType<?> typeIn, CraftleBaseTier tier, int capacity,
-                                  int energy) {
+        int energy) {
         super(typeIn, CraftleRecipeType.CRAFTING, 2, tier, capacity, capacity, capacity, energy);
     }
 
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability,
-                                             @Nullable Direction side) {
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-            return LazyOptional.of(() -> (T) this.getItemHandler());
+        @Nullable Direction side) {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return this.getItemHandler().cast();
+        }
         return super.getCapability(capability, side);
     }
 
     @Override
     public boolean hasCapability(Capability<?> capability, Direction direction) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ||
-               super.hasCapability(capability, direction);
+            super.hasCapability(capability, direction);
     }
 
-    @Nullable
+    @Nonnull
     @Override
-    public Container createMenu(int id, PlayerInventory player) {
+    public Container createMenu(int id, @Nonnull PlayerInventory player) {
         return EnergyMatrixContainerFactory
-                .buildWithTileEntity(this.getCraftleMachineTier(), id, player, this);
+            .buildWithTileEntity(this.getCraftleMachineTier(), id, player, this);
     }
 
     @Nullable
@@ -101,8 +101,9 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
         super.onDataPacket(net, pkt);
     }
 
+    @Nonnull
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
 
         super.write(compound);
 
@@ -110,7 +111,7 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
     }
 
     @Override
-    public void read(CompoundNBT compound) {
+    public void read(@Nonnull CompoundNBT compound) {
 
         super.read(compound);
     }
@@ -119,7 +120,7 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
     @Override
     public ITextComponent getDisplayName() {
         return new TranslationTextComponent(
-                TagConstants.ENERGY_MATRIX + "_" + this.getCraftleMachineTier().getTier());
+            TagConstants.ENERGY_MATRIX + "_" + this.getCraftleMachineTier().getTier());
     }
 
     @Override
@@ -149,21 +150,18 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
 
                     int storedEnergy = getFuelValue(injectStack);
                     int received;
-                    int extracted;
 
                     if (storedEnergy < this.getEnergyContainer().getMaxEnergyStored() &&
                         storedEnergy < (this.getEnergyContainer().getMaxEnergyStored() -
-                                        this.getEnergyContainer().getEnergyStored())) {
+                            this.getEnergyContainer().getEnergyStored())) {
                         received = this.getEnergyContainer().receiveEnergy(storedEnergy);
-                    }
-                    else {
+                    } else {
                         received = this.getEnergyContainer().receiveEnergy(
-                                this.getEnergyContainer().getMaxEnergyStored() -
+                            this.getEnergyContainer().getMaxEnergyStored() -
                                 this.getEnergyContainer().getEnergyStored());
                     }
 
-                    extracted = EnergyUtils.extractEnergyFromItem(injectStack, received);
-
+                    EnergyUtils.extractEnergyFromItem(injectStack, received);
                     energyReceive += received;
                 }
             }
@@ -172,24 +170,23 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
 
             for (ICapabilityProvider entity : energyProvidingBlocks) {
                 IEnergyStorage container =
-                        entity.getCapability(CapabilityEnergy.ENERGY).orElse(null);
-                if (container != null) {
-
+                    entity.getCapability(CapabilityEnergy.ENERGY)
+                        .orElse(EnergyContainerCapability.EMPTY_IE);
+                if (container.canExtract()) {
                     if (container.getEnergyStored() > 0) {
 
                         int toReceive = Math.min(container.getEnergyStored(),
-                                                 this.getEnergyContainer().getMaxEnergyStored() -
-                                                 this.getEnergyContainer().getEnergyStored());
-
+                            this.getEnergyContainer().getMaxEnergyStored() -
+                                this.getEnergyContainer().getEnergyStored());
 
                         if (container instanceof EnergyContainerCapability) {
                             toReceive = Math.min(
-                                    ((EnergyContainerCapability) container).getMaxExtract(),
-                                    toReceive);
+                                ((EnergyContainerCapability) container).getMaxExtract(),
+                                toReceive);
                         }
 
                         int extracted = container.extractEnergy(toReceive, false);
-                        int received  = this.getEnergyContainer().receiveEnergy(extracted);
+                        int received = this.getEnergyContainer().receiveEnergy(extracted);
                         energyReceive += received;
                     }
                 }
@@ -206,10 +203,9 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
             int extracted;
             if (toExtract < this.getEnergyContainer().getEnergyStored()) {
                 received = EnergyUtils.injectEnergyToItem(extractStack, toExtract);
-            }
-            else {
+            } else {
                 received = EnergyUtils.injectEnergyToItem(extractStack, this.getEnergyContainer()
-                                                                            .getEnergyStored());
+                    .getEnergyStored());
             }
 
             extracted = this.getEnergyContainer().extractEnergy(received);
@@ -221,27 +217,32 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
     }
 
     public List<ICapabilityProvider> getNeighborsWithEnergy() {
+
         List<ICapabilityProvider> energyProvidingBlocks = new ArrayList<>();
+
         Point3D currentPos = new Point3D(this.pos.getX(), this.pos.getY(), this.pos.getZ());
 
         for (int i = -1; i < 2; i++) {
 
             if (i != 0) {
                 TileEntity entity =
-                        checkEntityAtPos(currentPos, this.pos.getX() + i, this.pos.getY(),
-                                         this.pos.getZ());
-                if (entity != null)
+                    checkEntityAtPos(currentPos, this.pos.getX() + i, this.pos.getY(),
+                        this.pos.getZ());
+                if (entity != null) {
                     energyProvidingBlocks.add(entity);
+                }
 
                 entity = checkEntityAtPos(currentPos, this.pos.getX(), this.pos.getY() + i,
-                                          this.pos.getZ());
-                if (entity != null)
+                    this.pos.getZ());
+                if (entity != null) {
                     energyProvidingBlocks.add(entity);
+                }
 
                 entity = checkEntityAtPos(currentPos, this.pos.getX(), this.pos.getY(),
-                                          this.pos.getZ() + i);
-                if (entity != null)
+                    this.pos.getZ() + i);
+                if (entity != null) {
                     energyProvidingBlocks.add(entity);
+                }
             }
         }
 
@@ -250,10 +251,11 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
 
     private TileEntity checkEntityAtPos(Point3D currentPos, int x, int y, int z) {
         if (!new Point3D(x, y, z).equals(currentPos)) {
+            assert this.world != null;
             TileEntity entity = this.world.getTileEntity(new BlockPos(x, y, z));
 
-            if (entity instanceof ICapabilityProvider &&
-                !(entity instanceof EnergyMatrixTileEntity) &&
+            if (entity != null && !(entity instanceof EnergyMatrixTileEntity)
+                &&
                 entity.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
                 return entity;
             }

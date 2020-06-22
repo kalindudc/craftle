@@ -1,8 +1,8 @@
 {
-    "cookingtime": 100, 
-    "type": "minecraft:blasting", 
-    "result": "craftle:platinum_ingot", 
-    "experience": 1.0, 
+    "cookingtime": 100,
+    "type": "minecraft:blasting",
+    "result": "craftle:platinum_ingot",
+    "experience": 1.0,
     "ingredient": {
         "item": "craftle:platinum_dust"
     }

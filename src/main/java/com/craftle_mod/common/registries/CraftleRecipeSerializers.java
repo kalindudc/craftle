@@ -9,9 +9,9 @@ import com.craftle_mod.common.registries.register.object.RecipeSerializerRegistr
 public class CraftleRecipeSerializers {
 
     public static final RecipeSerializerDeferredRegister SERIALIZERS =
-            new RecipeSerializerDeferredRegister(Craftle.MODID);
+        new RecipeSerializerDeferredRegister(Craftle.MODID);
 
-    public static final RecipeSerializerRegistryObject CRUSHING = SERIALIZERS
-            .register("crushing", () -> new ItemsToItemsRecipeSerializer<>(
-                    CrushingRecipe::new));
+    public static final RecipeSerializerRegistryObject<CrushingRecipe> CRUSHING = SERIALIZERS
+        .register("crushing", () -> new ItemsToItemsRecipeSerializer<>(
+            CrushingRecipe::new));
 }

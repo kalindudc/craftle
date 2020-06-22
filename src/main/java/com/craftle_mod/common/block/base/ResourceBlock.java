@@ -6,7 +6,7 @@ import net.minecraft.block.SoundType;
 public class ResourceBlock extends CraftleBlock {
 
     public ResourceBlock(IBlockResource resource, BlockType blockType,
-                         SoundType soundType) {
+        SoundType soundType) {
         super(resource, blockType, soundType);
     }
 
