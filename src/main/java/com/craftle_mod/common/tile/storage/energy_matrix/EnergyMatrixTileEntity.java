@@ -221,7 +221,9 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
     }
 
     public List<ICapabilityProvider> getNeighborsWithEnergy() {
+
         List<ICapabilityProvider> energyProvidingBlocks = new ArrayList<>();
+        
         Point3D currentPos = new Point3D(this.pos.getX(), this.pos.getY(), this.pos.getZ());
 
         for (int i = -1; i < 2; i++) {
@@ -230,18 +232,15 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
                 TileEntity entity =
                         checkEntityAtPos(currentPos, this.pos.getX() + i, this.pos.getY(),
                                          this.pos.getZ());
-                if (entity != null)
-                    energyProvidingBlocks.add(entity);
+                energyProvidingBlocks.add(entity);
 
                 entity = checkEntityAtPos(currentPos, this.pos.getX(), this.pos.getY() + i,
                                           this.pos.getZ());
-                if (entity != null)
-                    energyProvidingBlocks.add(entity);
+                energyProvidingBlocks.add(entity);
 
                 entity = checkEntityAtPos(currentPos, this.pos.getX(), this.pos.getY(),
                                           this.pos.getZ() + i);
-                if (entity != null)
-                    energyProvidingBlocks.add(entity);
+                energyProvidingBlocks.add(entity);
             }
         }
 
@@ -252,8 +251,7 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
         if (!new Point3D(x, y, z).equals(currentPos)) {
             TileEntity entity = this.world.getTileEntity(new BlockPos(x, y, z));
 
-            if (entity instanceof ICapabilityProvider &&
-                !(entity instanceof EnergyMatrixTileEntity) &&
+            if (entity != null && !(entity instanceof EnergyMatrixTileEntity) &&
                 entity.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
                 return entity;
             }

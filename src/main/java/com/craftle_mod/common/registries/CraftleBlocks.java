@@ -201,8 +201,10 @@ public class CraftleBlocks {
             registerResource("machine_base_tier_4", BlockResource.STEEL,
                              CraftleBlock.BlockType.MACHINE, SoundType.METAL);
 
-    // compressor , purifier, tier (1-4) -
     // tanks -
+    
+
+    // compressor , purifier, tier (1-4) -
     // energy: power blocks, tier (1-4)
     // Hydro Generator -
     // Thermoelectric Generator -

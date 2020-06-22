@@ -31,7 +31,8 @@ public class WorkBenchTileEntity extends PoweredMachineTileEntity {
                                     TileEntityConstants.WORKBENCH_CRAFTING_OUTPUT_SIZE, tier,
               (int) (TileEntityConstants.WORKBENCH_BASE_CAPACITY * tier.getMultiplier()),
               (int) (TileEntityConstants.WORKBENCH_BASE_MAX_INPUT * tier.getMultiplier()),
-              (int) (TileEntityConstants.WORKBENCH_BASE_MAX_OUTPUT * tier.getMultiplier()));
+              (int) (TileEntityConstants.WORKBENCH_BASE_MAX_OUTPUT *
+                     tier.getMultiplier())); // lgtm [java/evaluation-to-constant]
     }
 
     public WorkBenchTileEntity() {
