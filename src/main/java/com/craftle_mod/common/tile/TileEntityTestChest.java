@@ -93,8 +93,7 @@ public class TileEntityTestChest extends LockableLootTileEntity {
     @Override
     public void read(@Nonnull CompoundNBT compound) {
         super.read(compound);
-        this.chestContents =
-            NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
+        this.chestContents = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
         if (!this.checkLootAndRead(compound)) {
             ItemStackHelper.loadAllItems(compound, this.chestContents);
         }
@@ -106,8 +105,7 @@ public class TileEntityTestChest extends LockableLootTileEntity {
         double dz = (double) this.pos.getZ() + 0.5D;
 
         assert this.world != null;
-        this.world.playSound(null, dx, dy, dz, sound,
-            SoundCategory.BLOCKS, 0.5f,
+        this.world.playSound(null, dx, dy, dz, sound, SoundCategory.BLOCKS, 0.5f,
             this.world.rand.nextFloat() * 0.1f + 0.9f);
     }
 
@@ -160,8 +158,7 @@ public class TileEntityTestChest extends LockableLootTileEntity {
         return 0;
     }
 
-    public static void swapContents(TileEntityTestChest entity,
-        TileEntityTestChest otherEntity) {
+    public static void swapContents(TileEntityTestChest entity, TileEntityTestChest otherEntity) {
         NonNullList<ItemStack> list = entity.getItems();
         entity.setItems(otherEntity.getItems());
         otherEntity.setItems(list);
@@ -178,8 +175,7 @@ public class TileEntityTestChest extends LockableLootTileEntity {
 
     @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap,
-        Direction side) {
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return itemHandler.cast();
         }

@@ -9,8 +9,8 @@ import java.util.function.Supplier;
 public class EnergyMatrixTileEntityFactory implements TileEntityFactory {
 
     public Supplier<EnergyMatrixTileEntity> buildSupplier(CraftleBaseTier tier) {
-        int capacity =
-            (int) (TileEntityConstants.ENERGY_MATRIX_BASE_CAPACITY * tier.getMultiplier());
+        int capacity = (int) (TileEntityConstants.ENERGY_MATRIX_BASE_CAPACITY * tier
+            .getMultiplier());
         switch (tier) {
             case TIER_1:
                 return (() -> new EnergyMatrixTileEntity(
@@ -35,8 +35,8 @@ public class EnergyMatrixTileEntityFactory implements TileEntityFactory {
 
     public Supplier<EnergyMatrixTileEntity> buildSupplier(CraftleBaseTier tier,
         Supplier<Integer> energySupplier) {
-        int capacity =
-            (int) (TileEntityConstants.ENERGY_MATRIX_BASE_CAPACITY * tier.getMultiplier());
+        int capacity = (int) (TileEntityConstants.ENERGY_MATRIX_BASE_CAPACITY * tier
+            .getMultiplier());
         switch (tier) {
             case TIER_1:
                 return (() -> new EnergyMatrixTileEntity(

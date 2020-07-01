@@ -9,15 +9,12 @@ import net.minecraft.util.JSONUtils;
 
 public class SerializationHelper {
 
-    public static ItemStack getItemStack(@Nonnull JsonObject json,
-        @Nonnull String key) {
+    public static ItemStack getItemStack(@Nonnull JsonObject json, @Nonnull String key) {
         if (!json.has(key)) {
-            throw new JsonSyntaxException(
-                "Missing '" + key + "', expected to find an object");
+            throw new JsonSyntaxException("Missing '" + key + "', expected to find an object");
         }
         if (!json.get(key).isJsonObject()) {
-            throw new JsonSyntaxException(
-                "Expected '" + key + "' to be an object");
+            throw new JsonSyntaxException("Expected '" + key + "' to be an object");
         }
 
         return ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, key));

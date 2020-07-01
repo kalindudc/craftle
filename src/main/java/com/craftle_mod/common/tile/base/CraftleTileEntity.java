@@ -72,8 +72,9 @@ public abstract class CraftleTileEntity extends LockableLootTileEntity {
     @Nonnull
     @Override
     protected ITextComponent getDefaultName() {
-        Craftle.LOGGER.info("CRAFTLE {ContainerizedTileEntity}: type " + "registry name " +
-            this.getType().getRegistryName());
+        Craftle.LOGGER.info(
+            "CRAFTLE {ContainerizedTileEntity}: type " + "registry name " + this.getType()
+                .getRegistryName());
         return new TranslationTextComponent("container." + this.getType().getRegistryName());
     }
 
@@ -159,8 +160,7 @@ public abstract class CraftleTileEntity extends LockableLootTileEntity {
         return 0;
     }
 
-    public static void swapContents(CraftleTileEntity entity,
-        CraftleTileEntity otherEntity) {
+    public static void swapContents(CraftleTileEntity entity, CraftleTileEntity otherEntity) {
         NonNullList<ItemStack> list = entity.getItems();
         entity.setItems(otherEntity.getItems());
         otherEntity.setItems(list);

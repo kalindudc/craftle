@@ -73,8 +73,7 @@ public class SingleItemStackIngredient extends ItemStackIngredient {
     }
 
     public static SingleItemStackIngredient read(PacketBuffer buffer) {
-        return new SingleItemStackIngredient(Ingredient.read(buffer),
-            buffer.readVarInt());
+        return new SingleItemStackIngredient(Ingredient.read(buffer), buffer.readVarInt());
     }
 
 }

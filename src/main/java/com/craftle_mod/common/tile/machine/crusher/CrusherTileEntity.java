@@ -29,8 +29,8 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-public class CrusherTileEntity extends PoweredMachineTileEntity
-    implements ISidedInventory, IRecipeHolder, IRecipeHelperPopulator {
+public class CrusherTileEntity extends PoweredMachineTileEntity implements ISidedInventory,
+    IRecipeHolder, IRecipeHelperPopulator {
 
     private static final int[] SLOTS_UP = new int[]{0};
     private static final int[] SLOTS_DOWN = new int[]{2, 1};
@@ -38,8 +38,7 @@ public class CrusherTileEntity extends PoweredMachineTileEntity
 
 
     public CrusherTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends CraftleRecipe> recipeTypeIn,
-        CraftleBaseTier tier) {
+        IRecipeType<? extends CraftleRecipe> recipeTypeIn, CraftleBaseTier tier) {
         super(typeIn, recipeTypeIn, 3, tier);
         init(tier);
     }

@@ -41,8 +41,7 @@ public class EnergyMatrixContainerFactory {
     }
 
     public static EnergyMatrixContainer buildWithTileEntity(CraftleBaseTier tier, int windowId,
-        PlayerInventory playerInventory,
-        EnergyMatrixTileEntity energyMatrixTileEntity) {
+        PlayerInventory playerInventory, EnergyMatrixTileEntity energyMatrixTileEntity) {
         switch (tier) {
             case TIER_1:
                 return new EnergyMatrixContainer(CraftleContainerTypes.ENERGY_MATRIX_TIER_1.get(),

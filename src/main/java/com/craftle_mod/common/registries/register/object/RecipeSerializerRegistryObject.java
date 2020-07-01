@@ -5,11 +5,10 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraftforge.fml.RegistryObject;
 
-public class RecipeSerializerRegistryObject<T extends IRecipe<?>>
-    extends CraftleRegistryObject<IRecipeSerializer<T>> {
+public class RecipeSerializerRegistryObject<T extends IRecipe<?>> extends
+    CraftleRegistryObject<IRecipeSerializer<T>> {
 
-    public RecipeSerializerRegistryObject(
-        RegistryObject<IRecipeSerializer<T>> registryObject) {
+    public RecipeSerializerRegistryObject(RegistryObject<IRecipeSerializer<T>> registryObject) {
         super(registryObject);
     }
 

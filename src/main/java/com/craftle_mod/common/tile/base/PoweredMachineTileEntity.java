@@ -2,7 +2,7 @@ package com.craftle_mod.common.tile.base;
 
 import com.craftle_mod.api.NBTConstants;
 import com.craftle_mod.common.block.base.ActiveBlockBase;
-import com.craftle_mod.common.capability.energy.EnergyContainerCapability;
+import com.craftle_mod.common.capability.energy.CraftleEnergyStorage;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import javax.annotation.Nonnull;
@@ -22,15 +22,15 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 
-public abstract class PoweredMachineTileEntity extends MachineTileEntity
-    implements ICapabilityProvider {
+public abstract class PoweredMachineTileEntity extends MachineTileEntity implements
+    ICapabilityProvider {
 
     public static final int DEFAULT_POWER_CAPACITY = 1_000;
 
     /*
     TODO: I may have to make my own energy variable, monitor this.
      */
-    private final EnergyContainerCapability energyContainer;
+    private final CraftleEnergyStorage energyContainer;
 
     protected boolean active;
     private int bufferedEnergy;
@@ -38,41 +38,35 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
     private int energyExtract;
 
     public PoweredMachineTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize,
-        CraftleBaseTier tier) {
+        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier) {
         super(typeIn, recipeTypeIn, containerSize, tier);
-        this.energyContainer =
-            new EnergyContainerCapability(DEFAULT_POWER_CAPACITY, DEFAULT_POWER_CAPACITY, 0,
-                tier);
+        this.energyContainer = new CraftleEnergyStorage(DEFAULT_POWER_CAPACITY,
+            DEFAULT_POWER_CAPACITY, 0, tier);
         init();
     }
 
     public PoweredMachineTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize,
-        CraftleBaseTier tier, int capacity) {
+        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier,
+        int capacity) {
         super(typeIn, recipeTypeIn, containerSize, tier);
-        this.energyContainer = new EnergyContainerCapability(capacity, tier);
+        this.energyContainer = new CraftleEnergyStorage(capacity, tier);
         init();
     }
 
     public PoweredMachineTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize,
-        CraftleBaseTier tier, int capacity, int maxReceive,
-        int maxExtract) {
+        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier,
+        int capacity, int maxReceive, int maxExtract) {
         super(typeIn, recipeTypeIn, containerSize, tier);
-        this.energyContainer =
-            new EnergyContainerCapability(capacity, maxReceive, maxExtract, tier);
+        this.energyContainer = new CraftleEnergyStorage(capacity, maxReceive, maxExtract, tier);
         init();
     }
 
     public PoweredMachineTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize,
-        CraftleBaseTier tier, int capacity, int maxReceive,
-        int maxExtract, int startingEnergy) {
+        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier,
+        int capacity, int maxReceive, int maxExtract, int startingEnergy) {
         super(typeIn, recipeTypeIn, containerSize, tier);
-        this.energyContainer =
-            new EnergyContainerCapability(capacity, maxReceive, maxExtract, startingEnergy,
-                tier);
+        this.energyContainer = new CraftleEnergyStorage(capacity, maxReceive, maxExtract,
+            startingEnergy, tier);
         init();
     }
 
@@ -136,7 +130,7 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
         }
     }
 
-    public EnergyContainerCapability getEnergyContainer() {
+    public CraftleEnergyStorage getEnergyContainer() {
         return energyContainer;
     }
 

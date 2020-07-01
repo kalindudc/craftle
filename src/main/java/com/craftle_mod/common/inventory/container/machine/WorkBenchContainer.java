@@ -105,15 +105,12 @@ public class WorkBenchContainer extends EnergyContainer {
     }
 
     protected static void updateCraftingResult(int id, World worldIn, PlayerEntity playerIn,
-        CraftingInventory inventoryIn,
-        CraftResultInventory inventoryResult) {
+        CraftingInventory inventoryIn, CraftResultInventory inventoryResult) {
         if (!worldIn.isRemote) {
             ServerPlayerEntity serverplayerentity = (ServerPlayerEntity) playerIn;
             ItemStack itemstack = ItemStack.EMPTY;
             Optional<ICraftingRecipe> optional = Objects.requireNonNull(worldIn.getServer())
-                .getRecipeManager()
-                .getRecipe(IRecipeType.CRAFTING,
-                    inventoryIn, worldIn);
+                .getRecipeManager().getRecipe(IRecipeType.CRAFTING, inventoryIn, worldIn);
             if (optional.isPresent()) {
                 ICraftingRecipe icraftingrecipe = optional.get();
                 if (inventoryResult.canUseRecipe(worldIn, serverplayerentity, icraftingrecipe)) {
@@ -132,8 +129,7 @@ public class WorkBenchContainer extends EnergyContainer {
     public void onCraftMatrixChanged(@Nonnull IInventory inventoryIn) {
         this.getWorldPosCallable().consume(
             (world, blockPos) -> updateCraftingResult(this.windowId, world,
-                this.getPlayerInventory().player,
-                this.craftMatrix, this.craftResult));
+                this.getPlayerInventory().player, this.craftMatrix, this.craftResult));
     }
 
     @Override

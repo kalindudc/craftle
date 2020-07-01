@@ -40,8 +40,7 @@ public class CrusherContainerFactory {
     }
 
     public static CrusherContainer buildWithTileEntity(CraftleBaseTier tier, int id,
-        PlayerInventory player,
-        CrusherTileEntity crusherTileEntity) {
+        PlayerInventory player, CrusherTileEntity crusherTileEntity) {
         switch (tier) {
             case TIER_1:
                 return new CrusherContainer(CraftleContainerTypes.CRUSHER_TIER_1.get(), id, player,

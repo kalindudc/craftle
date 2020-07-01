@@ -5,8 +5,8 @@ import javax.annotation.Nonnull;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public class CraftleRegistryObject<T extends IForgeRegistryEntry<? super T>>
-    implements Supplier<T> {
+public class CraftleRegistryObject<T extends IForgeRegistryEntry<? super T>> implements
+    Supplier<T> {
 
     protected RegistryObject<T> registryObject;
 

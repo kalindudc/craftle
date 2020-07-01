@@ -2,8 +2,8 @@ package com.craftle_mod.common.item;
 
 import com.craftle_mod.api.ItemConstants;
 import com.craftle_mod.client.util.handler.CraftleKeyHandler;
+import com.craftle_mod.common.capability.energy.item.ItemEnergyProvider;
 import com.craftle_mod.common.item.base.CraftleItem;
-import com.craftle_mod.common.item.base.EnergyProvider;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.util.EnergyUtils;
 import java.util.List;
@@ -72,8 +72,7 @@ public class EnergyItem extends CraftleItem {
     @Nonnull
     @Override
     public ActionResult<ItemStack> onItemRightClick(@Nonnull World worldIn,
-        @Nonnull PlayerEntity playerIn,
-        @Nonnull Hand handIn) {
+        @Nonnull PlayerEntity playerIn, @Nonnull Hand handIn) {
         // TODO: use on armor
 
         return super.onItemRightClick(worldIn, playerIn, handIn);
@@ -83,17 +82,18 @@ public class EnergyItem extends CraftleItem {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void addInformation(@Nonnull ItemStack stack, @Nullable World worldIn,
-        @Nonnull List<ITextComponent> tooltip,
-        @Nonnull ITooltipFlag flagIn) {
+        @Nonnull List<ITextComponent> tooltip, @Nonnull ITooltipFlag flagIn) {
         if (CraftleKeyHandler.isHoldingShift()) {
 
             int energy = EnergyUtils.getEnergyStoredFromItem(stack);
             int capacity = EnergyUtils.getEnergyCapacityFromItem(stack);
 
-            tooltip.add(new StringTextComponent(String.format("Capacity: %.02f %s", EnergyUtils
-                .getJoulesForTierItem(tier, capacity), EnergyUtils.getUnitForTierItem(tier))));
-            tooltip.add(new StringTextComponent(String.format("\u00A7aEnergy: %.02f %s", EnergyUtils
-                .getJoulesForTierItem(tier, energy), EnergyUtils.getUnitForTierItem(tier))));
+            tooltip.add(new StringTextComponent(String
+                .format("Capacity: %.02f %s", EnergyUtils.getJoulesForTierItem(tier, capacity),
+                    EnergyUtils.getUnitForTierItem(tier))));
+            tooltip.add(new StringTextComponent(String
+                .format("\u00A7aEnergy: %.02f %s", EnergyUtils.getJoulesForTierItem(tier, energy),
+                    EnergyUtils.getUnitForTierItem(tier))));
         } else {
             tooltip.add(new StringTextComponent("Hold \u00A7eSHIFT\u00A77 for more information."));
         }
@@ -103,7 +103,7 @@ public class EnergyItem extends CraftleItem {
     @Nullable
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
-        return new EnergyProvider(maxCapacity, maxCapacity, maxCapacity,
+        return new ItemEnergyProvider(maxCapacity, maxCapacity, maxCapacity,
             tier.equals(CraftleBaseTier.UNLIMITED) ? maxCapacity : 0, tier);
     }
 

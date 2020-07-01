@@ -21,13 +21,12 @@ public class CraftleChestContainer extends Container {
     private final IWorldPosCallable canInteractWithCallable;
 
 
-    public CraftleChestContainer(final int windowId,
-        final PlayerInventory playerInventory,
+    public CraftleChestContainer(final int windowId, final PlayerInventory playerInventory,
         final TileEntityTestChest entity) {
         super(CraftleContainerTypes.TEST_CHEST.get(), windowId);
         this.entity = entity;
-        this.canInteractWithCallable =
-            IWorldPosCallable.of(Objects.requireNonNull(entity.getWorld()), entity.getPos());
+        this.canInteractWithCallable = IWorldPosCallable
+            .of(Objects.requireNonNull(entity.getWorld()), entity.getPos());
         int numRows = 6;
         int numCols = 9;
 
@@ -38,8 +37,7 @@ public class CraftleChestContainer extends Container {
 
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
-                this.addSlot(new Slot(entity, (row * numCols) + col,
-                    startX + (col * slotSizePlus2),
+                this.addSlot(new Slot(entity, (row * numCols) + col, startX + (col * slotSizePlus2),
                     startY + (row * slotSizePlus2)));
             }
         }
@@ -61,31 +59,27 @@ public class CraftleChestContainer extends Container {
         int hotbarY = 198;
         for (int col = 0; col < 9; col++) {
             // extra 9 + is to account for the hotbar
-            this.addSlot(new Slot(playerInventory, col,
-                hotbarX + (col * slotSizePlus2), hotbarY));
+            this.addSlot(new Slot(playerInventory, col, hotbarX + (col * slotSizePlus2), hotbarY));
         }
     }
 
-    public CraftleChestContainer(final int windowId,
-        final PlayerInventory playerInventory,
+    public CraftleChestContainer(final int windowId, final PlayerInventory playerInventory,
         final PacketBuffer data) {
         this(windowId, playerInventory, getTileEntity(playerInventory, data));
     }
 
-    private static TileEntityTestChest getTileEntity(
-        final PlayerInventory playerInventory, final PacketBuffer data) {
-        Objects.requireNonNull(playerInventory,
-            "playerInventory cannot be null");
+    private static TileEntityTestChest getTileEntity(final PlayerInventory playerInventory,
+        final PacketBuffer data) {
+        Objects.requireNonNull(playerInventory, "playerInventory cannot be null");
         Objects.requireNonNull(data, "data cannot be null");
 
-        final TileEntity tileAtPos =
-            playerInventory.player.world.getTileEntity(data.readBlockPos());
+        final TileEntity tileAtPos = playerInventory.player.world
+            .getTileEntity(data.readBlockPos());
         if (tileAtPos instanceof TileEntityTestChest) {
             return (TileEntityTestChest) tileAtPos;
         }
 
-        throw new IllegalStateException(
-            "Tile entity is not correct. " + tileAtPos);
+        throw new IllegalStateException("Tile entity is not correct. " + tileAtPos);
     }
 
     @Override
@@ -104,8 +98,7 @@ public class CraftleChestContainer extends Container {
             ItemStack itemStack1 = slot.getStack();
             itemStack = itemStack1.copy();
             if (index < 54) {
-                if (!this.mergeItemStack(itemStack1, 54,
-                    this.inventorySlots.size(), true)) {
+                if (!this.mergeItemStack(itemStack1, 54, this.inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
             } else if (!this.mergeItemStack(itemStack1, 0, 54, false)) {

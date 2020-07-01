@@ -17,22 +17,18 @@ import net.minecraft.util.Rotation;
 @SuppressWarnings("deprecation")
 public class FacedBlockBase extends CraftleBlock {
 
-    public static final DirectionProperty FACING =
-        HorizontalBlock.HORIZONTAL_FACING;
+    public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 
-    public FacedBlockBase(IBlockResource resource, BlockType blockType,
-        SoundType soundType) {
+    public FacedBlockBase(IBlockResource resource, BlockType blockType, SoundType soundType) {
         super(resource, blockType, soundType);
-        this.setDefaultState(this.getStateContainer().getBaseState()
-            .with(FACING, Direction.NORTH));
+        this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, Direction.NORTH));
     }
 
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(FACING,
-            context.getPlacementHorizontalFacing()
-                .getOpposite());
+        return this.getDefaultState()
+            .with(FACING, context.getPlacementHorizontalFacing().getOpposite());
     }
 
     @Nonnull
@@ -48,8 +44,7 @@ public class FacedBlockBase extends CraftleBlock {
     }
 
     @Override
-    protected void fillStateContainer(
-        StateContainer.Builder<Block, BlockState> builder) {
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
 

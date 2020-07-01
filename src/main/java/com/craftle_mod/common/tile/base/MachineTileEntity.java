@@ -14,8 +14,8 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public abstract class MachineTileEntity extends CraftleTileEntity
-    implements IRecipeHolder, IRecipeHelperPopulator, ITickableTileEntity {
+public abstract class MachineTileEntity extends CraftleTileEntity implements IRecipeHolder,
+    IRecipeHelperPopulator, ITickableTileEntity {
 
     private CraftleBaseTier tier;
 
@@ -24,8 +24,7 @@ public abstract class MachineTileEntity extends CraftleTileEntity
     protected final IRecipeType<? extends IRecipe<?>> recipeType;
 
     public MachineTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends IRecipe<?>> recipeTypeIn,
-        int containerSize, CraftleBaseTier tier) {
+        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier) {
         super(typeIn, containerSize);
         this.tier = tier;
         this.recipeType = recipeTypeIn;

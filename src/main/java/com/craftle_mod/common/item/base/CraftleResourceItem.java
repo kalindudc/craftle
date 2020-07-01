@@ -18,8 +18,7 @@ public class CraftleResourceItem extends Item {
 
     }
 
-    public CraftleResourceItem(Resource resource, ResourceType type,
-        boolean hasEffect) {
+    public CraftleResourceItem(Resource resource, ResourceType type, boolean hasEffect) {
         super(getProperties(type));
         this.resource = resource;
         this.type = type;

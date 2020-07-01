@@ -67,8 +67,8 @@ public class CrusherContainer extends CraftleContainer {
             throw new IllegalStateException("Tile entity is not correct. ");
         }
 
-        int[] slotsConfig =
-            initSlotsHelper(((MachineTileEntity) getEntity()).getCraftleMachineTier());
+        int[] slotsConfig = initSlotsHelper(
+            ((MachineTileEntity) getEntity()).getCraftleMachineTier());
         int totalSlotSize = 18;
         // Main Inventory
         //    base crusher slots

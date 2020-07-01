@@ -16,23 +16,18 @@ import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class CraftleRecipeType<T extends CraftleRecipe>
-    implements IRecipeType<T> {
+public class CraftleRecipeType<T extends CraftleRecipe> implements IRecipeType<T> {
 
-    public static final List<CraftleRecipeType<?>> RECIPE_CONTAINER =
-        new ArrayList<>();
+    public static final List<CraftleRecipeType<?>> RECIPE_CONTAINER = new ArrayList<>();
 
-    public static final CraftleRecipeType<ItemsToItemsRecipe> CRUSHING =
-        addToList("crushing",
-            new ItemsToItemsRecipeSerializer<>(
-                CrushingRecipe::new));
+    public static final CraftleRecipeType<ItemsToItemsRecipe> CRUSHING = addToList("crushing",
+        new ItemsToItemsRecipeSerializer<>(CrushingRecipe::new));
 
     private List<T> validRecipes;
     private final String recipeName;
     private final IRecipeSerializer<T> serializer;
 
-    private CraftleRecipeType(String recipeName,
-        IRecipeSerializer<T> serializer) {
+    private CraftleRecipeType(String recipeName, IRecipeSerializer<T> serializer) {
         this.validRecipes = Collections.emptyList();
         this.recipeName = recipeName;
         this.serializer = serializer;
@@ -58,8 +53,7 @@ public class CraftleRecipeType<T extends CraftleRecipe>
             // configure other machine type
             // default vanila recipes may need to be acquired
 
-            this.validRecipes = recipeManager
-                .getRecipes(this, EmptyInventory.INSTANCE, world);
+            this.validRecipes = recipeManager.getRecipes(this, EmptyInventory.INSTANCE, world);
         }
 
         return validRecipes;
@@ -69,10 +63,9 @@ public class CraftleRecipeType<T extends CraftleRecipe>
         return getRecipes(world).stream();
     }
 
-    public static <T extends CraftleRecipe> CraftleRecipeType<T> addToList(
-        String recipeName, IRecipeSerializer<T> serializer) {
-        CraftleRecipeType<T> type =
-            new CraftleRecipeType<>(recipeName, serializer);
+    public static <T extends CraftleRecipe> CraftleRecipeType<T> addToList(String recipeName,
+        IRecipeSerializer<T> serializer) {
+        CraftleRecipeType<T> type = new CraftleRecipeType<>(recipeName, serializer);
         RECIPE_CONTAINER.add(type);
         return type;
     }
@@ -81,10 +74,8 @@ public class CraftleRecipeType<T extends CraftleRecipe>
         RECIPE_CONTAINER.forEach(recipe -> recipe.validRecipes.clear());
     }
 
-    public static void registerRecipeTypes(
-        IForgeRegistry<IRecipeSerializer<?>> registry) {
-        RECIPE_CONTAINER
-            .forEach(type -> registry.register(type.getSerializer()));
+    public static void registerRecipeTypes(IForgeRegistry<IRecipeSerializer<?>> registry) {
+        RECIPE_CONTAINER.forEach(type -> registry.register(type.getSerializer()));
     }
 
     public boolean contains(@Nullable World wold, Predicate<T> match) {

@@ -11,8 +11,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class CrushingRecipe extends ItemsToItemsRecipe {
 
-    public CrushingRecipe(ResourceLocation resourceLocation,
-        ItemStackIngredient input, ItemStack output) {
+    public CrushingRecipe(ResourceLocation resourceLocation, ItemStackIngredient input,
+        ItemStack output) {
         super(resourceLocation, input, output);
     }
 

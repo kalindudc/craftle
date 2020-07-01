@@ -15,8 +15,7 @@ public class CoalGeneratorContainer extends EnergyContainer {
 
 
     public CoalGeneratorContainer(ContainerType<?> container, int windowId,
-        PlayerInventory playerInventory,
-        PoweredMachineTileEntity entity) {
+        PlayerInventory playerInventory, PoweredMachineTileEntity entity) {
         super(container, windowId, playerInventory, entity);
         initSlots();
     }

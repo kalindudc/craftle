@@ -26,11 +26,10 @@ public class WorkBenchTileEntity extends PoweredMachineTileEntity {
 
     public WorkBenchTileEntity(TileEntityType<?> typeIn,
         IRecipeType<? extends IRecipe<?>> recipeTypeIn, CraftleBaseTier tier) {
-        super(typeIn, recipeTypeIn, TileEntityConstants.WORKBENCH_CONTAINER_SIZE + 9 +
-                TileEntityConstants.WORKBENCH_CRAFTING_OUTPUT_SIZE, tier,
+        super(typeIn, recipeTypeIn, TileEntityConstants.WORKBENCH_CONTAINER_SIZE + 9
+                + TileEntityConstants.WORKBENCH_CRAFTING_OUTPUT_SIZE, tier,
             (int) (TileEntityConstants.WORKBENCH_BASE_CAPACITY * tier.getMultiplier()),
-            (int) (TileEntityConstants.WORKBENCH_BASE_MAX_INPUT * tier.getMultiplier()),
-            0);
+            (int) (TileEntityConstants.WORKBENCH_BASE_MAX_INPUT * tier.getMultiplier()), 0);
     }
 
     public WorkBenchTileEntity() {
@@ -50,8 +49,8 @@ public class WorkBenchTileEntity extends PoweredMachineTileEntity {
 
     @Override
     public boolean hasCapability(Capability<?> capability, Direction direction) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ||
-            super.hasCapability(capability, direction);
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super
+            .hasCapability(capability, direction);
     }
 
     @Nonnull
@@ -71,5 +70,5 @@ public class WorkBenchTileEntity extends PoweredMachineTileEntity {
     public ITextComponent getDisplayName() {
         return new TranslationTextComponent(TagConstants.WORKBENCH);
     }
-    
+
 }

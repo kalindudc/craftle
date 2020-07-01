@@ -33,22 +33,19 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
     private int totalBurnTime;
 
     public CoalGeneratorTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends IRecipe<?>> recipeTypeIn,
-        CraftleBaseTier tier, int capacity, int maxReceive,
-        int maxExtract) {
+        IRecipeType<? extends IRecipe<?>> recipeTypeIn, CraftleBaseTier tier, int capacity,
+        int maxReceive, int maxExtract) {
         super(typeIn, recipeTypeIn, 1, tier, capacity, maxReceive, maxExtract);
         this.burnTime = 0;
         this.totalBurnTime = 0;
     }
 
     public CoalGeneratorTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends IRecipe<?>> recipeTypeIn,
-        CraftleBaseTier tier) {
+        IRecipeType<? extends IRecipe<?>> recipeTypeIn, CraftleBaseTier tier) {
         super(typeIn, recipeTypeIn, 1, tier,
             (int) (TileEntityConstants.COAL_GENERATOR_BASE_CAPACITY * tier.getMultiplier()),
             (int) (TileEntityConstants.COAL_GENERATOR_BASE_MAX_INPUT * tier.getMultiplier()),
-            (int) (TileEntityConstants.COAL_GENERATOR_BASE_MAX_OUTPUT * tier.getMultiplier()) *
-                2);
+            (int) (TileEntityConstants.COAL_GENERATOR_BASE_MAX_OUTPUT * tier.getMultiplier()) * 2);
         this.burnTime = 0;
         this.totalBurnTime = 0;
     }
@@ -70,8 +67,8 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
 
     @Override
     public boolean hasCapability(Capability<?> capability, Direction direction) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ||
-            super.hasCapability(capability, direction);
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super
+            .hasCapability(capability, direction);
     }
 
     @Nonnull
@@ -142,8 +139,8 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
         }
 
         // burn fuel
-        boolean notFilled = this.getEnergyContainer().getEnergyStored() <
-            this.getEnergyContainer().getMaxEnergyStored();
+        boolean notFilled = this.getEnergyContainer().getEnergyStored() < this.getEnergyContainer()
+            .getMaxEnergyStored();
 
         if (notFilled) {
 
@@ -158,10 +155,10 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
                     this.addToBufferedEnergy(energyToBuffer);
                     if (energyToBuffer > this.getEnergyContainer().getMaxReceive()) {
                         this.setEnergyReceive(this.getEnergyContainer().getMaxReceive());
-                        this.burnTime = (int) Math.ceil((float) energyToBuffer /
-                            (float) this.getEnergyContainer()
-                                .getMaxReceive()) *
-                            TileEntityConstants.COAL_GENERATOR_BURN_MULTIPLIER;
+                        this.burnTime = (int) Math.ceil(
+                            (float) energyToBuffer / (float) this.getEnergyContainer()
+                                .getMaxReceive())
+                            * TileEntityConstants.COAL_GENERATOR_BURN_MULTIPLIER;
                         this.totalBurnTime = this.burnTime;
                     } else {
                         this.setEnergyReceive(energyToBuffer);
@@ -211,8 +208,8 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
 
     private int getFuelValue(ItemStack stackInSlot) {
 
-        if (Items.COAL.equals(stackInSlot.getItem()) ||
-            Items.CHARCOAL.equals(stackInSlot.getItem())) {
+        if (Items.COAL.equals(stackInSlot.getItem()) || Items.CHARCOAL
+            .equals(stackInSlot.getItem())) {
             return TileEntityConstants.COAL_FUEL_VALUE;
         }
 

@@ -1,6 +1,6 @@
-package com.craftle_mod.common.item.base;
+package com.craftle_mod.common.capability.energy.item;
 
-import com.craftle_mod.common.capability.energy.EnergyContainerCapability;
+import com.craftle_mod.common.capability.energy.CraftleEnergyStorage;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -12,14 +12,13 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 
-public class EnergyProvider implements ICapabilityProvider, INBTSerializable<CompoundNBT> {
+public class ItemEnergyProvider implements ICapabilityProvider, INBTSerializable<CompoundNBT> {
 
-    private EnergyContainerCapability energyContainer;
+    private CraftleEnergyStorage energyContainer;
 
-    public EnergyProvider(int capacity, int maxReceive, int maxExtract, int energy,
+    public ItemEnergyProvider(int capacity, int maxReceive, int maxExtract, int energy,
         CraftleBaseTier tier) {
-        energyContainer =
-            new EnergyContainerCapability(capacity, maxReceive, maxExtract, energy, tier);
+        energyContainer = new CraftleEnergyStorage(capacity, maxReceive, maxExtract, energy, tier);
 
     }
 
@@ -43,11 +42,11 @@ public class EnergyProvider implements ICapabilityProvider, INBTSerializable<Com
         return LazyOptional.empty();
     }
 
-    public EnergyContainerCapability getEnergyContainer() {
+    public CraftleEnergyStorage getEnergyContainer() {
         return energyContainer;
     }
 
-    public void setEnergyContainer(EnergyContainerCapability energyContainer) {
+    public void setEnergyContainer(CraftleEnergyStorage energyContainer) {
         this.energyContainer = energyContainer;
     }
 

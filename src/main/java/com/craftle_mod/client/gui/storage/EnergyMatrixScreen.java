@@ -12,8 +12,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.client.gui.GuiUtils;
 
-public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
-    implements IHasContainer<EnergyMatrixContainer> {
+public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer> implements
+    IHasContainer<EnergyMatrixContainer> {
 
     private final EnergyMatrixTileEntity entity;
 
@@ -47,11 +47,9 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
         String units = EnergyUtils.getUnitForTierBlock(this.entity.getCraftleMachineTier());
 
         float energy = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyContainer()
-                .getEnergyStored());
+            this.entity.getEnergyContainer().getEnergyStored());
         float capacity = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyContainer()
-                .getMaxEnergyStored());
+            this.entity.getEnergyContainer().getMaxEnergyStored());
 
         float input = this.entity.getEnergyReceive();
         float output = this.entity.getEnergyExtract();

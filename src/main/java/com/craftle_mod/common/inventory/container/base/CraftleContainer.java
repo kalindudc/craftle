@@ -23,14 +23,13 @@ public abstract class CraftleContainer extends Container {
     private final IWorldPosCallable worldPosCallable;
 
     public CraftleContainer(ContainerType<?> container, final int windowId,
-        final PlayerInventory playerInventory,
-        final CraftleTileEntity entity) {
+        final PlayerInventory playerInventory, final CraftleTileEntity entity) {
 
         super(container, windowId);
         this.playerInventory = playerInventory;
         this.entity = entity;
-        this.canInteractWithCallable = IWorldPosCallable.of(
-            Objects.requireNonNull(entity.getWorld()), entity.getPos());
+        this.canInteractWithCallable = IWorldPosCallable
+            .of(Objects.requireNonNull(entity.getWorld()), entity.getPos());
         this.world = entity.getWorld();
         worldPosCallable = IWorldPosCallable.of(this.getWorld(), entity.getPos());
 
@@ -54,8 +53,8 @@ public abstract class CraftleContainer extends Container {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null");
         Objects.requireNonNull(data, "data cannot be null");
 
-        final TileEntity tileAtPos =
-            playerInventory.player.world.getTileEntity(data.readBlockPos());
+        final TileEntity tileAtPos = playerInventory.player.world
+            .getTileEntity(data.readBlockPos());
         if (tileAtPos instanceof CraftleTileEntity) {
             return (CraftleTileEntity) tileAtPos;
         }
@@ -109,8 +108,7 @@ public abstract class CraftleContainer extends Container {
             for (int col = 0; col < 9; col++) {
                 // extra 9 + is to account for the hotbar
                 this.addSlot(new Slot(playerInventory, (9 + (row * 9)) + col,
-                    startX + (col * totalSlotSpaceSize),
-                    startY + (row * totalSlotSpaceSize)));
+                    startX + (col * totalSlotSpaceSize), startY + (row * totalSlotSpaceSize)));
             }
         }
 

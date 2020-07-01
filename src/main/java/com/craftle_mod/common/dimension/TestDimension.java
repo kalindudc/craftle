@@ -20,8 +20,7 @@ public class TestDimension extends Dimension {
     @Nonnull
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
-        return new TestChunkGenerator(world, new TestBiomeProvider(),
-            new TestGenSettings());
+        return new TestChunkGenerator(world, new TestBiomeProvider(), new TestGenSettings());
     }
 
     @Nullable

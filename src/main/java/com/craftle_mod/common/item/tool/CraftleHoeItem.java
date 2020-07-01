@@ -14,8 +14,8 @@ public class CraftleHoeItem extends HoeItem implements ICraftleToolItem {
 
     public CraftleHoeItem(float attackSpeed, CraftleToolTier tier) {
 
-        super(tier, attackSpeed, new Item.Properties()
-            .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_TOOLS));
+        super(tier, attackSpeed,
+            new Item.Properties().group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_TOOLS));
         this.resourceName = tier.getMaterialName() + "_hoe";
         this.tier = tier;
     }

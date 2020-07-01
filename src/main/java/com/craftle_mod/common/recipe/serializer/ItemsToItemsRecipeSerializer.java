@@ -17,9 +17,8 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
-public class ItemsToItemsRecipeSerializer<T extends ItemsToItemsRecipe>
-    extends ForgeRegistryEntry<IRecipeSerializer<?>>
-    implements IRecipeSerializer<T> {
+public class ItemsToItemsRecipeSerializer<T extends ItemsToItemsRecipe> extends
+    ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T> {
 
     private final IRFactory<T> factory;
 
@@ -30,13 +29,11 @@ public class ItemsToItemsRecipeSerializer<T extends ItemsToItemsRecipe>
     @Nonnull
     @Override
     public T read(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
-        JsonElement input = JSONUtils.isJsonArray(json, JsonConstants.INPUT) ?
-            JSONUtils.getJsonArray(json, JsonConstants.INPUT) :
-            JSONUtils.getJsonObject(json, JsonConstants.INPUT);
-        ItemStackIngredient inputIngredient =
-            ItemStackIngredient.deserialize(input);
-        ItemStack output =
-            SerializationHelper.getItemStack(json, JsonConstants.OUTPUT);
+        JsonElement input = JSONUtils.isJsonArray(json, JsonConstants.INPUT) ? JSONUtils
+            .getJsonArray(json, JsonConstants.INPUT)
+            : JSONUtils.getJsonObject(json, JsonConstants.INPUT);
+        ItemStackIngredient inputIngredient = ItemStackIngredient.deserialize(input);
+        ItemStack output = SerializationHelper.getItemStack(json, JsonConstants.OUTPUT);
         if (output.isEmpty()) {
             throw new JsonSyntaxException("Recipe output must not be empty.");
         }
@@ -48,8 +45,7 @@ public class ItemsToItemsRecipeSerializer<T extends ItemsToItemsRecipe>
     public T read(@Nonnull ResourceLocation recipeId, @Nonnull PacketBuffer buffer) {
 
         try {
-            ItemStackIngredient inputIngredient =
-                ItemStackIngredient.read(buffer);
+            ItemStackIngredient inputIngredient = ItemStackIngredient.read(buffer);
             ItemStack output = buffer.readItemStack();
             return this.factory.create(recipeId, inputIngredient, output);
         } catch (Exception e) {
@@ -73,7 +69,6 @@ public class ItemsToItemsRecipeSerializer<T extends ItemsToItemsRecipe>
      */
     public interface IRFactory<T extends ItemsToItemsRecipe> {
 
-        T create(ResourceLocation id, ItemStackIngredient ingredient,
-            ItemStack output);
+        T create(ResourceLocation id, ItemStackIngredient ingredient, ItemStack output);
     }
 }

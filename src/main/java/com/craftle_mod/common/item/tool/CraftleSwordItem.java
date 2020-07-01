@@ -12,11 +12,10 @@ public class CraftleSwordItem extends SwordItem implements ICraftleToolItem {
     private final String resourceName;
     private final CraftleToolTier tier;
 
-    public CraftleSwordItem(int attackDamage, float attackSpeed,
-        CraftleToolTier tier) {
+    public CraftleSwordItem(int attackDamage, float attackSpeed, CraftleToolTier tier) {
 
-        super(tier, attackDamage, attackSpeed, new Item.Properties()
-            .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_TOOLS));
+        super(tier, attackDamage, attackSpeed,
+            new Item.Properties().group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_TOOLS));
         this.resourceName = tier.getMaterialName() + "_sword";
         this.tier = tier;
     }

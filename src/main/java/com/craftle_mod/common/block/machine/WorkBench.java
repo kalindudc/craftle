@@ -29,11 +29,10 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 public class WorkBench extends MachineBlock {
 
-    private static final VoxelShape SHAPE = Stream.of(Block.makeCuboidShape(2, 0, 2, 14, 2, 14),
-        Block.makeCuboidShape(6, 2, 6, 10, 12, 10),
-        Block.makeCuboidShape(0, 12, 0, 16, 16, 16))
-        .reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2,
-            IBooleanFunction.OR)).get();
+    private static final VoxelShape SHAPE = Stream
+        .of(Block.makeCuboidShape(2, 0, 2, 14, 2, 14), Block.makeCuboidShape(6, 2, 6, 10, 12, 10),
+            Block.makeCuboidShape(0, 12, 0, 16, 16, 16))
+        .reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
 
     public WorkBench(IBlockResource resource, BlockType blockType, SoundType soundType,
         CraftleBaseTier tier) {
@@ -44,8 +43,7 @@ public class WorkBench extends MachineBlock {
     @Nonnull
     @Override
     public VoxelShape getShape(@Nonnull BlockState state, @Nonnull IBlockReader worldIn,
-        @Nonnull BlockPos pos,
-        @Nonnull ISelectionContext context) {
+        @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         return SHAPE;
     }
 
@@ -59,8 +57,7 @@ public class WorkBench extends MachineBlock {
     @Nonnull
     @Override
     public ActionResultType onBlockActivated(@Nonnull BlockState state, World worldIn,
-        @Nonnull BlockPos pos,
-        @Nonnull PlayerEntity player, @Nonnull Hand handIn,
+        @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand handIn,
         @Nonnull BlockRayTraceResult hit) {
         if (!worldIn.isRemote) {
             TileEntity entity = worldIn.getTileEntity(pos);
@@ -77,8 +74,7 @@ public class WorkBench extends MachineBlock {
     @SuppressWarnings("deprecation")
     @Override
     public void onReplaced(BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos,
-        BlockState newState,
-        boolean isMoving) {
+        BlockState newState, boolean isMoving) {
 
         if (state.getBlock() != newState.getBlock()) {
             TileEntity entity = worldIn.getTileEntity(pos);

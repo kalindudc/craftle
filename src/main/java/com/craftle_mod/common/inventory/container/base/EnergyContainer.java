@@ -25,8 +25,8 @@ public abstract class EnergyContainer extends CraftleContainer {
             throw new IllegalStateException("Tile entity is not correct. ");
         }
 
-        this.energy =
-            ((PoweredMachineTileEntity) getEntity()).getEnergyContainer().getEnergyStored();
+        this.energy = ((PoweredMachineTileEntity) getEntity()).getEnergyContainer()
+            .getEnergyStored();
     }
 
     @Override

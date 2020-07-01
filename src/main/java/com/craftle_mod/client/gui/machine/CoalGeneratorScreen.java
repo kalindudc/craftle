@@ -48,11 +48,9 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         String unit = EnergyUtils.getUnitForTierItem(this.entity.getCraftleMachineTier());
 
         float energy = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyContainer()
-                .getEnergyStored());
+            this.entity.getEnergyContainer().getEnergyStored());
         float capacity = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyContainer()
-                .getMaxEnergyStored());
+            this.entity.getEnergyContainer().getMaxEnergyStored());
 
         int burnPercentage = this.entity.getBurnPercentage();
 

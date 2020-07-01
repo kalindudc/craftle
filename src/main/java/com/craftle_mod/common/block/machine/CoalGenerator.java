@@ -38,14 +38,13 @@ public class CoalGenerator extends MachineBlock {
     @Nonnull
     @Override
     public ActionResultType onBlockActivated(@Nonnull BlockState state, World worldIn,
-        @Nonnull BlockPos pos,
-        @Nonnull PlayerEntity player, @Nonnull Hand handIn,
+        @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand handIn,
         @Nonnull BlockRayTraceResult hit) {
         if (!worldIn.isRemote) {
             TileEntity entity = worldIn.getTileEntity(pos);
             if (entity instanceof CoalGeneratorTileEntity) {
-                NetworkHooks.openGui((ServerPlayerEntity) player, (CoalGeneratorTileEntity) entity,
-                    pos);
+                NetworkHooks
+                    .openGui((ServerPlayerEntity) player, (CoalGeneratorTileEntity) entity, pos);
                 return ActionResultType.SUCCESS;
             }
         }
@@ -56,8 +55,7 @@ public class CoalGenerator extends MachineBlock {
     @SuppressWarnings("deprecation")
     @Override
     public void onReplaced(BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos,
-        BlockState newState,
-        boolean isMoving) {
+        BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             TileEntity entity = worldIn.getTileEntity(pos);
             if (entity instanceof CoalGeneratorTileEntity) {

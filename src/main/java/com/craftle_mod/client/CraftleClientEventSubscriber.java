@@ -14,8 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
-@Mod.EventBusSubscriber(modid = Craftle.MODID, bus = Mod.EventBusSubscriber.Bus.MOD,
-    value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = Craftle.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class CraftleClientEventSubscriber {
 
     @SubscribeEvent
@@ -35,8 +34,8 @@ public class CraftleClientEventSubscriber {
         ScreenManager.registerFactory(CraftleContainerTypes.CRUSHER_TIER_4.get(),
             CrusherScreenFactory.build(CraftleBaseTier.TIER_4));
 
-        ScreenManager.registerFactory(CraftleContainerTypes.COAL_GENERATOR.get(),
-            CoalGeneratorScreen::new);
+        ScreenManager
+            .registerFactory(CraftleContainerTypes.COAL_GENERATOR.get(), CoalGeneratorScreen::new);
 
         ScreenManager.registerFactory(CraftleContainerTypes.WORKBENCH.get(), WorkBenchScreen::new);
 
