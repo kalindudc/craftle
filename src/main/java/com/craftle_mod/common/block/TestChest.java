@@ -4,8 +4,6 @@ import com.craftle_mod.common.block.base.FacedBlockBase;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.resource.IBlockResource;
 import com.craftle_mod.common.tile.TileEntityTestChest;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,6 +17,9 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class TestChest extends FacedBlockBase {
 
@@ -41,14 +42,14 @@ public class TestChest extends FacedBlockBase {
     @Nonnull
     @Override
     public ActionResultType onBlockActivated(@Nonnull BlockState state, World worldIn,
-        @Nonnull BlockPos pos,
-        @Nonnull PlayerEntity player, @Nonnull Hand handIn,
-        @Nonnull BlockRayTraceResult hit) {
+                                             @Nonnull BlockPos pos,
+                                             @Nonnull PlayerEntity player, @Nonnull Hand handIn,
+                                             @Nonnull BlockRayTraceResult hit) {
         if (!worldIn.isRemote) {
             TileEntity entity = worldIn.getTileEntity(pos);
             if (entity instanceof TileEntityTestChest) {
                 NetworkHooks
-                    .openGui((ServerPlayerEntity) player, (TileEntityTestChest) entity, pos);
+                        .openGui((ServerPlayerEntity) player, (TileEntityTestChest) entity, pos);
                 return ActionResultType.SUCCESS;
             }
         }
@@ -59,8 +60,8 @@ public class TestChest extends FacedBlockBase {
     @SuppressWarnings("deprecation")
     @Override
     public void onReplaced(BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos,
-        BlockState newState,
-        boolean isMoving) {
+                           BlockState newState,
+                           boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             TileEntity entity = worldIn.getTileEntity(pos);
             if (entity instanceof TileEntityTestChest) {

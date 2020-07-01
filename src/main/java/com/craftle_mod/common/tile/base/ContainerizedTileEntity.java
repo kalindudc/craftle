@@ -2,8 +2,6 @@ package com.craftle_mod.common.tile.base;
 
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.TestChest;
-import java.util.Objects;
-import javax.annotation.Nonnull;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,11 +27,14 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
+import javax.annotation.Nonnull;
+import java.util.Objects;
+
 public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
 
-    private NonNullList<ItemStack> containerContents;
-    protected int numplayersUsing;
     private final IItemHandlerModifiable items;
+    protected int numplayersUsing;
+    private NonNullList<ItemStack> containerContents;
     private LazyOptional<IItemHandlerModifiable> itemHandler;
     private int containerSize;
 
@@ -43,6 +44,24 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
         this.items = createHandler();
         this.itemHandler = LazyOptional.of(() -> items);
         this.containerSize = containerSize;
+    }
+
+    public static int getPlayersUsing(IBlockReader reader, BlockPos pos) {
+        BlockState blockstate = reader.getBlockState(pos);
+        if (blockstate.hasTileEntity()) {
+            TileEntity entity = reader.getTileEntity(pos);
+            if (entity instanceof ContainerizedTileEntity) {
+                return ((ContainerizedTileEntity) entity).numplayersUsing;
+            }
+        }
+        return 0;
+    }
+
+    public static void swapContents(ContainerizedTileEntity entity,
+                                    ContainerizedTileEntity otherEntity) {
+        NonNullList<ItemStack> list = entity.getItems();
+        entity.setItems(otherEntity.getItems());
+        otherEntity.setItems(list);
     }
 
     @Override
@@ -70,7 +89,7 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
     @Override
     protected ITextComponent getDefaultName() {
         Craftle.LOGGER.info("CRAFTLE {ContainerizedTileEntity}: type " + "registry name " +
-            this.getType().getRegistryName());
+                this.getType().getRegistryName());
         return new TranslationTextComponent("container." + this.getType().getRegistryName());
     }
 
@@ -104,7 +123,7 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
 
         assert this.world != null;
         this.world.playSound(null, dx, dy, dz, sound, SoundCategory.BLOCKS, 0.5f,
-            this.world.rand.nextFloat() * 0.1f + 0.9f);
+                this.world.rand.nextFloat() * 0.1f + 0.9f);
     }
 
     @Override
@@ -143,24 +162,6 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
             this.world.addBlockEvent(this.pos, block, 1, this.numplayersUsing);
             this.world.notifyNeighborsOfStateChange(this.pos, block);
         }
-    }
-
-    public static int getPlayersUsing(IBlockReader reader, BlockPos pos) {
-        BlockState blockstate = reader.getBlockState(pos);
-        if (blockstate.hasTileEntity()) {
-            TileEntity entity = reader.getTileEntity(pos);
-            if (entity instanceof ContainerizedTileEntity) {
-                return ((ContainerizedTileEntity) entity).numplayersUsing;
-            }
-        }
-        return 0;
-    }
-
-    public static void swapContents(ContainerizedTileEntity entity,
-        ContainerizedTileEntity otherEntity) {
-        NonNullList<ItemStack> list = entity.getItems();
-        entity.setItems(otherEntity.getItems());
-        otherEntity.setItems(list);
     }
 
     @Override

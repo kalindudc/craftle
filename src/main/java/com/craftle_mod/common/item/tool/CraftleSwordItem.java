@@ -3,9 +3,10 @@ package com.craftle_mod.common.item.tool;
 import com.craftle_mod.common.CraftleCreativeTabs;
 import com.craftle_mod.common.item.base.ICraftleToolItem;
 import com.craftle_mod.common.tier.CraftleToolTier;
-import javax.annotation.Nonnull;
 import net.minecraft.item.Item;
 import net.minecraft.item.SwordItem;
+
+import javax.annotation.Nonnull;
 
 public class CraftleSwordItem extends SwordItem implements ICraftleToolItem {
 
@@ -13,10 +14,10 @@ public class CraftleSwordItem extends SwordItem implements ICraftleToolItem {
     private final CraftleToolTier tier;
 
     public CraftleSwordItem(int attackDamage, float attackSpeed,
-        CraftleToolTier tier) {
+                            CraftleToolTier tier) {
 
         super(tier, attackDamage, attackSpeed, new Item.Properties()
-            .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_TOOLS));
+                .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_TOOLS));
         this.resourceName = tier.getMaterialName() + "_sword";
         this.tier = tier;
     }

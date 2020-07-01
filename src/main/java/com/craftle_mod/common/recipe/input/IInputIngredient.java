@@ -1,10 +1,11 @@
 package com.craftle_mod.common.recipe.input;
 
 import com.google.gson.JsonElement;
-import java.util.List;
-import java.util.function.Predicate;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
+
+import java.util.List;
+import java.util.function.Predicate;
 
 public interface IInputIngredient<T> extends Predicate<T> {
 

@@ -8,8 +8,6 @@ import com.craftle_mod.common.registries.CraftleContainerTypes;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.crafting.IRecipe;
@@ -22,26 +20,29 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class WorkBenchTileEntity extends PoweredMachineTileEntity {
 
     public WorkBenchTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends IRecipe<?>> recipeTypeIn, CraftleBaseTier tier) {
+                               IRecipeType<? extends IRecipe<?>> recipeTypeIn, CraftleBaseTier tier) {
         super(typeIn, recipeTypeIn, TileEntityConstants.WORKBENCH_CONTAINER_SIZE + 9 +
-                TileEntityConstants.WORKBENCH_CRAFTING_OUTPUT_SIZE, tier,
-            (int) (TileEntityConstants.WORKBENCH_BASE_CAPACITY * tier.getMultiplier()),
-            (int) (TileEntityConstants.WORKBENCH_BASE_MAX_INPUT * tier.getMultiplier()),
-            0);
+                        TileEntityConstants.WORKBENCH_CRAFTING_OUTPUT_SIZE, tier,
+                (int) (TileEntityConstants.WORKBENCH_BASE_CAPACITY * tier.getMultiplier()),
+                (int) (TileEntityConstants.WORKBENCH_BASE_MAX_INPUT * tier.getMultiplier()),
+                0);
     }
 
     public WorkBenchTileEntity() {
         this(CraftleTileEntityTypes.WORKBENCH.get(), CraftleRecipeType.CRAFTING,
-            CraftleBaseTier.BASIC);
+                CraftleBaseTier.BASIC);
     }
 
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability,
-        @Nullable Direction side) {
+                                             @Nullable Direction side) {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return this.getItemHandler().cast();
         }
@@ -51,7 +52,7 @@ public class WorkBenchTileEntity extends PoweredMachineTileEntity {
     @Override
     public boolean hasCapability(Capability<?> capability, Direction direction) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ||
-            super.hasCapability(capability, direction);
+                super.hasCapability(capability, direction);
     }
 
     @Nonnull

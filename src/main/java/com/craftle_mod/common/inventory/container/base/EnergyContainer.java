@@ -11,14 +11,14 @@ public abstract class EnergyContainer extends CraftleContainer {
     private long energy;
 
     public EnergyContainer(ContainerType<?> container, int windowId,
-        PlayerInventory playerInventory, PoweredMachineTileEntity entity) {
+                           PlayerInventory playerInventory, PoweredMachineTileEntity entity) {
         super(container, windowId, playerInventory, entity);
 
         this.energy = entity.getEnergyContainer().getEnergyStored();
     }
 
     public EnergyContainer(ContainerType<?> container, int windowId,
-        PlayerInventory playerInventory, PacketBuffer data) {
+                           PlayerInventory playerInventory, PacketBuffer data) {
         super(container, windowId, playerInventory, data);
 
         if (!(getEntity() instanceof PoweredMachineTileEntity)) {
@@ -26,7 +26,7 @@ public abstract class EnergyContainer extends CraftleContainer {
         }
 
         this.energy =
-            ((PoweredMachineTileEntity) getEntity()).getEnergyContainer().getEnergyStored();
+                ((PoweredMachineTileEntity) getEntity()).getEnergyContainer().getEnergyStored();
     }
 
     @Override
@@ -36,7 +36,7 @@ public abstract class EnergyContainer extends CraftleContainer {
         if (this.getEntity() instanceof PoweredMachineTileEntity) {
 
             long energy = ((PoweredMachineTileEntity) this.getEntity()).getEnergyContainer()
-                .getEnergyStored();
+                    .getEnergyStored();
 
             if (this.energy != energy) {
                 this.energy = energy;

@@ -7,8 +7,6 @@ import com.craftle_mod.common.recipe.base.CraftleRecipe;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IRecipeHelperPopulator;
 import net.minecraft.inventory.IRecipeHolder;
@@ -29,8 +27,11 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class CrusherTileEntity extends PoweredMachineTileEntity
-    implements ISidedInventory, IRecipeHolder, IRecipeHelperPopulator {
+        implements ISidedInventory, IRecipeHolder, IRecipeHelperPopulator {
 
     private static final int[] SLOTS_UP = new int[]{0};
     private static final int[] SLOTS_DOWN = new int[]{2, 1};
@@ -38,8 +39,8 @@ public class CrusherTileEntity extends PoweredMachineTileEntity
 
 
     public CrusherTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends CraftleRecipe> recipeTypeIn,
-        CraftleBaseTier tier) {
+                             IRecipeType<? extends CraftleRecipe> recipeTypeIn,
+                             CraftleBaseTier tier) {
         super(typeIn, recipeTypeIn, 3, tier);
         init(tier);
     }
@@ -56,7 +57,7 @@ public class CrusherTileEntity extends PoweredMachineTileEntity
 
     public CrusherTileEntity() {
         this(CraftleTileEntityTypes.CRUSHER_BASIC.get(), CraftleRecipeType.CRUSHING,
-            CraftleBaseTier.BASIC);
+                CraftleBaseTier.BASIC);
     }
 
     // CONSTRUCTORS END -----------------
@@ -105,13 +106,13 @@ public class CrusherTileEntity extends PoweredMachineTileEntity
 
     @Override
     public boolean canInsertItem(int index, @Nonnull ItemStack itemStackIn,
-        @Nullable Direction direction) {
+                                 @Nullable Direction direction) {
         return this.isItemValidForSlot(index, itemStackIn);
     }
 
     @Override
     public boolean canExtractItem(int index, @Nonnull ItemStack stack,
-        @Nonnull Direction direction) {
+                                  @Nonnull Direction direction) {
         if (direction == Direction.DOWN && index == 1) {
             Item item = stack.getItem();
             return item == Items.WATER_BUCKET || item == Items.BUCKET;
@@ -124,14 +125,14 @@ public class CrusherTileEntity extends PoweredMachineTileEntity
     @Override
     protected ITextComponent getDefaultName() {
         return new TranslationTextComponent(
-            "block." + Craftle.MODID + ".crusher_" + this.getCraftleMachineTier().getTier());
+                "block." + Craftle.MODID + ".crusher_" + this.getCraftleMachineTier().getTier());
     }
 
     @Nonnull
     @Override
     public Container createMenu(int id, @Nonnull PlayerInventory player) {
         return CrusherContainerFactory
-            .buildWithTileEntity(this.getCraftleMachineTier(), id, player, this);
+                .buildWithTileEntity(this.getCraftleMachineTier(), id, player, this);
     }
 
     @Nullable

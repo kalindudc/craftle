@@ -1,7 +1,5 @@
 package com.craftle_mod.common.dimension;
 
-import java.util.List;
-import javax.annotation.Nonnull;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
@@ -13,35 +11,38 @@ import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.NoiseChunkGenerator;
 import net.minecraft.world.gen.OctavesNoiseGenerator;
 
+import javax.annotation.Nonnull;
+import java.util.List;
+
 public class TestChunkGenerator extends NoiseChunkGenerator<TestGenSettings> {
 
     private static final float[] field_222576_h =
-        Util.make(new float[25], (p_222575_0_) -> {
-            for (int i = -2; i <= 2; ++i) {
-                for (int j = -2; j <= 2; ++j) {
-                    float f = 10.0F / MathHelper
-                        .sqrt((float) (i * i + j * j) + 0.2F);
-                    p_222575_0_[i + 2 + (j + 2) * 5] = f;
+            Util.make(new float[25], (p_222575_0_) -> {
+                for (int i = -2; i <= 2; ++i) {
+                    for (int j = -2; j <= 2; ++j) {
+                        float f = 10.0F / MathHelper
+                                .sqrt((float) (i * i + j * j) + 0.2F);
+                        p_222575_0_[i + 2 + (j + 2) * 5] = f;
+                    }
                 }
-            }
 
-        });
+            });
     private final OctavesNoiseGenerator depthNoise;
     private final boolean isAmplified;
 
     public TestChunkGenerator(IWorld worldIn, BiomeProvider provider,
-        TestGenSettings settingsIn) {
+                              TestGenSettings settingsIn) {
 
         super(worldIn, provider, 4, 8, 256, settingsIn, true);
         this.randomSeed.skip(2620);
         this.depthNoise = new OctavesNoiseGenerator(this.randomSeed, 15, 0);
         this.isAmplified =
-            worldIn.getWorldInfo().getGenerator() == WorldType.AMPLIFIED;
+                worldIn.getWorldInfo().getGenerator() == WorldType.AMPLIFIED;
     }
 
     @SuppressWarnings("unused")
     protected void fillNoiseColumn(@Nonnull double[] noiseColumn, int noiseX,
-        int noiseZ) {
+                                   int noiseZ) {
         double d0 = 684.412F;
         double d1 = 684.412F;
         double d2 = 8.555149841308594D;
@@ -49,17 +50,17 @@ public class TestChunkGenerator extends NoiseChunkGenerator<TestGenSettings> {
         int i = -10;
         int j = 3;
         this.calcNoiseColumn(noiseColumn, noiseX, noiseZ, 684.412F,
-            684.412F, 8.555149841308594D,
-            4.277574920654297D, 3, -10);
+                684.412F, 8.555149841308594D,
+                4.277574920654297D, 3, -10);
     }
 
     @SuppressWarnings("unused")
     protected double func_222545_a(double p_222545_1_, double p_222545_3_,
-        int p_222545_5_) {
+                                   int p_222545_5_) {
         double d0 = 8.5D;
         double d1 = ((double) p_222545_5_ -
-            (8.5D + p_222545_1_ * 8.5D / 8.0D * 4.0D)) * 12.0D *
-            128.0D / 256.0D / p_222545_3_;
+                (8.5D + p_222545_1_ * 8.5D / 8.0D * 4.0D)) * 12.0D *
+                128.0D / 256.0D / p_222545_3_;
         if (d1 < 0.0D) {
             d1 *= 4.0D;
         }
@@ -77,12 +78,12 @@ public class TestChunkGenerator extends NoiseChunkGenerator<TestGenSettings> {
         int i = 2;
         int j = this.getSeaLevel();
         float f3 =
-            this.biomeProvider.getNoiseBiome(noiseX, j, noiseZ).getDepth();
+                this.biomeProvider.getNoiseBiome(noiseX, j, noiseZ).getDepth();
 
         for (int k = -2; k <= 2; ++k) {
             for (int l = -2; l <= 2; ++l) {
                 Biome biome = this.biomeProvider
-                    .getNoiseBiome(noiseX + k, j, noiseZ + l);
+                        .getNoiseBiome(noiseX + k, j, noiseZ + l);
                 float f4 = biome.getDepth();
                 float f5 = biome.getScale();
                 if (this.isAmplified && f4 > 0.0F) {
@@ -112,8 +113,8 @@ public class TestChunkGenerator extends NoiseChunkGenerator<TestGenSettings> {
 
     private double getNoiseDepthAt(int noiseX, int noiseZ) {
         double d0 = this.depthNoise.getValue(noiseX * 200, 10.0D,
-            noiseZ * 200, 1.0D,
-            0.0D, true) * 65535.0D / 8000.0D;
+                noiseZ * 200, 1.0D,
+                0.0D, true) * 65535.0D / 8000.0D;
         if (d0 < 0.0D) {
             d0 = -d0 * 0.3D;
         }
@@ -135,7 +136,7 @@ public class TestChunkGenerator extends NoiseChunkGenerator<TestGenSettings> {
     @Nonnull
     @Override
     public List<Biome.SpawnListEntry> getPossibleCreatures(
-        @Nonnull EntityClassification creatureType, @Nonnull BlockPos pos) {
+            @Nonnull EntityClassification creatureType, @Nonnull BlockPos pos) {
         return super.getPossibleCreatures(creatureType, pos);
     }
 

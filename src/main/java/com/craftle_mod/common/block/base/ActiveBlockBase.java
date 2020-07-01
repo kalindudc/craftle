@@ -19,17 +19,17 @@ public class ActiveBlockBase extends FacedBlockBase {
     public ActiveBlockBase(IBlockResource resource, BlockType blockType, SoundType soundType) {
         super(resource, blockType, soundType);
         this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, Direction.NORTH)
-            .with(LIT, Boolean.FALSE));
+                .with(LIT, Boolean.FALSE));
     }
 
     @Override
     protected void fillStateContainer(
-        StateContainer.Builder<net.minecraft.block.Block, BlockState> builder) {
+            StateContainer.Builder<net.minecraft.block.Block, BlockState> builder) {
         builder.add(FACING, LIT);
     }
 
     public void setActive(boolean b, BlockState state, World worldIn, BlockPos pos,
-        ActiveBlockBase block) {
+                          ActiveBlockBase block) {
         if (!worldIn.isRemote) {
             TileEntity entity = worldIn.getTileEntity(pos);
             if (entity instanceof PoweredMachineTileEntity) {

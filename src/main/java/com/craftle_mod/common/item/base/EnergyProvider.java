@@ -2,8 +2,6 @@ package com.craftle_mod.common.item.base;
 
 import com.craftle_mod.common.capability.energy.EnergyContainerCapability;
 import com.craftle_mod.common.tier.CraftleBaseTier;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
@@ -12,14 +10,17 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class EnergyProvider implements ICapabilityProvider, INBTSerializable<CompoundNBT> {
 
     private EnergyContainerCapability energyContainer;
 
     public EnergyProvider(int capacity, int maxReceive, int maxExtract, int energy,
-        CraftleBaseTier tier) {
+                          CraftleBaseTier tier) {
         energyContainer =
-            new EnergyContainerCapability(capacity, maxReceive, maxExtract, energy, tier);
+                new EnergyContainerCapability(capacity, maxReceive, maxExtract, energy, tier);
 
     }
 

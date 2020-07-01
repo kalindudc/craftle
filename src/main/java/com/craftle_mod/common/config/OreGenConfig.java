@@ -40,7 +40,7 @@ public enum OreGenConfig {
         private final int maximum;
 
         private OreConfig(int count, int bottomOffset, int topOffset,
-            int maximum) {
+                          int maximum) {
             this.count = count;
             this.bottomOffset = bottomOffset;
             this.topOffset = topOffset;

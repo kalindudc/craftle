@@ -2,8 +2,6 @@ package com.craftle_mod.common.item.gear;
 
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.registries.CraftleItems;
-import java.util.function.Supplier;
-import javax.annotation.Nonnull;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.crafting.Ingredient;
@@ -13,11 +11,14 @@ import net.minecraft.util.SoundEvents;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nonnull;
+import java.util.function.Supplier;
+
 public enum CraftleArmorMaterial implements IArmorMaterial {
 
     TEST_INGOT(Craftle.MODID + ":test", 5, new int[]{7, 9, 11, 7}, 420,
-        SoundEvents.field_226142_fM_, 6.9F,
-        () -> Ingredient.fromItems(CraftleItems.TEST_INGOT.get()));
+            SoundEvents.field_226142_fM_, 6.9F,
+            () -> Ingredient.fromItems(CraftleItems.TEST_INGOT.get()));
 
     private static final int[] MAX_DAMAGE_ARRAY = new int[]{16, 16, 16, 16};
 
@@ -30,9 +31,9 @@ public enum CraftleArmorMaterial implements IArmorMaterial {
     private final LazyValue<Ingredient> repairMaterial;
 
     CraftleArmorMaterial(String name, int maxDamageFactor,
-        int[] damageReductionAmountArray, int enchantability,
-        SoundEvent soundEvent, float toughness,
-        Supplier<Ingredient> repairMaterial) {
+                         int[] damageReductionAmountArray, int enchantability,
+                         SoundEvent soundEvent, float toughness,
+                         Supplier<Ingredient> repairMaterial) {
         this.name = name;
         this.maxDamageFactor = maxDamageFactor;
         this.damageReductionAmountArray = damageReductionAmountArray;
@@ -40,7 +41,7 @@ public enum CraftleArmorMaterial implements IArmorMaterial {
         this.soundEvent = soundEvent;
         this.toughness = toughness;
         this.repairMaterial =
-            new LazyValue<>(repairMaterial);
+                new LazyValue<>(repairMaterial);
     }
 
     @Override

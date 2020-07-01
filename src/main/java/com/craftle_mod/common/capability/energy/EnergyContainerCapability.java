@@ -23,13 +23,13 @@ public class EnergyContainerCapability extends EnergyStorage {
     }
 
     public EnergyContainerCapability(int capacity, int maxReceive, int maxExtract,
-        CraftleBaseTier tier) {
+                                     CraftleBaseTier tier) {
         super(capacity, maxReceive, maxExtract, 0);
         this.tier = tier;
     }
 
     public EnergyContainerCapability(int capacity, int maxReceive, int maxExtract, int energy,
-        CraftleBaseTier tier) {
+                                     CraftleBaseTier tier) {
         super(capacity, maxReceive, maxExtract, energy);
         this.tier = tier;
     }

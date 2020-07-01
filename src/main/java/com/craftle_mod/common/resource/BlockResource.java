@@ -25,19 +25,19 @@ public enum BlockResource implements IBlockResource {
     private final ToolType tool;
 
     BlockResource(String name, float hardness, float resistance,
-        int harvestLevel) {
+                  int harvestLevel) {
         this(name, hardness, resistance, harvestLevel, Material.ROCK,
-            ToolType.PICKAXE);
+                ToolType.PICKAXE);
     }
 
     BlockResource(String name, float hardness, float resistance,
-        int harvestLevel, Material material) {
+                  int harvestLevel, Material material) {
         this(name, hardness, resistance, harvestLevel, material,
-            ToolType.PICKAXE);
+                ToolType.PICKAXE);
     }
 
     BlockResource(String name, float hardness, float resistance,
-        int harvestLevel, Material material, ToolType tool) {
+                  int harvestLevel, Material material, ToolType tool) {
         this.name = name;
         this.hardness = hardness;
         this.resistance = resistance;

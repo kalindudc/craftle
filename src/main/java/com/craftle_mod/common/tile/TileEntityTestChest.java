@@ -3,8 +3,6 @@ package com.craftle_mod.common.tile;
 import com.craftle_mod.common.block.TestChest;
 import com.craftle_mod.common.inventory.container.CraftleChestContainer;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
-import java.util.Objects;
-import javax.annotation.Nonnull;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,10 +28,13 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
+import javax.annotation.Nonnull;
+import java.util.Objects;
+
 public class TileEntityTestChest extends LockableLootTileEntity {
 
-    private NonNullList<ItemStack> chestContents;
     protected int numplayersUsing;
+    private NonNullList<ItemStack> chestContents;
     private IItemHandlerModifiable items;
     private LazyOptional<IItemHandlerModifiable> itemHandler;
 
@@ -44,6 +45,24 @@ public class TileEntityTestChest extends LockableLootTileEntity {
 
     public TileEntityTestChest() {
         this(CraftleTileEntityTypes.TEST_CHEST.get());
+    }
+
+    public static int getPlayersUsing(IBlockReader reader, BlockPos pos) {
+        BlockState blockstate = reader.getBlockState(pos);
+        if (blockstate.hasTileEntity()) {
+            TileEntity entity = reader.getTileEntity(pos);
+            if (entity instanceof TileEntityTestChest) {
+                return ((TileEntityTestChest) entity).numplayersUsing;
+            }
+        }
+        return 0;
+    }
+
+    public static void swapContents(TileEntityTestChest entity,
+                                    TileEntityTestChest otherEntity) {
+        NonNullList<ItemStack> list = entity.getItems();
+        entity.setItems(otherEntity.getItems());
+        otherEntity.setItems(list);
     }
 
     private void init() {
@@ -94,7 +113,7 @@ public class TileEntityTestChest extends LockableLootTileEntity {
     public void read(@Nonnull CompoundNBT compound) {
         super.read(compound);
         this.chestContents =
-            NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
+                NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
         if (!this.checkLootAndRead(compound)) {
             ItemStackHelper.loadAllItems(compound, this.chestContents);
         }
@@ -107,8 +126,8 @@ public class TileEntityTestChest extends LockableLootTileEntity {
 
         assert this.world != null;
         this.world.playSound(null, dx, dy, dz, sound,
-            SoundCategory.BLOCKS, 0.5f,
-            this.world.rand.nextFloat() * 0.1f + 0.9f);
+                SoundCategory.BLOCKS, 0.5f,
+                this.world.rand.nextFloat() * 0.1f + 0.9f);
     }
 
     @Override
@@ -149,24 +168,6 @@ public class TileEntityTestChest extends LockableLootTileEntity {
         }
     }
 
-    public static int getPlayersUsing(IBlockReader reader, BlockPos pos) {
-        BlockState blockstate = reader.getBlockState(pos);
-        if (blockstate.hasTileEntity()) {
-            TileEntity entity = reader.getTileEntity(pos);
-            if (entity instanceof TileEntityTestChest) {
-                return ((TileEntityTestChest) entity).numplayersUsing;
-            }
-        }
-        return 0;
-    }
-
-    public static void swapContents(TileEntityTestChest entity,
-        TileEntityTestChest otherEntity) {
-        NonNullList<ItemStack> list = entity.getItems();
-        entity.setItems(otherEntity.getItems());
-        otherEntity.setItems(list);
-    }
-
     @Override
     public void updateContainingBlockInfo() {
         super.updateContainingBlockInfo();
@@ -179,7 +180,7 @@ public class TileEntityTestChest extends LockableLootTileEntity {
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap,
-        Direction side) {
+                                             Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return itemHandler.cast();
         }

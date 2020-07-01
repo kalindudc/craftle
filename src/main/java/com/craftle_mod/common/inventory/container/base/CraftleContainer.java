@@ -1,8 +1,6 @@
 package com.craftle_mod.common.inventory.container.base;
 
 import com.craftle_mod.common.tile.base.ContainerizedTileEntity;
-import java.util.Objects;
-import javax.annotation.Nonnull;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -14,6 +12,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+import java.util.Objects;
+
 public abstract class CraftleContainer extends Container {
 
     private final IWorldPosCallable canInteractWithCallable;
@@ -23,22 +24,36 @@ public abstract class CraftleContainer extends Container {
     private final IWorldPosCallable worldPosCallable;
 
     public CraftleContainer(ContainerType<?> container, final int windowId,
-        final PlayerInventory playerInventory,
-        final ContainerizedTileEntity entity) {
+                            final PlayerInventory playerInventory,
+                            final ContainerizedTileEntity entity) {
 
         super(container, windowId);
         this.playerInventory = playerInventory;
         this.entity = entity;
         this.canInteractWithCallable = IWorldPosCallable.of(
-            Objects.requireNonNull(entity.getWorld()), entity.getPos());
+                Objects.requireNonNull(entity.getWorld()), entity.getPos());
         this.world = entity.getWorld();
         worldPosCallable = IWorldPosCallable.of(this.getWorld(), entity.getPos());
 
     }
 
     public CraftleContainer(ContainerType<?> container, final int windowId,
-        final PlayerInventory playerInventory, final PacketBuffer data) {
+                            final PlayerInventory playerInventory, final PacketBuffer data) {
         this(container, windowId, playerInventory, getTileEntity(playerInventory, data));
+    }
+
+    private static ContainerizedTileEntity getTileEntity(final PlayerInventory playerInventory,
+                                                         final PacketBuffer data) {
+        Objects.requireNonNull(playerInventory, "playerInventory cannot be null");
+        Objects.requireNonNull(data, "data cannot be null");
+
+        final TileEntity tileAtPos =
+                playerInventory.player.world.getTileEntity(data.readBlockPos());
+        if (tileAtPos instanceof ContainerizedTileEntity) {
+            return (ContainerizedTileEntity) tileAtPos;
+        }
+
+        throw new IllegalStateException("Tile entity is not correct. " + tileAtPos);
     }
 
     public ContainerizedTileEntity getEntity() {
@@ -47,20 +62,6 @@ public abstract class CraftleContainer extends Container {
 
     public IWorldPosCallable getCanInteractWithCallable() {
         return canInteractWithCallable;
-    }
-
-    private static ContainerizedTileEntity getTileEntity(final PlayerInventory playerInventory,
-        final PacketBuffer data) {
-        Objects.requireNonNull(playerInventory, "playerInventory cannot be null");
-        Objects.requireNonNull(data, "data cannot be null");
-
-        final TileEntity tileAtPos =
-            playerInventory.player.world.getTileEntity(data.readBlockPos());
-        if (tileAtPos instanceof ContainerizedTileEntity) {
-            return (ContainerizedTileEntity) tileAtPos;
-        }
-
-        throw new IllegalStateException("Tile entity is not correct. " + tileAtPos);
     }
 
     public World getWorld() {
@@ -82,7 +83,7 @@ public abstract class CraftleContainer extends Container {
             itemStack = itemStack1.copy();
             if (index < entity.getSizeInventory()) {
                 if (!this.mergeItemStack(itemStack1, entity.getSizeInventory(),
-                    this.inventorySlots.size(), true)) {
+                        this.inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
             } else if (!this.mergeItemStack(itemStack1, 0, entity.getSizeInventory(), false)) {
@@ -109,8 +110,8 @@ public abstract class CraftleContainer extends Container {
             for (int col = 0; col < 9; col++) {
                 // extra 9 + is to account for the hotbar
                 this.addSlot(new Slot(playerInventory, (9 + (row * 9)) + col,
-                    startX + (col * totalSlotSpaceSize),
-                    startY + (row * totalSlotSpaceSize)));
+                        startX + (col * totalSlotSpaceSize),
+                        startY + (row * totalSlotSpaceSize)));
             }
         }
 
@@ -120,7 +121,7 @@ public abstract class CraftleContainer extends Container {
         for (int col = 0; col < 9; col++) {
             // extra 9 + is to account for the hotbar
             this.addSlot(
-                new Slot(playerInventory, col, hotbarX + (col * totalSlotSpaceSize), hotbarY));
+                    new Slot(playerInventory, col, hotbarX + (col * totalSlotSpaceSize), hotbarY));
         }
     }
 

@@ -5,9 +5,6 @@ import com.craftle_mod.common.registries.CraftleBlocks;
 import com.craftle_mod.common.registries.CraftleContainerTypes;
 import com.craftle_mod.common.tile.base.MachineTileEntity;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
-import java.util.Objects;
-import java.util.Optional;
-import javax.annotation.Nonnull;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -24,13 +21,17 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SSetSlotPacket;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+import java.util.Objects;
+import java.util.Optional;
+
 public class WorkBenchContainer extends EnergyContainer {
 
     private final CraftingInventory craftMatrix;
     private final CraftResultInventory craftResult;
 
     public WorkBenchContainer(ContainerType<?> container, int windowId,
-        PlayerInventory playerInventory, PoweredMachineTileEntity entity) {
+                              PlayerInventory playerInventory, PoweredMachineTileEntity entity) {
         super(container, windowId, playerInventory, entity);
         craftMatrix = new CraftingInventory(this, 3, 3);
         craftResult = new CraftResultInventory();
@@ -39,7 +40,7 @@ public class WorkBenchContainer extends EnergyContainer {
     }
 
     public WorkBenchContainer(ContainerType<?> container, int windowId,
-        PlayerInventory playerInventory, PacketBuffer data) {
+                              PlayerInventory playerInventory, PacketBuffer data) {
         super(container, windowId, playerInventory, data);
         craftMatrix = new CraftingInventory(this, 3, 3);
         craftResult = new CraftResultInventory();
@@ -48,8 +49,30 @@ public class WorkBenchContainer extends EnergyContainer {
     }
 
     public WorkBenchContainer(int windowId, PlayerInventory playerInventory,
-        PacketBuffer packetBuffer) {
+                              PacketBuffer packetBuffer) {
         this(CraftleContainerTypes.WORKBENCH.get(), windowId, playerInventory, packetBuffer);
+    }
+
+    protected static void updateCraftingResult(int id, World worldIn, PlayerEntity playerIn,
+                                               CraftingInventory inventoryIn,
+                                               CraftResultInventory inventoryResult) {
+        if (!worldIn.isRemote) {
+            ServerPlayerEntity serverplayerentity = (ServerPlayerEntity) playerIn;
+            ItemStack itemstack = ItemStack.EMPTY;
+            Optional<ICraftingRecipe> optional = Objects.requireNonNull(worldIn.getServer())
+                    .getRecipeManager()
+                    .getRecipe(IRecipeType.CRAFTING,
+                            inventoryIn, worldIn);
+            if (optional.isPresent()) {
+                ICraftingRecipe icraftingrecipe = optional.get();
+                if (inventoryResult.canUseRecipe(worldIn, serverplayerentity, icraftingrecipe)) {
+                    itemstack = icraftingrecipe.getCraftingResult(inventoryIn);
+                }
+            }
+
+            inventoryResult.setInventorySlotContents(9, itemstack);
+            serverplayerentity.connection.sendPacket(new SSetSlotPacket(id, 9, itemstack));
+        }
     }
 
     @Override
@@ -87,7 +110,7 @@ public class WorkBenchContainer extends EnergyContainer {
 
     public void addContainerResultSlot(int index, int inputX, int inputY) {
         this.addSlot(new CraftingResultSlot(this.getPlayerInventory().player, this.craftMatrix,
-            this.craftResult, index, inputX, inputY));
+                this.craftResult, index, inputX, inputY));
     }
 
     public void addCraftingContainerSlot(int index, int inputX, int inputY) {
@@ -101,29 +124,7 @@ public class WorkBenchContainer extends EnergyContainer {
         }
 
         return isWithinUsableDistance(getCanInteractWithCallable(), playerIn,
-            CraftleBlocks.WORKBENCH.get());
-    }
-
-    protected static void updateCraftingResult(int id, World worldIn, PlayerEntity playerIn,
-        CraftingInventory inventoryIn,
-        CraftResultInventory inventoryResult) {
-        if (!worldIn.isRemote) {
-            ServerPlayerEntity serverplayerentity = (ServerPlayerEntity) playerIn;
-            ItemStack itemstack = ItemStack.EMPTY;
-            Optional<ICraftingRecipe> optional = Objects.requireNonNull(worldIn.getServer())
-                .getRecipeManager()
-                .getRecipe(IRecipeType.CRAFTING,
-                    inventoryIn, worldIn);
-            if (optional.isPresent()) {
-                ICraftingRecipe icraftingrecipe = optional.get();
-                if (inventoryResult.canUseRecipe(worldIn, serverplayerentity, icraftingrecipe)) {
-                    itemstack = icraftingrecipe.getCraftingResult(inventoryIn);
-                }
-            }
-
-            inventoryResult.setInventorySlotContents(9, itemstack);
-            serverplayerentity.connection.sendPacket(new SSetSlotPacket(id, 9, itemstack));
-        }
+                CraftleBlocks.WORKBENCH.get());
     }
 
     /**
@@ -131,9 +132,9 @@ public class WorkBenchContainer extends EnergyContainer {
      */
     public void onCraftMatrixChanged(@Nonnull IInventory inventoryIn) {
         this.getWorldPosCallable().consume(
-            (world, blockPos) -> updateCraftingResult(this.windowId, world,
-                this.getPlayerInventory().player,
-                this.craftMatrix, this.craftResult));
+                (world, blockPos) -> updateCraftingResult(this.windowId, world,
+                        this.getPlayerInventory().player,
+                        this.craftMatrix, this.craftResult));
     }
 
     @Override

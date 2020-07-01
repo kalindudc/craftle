@@ -15,51 +15,51 @@ public class CrusherContainerFactory {
     }
 
     public static CrusherContainer build(CraftleBaseTier tier, int windowId,
-        PlayerInventory playerInventory, PacketBuffer data) {
+                                         PlayerInventory playerInventory, PacketBuffer data) {
 
         switch (tier) {
             case TIER_1:
                 return new CrusherContainer(CraftleContainerTypes.CRUSHER_TIER_1.get(), windowId,
-                    playerInventory, data);
+                        playerInventory, data);
             case TIER_2:
                 return new CrusherContainer(CraftleContainerTypes.CRUSHER_TIER_2.get(), windowId,
-                    playerInventory, data);
+                        playerInventory, data);
             case TIER_3:
                 return new CrusherContainer(CraftleContainerTypes.CRUSHER_TIER_3.get(), windowId,
-                    playerInventory, data);
+                        playerInventory, data);
             case TIER_4:
             case UNLIMITED:
                 return new CrusherContainer(CraftleContainerTypes.CRUSHER_TIER_4.get(), windowId,
-                    playerInventory, data);
+                        playerInventory, data);
             case BASIC:
             default:
                 return new CrusherContainer(CraftleContainerTypes.CRUSHER_BASIC.get(), windowId,
-                    playerInventory, data);
+                        playerInventory, data);
 
         }
     }
 
     public static CrusherContainer buildWithTileEntity(CraftleBaseTier tier, int id,
-        PlayerInventory player,
-        CrusherTileEntity crusherTileEntity) {
+                                                       PlayerInventory player,
+                                                       CrusherTileEntity crusherTileEntity) {
         switch (tier) {
             case TIER_1:
                 return new CrusherContainer(CraftleContainerTypes.CRUSHER_TIER_1.get(), id, player,
-                    crusherTileEntity);
+                        crusherTileEntity);
             case TIER_2:
                 return new CrusherContainer(CraftleContainerTypes.CRUSHER_TIER_2.get(), id, player,
-                    crusherTileEntity);
+                        crusherTileEntity);
             case TIER_3:
                 return new CrusherContainer(CraftleContainerTypes.CRUSHER_TIER_3.get(), id, player,
-                    crusherTileEntity);
+                        crusherTileEntity);
             case TIER_4:
             case UNLIMITED:
                 return new CrusherContainer(CraftleContainerTypes.CRUSHER_TIER_4.get(), id, player,
-                    crusherTileEntity);
+                        crusherTileEntity);
             case BASIC:
             default:
                 return new CrusherContainer(CraftleContainerTypes.CRUSHER_BASIC.get(), id, player,
-                    crusherTileEntity);
+                        crusherTileEntity);
 
         }
     }

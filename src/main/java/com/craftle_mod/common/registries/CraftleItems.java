@@ -7,11 +7,7 @@ import com.craftle_mod.common.item.SpecialItem;
 import com.craftle_mod.common.item.base.CraftleItem;
 import com.craftle_mod.common.item.base.CraftleResourceItem;
 import com.craftle_mod.common.item.gear.CraftleArmorMaterial;
-import com.craftle_mod.common.item.tool.CraftleAxeItem;
-import com.craftle_mod.common.item.tool.CraftleHoeItem;
-import com.craftle_mod.common.item.tool.CraftlePickaxeItem;
-import com.craftle_mod.common.item.tool.CraftleShovelItem;
-import com.craftle_mod.common.item.tool.CraftleSwordItem;
+import com.craftle_mod.common.item.tool.*;
 import com.craftle_mod.common.resource.Resource;
 import com.craftle_mod.common.resource.ResourceType;
 import com.craftle_mod.common.tier.CraftleBaseTier;
@@ -30,131 +26,131 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class CraftleItems {
 
     public static final DeferredRegister<Item> ITEMS =
-        new DeferredRegister<>(ForgeRegistries.ITEMS, Craftle.MODID);
+            new DeferredRegister<>(ForgeRegistries.ITEMS, Craftle.MODID);
 
     public static final RegistryObject<Item> TEST_INGOT = ITEMS.register("test_ingot",
-        () -> new Item(
-            new Item.Properties()
-                .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC)));
+            () -> new Item(
+                    new Item.Properties()
+                            .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC)));
     public static final RegistryObject<Item> TEST_FOOD = ITEMS.register("test_food",
-        () -> new Item(
-            new Item.Properties()
-                .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC)
-                .food(new Food.Builder()
-                    .hunger(3)
-                    .saturation(
-                        1.2F)
-                    .effect(() -> (new EffectInstance(
-                            Effects.GLOWING,
-                            4000)),
-                        1)
-                    .build())));
+            () -> new Item(
+                    new Item.Properties()
+                            .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC)
+                            .food(new Food.Builder()
+                                    .hunger(3)
+                                    .saturation(
+                                            1.2F)
+                                    .effect(() -> (new EffectInstance(
+                                                    Effects.GLOWING,
+                                                    4000)),
+                                            1)
+                                    .build())));
     public static final RegistryObject<Item> TEST_TOOL = ITEMS.register("test_tool",
-        () -> new PickaxeItem(
-            CraftleToolTier.TEST,
-            12, 5.0F,
-            new Item.Properties()
-                .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC)));
+            () -> new PickaxeItem(
+                    CraftleToolTier.TEST,
+                    12, 5.0F,
+                    new Item.Properties()
+                            .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC)));
     public static final RegistryObject<Item> SPECIAL_ITEM = ITEMS.register("special_item",
-        () -> new SpecialItem(
-            new Item.Properties()
-                .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC)));
+            () -> new SpecialItem(
+                    new Item.Properties()
+                            .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC)));
     public static final RegistryObject<Item> TEST_BOOTS = ITEMS.register("test_boots",
-        () -> new ArmorItem(
-            CraftleArmorMaterial.TEST_INGOT,
-            EquipmentSlotType.FEET,
-            new Item.Properties()
-                .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC)));
+            () -> new ArmorItem(
+                    CraftleArmorMaterial.TEST_INGOT,
+                    EquipmentSlotType.FEET,
+                    new Item.Properties()
+                            .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC)));
 
     //bits
     public static final RegistryObject<Item> ALUMINIUM_BIT =
-        registerResource(Resource.ALUMINIUM, ResourceType.BIT);
+            registerResource(Resource.ALUMINIUM, ResourceType.BIT);
     public static final RegistryObject<Item> COPPER_BIT =
-        registerResource(Resource.COPPER, ResourceType.BIT);
+            registerResource(Resource.COPPER, ResourceType.BIT);
     public static final RegistryObject<Item> DIAMOND_BIT =
-        registerResource(Resource.DIAMOND, ResourceType.BIT);
+            registerResource(Resource.DIAMOND, ResourceType.BIT);
     public static final RegistryObject<Item> GOLD_BIT =
-        registerResource(Resource.GOLD, ResourceType.BIT);
+            registerResource(Resource.GOLD, ResourceType.BIT);
     public static final RegistryObject<Item> IRON_BIT =
-        registerResource(Resource.IRON, ResourceType.BIT);
+            registerResource(Resource.IRON, ResourceType.BIT);
     public static final RegistryObject<Item> PLATINUM_BIT =
-        registerResource(Resource.PLATINUM, ResourceType.BIT);
+            registerResource(Resource.PLATINUM, ResourceType.BIT);
     public static final RegistryObject<Item> RUBY_BIT =
-        registerResource(Resource.RUBY, ResourceType.BIT);
+            registerResource(Resource.RUBY, ResourceType.BIT);
     public static final RegistryObject<Item> SAPPHIRE_BIT =
-        registerResource(Resource.SAPPHIRE, ResourceType.BIT);
+            registerResource(Resource.SAPPHIRE, ResourceType.BIT);
     public static final RegistryObject<Item> STEEL_BIT =
-        registerResource(Resource.STEEL, ResourceType.BIT);
+            registerResource(Resource.STEEL, ResourceType.BIT);
     public static final RegistryObject<Item> TIN_BIT =
-        registerResource(Resource.TIN, ResourceType.BIT);
+            registerResource(Resource.TIN, ResourceType.BIT);
     public static final RegistryObject<Item> URANIUM_BIT =
-        registerResource(Resource.URANIUM, ResourceType.BIT);
+            registerResource(Resource.URANIUM, ResourceType.BIT);
 
     //dusts
     public static final RegistryObject<Item> ALUMINIUM_DUST =
-        registerResource(Resource.ALUMINIUM, ResourceType.DUST);
+            registerResource(Resource.ALUMINIUM, ResourceType.DUST);
     public static final RegistryObject<Item> COPPER_DUST =
-        registerResource(Resource.COPPER, ResourceType.DUST);
+            registerResource(Resource.COPPER, ResourceType.DUST);
     public static final RegistryObject<Item> DIAMOND_DUST =
-        registerResource(Resource.DIAMOND, ResourceType.DUST);
+            registerResource(Resource.DIAMOND, ResourceType.DUST);
     public static final RegistryObject<Item> GOLD_DUST =
-        registerResource(Resource.GOLD, ResourceType.DUST);
+            registerResource(Resource.GOLD, ResourceType.DUST);
     public static final RegistryObject<Item> IRON_DUST =
-        registerResource(Resource.IRON, ResourceType.DUST);
+            registerResource(Resource.IRON, ResourceType.DUST);
     public static final RegistryObject<Item> PLATINUM_DUST =
-        registerResource(Resource.PLATINUM, ResourceType.DUST);
+            registerResource(Resource.PLATINUM, ResourceType.DUST);
     public static final RegistryObject<Item> RUBY_DUST =
-        registerResource(Resource.RUBY, ResourceType.DUST);
+            registerResource(Resource.RUBY, ResourceType.DUST);
     public static final RegistryObject<Item> SAPPHIRE_DUST =
-        registerResource(Resource.SAPPHIRE, ResourceType.DUST);
+            registerResource(Resource.SAPPHIRE, ResourceType.DUST);
     public static final RegistryObject<Item> STEEL_DUST =
-        registerResource(Resource.STEEL, ResourceType.DUST);
+            registerResource(Resource.STEEL, ResourceType.DUST);
     public static final RegistryObject<Item> TIN_DUST =
-        registerResource(Resource.TIN, ResourceType.DUST);
+            registerResource(Resource.TIN, ResourceType.DUST);
     public static final RegistryObject<Item> URANIUM_DUST =
-        registerResource(Resource.URANIUM, ResourceType.DUST);
+            registerResource(Resource.URANIUM, ResourceType.DUST);
 
     //enhanced
     public static final RegistryObject<Item> ALUMINIUM_ENHANCED =
-        registerResource(Resource.ALUMINIUM, ResourceType.ENHANCED, true);
+            registerResource(Resource.ALUMINIUM, ResourceType.ENHANCED, true);
     public static final RegistryObject<Item> DIAMOND_ENHANCED =
-        registerResource(Resource.DIAMOND, ResourceType.ENHANCED, true);
+            registerResource(Resource.DIAMOND, ResourceType.ENHANCED, true);
     public static final RegistryObject<Item> IRON_ENHANCED =
-        registerResource(Resource.IRON, ResourceType.ENHANCED, true);
+            registerResource(Resource.IRON, ResourceType.ENHANCED, true);
     public static final RegistryObject<Item> PLATINUM_ENHANCED =
-        registerResource(Resource.PLATINUM, ResourceType.ENHANCED, true);
+            registerResource(Resource.PLATINUM, ResourceType.ENHANCED, true);
     public static final RegistryObject<Item> RUBY_ENHANCED =
-        registerResource(Resource.RUBY, ResourceType.ENHANCED, true);
+            registerResource(Resource.RUBY, ResourceType.ENHANCED, true);
     public static final RegistryObject<Item> SAPPHIRE_ENHANCED =
-        registerResource(Resource.SAPPHIRE, ResourceType.ENHANCED, true);
+            registerResource(Resource.SAPPHIRE, ResourceType.ENHANCED, true);
     public static final RegistryObject<Item> STEEL_ENHANCED =
-        registerResource(Resource.STEEL, ResourceType.ENHANCED, true);
+            registerResource(Resource.STEEL, ResourceType.ENHANCED, true);
 
     //ingots
     public static final RegistryObject<Item> ALUMINIUM_INGOT =
-        registerResource(Resource.ALUMINIUM, ResourceType.INGOT);
+            registerResource(Resource.ALUMINIUM, ResourceType.INGOT);
     public static final RegistryObject<Item> COPPER_INGOT =
-        registerResource(Resource.COPPER, ResourceType.INGOT);
+            registerResource(Resource.COPPER, ResourceType.INGOT);
     public static final RegistryObject<Item> PLATINUM_INGOT =
-        registerResource(Resource.PLATINUM, ResourceType.INGOT);
+            registerResource(Resource.PLATINUM, ResourceType.INGOT);
     public static final RegistryObject<Item> RUBY_INGOT =
-        registerResource(Resource.RUBY, ResourceType.INGOT);
+            registerResource(Resource.RUBY, ResourceType.INGOT);
     public static final RegistryObject<Item> SAPPHIRE_INGOT =
-        registerResource(Resource.SAPPHIRE, ResourceType.INGOT);
+            registerResource(Resource.SAPPHIRE, ResourceType.INGOT);
     public static final RegistryObject<Item> STEEL_INGOT =
-        registerResource(Resource.STEEL, ResourceType.INGOT);
+            registerResource(Resource.STEEL, ResourceType.INGOT);
     public static final RegistryObject<Item> TIN_INGOT =
-        registerResource(Resource.TIN, ResourceType.INGOT);
+            registerResource(Resource.TIN, ResourceType.INGOT);
     public static final RegistryObject<Item> URANIUM_INGOT =
-        registerResource(Resource.URANIUM, ResourceType.INGOT);
+            registerResource(Resource.URANIUM, ResourceType.INGOT);
 
     //purified
     public static final RegistryObject<Item> PLATINUM_PURIFIED =
-        registerResource(Resource.PLATINUM, ResourceType.PURIFIED);
+            registerResource(Resource.PLATINUM, ResourceType.PURIFIED);
     public static final RegistryObject<Item> STEEL_PURIFIED =
-        registerResource(Resource.STEEL, ResourceType.PURIFIED);
+            registerResource(Resource.STEEL, ResourceType.PURIFIED);
     public static final RegistryObject<Item> URANIUM_PURIFIED =
-        registerResource(Resource.URANIUM, ResourceType.PURIFIED);
+            registerResource(Resource.URANIUM, ResourceType.PURIFIED);
 
     //tools
     public static final RegistryObject<Item> RUBY_SWORD = registerSword(CraftleToolTier.RUBY);
@@ -164,15 +160,15 @@ public class CraftleItems {
     public static final RegistryObject<Item> RUBY_HOE = registerHoe(CraftleToolTier.RUBY);
 
     public static final RegistryObject<Item> SAPPHIRE_SWORD =
-        registerSword(CraftleToolTier.SAPPHIRE);
+            registerSword(CraftleToolTier.SAPPHIRE);
     public static final RegistryObject<Item> SAPPHIRE_PICKAXE =
-        registerPickaxe(CraftleToolTier.SAPPHIRE);
+            registerPickaxe(CraftleToolTier.SAPPHIRE);
     public static final RegistryObject<Item> SAPPHIRE_SHOVEL =
-        registerShovel(CraftleToolTier.SAPPHIRE);
+            registerShovel(CraftleToolTier.SAPPHIRE);
     public static final RegistryObject<Item> SAPPHIRE_AXE =
-        registerAxe(CraftleToolTier.SAPPHIRE);
+            registerAxe(CraftleToolTier.SAPPHIRE);
     public static final RegistryObject<Item> SAPPHIRE_HOE =
-        registerHoe(CraftleToolTier.SAPPHIRE);
+            registerHoe(CraftleToolTier.SAPPHIRE);
 
     public static final RegistryObject<Item> STEEL_SWORD = registerSword(CraftleToolTier.STEEL);
     public static final RegistryObject<Item> STEEL_PICKAXE = registerPickaxe(CraftleToolTier.STEEL);
@@ -181,83 +177,83 @@ public class CraftleItems {
     public static final RegistryObject<Item> STEEL_HOE = registerHoe(CraftleToolTier.STEEL);
 
     public static final RegistryObject<Item> PLATINUM_SWORD =
-        registerSword(CraftleToolTier.PLATINUM);
+            registerSword(CraftleToolTier.PLATINUM);
     public static final RegistryObject<Item> PLATINUM_PICKAXE =
-        registerPickaxe(CraftleToolTier.PLATINUM);
+            registerPickaxe(CraftleToolTier.PLATINUM);
     public static final RegistryObject<Item> PLATINUM_SHOVEL =
-        registerShovel(CraftleToolTier.PLATINUM);
+            registerShovel(CraftleToolTier.PLATINUM);
     public static final RegistryObject<Item> PLATINUM_AXE =
-        registerAxe(CraftleToolTier.PLATINUM);
+            registerAxe(CraftleToolTier.PLATINUM);
     public static final RegistryObject<Item> PLATINUM_HOE =
-        registerHoe(CraftleToolTier.PLATINUM);
+            registerHoe(CraftleToolTier.PLATINUM);
 
     // circuit, tier (1-4) circuit
     public static final RegistryObject<Item> CIRCUIT = registerCraftleItem(
-        new CraftleItem("circuit", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("circuit", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     public static final RegistryObject<Item> CIRCUIT_TIER_1 = registerCraftleItem(
-        new CraftleItem("circuit_tier_1", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("circuit_tier_1", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     public static final RegistryObject<Item> CIRCUIT_TIER_2 = registerCraftleItem(
-        new CraftleItem("circuit_tier_2", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("circuit_tier_2", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     public static final RegistryObject<Item> CIRCUIT_TIER_3 = registerCraftleItem(
-        new CraftleItem("circuit_tier_3", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("circuit_tier_3", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     public static final RegistryObject<Item> CIRCUIT_TIER_4 = registerCraftleItem(
-        new CraftleItem("circuit_tier_4", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("circuit_tier_4", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     // sheets (iron, steel), compressed sheets
     public static final RegistryObject<Item> IRON_SHEET = registerCraftleItem(
-        new CraftleItem("iron_sheet", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("iron_sheet", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     public static final RegistryObject<Item> STEEL_SHEET = registerCraftleItem(
-        new CraftleItem("steel_sheet", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("steel_sheet", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     public static final RegistryObject<Item> IRON_SHEET_COMPRESSED = registerCraftleItem(
-        new CraftleItem("iron_sheet_compressed",
-            CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("iron_sheet_compressed",
+                    CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     public static final RegistryObject<Item> STEEL_SHEET_COMPRESSED = registerCraftleItem(
-        new CraftleItem("steel_sheet_compressed",
-            CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("steel_sheet_compressed",
+                    CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     // coils, gear (basic and advanced)
     public static final RegistryObject<Item> COIL = registerCraftleItem(
-        new CraftleItem("coil", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("coil", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     public static final RegistryObject<Item> COIL_ADVANCED = registerCraftleItem(
-        new CraftleItem("coil_advanced", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("coil_advanced", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     public static final RegistryObject<Item> GEAR = registerCraftleItem(
-        new CraftleItem("gear", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("gear", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     public static final RegistryObject<Item> GEAR_ADVANCED = registerCraftleItem(
-        new CraftleItem("gear_advanced", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("gear_advanced", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     // motor, tier (1-4)
     public static final RegistryObject<Item> MOTOR = registerCraftleItem(
-        new CraftleItem("motor", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("motor", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     public static final RegistryObject<Item> MOTOR_TIER_1 = registerCraftleItem(
-        new CraftleItem("motor_tier_1", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("motor_tier_1", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     public static final RegistryObject<Item> MOTOR_TIER_2 = registerCraftleItem(
-        new CraftleItem("motor_tier_2", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("motor_tier_2", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     public static final RegistryObject<Item> MOTOR_TIER_3 = registerCraftleItem(
-        new CraftleItem("motor_tier_3", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("motor_tier_3", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     public static final RegistryObject<Item> MOTOR_TIER_4 = registerCraftleItem(
-        new CraftleItem("motor_tier_4", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("motor_tier_4", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     // batteries, tier (1-4)
     public static final RegistryObject<Item> BATTERY_BASIC = registerCraftleItem(
-        new EnergyItem("battery", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES,
-            CraftleBaseTier.BASIC));
+            new EnergyItem("battery", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES,
+                    CraftleBaseTier.BASIC));
     public static final RegistryObject<Item> BATTERY_TIER_1 = registerCraftleItem(
-        new EnergyItem("battery", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES,
-            CraftleBaseTier.TIER_1));
+            new EnergyItem("battery", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES,
+                    CraftleBaseTier.TIER_1));
     public static final RegistryObject<Item> BATTERY_TIER_2 = registerCraftleItem(
-        new EnergyItem("battery", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES,
-            CraftleBaseTier.TIER_2));
+            new EnergyItem("battery", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES,
+                    CraftleBaseTier.TIER_2));
     public static final RegistryObject<Item> BATTERY_TIER_3 = registerCraftleItem(
-        new EnergyItem("battery", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES,
-            CraftleBaseTier.TIER_3));
+            new EnergyItem("battery", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES,
+                    CraftleBaseTier.TIER_3));
     public static final RegistryObject<Item> BATTERY_TIER_4 = registerCraftleItem(
-        new EnergyItem("battery", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES,
-            CraftleBaseTier.TIER_4));
+            new EnergyItem("battery", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES,
+                    CraftleBaseTier.TIER_4));
     public static final RegistryObject<Item> BATTERY_UNLIMITED = registerCraftleItem(
-        new EnergyItem("battery", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES,
-            CraftleBaseTier.UNLIMITED));
+            new EnergyItem("battery", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES,
+                    CraftleBaseTier.UNLIMITED));
 
     // rubber // insulation
     public static final RegistryObject<Item> RUBBER = registerCraftleItem(
-        new CraftleItem("rubber", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("rubber", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
     public static final RegistryObject<Item> INSULATION = registerCraftleItem(
-        new CraftleItem("insulation", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
+            new CraftleItem("insulation", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
 
 
     public static RegistryObject<Item> registerSword(CraftleToolTier tier) {
@@ -291,7 +287,7 @@ public class CraftleItems {
     }
 
     public static RegistryObject<Item> registerResource(Resource resource, ResourceType type,
-        boolean hasEffect) {
+                                                        boolean hasEffect) {
         CraftleResourceItem item = new CraftleResourceItem(resource, type, hasEffect);
         return registerItem(item.getCraftleRegistryName(), item);
     }

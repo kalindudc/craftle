@@ -5,20 +5,21 @@ import com.craftle_mod.common.inventory.container.storage.energy_matrix.EnergyMa
 import com.craftle_mod.common.tile.storage.energy_matrix.EnergyMatrixTileEntity;
 import com.craftle_mod.common.util.EnergyUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
-import java.util.ArrayList;
 import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.client.gui.GuiUtils;
 
+import java.util.ArrayList;
+
 public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
-    implements IHasContainer<EnergyMatrixContainer> {
+        implements IHasContainer<EnergyMatrixContainer> {
 
     private final EnergyMatrixTileEntity entity;
 
     public EnergyMatrixScreen(EnergyMatrixContainer screenContainer, PlayerInventory inv,
-        ITextComponent titleIn) {
+                              ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
         this.guiLeft = 0;
         this.guiTop = 0;
@@ -47,11 +48,11 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
         String units = EnergyUtils.getUnitForTierBlock(this.entity.getCraftleMachineTier());
 
         float energy = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyContainer()
-                .getEnergyStored());
+                this.entity.getEnergyContainer()
+                        .getEnergyStored());
         float capacity = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyContainer()
-                .getMaxEnergyStored());
+                this.entity.getEnergyContainer()
+                        .getMaxEnergyStored());
 
         float input = this.entity.getEnergyReceive();
         float output = this.entity.getEnergyExtract();
@@ -65,7 +66,7 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer>
         if (getBounds(mouseX, mouseY, 144 + offsetX, 12 + offsetY, 167 + offsetX, 73 + offsetY)) {
             GuiUtils.drawHoveringText(new ArrayList<String>() {{
                 add(String.format("Energy: %.02f kJ",
-                    (float) entity.getEnergyContainer().getEnergyStored()));
+                        (float) entity.getEnergyContainer().getEnergyStored()));
                 add(String.format("Input: %.02f kJ", input));
                 add(String.format("Output: %.02f kJ", output));
 

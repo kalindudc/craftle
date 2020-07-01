@@ -5,7 +5,6 @@ import com.craftle_mod.common.inventory.container.machine.CoalGeneratorContainer
 import com.craftle_mod.common.tile.machine.CoalGeneratorTileEntity;
 import com.craftle_mod.common.util.EnergyUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
-import java.util.ArrayList;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -13,13 +12,15 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.gui.GuiUtils;
 
+import java.util.ArrayList;
+
 @OnlyIn(Dist.CLIENT)
 public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer> {
 
     private final CoalGeneratorTileEntity entity;
 
     public CoalGeneratorScreen(CoalGeneratorContainer screenContainer, PlayerInventory inv,
-        ITextComponent titleIn) {
+                               ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
         this.guiLeft = 0;
         this.guiTop = 0;
@@ -48,23 +49,23 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         String unit = EnergyUtils.getUnitForTierItem(this.entity.getCraftleMachineTier());
 
         float energy = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyContainer()
-                .getEnergyStored());
+                this.entity.getEnergyContainer()
+                        .getEnergyStored());
         float capacity = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyContainer()
-                .getMaxEnergyStored());
+                this.entity.getEnergyContainer()
+                        .getMaxEnergyStored());
 
         int burnPercentage = this.entity.getBurnPercentage();
 
         float input;
         float output = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyExtract());
+                this.entity.getEnergyExtract());
 
         if (burnPercentage == 0 || burnPercentage >= 100) {
             input = 0;
         } else {
             input = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-                this.entity.getEnergyReceive());
+                    this.entity.getEnergyReceive());
         }
 
         this.font.drawString("Energy: ", 10.0f, 48.0f, 6805014);

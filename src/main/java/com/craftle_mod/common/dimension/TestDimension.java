@@ -1,7 +1,5 @@
 package com.craftle_mod.common.dimension;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -10,6 +8,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class TestDimension extends Dimension {
 
@@ -21,7 +22,7 @@ public class TestDimension extends Dimension {
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
         return new TestChunkGenerator(world, new TestBiomeProvider(),
-            new TestGenSettings());
+                new TestGenSettings());
     }
 
     @Nullable

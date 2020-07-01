@@ -3,9 +3,10 @@ package com.craftle_mod.common.item.base;
 import com.craftle_mod.common.CraftleCreativeTabs;
 import com.craftle_mod.common.resource.Resource;
 import com.craftle_mod.common.resource.ResourceType;
-import javax.annotation.Nonnull;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+
+import javax.annotation.Nonnull;
 
 public class CraftleResourceItem extends Item {
 
@@ -19,11 +20,32 @@ public class CraftleResourceItem extends Item {
     }
 
     public CraftleResourceItem(Resource resource, ResourceType type,
-        boolean hasEffect) {
+                               boolean hasEffect) {
         super(getProperties(type));
         this.resource = resource;
         this.type = type;
         this.hasEffect = hasEffect;
+    }
+
+    private static Properties getProperties(ResourceType type) {
+        Properties properties;
+        switch (type) {
+            case ORE:
+            case BIT:
+            case DUST:
+            case INGOT:
+            case ENHANCED:
+            case PURIFIED:
+                properties = new Item.Properties()
+                        .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_RESOURCES);
+                break;
+            default:
+                properties = new Item.Properties()
+                        .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC);
+                break;
+        }
+
+        return properties;
     }
 
     public String getCraftleRegistryName() {
@@ -41,26 +63,5 @@ public class CraftleResourceItem extends Item {
 
     public ResourceType getType() {
         return type;
-    }
-
-    private static Properties getProperties(ResourceType type) {
-        Properties properties;
-        switch (type) {
-            case ORE:
-            case BIT:
-            case DUST:
-            case INGOT:
-            case ENHANCED:
-            case PURIFIED:
-                properties = new Item.Properties()
-                    .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_RESOURCES);
-                break;
-            default:
-                properties = new Item.Properties()
-                    .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC);
-                break;
-        }
-
-        return properties;
     }
 }

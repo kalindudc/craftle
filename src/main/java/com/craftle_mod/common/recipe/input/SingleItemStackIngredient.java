@@ -3,13 +3,14 @@ package com.craftle_mod.common.recipe.input;
 import com.craftle_mod.api.JsonConstants;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import javax.annotation.Nonnull;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class SingleItemStackIngredient extends ItemStackIngredient {
 
@@ -20,6 +21,11 @@ public class SingleItemStackIngredient extends ItemStackIngredient {
     public SingleItemStackIngredient(Ingredient ingredient, int amount) {
         this.ingredient = Objects.requireNonNull(ingredient);
         this.amount = amount;
+    }
+
+    public static SingleItemStackIngredient read(PacketBuffer buffer) {
+        return new SingleItemStackIngredient(Ingredient.read(buffer),
+                buffer.readVarInt());
     }
 
     @Override
@@ -70,11 +76,6 @@ public class SingleItemStackIngredient extends ItemStackIngredient {
         }
         json.add(JsonConstants.INGREDIENT, ingredient.serialize());
         return json;
-    }
-
-    public static SingleItemStackIngredient read(PacketBuffer buffer) {
-        return new SingleItemStackIngredient(Ingredient.read(buffer),
-            buffer.readVarInt());
     }
 
 }

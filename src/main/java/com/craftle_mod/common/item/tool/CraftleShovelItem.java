@@ -3,9 +3,10 @@ package com.craftle_mod.common.item.tool;
 import com.craftle_mod.common.CraftleCreativeTabs;
 import com.craftle_mod.common.item.base.ICraftleToolItem;
 import com.craftle_mod.common.tier.CraftleToolTier;
-import javax.annotation.Nonnull;
 import net.minecraft.item.Item;
 import net.minecraft.item.ShovelItem;
+
+import javax.annotation.Nonnull;
 
 public class CraftleShovelItem extends ShovelItem implements ICraftleToolItem {
 
@@ -13,9 +14,9 @@ public class CraftleShovelItem extends ShovelItem implements ICraftleToolItem {
     private final CraftleToolTier tier;
 
     public CraftleShovelItem(float attackDamage, float attackSpeed,
-        CraftleToolTier tier) {
+                             CraftleToolTier tier) {
         super(tier, attackDamage, attackSpeed, new Item.Properties()
-            .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_TOOLS));
+                .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_TOOLS));
         this.resourceName = tier.getMaterialName() + "_shovel";
         this.tier = tier;
     }

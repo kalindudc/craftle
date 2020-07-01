@@ -137,7 +137,7 @@ public abstract class EnergyUtils {
         if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
 
             EnergyContainerCapability container = (EnergyContainerCapability) items
-                .orElse(EnergyContainerCapability.EMPTY_IE);
+                    .orElse(EnergyContainerCapability.EMPTY_IE);
 
             if (container.canExtract() && container.getEnergyStored() > 0) {
                 return container.extractEnergy(energy);
@@ -154,7 +154,7 @@ public abstract class EnergyUtils {
         if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
 
             EnergyContainerCapability container = (EnergyContainerCapability) items
-                .orElse(EnergyContainerCapability.EMPTY_IE);
+                    .orElse(EnergyContainerCapability.EMPTY_IE);
 
             if (container.canReceive()) {
                 return container.receiveEnergy(energy);
@@ -171,7 +171,7 @@ public abstract class EnergyUtils {
         if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
 
             EnergyContainerCapability container = (EnergyContainerCapability) items
-                .orElse(EnergyContainerCapability.EMPTY_IE);
+                    .orElse(EnergyContainerCapability.EMPTY_IE);
 
             if (container.getMaxEnergyStored() > 0) {
                 return container.getMaxEnergyStored() - container.getEnergyStored();
@@ -188,7 +188,7 @@ public abstract class EnergyUtils {
         if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
 
             EnergyContainerCapability container = (EnergyContainerCapability) items
-                .orElse(EnergyContainerCapability.EMPTY_IE);
+                    .orElse(EnergyContainerCapability.EMPTY_IE);
 
             if (container.getEnergyStored() > 0) {
                 return container.getEnergyStored();
@@ -205,7 +205,7 @@ public abstract class EnergyUtils {
         if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
 
             EnergyContainerCapability container = (EnergyContainerCapability) items
-                .orElse(EnergyContainerCapability.EMPTY_IE);
+                    .orElse(EnergyContainerCapability.EMPTY_IE);
 
             if (container.getMaxEnergyStored() > 0) {
                 return container.getMaxEnergyStored();
@@ -222,11 +222,11 @@ public abstract class EnergyUtils {
         if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
 
             EnergyContainerCapability container = (EnergyContainerCapability) items
-                .orElse(EnergyContainerCapability.EMPTY_IE);
+                    .orElse(EnergyContainerCapability.EMPTY_IE);
 
             if (container.getMaxEnergyStored() > 0) {
                 return ((double) container.getEnergyStored()) /
-                    ((double) container.getMaxEnergyStored());
+                        ((double) container.getMaxEnergyStored());
             }
         }
 

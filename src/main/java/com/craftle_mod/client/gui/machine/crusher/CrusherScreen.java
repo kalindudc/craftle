@@ -19,7 +19,7 @@ public class CrusherScreen extends ContainerScreen<CrusherContainer> {
     private final ResourceLocation backgroundTexture;
 
     public CrusherScreen(CrusherContainer screenContainer, PlayerInventory inv,
-        ITextComponent titleIn, ResourceLocation resourceLocation) {
+                         ITextComponent titleIn, ResourceLocation resourceLocation) {
         super(screenContainer, inv, titleIn);
         this.guiLeft = 0;
         this.guiTop = 0;

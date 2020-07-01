@@ -1,12 +1,6 @@
 package com.craftle_mod.common;
 
-import com.craftle_mod.common.registries.CraftleBiomes;
-import com.craftle_mod.common.registries.CraftleBlocks;
-import com.craftle_mod.common.registries.CraftleContainerTypes;
-import com.craftle_mod.common.registries.CraftleDimensions;
-import com.craftle_mod.common.registries.CraftleItems;
-import com.craftle_mod.common.registries.CraftleRecipeSerializers;
-import com.craftle_mod.common.registries.CraftleTileEntityTypes;
+import com.craftle_mod.common.registries.*;
 import com.craftle_mod.common.world.gen.OreGenHandler;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -30,16 +24,16 @@ public class Craftle {
     public static final String MOD_VERSION = "0.0.1.0";
 
     public static final Logger LOGGER =
-        LogManager.getLogger(Craftle.MODID);
+            LogManager.getLogger(Craftle.MODID);
     public static final ResourceLocation TEST_DIM_TYPE =
-        new ResourceLocation(MODID, "test_dimension");
+            new ResourceLocation(MODID, "test_dimension");
 
     private static Craftle instance;
 
     public Craftle() {
 
         final IEventBus craftleEventBus =
-            FMLJavaModLoadingContext.get().getModEventBus();
+                FMLJavaModLoadingContext.get().getModEventBus();
 
         craftleEventBus.addListener(this::setup);
         craftleEventBus.addListener(this::clientRegistries);
@@ -60,6 +54,15 @@ public class Craftle {
         return instance;
     }
 
+    @SubscribeEvent
+    public static void loadCompleteEvent(FMLLoadCompleteEvent event) {
+        OreGenHandler.generateOre();
+    }
+
+    public static void logInfo(String string, Object... args) {
+        Craftle.LOGGER.info(String.format(string, args));
+    }
+
     private void setup(final FMLCommonSetupEvent event) {
         // TODO: preinit function
         LOGGER.debug(MODID + ": setup registered!");
@@ -72,14 +75,5 @@ public class Craftle {
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
         // TODO: server is starting
-    }
-
-    @SubscribeEvent
-    public static void loadCompleteEvent(FMLLoadCompleteEvent event) {
-        OreGenHandler.generateOre();
-    }
-
-    public static void logInfo(String string, Object... args) {
-        Craftle.LOGGER.info(String.format(string, args));
     }
 }

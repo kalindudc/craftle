@@ -2,7 +2,6 @@ package com.craftle_mod.common.tile;
 
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.util.NBTUtils;
-import javax.annotation.Nonnull;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.IFluidState;
@@ -13,8 +12,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 
+import javax.annotation.Nonnull;
+
 public class TileEntityQuarry extends TileEntity
-    implements ITickableTileEntity {
+        implements ITickableTileEntity {
 
     private int x;
     private int y;
@@ -64,7 +65,7 @@ public class TileEntityQuarry extends TileEntity
         for (int x = 0; x < 5; x++) {
             for (int z = 0; z < 5; z++) {
                 BlockPos posToBreak =
-                    new BlockPos(this.x + x, this.y, this.z + z);
+                        new BlockPos(this.x + x, this.y, this.z + z);
                 assert this.world != null;
                 //blocksRemoved[index] =
                 this.world.getBlockState(posToBreak).getBlock();
@@ -88,9 +89,9 @@ public class TileEntityQuarry extends TileEntity
 
             // drop blocks
             TileEntity tileEntity = blockstate.hasTileEntity() ?
-                world.getTileEntity(pos) : null;
+                    world.getTileEntity(pos) : null;
             Block.spawnDrops(blockstate, world, this.pos.add(0, 1.5, 0),
-                tileEntity, null, ItemStack.EMPTY);
+                    tileEntity, null, ItemStack.EMPTY);
 
             return world.setBlockState(pos, iFluidState.getBlockState(), 3);
         }

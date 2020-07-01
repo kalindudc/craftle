@@ -5,8 +5,6 @@ import com.craftle_mod.common.block.base.ActiveBlockBase;
 import com.craftle_mod.common.capability.energy.EnergyContainerCapability;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.tier.CraftleBaseTier;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -25,8 +23,11 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public abstract class PoweredMachineTileEntity extends MachineTileEntity
-    implements ITickableTileEntity, ICapabilityProvider {
+        implements ITickableTileEntity, ICapabilityProvider {
 
     public static final int DEFAULT_POWER_CAPACITY = 1_000;
 
@@ -41,51 +42,47 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
     private int energyExtract;
 
     public PoweredMachineTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize,
-        CraftleBaseTier tier) {
+                                    IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize,
+                                    CraftleBaseTier tier) {
         super(typeIn, recipeTypeIn, containerSize, tier);
         this.energyContainer =
-            new EnergyContainerCapability(DEFAULT_POWER_CAPACITY, DEFAULT_POWER_CAPACITY, 0,
-                tier);
+                new EnergyContainerCapability(DEFAULT_POWER_CAPACITY, DEFAULT_POWER_CAPACITY, 0,
+                        tier);
         init();
     }
 
     public PoweredMachineTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize,
-        CraftleBaseTier tier, int capacity) {
+                                    IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize,
+                                    CraftleBaseTier tier, int capacity) {
         super(typeIn, recipeTypeIn, containerSize, tier);
         this.energyContainer = new EnergyContainerCapability(capacity, tier);
         init();
     }
 
     public PoweredMachineTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize,
-        CraftleBaseTier tier, int capacity, int maxReceive,
-        int maxExtract) {
+                                    IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize,
+                                    CraftleBaseTier tier, int capacity, int maxReceive,
+                                    int maxExtract) {
         super(typeIn, recipeTypeIn, containerSize, tier);
         this.energyContainer =
-            new EnergyContainerCapability(capacity, maxReceive, maxExtract, tier);
+                new EnergyContainerCapability(capacity, maxReceive, maxExtract, tier);
         init();
     }
 
     public PoweredMachineTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize,
-        CraftleBaseTier tier, int capacity, int maxReceive,
-        int maxExtract, int startingEnergy) {
+                                    IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize,
+                                    CraftleBaseTier tier, int capacity, int maxReceive,
+                                    int maxExtract, int startingEnergy) {
         super(typeIn, recipeTypeIn, containerSize, tier);
         this.energyContainer =
-            new EnergyContainerCapability(capacity, maxReceive, maxExtract, startingEnergy,
-                tier);
+                new EnergyContainerCapability(capacity, maxReceive, maxExtract, startingEnergy,
+                        tier);
         init();
     }
 
     public void resetBufferedEnergy() {
         this.bufferedEnergy = 0;
         this.setEnergyReceive(0);
-    }
-
-    public void setBufferedEnergy(int energy) {
-        this.bufferedEnergy = energy;
     }
 
     public void addToBufferedEnergy(int energy) {
@@ -98,6 +95,10 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
 
     public int getBufferedEnergy() {
         return bufferedEnergy;
+    }
+
+    public void setBufferedEnergy(int energy) {
+        this.bufferedEnergy = energy;
     }
 
     private void init() {
@@ -179,7 +180,7 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
     public void setRecipeUsed(@Nullable IRecipe<?> recipe) {
         if (recipe != null) {
             this.getRecipesUsed().compute(recipe.getId(),
-                (p_214004_0_, usedCount) -> 1 + (usedCount == null ? 0 : usedCount));
+                    (p_214004_0_, usedCount) -> 1 + (usedCount == null ? 0 : usedCount));
         }
     }
 
@@ -190,7 +191,7 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull final Capability<T> cap,
-        final @Nullable Direction side) {
+                                             final @Nullable Direction side) {
         if (hasCapability(cap, side)) {
             return LazyOptional.of(() -> this.energyContainer).cast();
         }

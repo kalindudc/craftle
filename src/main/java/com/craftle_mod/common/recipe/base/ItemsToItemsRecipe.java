@@ -11,7 +11,7 @@ public abstract class ItemsToItemsRecipe extends CraftleRecipe {
     private final ItemStack output;
 
     public ItemsToItemsRecipe(ResourceLocation resourceLocation,
-        ItemStackIngredient input, ItemStack output) {
+                              ItemStackIngredient input, ItemStack output) {
         super(resourceLocation);
         this.input = input;
         this.output = output;

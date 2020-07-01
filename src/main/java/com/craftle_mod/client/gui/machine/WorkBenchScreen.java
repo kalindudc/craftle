@@ -14,7 +14,7 @@ public class WorkBenchScreen extends ContainerScreen<WorkBenchContainer> {
     private final WorkBenchTileEntity entity;
 
     public WorkBenchScreen(WorkBenchContainer screenContainer, PlayerInventory inv,
-        ITextComponent titleIn) {
+                           ITextComponent titleIn) {
 
         super(screenContainer, inv, titleIn);
         this.guiLeft = 0;
@@ -44,14 +44,14 @@ public class WorkBenchScreen extends ContainerScreen<WorkBenchContainer> {
         String unit = EnergyUtils.getUnitForTierItem(this.entity.getCraftleMachineTier());
 
         float energy = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyContainer()
-                .getEnergyStored());
+                this.entity.getEnergyContainer()
+                        .getEnergyStored());
 
         float input = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyReceive());
+                this.entity.getEnergyReceive());
         float capacity = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyContainer()
-                .getMaxEnergyStored());
+                this.entity.getEnergyContainer()
+                        .getMaxEnergyStored());
 
         this.font.drawString("Max: ", 186.0f, 9.0f, 13816530);
         this.font.drawString(String.format("%.02f %s", capacity, unit), 231.0f, 9.0f, 13816530);

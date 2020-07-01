@@ -1,12 +1,13 @@
 package com.craftle_mod.common.recipe.base;
 
 import com.craftle_mod.common.recipe.inventory.EmptyInventory;
-import javax.annotation.Nonnull;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
+import javax.annotation.Nonnull;
 
 /**
  * A class to represent a CraftleRecipe for a custom recipe
