@@ -4,6 +4,7 @@ import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.TestChest;
 import java.util.Objects;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,6 +13,8 @@ import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -29,7 +32,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
+public abstract class CraftleTileEntity extends LockableLootTileEntity {
 
     private NonNullList<ItemStack> containerContents;
     protected int numplayersUsing;
@@ -37,7 +40,7 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
     private LazyOptional<IItemHandlerModifiable> itemHandler;
     private int containerSize;
 
-    public ContainerizedTileEntity(TileEntityType<?> typeIn, int containerSize) {
+    public CraftleTileEntity(TileEntityType<?> typeIn, int containerSize) {
         super(typeIn);
         this.containerContents = NonNullList.withSize(containerSize, ItemStack.EMPTY);
         this.items = createHandler();
@@ -149,15 +152,15 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
         BlockState blockstate = reader.getBlockState(pos);
         if (blockstate.hasTileEntity()) {
             TileEntity entity = reader.getTileEntity(pos);
-            if (entity instanceof ContainerizedTileEntity) {
-                return ((ContainerizedTileEntity) entity).numplayersUsing;
+            if (entity instanceof CraftleTileEntity) {
+                return ((CraftleTileEntity) entity).numplayersUsing;
             }
         }
         return 0;
     }
 
-    public static void swapContents(ContainerizedTileEntity entity,
-        ContainerizedTileEntity otherEntity) {
+    public static void swapContents(CraftleTileEntity entity,
+        CraftleTileEntity otherEntity) {
         NonNullList<ItemStack> list = entity.getItems();
         entity.setItems(otherEntity.getItems());
         otherEntity.setItems(list);
@@ -218,4 +221,26 @@ public abstract class ContainerizedTileEntity extends LockableLootTileEntity {
     public void addToContainer(ItemStack stack, int index) {
         this.containerContents.set(index, stack);
     }
+
+    @Nullable
+    @Override
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        return super.getUpdatePacket();
+    }
+
+    @Nonnull
+    @Override
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT nbt = super.getUpdateTag();
+        write(nbt);
+        return nbt;
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+        read(pkt.getNbtCompound());
+        super.onDataPacket(net, pkt);
+    }
+
+
 }

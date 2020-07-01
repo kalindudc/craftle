@@ -2,7 +2,7 @@ package com.craftle_mod.common.tile.machine.crusher;
 
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.tier.CraftleBaseTier;
-import com.craftle_mod.common.tile.base.ContainerizedTileEntity;
+import com.craftle_mod.common.tile.base.CraftleTileEntity;
 import com.craftle_mod.common.tile.base.TileEntityFactory;
 import java.util.function.Supplier;
 
@@ -32,7 +32,7 @@ public class CrusherTileEntityFactory implements TileEntityFactory {
     }
 
     @Override
-    public Supplier<? extends ContainerizedTileEntity> buildSupplier(CraftleBaseTier tier,
+    public Supplier<? extends CraftleTileEntity> buildSupplier(CraftleBaseTier tier,
         Supplier<Integer> energySupplier) {
         switch (tier) {
             case TIER_1:

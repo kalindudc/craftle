@@ -9,6 +9,7 @@ import com.craftle_mod.common.registries.CraftleContainerTypes;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
+import com.craftle_mod.common.util.EnergyUtils;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.entity.player.PlayerInventory;
@@ -18,8 +19,6 @@ import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
@@ -121,27 +120,6 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
         this.totalBurnTime = totalBurnTime;
     }
 
-    @Nullable
-    @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return super.getUpdatePacket();
-
-    }
-
-    @Nonnull
-    @Override
-    public CompoundNBT getUpdateTag() {
-        CompoundNBT nbt = super.getUpdateTag();
-        write(nbt);
-        return nbt;
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        read(pkt.getNbtCompound());
-        super.onDataPacket(net, pkt);
-    }
-
     @Nonnull
     @Override
     public ITextComponent getDisplayName() {
@@ -156,7 +134,14 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
     }
 
     @Override
-    public void tick() {
+    protected void tickServer() {
+        // emit energy
+        if (getEnergyContainer().getEnergyStored() > 0) {
+            EnergyUtils
+                .emitEnergy(getEnergyContainer(), this, getEnergyContainer().getMaxExtract());
+        }
+
+        // burn fuel
         boolean notFilled = this.getEnergyContainer().getEnergyStored() <
             this.getEnergyContainer().getMaxEnergyStored();
 
@@ -203,6 +188,11 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
             this.totalBurnTime = 0;
             this.markDirty();
         }
+    }
+
+    @Override
+    protected void tickClient() {
+        // client side changed
     }
 
     private void burn() {

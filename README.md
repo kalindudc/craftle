@@ -3,6 +3,7 @@
 </p>
 
 [![Build Status](https://travis-ci.com/kalindudc/craftle.svg?branch=develop)](https://travis-ci.com/kalindudc/craftle)
+[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/kalindudc/craftle.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/kalindudc/craftle/context:java)
 
 # Craftle for Minecraft 1.15.x
 > A minecraft addon

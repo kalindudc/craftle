@@ -5,8 +5,8 @@ import java.util.function.Supplier;
 
 public interface TileEntityFactory {
 
-    Supplier<? extends ContainerizedTileEntity> buildSupplier(CraftleBaseTier tier);
+    Supplier<? extends CraftleTileEntity> buildSupplier(CraftleBaseTier tier);
 
-    Supplier<? extends ContainerizedTileEntity> buildSupplier(CraftleBaseTier tier,
+    Supplier<? extends CraftleTileEntity> buildSupplier(CraftleBaseTier tier,
         Supplier<Integer> energySupplier);
 }

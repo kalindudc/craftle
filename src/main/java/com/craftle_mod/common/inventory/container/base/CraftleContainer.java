@@ -1,6 +1,6 @@
 package com.craftle_mod.common.inventory.container.base;
 
-import com.craftle_mod.common.tile.base.ContainerizedTileEntity;
+import com.craftle_mod.common.tile.base.CraftleTileEntity;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,14 +17,14 @@ import net.minecraft.world.World;
 public abstract class CraftleContainer extends Container {
 
     private final IWorldPosCallable canInteractWithCallable;
-    private final ContainerizedTileEntity entity;
+    private final CraftleTileEntity entity;
     private final PlayerInventory playerInventory;
     private final World world;
     private final IWorldPosCallable worldPosCallable;
 
     public CraftleContainer(ContainerType<?> container, final int windowId,
         final PlayerInventory playerInventory,
-        final ContainerizedTileEntity entity) {
+        final CraftleTileEntity entity) {
 
         super(container, windowId);
         this.playerInventory = playerInventory;
@@ -41,7 +41,7 @@ public abstract class CraftleContainer extends Container {
         this(container, windowId, playerInventory, getTileEntity(playerInventory, data));
     }
 
-    public ContainerizedTileEntity getEntity() {
+    public CraftleTileEntity getEntity() {
         return entity;
     }
 
@@ -49,15 +49,15 @@ public abstract class CraftleContainer extends Container {
         return canInteractWithCallable;
     }
 
-    private static ContainerizedTileEntity getTileEntity(final PlayerInventory playerInventory,
+    private static CraftleTileEntity getTileEntity(final PlayerInventory playerInventory,
         final PacketBuffer data) {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null");
         Objects.requireNonNull(data, "data cannot be null");
 
         final TileEntity tileAtPos =
             playerInventory.player.world.getTileEntity(data.readBlockPos());
-        if (tileAtPos instanceof ContainerizedTileEntity) {
-            return (ContainerizedTileEntity) tileAtPos;
+        if (tileAtPos instanceof CraftleTileEntity) {
+            return (CraftleTileEntity) tileAtPos;
         }
 
         throw new IllegalStateException("Tile entity is not correct. " + tileAtPos);

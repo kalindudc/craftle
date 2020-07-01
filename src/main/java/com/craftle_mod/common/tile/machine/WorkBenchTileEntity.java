@@ -71,9 +71,5 @@ public class WorkBenchTileEntity extends PoweredMachineTileEntity {
     public ITextComponent getDisplayName() {
         return new TranslationTextComponent(TagConstants.WORKBENCH);
     }
-
-    @Override
-    public void tick() {
-        // TODO: tick :0
-    }
+    
 }

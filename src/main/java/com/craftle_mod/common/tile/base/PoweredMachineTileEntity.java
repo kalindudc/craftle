@@ -13,9 +13,6 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.RecipeItemHelper;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -26,7 +23,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 
 public abstract class PoweredMachineTileEntity extends MachineTileEntity
-    implements ITickableTileEntity, ICapabilityProvider {
+    implements ICapabilityProvider {
 
     public static final int DEFAULT_POWER_CAPACITY = 1_000;
 
@@ -137,26 +134,6 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity
             assert world != null;
             world.setBlockState(pos, state.with(ActiveBlockBase.LIT, b), 3);
         }
-    }
-
-    @Nullable
-    @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return super.getUpdatePacket();
-
-    }
-
-    @Nonnull
-    @Override
-    public CompoundNBT getUpdateTag() {
-        CompoundNBT nbt = super.getUpdateTag();
-        return write(nbt);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        read(pkt.getNbtCompound());
-        super.onDataPacket(net, pkt);
     }
 
     public EnergyContainerCapability getEnergyContainer() {
