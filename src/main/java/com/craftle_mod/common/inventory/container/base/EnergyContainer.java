@@ -44,14 +44,12 @@ public abstract class EnergyContainer extends CraftleContainer {
                 this.energy = energy;
             }
 
+            Craftle.logInfo("AT Test on runtime: %d (%s)", listeners.size(), listeners);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
     public double getEnergy() {
-        Craftle.logInfo("GET ENERGY: %f %f",
-            ((PoweredMachineTileEntity) this.getEntity()).getEnergyContainer().getEnergy(),
-            this.energy);
         return this.energy;
     }
 }

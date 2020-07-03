@@ -88,4 +88,9 @@ public abstract class MachineTileEntity extends CraftleTileEntity implements IRe
     public void markTileDirty() {
         dirty = true;
     }
+
+    @Override
+    public String toString() {
+        return "MachineTileEntity{" + "tier=" + tier + "super=" + super.toString() + '}';
+    }
 }

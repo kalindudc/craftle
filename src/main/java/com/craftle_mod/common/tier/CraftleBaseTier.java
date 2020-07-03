@@ -26,4 +26,10 @@ public enum CraftleBaseTier {
     public String getFormattedName() {
         return formattedName;
     }
+
+    @Override
+    public String toString() {
+        return "CraftleBaseTier{" + "tier='" + tier + '\'' + ", multiplier=" + multiplier
+            + ", formattedName='" + formattedName + '\'' + '}';
+    }
 }

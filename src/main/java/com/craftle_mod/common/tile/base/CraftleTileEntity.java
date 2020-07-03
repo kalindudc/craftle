@@ -243,4 +243,27 @@ public abstract class CraftleTileEntity extends LockableLootTileEntity {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CraftleTileEntity that = (CraftleTileEntity) o;
+        return containerSize == that.containerSize && Objects
+            .equals(containerContents, that.containerContents);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(containerContents, containerSize);
+    }
+
+    @Override
+    public String toString() {
+        return "CraftleTileEntity{" + "containerContents=" + containerContents + ", containerSize="
+            + containerSize + '}';
+    }
 }

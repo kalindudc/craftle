@@ -6,6 +6,7 @@ import com.craftle_mod.common.capability.Capabilities;
 import com.craftle_mod.common.capability.energy.CraftleEnergyStorage;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.tier.CraftleBaseTier;
+import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.block.BlockState;
@@ -193,5 +194,37 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
 
         this.bufferedEnergy = bufferedEnergy;
         this.active = this.bufferedEnergy > 0;
+    }
+
+    @Override
+    public String toString() {
+        return "PoweredMachineTileEntity{" + "energyContainer=" + energyContainer + ", active="
+            + active + ", bufferedEnergy=" + bufferedEnergy + ", energyReceive=" + energyReceive
+            + ", energyExtract=" + energyExtract + "super=" + super.toString() + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        PoweredMachineTileEntity that = (PoweredMachineTileEntity) o;
+        return active == that.active && Double.compare(that.bufferedEnergy, bufferedEnergy) == 0
+            && Double.compare(that.energyReceive, energyReceive) == 0
+            && Double.compare(that.energyExtract, energyExtract) == 0 && Objects
+            .equals(energyContainer, that.energyContainer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects
+            .hash(super.hashCode(), energyContainer, active, bufferedEnergy, energyReceive,
+                energyExtract);
     }
 }

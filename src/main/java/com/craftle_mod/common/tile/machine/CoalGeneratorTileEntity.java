@@ -9,6 +9,7 @@ import com.craftle_mod.common.registries.CraftleContainerTypes;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
+import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.entity.player.PlayerInventory;
@@ -235,5 +236,30 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
         return getFuelValue(stackInSlot) > 0;
     }
 
+    @Override
+    public String toString() {
+        return "CoalGeneratorTileEntity{" + "burnTime=" + burnTime + ", totalBurnTime="
+            + totalBurnTime + "super=" + super.toString() + '}';
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        CoalGeneratorTileEntity entity = (CoalGeneratorTileEntity) o;
+        return super.equals(o) && burnTime == entity.burnTime
+            && totalBurnTime == entity.totalBurnTime;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), burnTime, totalBurnTime);
+    }
 }

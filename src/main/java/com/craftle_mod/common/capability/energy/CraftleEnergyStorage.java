@@ -2,6 +2,7 @@ package com.craftle_mod.common.capability.energy;
 
 import com.craftle_mod.api.NBTConstants;
 import com.craftle_mod.common.tier.CraftleBaseTier;
+import java.util.Objects;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
@@ -137,5 +138,35 @@ public class CraftleEnergyStorage implements ICraftleEnergyStorage {
                     }
                 }
             }, () -> new CraftleEnergyStorage(1000, CraftleBaseTier.BASIC));
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        CraftleEnergyStorage that = (CraftleEnergyStorage) o;
+        return Double.compare(that.energyStored, energyStored) == 0
+            && Double.compare(that.capacity, capacity) == 0
+            && Double.compare(that.maxExtract, maxExtract) == 0
+            && Double.compare(that.maxInject, maxInject) == 0 && tier == that.tier;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tier, energyStored, capacity, maxExtract, maxInject);
+    }
+
+    @Override
+    public String toString() {
+        return "CraftleEnergyStorage{" + "tier=" + tier + ", energyStored=" + energyStored
+            + ", capacity=" + capacity + ", maxExtract=" + maxExtract + ", maxInject=" + maxInject
+            + '}';
     }
 }
