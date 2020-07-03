@@ -2,6 +2,7 @@ package com.craftle_mod.common.tile.base;
 
 import com.craftle_mod.api.NBTConstants;
 import com.craftle_mod.common.block.base.ActiveBlockBase;
+import com.craftle_mod.common.capability.Capabilities;
 import com.craftle_mod.common.capability.energy.CraftleEnergyStorage;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.tier.CraftleBaseTier;
@@ -20,7 +21,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
 
 public abstract class PoweredMachineTileEntity extends MachineTileEntity implements
     ICapabilityProvider {
@@ -33,9 +33,9 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
     private final CraftleEnergyStorage energyContainer;
 
     protected boolean active;
-    private int bufferedEnergy;
-    private int energyReceive;
-    private int energyExtract;
+    private double bufferedEnergy;
+    private double energyReceive;
+    private double energyExtract;
 
     public PoweredMachineTileEntity(TileEntityType<?> typeIn,
         IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier) {
@@ -75,19 +75,19 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
         this.setEnergyReceive(0);
     }
 
-    public void setBufferedEnergy(int energy) {
+    public void setBufferedEnergy(double energy) {
         this.bufferedEnergy = energy;
     }
 
-    public void addToBufferedEnergy(int energy) {
+    public void addToBufferedEnergy(double energy) {
         this.bufferedEnergy += energy;
     }
 
-    public void decrementBufferedEnergy(long energy) {
+    public void decrementBufferedEnergy(double energy) {
         this.bufferedEnergy -= energy;
     }
 
-    public int getBufferedEnergy() {
+    public double getBufferedEnergy() {
         return bufferedEnergy;
     }
 
@@ -98,19 +98,19 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
         energyExtract = 0;
     }
 
-    public int getEnergyReceive() {
+    public double getEnergyReceive() {
         return energyReceive;
     }
 
-    public void setEnergyReceive(int energyReceive) {
+    public void setEnergyReceive(double energyReceive) {
         this.energyReceive = energyReceive;
     }
 
-    public int getEnergyExtract() {
+    public double getEnergyExtract() {
         return energyExtract;
     }
 
-    public void setEnergyExtract(int energyExtract) {
+    public void setEnergyExtract(double energyExtract) {
         this.energyExtract = energyExtract;
     }
 
@@ -155,7 +155,7 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
     }
 
     public boolean hasCapability(Capability<?> capability, Direction direction) {
-        return capability == CapabilityEnergy.ENERGY;
+        return capability == Capabilities.ENERGY_CAPABILITY;
     }
 
     @Nonnull
@@ -176,11 +176,9 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
 
         super.write(compound);
 
-        compound.putInt(NBTConstants.GENERATOR_BUFFERED_ENERGY, this.bufferedEnergy);
-        compound.putInt(NBTConstants.ENERGY_CURRENT_EXTRACT, this.energyExtract);
-        compound.putInt(NBTConstants.ENERGY_CURRENT_RECEIVE, this.energyReceive);
+        compound.putDouble(NBTConstants.GENERATOR_BUFFERED_ENERGY, this.bufferedEnergy);
 
-        this.getEnergyContainer().writeToNBT(compound);
+        this.getEnergyContainer().serializeNBT(compound);
 
         return compound;
     }
@@ -189,15 +187,11 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
     public void read(@Nonnull CompoundNBT compound) {
 
         super.read(compound);
-        this.getEnergyContainer().readFromNBT(compound);
+        this.getEnergyContainer().deserializeNBT(compound);
 
-        int bufferedEnergy = compound.getInt(NBTConstants.GENERATOR_BUFFERED_ENERGY);
-        int energyReceive = compound.getInt(NBTConstants.ENERGY_CURRENT_RECEIVE);
-        int energyExtract = compound.getInt(NBTConstants.ENERGY_CURRENT_EXTRACT);
+        double bufferedEnergy = compound.getDouble(NBTConstants.GENERATOR_BUFFERED_ENERGY);
 
         this.bufferedEnergy = bufferedEnergy;
-        this.energyReceive = energyReceive;
-        this.energyExtract = energyExtract;
         this.active = this.bufferedEnergy > 0;
     }
 }

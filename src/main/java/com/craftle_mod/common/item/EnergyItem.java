@@ -85,8 +85,8 @@ public class EnergyItem extends CraftleItem {
         @Nonnull List<ITextComponent> tooltip, @Nonnull ITooltipFlag flagIn) {
         if (CraftleKeyHandler.isHoldingShift()) {
 
-            int energy = EnergyUtils.getEnergyStoredFromItem(stack);
-            int capacity = EnergyUtils.getEnergyCapacityFromItem(stack);
+            double energy = EnergyUtils.getEnergyStoredFromItem(stack);
+            double capacity = EnergyUtils.getEnergyCapacityFromItem(stack);
 
             tooltip.add(new StringTextComponent(String
                 .format("Capacity: %.02f %s", EnergyUtils.getJoulesForTierItem(tier, capacity),

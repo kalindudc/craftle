@@ -1,5 +1,6 @@
 package com.craftle_mod.common;
 
+import com.craftle_mod.common.capability.Capabilities;
 import com.craftle_mod.common.registries.CraftleBiomes;
 import com.craftle_mod.common.registries.CraftleBlocks;
 import com.craftle_mod.common.registries.CraftleContainerTypes;
@@ -16,7 +17,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
@@ -51,7 +51,7 @@ public class Craftle {
         CraftleDimensions.DIMENSIONS.register(craftleEventBus);
 
         instance = this;
-        MinecraftForge.EVENT_BUS.register(this);
+
     }
 
     private static Craftle getInstance() {
@@ -59,22 +59,21 @@ public class Craftle {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        // TODO: preinit function
-        LOGGER.debug(MODID + ": setup registered!");
+
+        Capabilities.registerCapabilities();
+
+        OreGenHandler.generateOre();
+
+        MinecraftForge.EVENT_BUS.register(this);
+
+        logInfo("Craftle loaded..");
     }
 
     private void clientRegistries(final FMLClientSetupEvent event) {
-        // TODO: only run on the client side, ex models ...
     }
 
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
-        // TODO: server is starting
-    }
-
-    @SubscribeEvent
-    public static void loadCompleteEvent(FMLLoadCompleteEvent event) {
-        OreGenHandler.generateOre();
     }
 
     public static void logInfo(String string, Object... args) {

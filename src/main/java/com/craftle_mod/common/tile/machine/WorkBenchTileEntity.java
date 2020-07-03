@@ -71,4 +71,11 @@ public class WorkBenchTileEntity extends PoweredMachineTileEntity {
         return new TranslationTextComponent(TagConstants.WORKBENCH);
     }
 
+    @Override
+    protected void tickServer() {
+    }
+
+    @Override
+    protected void tickClient() {
+    }
 }

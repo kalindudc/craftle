@@ -46,13 +46,13 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer> i
 
         String units = EnergyUtils.getUnitForTierBlock(this.entity.getCraftleMachineTier());
 
-        float energy = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyContainer().getEnergyStored());
-        float capacity = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyContainer().getMaxEnergyStored());
+        double energy = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
+            this.entity.getEnergyContainer().getEnergy());
+        double capacity = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
+            this.entity.getEnergyContainer().getCapacity());
 
-        float input = this.entity.getEnergyReceive();
-        float output = this.entity.getEnergyExtract();
+        double input = this.entity.getEnergyReceive();
+        double output = this.entity.getEnergyExtract();
 
         this.font.drawString("Max: ", 10.0f, 26.0f, 13816530);
         this.font.drawString(String.format("%.02f %s", capacity, units), 32.0f, 26.0f, 13816530);
@@ -62,8 +62,8 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer> i
 
         if (getBounds(mouseX, mouseY, 144 + offsetX, 12 + offsetY, 167 + offsetX, 73 + offsetY)) {
             GuiUtils.drawHoveringText(new ArrayList<String>() {{
-                add(String.format("Energy: %.02f kJ",
-                    (float) entity.getEnergyContainer().getEnergyStored()));
+                add(String
+                    .format("Energy: %.02f kJ", (float) entity.getEnergyContainer().getEnergy()));
                 add(String.format("Input: %.02f kJ", input));
                 add(String.format("Output: %.02f kJ", output));
 
@@ -90,8 +90,8 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer> i
         this.blit(x, y, 0, 0, this.xSize, this.ySize);
 
         // draw the animations and other things
-        long energy = this.entity.getEnergyContainer().getEnergyStored();
-        long maxEnergy = this.entity.getEnergyContainer().getMaxEnergyStored();
+        double energy = this.entity.getEnergyContainer().getEnergy();
+        double maxEnergy = this.entity.getEnergyContainer().getCapacity();
         float energyPercent = ((float) energy) / ((float) maxEnergy);
 
         int textureX;

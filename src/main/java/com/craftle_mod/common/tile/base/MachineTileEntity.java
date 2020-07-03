@@ -23,11 +23,14 @@ public abstract class MachineTileEntity extends CraftleTileEntity implements IRe
     private final Map<ResourceLocation, Integer> recipesUsed = Maps.newHashMap();
     protected final IRecipeType<? extends IRecipe<?>> recipeType;
 
+    private boolean dirty;
+
     public MachineTileEntity(TileEntityType<?> typeIn,
         IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier) {
         super(typeIn, containerSize);
         this.tier = tier;
         this.recipeType = recipeTypeIn;
+        dirty = false;
     }
 
     public void resetContainerSize(int size) {
@@ -67,9 +70,22 @@ public abstract class MachineTileEntity extends CraftleTileEntity implements IRe
             // set states
             tickServer();
         }
+
+        if (dirty) {
+            markDirty();
+            dirty = false;
+        }
     }
 
     protected abstract void tickServer();
 
     protected abstract void tickClient();
+
+    public boolean isDirty() {
+        return dirty;
+    }
+
+    public void markTileDirty() {
+        dirty = true;
+    }
 }

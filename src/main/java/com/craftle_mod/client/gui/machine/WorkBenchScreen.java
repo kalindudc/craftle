@@ -43,13 +43,13 @@ public class WorkBenchScreen extends ContainerScreen<WorkBenchContainer> {
 
         String unit = EnergyUtils.getUnitForTierItem(this.entity.getCraftleMachineTier());
 
-        float energy = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyContainer().getEnergyStored());
+        double energy = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
+            this.entity.getEnergyContainer().getEnergy());
 
-        float input = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
+        double input = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
             this.entity.getEnergyReceive());
-        float capacity = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyContainer().getMaxEnergyStored());
+        double capacity = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
+            this.entity.getEnergyContainer().getCapacity());
 
         this.font.drawString("Max: ", 186.0f, 9.0f, 13816530);
         this.font.drawString(String.format("%.02f %s", capacity, unit), 231.0f, 9.0f, 13816530);
@@ -78,8 +78,8 @@ public class WorkBenchScreen extends ContainerScreen<WorkBenchContainer> {
         this.blit(x + this.xSize, y + 79, 134, 166, 104, 87);
 
         // draw the animations and other things
-        long energy = this.entity.getEnergyContainer().getEnergyStored();
-        long maxEnergy = this.entity.getEnergyContainer().getMaxEnergyStored();
+        double energy = this.entity.getEnergyContainer().getEnergy();
+        double maxEnergy = this.entity.getEnergyContainer().getCapacity();
 
         float energyPercent = ((float) energy) / ((float) maxEnergy);
 

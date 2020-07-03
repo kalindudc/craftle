@@ -3,10 +3,16 @@ package com.craftle_mod.common.capability.energy;
 import com.craftle_mod.api.NBTConstants;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.util.Direction;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.Capability.IStorage;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 
 public class CraftleEnergyStorage implements ICraftleEnergyStorage {
 
-    public static ICraftleEnergyStorage EMPTY_IE = new CraftleEnergyStorage(0, null);
+    public static ICraftleEnergyStorage EMPTY_IE = new CraftleEnergyStorage(0,
+        CraftleBaseTier.BASIC);
 
     private final CraftleBaseTier tier;
 
@@ -111,5 +117,25 @@ public class CraftleEnergyStorage implements ICraftleEnergyStorage {
         this.capacity = compound.getDouble(NBTConstants.ENERGY_CAPACITY);
         this.maxInject = compound.getDouble(NBTConstants.ENERGY_MAX_INJECT);
         this.maxExtract = compound.getDouble(NBTConstants.ENERGY_MAX_EXTRACT);
+    }
+
+    public static void register() {
+        CapabilityManager.INSTANCE
+            .register(ICraftleEnergyStorage.class, new IStorage<ICraftleEnergyStorage>() {
+                @Override
+                public INBT writeNBT(Capability<ICraftleEnergyStorage> capability,
+                    ICraftleEnergyStorage instance, Direction side) {
+                    return instance.serializeNBT();
+                }
+
+                @Override
+                public void readNBT(Capability<ICraftleEnergyStorage> capability,
+                    ICraftleEnergyStorage instance, Direction side, INBT nbt) {
+
+                    if (nbt instanceof CompoundNBT) {
+                        instance.deserializeNBT((CompoundNBT) nbt);
+                    }
+                }
+            }, () -> new CraftleEnergyStorage(1000, CraftleBaseTier.BASIC));
     }
 }

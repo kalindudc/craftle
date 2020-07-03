@@ -1,12 +1,12 @@
 package com.craftle_mod.common.util;
 
 import com.craftle_mod.api.UnitConstants;
+import com.craftle_mod.common.capability.Capabilities;
 import com.craftle_mod.common.capability.energy.CraftleEnergyStorage;
+import com.craftle_mod.common.capability.energy.ICraftleEnergyStorage;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
 
 public abstract class EnergyUtils {
 
@@ -30,85 +30,90 @@ public abstract class EnergyUtils {
         return energy * from.getFactor() / to.getFactor();
     }
 
-    public static int extractEnergyFromItem(ItemStack stack, int energy) {
+    public static double extractEnergyFromItem(ItemStack stack, double energy) {
 
-        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
+        LazyOptional<ICraftleEnergyStorage> items = stack
+            .getCapability(Capabilities.ENERGY_CAPABILITY);
 
-        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+        if (stack.getCapability(Capabilities.ENERGY_CAPABILITY).isPresent()) {
 
             CraftleEnergyStorage container = (CraftleEnergyStorage) items
                 .orElse(CraftleEnergyStorage.EMPTY_IE);
 
-            if (container.canExtract() && container.getEnergyStored() > 0) {
+            if (container.canExtract()) {
                 return container.extractEnergy(energy);
             }
         }
 
-        return 0;
+        return 0D;
     }
 
-    public static int injectEnergyToItem(ItemStack stack, int energy) {
+    public static double injectEnergyToItem(ItemStack stack, double energy) {
 
-        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
+        LazyOptional<ICraftleEnergyStorage> items = stack
+            .getCapability(Capabilities.ENERGY_CAPABILITY);
 
-        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+        if (stack.getCapability(Capabilities.ENERGY_CAPABILITY).isPresent()) {
 
             CraftleEnergyStorage container = (CraftleEnergyStorage) items
                 .orElse(CraftleEnergyStorage.EMPTY_IE);
 
-            if (container.canReceive()) {
-                return container.receiveEnergy(energy);
+            if (container.canInject()) {
+                return container.injectEnergy(energy);
             }
         }
 
         return 0;
     }
 
-    public static int getEnergyRequiredForItem(ItemStack stack) {
+    public static double getEnergyRequiredForItem(ItemStack stack) {
 
-        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
+        LazyOptional<ICraftleEnergyStorage> items = stack
+            .getCapability(Capabilities.ENERGY_CAPABILITY);
 
-        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+        if (stack.getCapability(Capabilities.ENERGY_CAPABILITY).isPresent()) {
 
             CraftleEnergyStorage container = (CraftleEnergyStorage) items
                 .orElse(CraftleEnergyStorage.EMPTY_IE);
 
-            if (container.getMaxEnergyStored() > 0) {
-                return container.getMaxEnergyStored() - container.getEnergyStored();
+            if (container.getCapacity() > 0) {
+                return container.getCapacity() - container.getEnergy();
             }
         }
 
         return 0;
     }
 
-    public static int getEnergyStoredFromItem(ItemStack stack) {
+    public static double getEnergyStoredFromItem(ItemStack stack) {
 
-        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
+        LazyOptional<ICraftleEnergyStorage> items = stack
+            .getCapability(Capabilities.ENERGY_CAPABILITY);
 
-        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+        if (stack.getCapability(Capabilities.ENERGY_CAPABILITY).isPresent()) {
 
             CraftleEnergyStorage container = (CraftleEnergyStorage) items
                 .orElse(CraftleEnergyStorage.EMPTY_IE);
 
-            if (container.getEnergyStored() > 0) {
-                return container.getEnergyStored();
+            if (!container.isEmpty()) {
+                return container.getEnergy();
             }
         }
 
         return 0;
     }
 
-    public static int getEnergyCapacityFromItem(ItemStack stack) {
+    public static double getEnergyCapacityFromItem(ItemStack stack) {
 
-        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
+        LazyOptional<ICraftleEnergyStorage> items = stack
+            .getCapability(Capabilities.ENERGY_CAPABILITY);
 
-        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+        if (stack.getCapability(Capabilities.ENERGY_CAPABILITY).isPresent()) {
 
             CraftleEnergyStorage container = (CraftleEnergyStorage) items
                 .orElse(CraftleEnergyStorage.EMPTY_IE);
 
-            if (container.getMaxEnergyStored() > 0) {
-                return container.getMaxEnergyStored();
+            if (container.getCapacity() > 0) {
+                return container.getCapacity();
             }
         }
 
@@ -117,16 +122,16 @@ public abstract class EnergyUtils {
 
     public static double getEnergyPercentageFromItem(ItemStack stack) {
 
-        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
+        LazyOptional<ICraftleEnergyStorage> items = stack
+            .getCapability(Capabilities.ENERGY_CAPABILITY);
 
-        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+        if (stack.getCapability(Capabilities.ENERGY_CAPABILITY).isPresent()) {
 
             CraftleEnergyStorage container = (CraftleEnergyStorage) items
                 .orElse(CraftleEnergyStorage.EMPTY_IE);
 
-            if (container.getMaxEnergyStored() > 0) {
-                return ((double) container.getEnergyStored()) / ((double) container
-                    .getMaxEnergyStored());
+            if (container.getCapacity() > 0) {
+                return container.getEnergy() / container.getCapacity();
             }
         }
 

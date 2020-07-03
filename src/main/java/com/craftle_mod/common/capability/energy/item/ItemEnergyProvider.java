@@ -1,5 +1,6 @@
 package com.craftle_mod.common.capability.energy.item;
 
+import com.craftle_mod.common.capability.Capabilities;
 import com.craftle_mod.common.capability.energy.CraftleEnergyStorage;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import javax.annotation.Nonnull;
@@ -10,7 +11,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
 
 public class ItemEnergyProvider implements ICapabilityProvider, INBTSerializable<CompoundNBT> {
 
@@ -24,7 +24,7 @@ public class ItemEnergyProvider implements ICapabilityProvider, INBTSerializable
 
 
     public boolean hasCapability(Capability<?> capability) {
-        return capability == CapabilityEnergy.ENERGY;
+        return capability == Capabilities.ENERGY_CAPABILITY;
     }
 
     @Nonnull
@@ -54,13 +54,13 @@ public class ItemEnergyProvider implements ICapabilityProvider, INBTSerializable
     public CompoundNBT serializeNBT() {
         CompoundNBT compound = new CompoundNBT();
 
-        this.energyContainer.writeToNBT(compound);
+        this.energyContainer.serializeNBT(compound);
 
         return compound;
     }
 
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
-        this.getEnergyContainer().readFromNBT(nbt);
+        this.getEnergyContainer().deserializeNBT(nbt);
     }
 }

@@ -9,7 +9,6 @@ import com.craftle_mod.common.registries.CraftleContainerTypes;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
-import com.craftle_mod.common.util.EnergyUtils;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.entity.player.PlayerInventory;
@@ -132,15 +131,17 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
 
     @Override
     protected void tickServer() {
+        /*
         // emit energy
-        if (getEnergyContainer().getEnergyStored() > 0) {
+        if (getEnergyContainer().getEnergy() > 0) {
             EnergyUtils
                 .emitEnergy(getEnergyContainer(), this, getEnergyContainer().getMaxExtract());
         }
+         */
 
         // burn fuel
-        boolean notFilled = this.getEnergyContainer().getEnergyStored() < this.getEnergyContainer()
-            .getMaxEnergyStored();
+        boolean notFilled =
+            this.getEnergyContainer().getEnergy() < this.getEnergyContainer().getCapacity();
 
         if (notFilled) {
 
@@ -153,11 +154,11 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
 
                     int energyToBuffer = getFuelValue(stack);
                     this.addToBufferedEnergy(energyToBuffer);
-                    if (energyToBuffer > this.getEnergyContainer().getMaxReceive()) {
-                        this.setEnergyReceive(this.getEnergyContainer().getMaxReceive());
+                    if (energyToBuffer > this.getEnergyContainer().getMaxInjectRate()) {
+                        this.setEnergyReceive(this.getEnergyContainer().getMaxInjectRate());
                         this.burnTime = (int) Math.ceil(
                             (float) energyToBuffer / (float) this.getEnergyContainer()
-                                .getMaxReceive())
+                                .getMaxInjectRate())
                             * TileEntityConstants.COAL_GENERATOR_BURN_MULTIPLIER;
                         this.totalBurnTime = this.burnTime;
                     } else {
@@ -175,6 +176,8 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
                 }
 
             }
+//            Craftle.logInfo("Coal Generator server: %f %f", this.getEnergyContainer().getEnergy(),
+//                this.getBufferedEnergy());
         }
 
         if (!notFilled) {
@@ -185,18 +188,25 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
             this.totalBurnTime = 0;
             this.markDirty();
         }
+
+        if (burnTime > 0) {
+            this.markTileDirty();
+        }
     }
 
     @Override
     protected void tickClient() {
-        // client side changed
+
+//        Craftle.logInfo("Coal Generator client: %f %f", this.getEnergyContainer().getEnergy(),
+//            this.getBufferedEnergy());
+
     }
 
     private void burn() {
         burnTime--;
         if (burnTime % TileEntityConstants.COAL_GENERATOR_BURN_MULTIPLIER == 0) {
-            int energyToIncrement = this.getEnergyReceive();
-            this.getEnergyContainer().receiveEnergy(energyToIncrement);
+            double energyToIncrement = this.getEnergyReceive();
+            this.getEnergyContainer().injectEnergy(energyToIncrement);
             this.decrementBufferedEnergy(energyToIncrement);
 
             if (this.getBufferedEnergy() < this.getEnergyReceive()) {

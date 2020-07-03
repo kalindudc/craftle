@@ -140,7 +140,12 @@ public class CrusherTileEntity extends PoweredMachineTileEntity implements ISide
     }
 
     @Override
-    public void tick() {
+    public void tickServer() {
+
+    }
+
+    @Override
+    public void tickClient() {
 
     }
 

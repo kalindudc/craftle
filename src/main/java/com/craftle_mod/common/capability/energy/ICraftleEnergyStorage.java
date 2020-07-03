@@ -125,12 +125,26 @@ public interface ICraftleEnergyStorage extends INBTSerializable<CompoundNBT> {
     default CompoundNBT serializeNBT() {
         CompoundNBT comp = new CompoundNBT();
 
+        serializeNBT(comp);
+
+        return comp;
+    }
+
+    default boolean canExtract() {
+        return getMaxExtractRate() > 0 && !isEmpty();
+    }
+
+    default boolean canInject() {
+        return getMaxInjectRate() > 0 && !isFilled();
+    }
+
+    default void serializeNBT(CompoundNBT comp) {
+
         comp.putDouble(NBTConstants.ENERGY_STORED, getEnergy());
         comp.putDouble(NBTConstants.ENERGY_CAPACITY, getCapacity());
         comp.putDouble(NBTConstants.ENERGY_MAX_EXTRACT, getMaxExtractRate());
         comp.putDouble(NBTConstants.ENERGY_MAX_INJECT, getMaxInjectRate());
 
-        return comp;
     }
 
 }
