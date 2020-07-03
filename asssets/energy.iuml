@@ -1,0 +1,37 @@
+@startuml
+
+component cables
+note left
+    Operations...
+    * Emit to surrounding
+    * Possibly also absorb and buffer / tick (experimental)
+end note
+
+component generators
+note left
+    Operations...
+    * Produce energy
+    * Emit energy to surrounding
+end note
+
+component containers
+note left
+    Operations...
+    * Emit any available energy to valid surrounding blocks
+end note
+
+component machines
+note left
+    Operations...
+    * Use energy in container
+end note
+
+cables --> containers : emit
+
+cables --> machines : emit
+cables <.. generators : absorb?
+
+generators --> containers : emit
+containers --> machines : emit
+
+@enduml
