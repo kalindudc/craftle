@@ -1,6 +1,6 @@
 {
-    "textures": {
-        "all": "craftle:block/block/tin"
-    },
-    "parent": "block/cube_all"
+  "textures": {
+    "all": "craftle:block/block/tin"
+  },
+  "parent": "block/cube_all"
 }

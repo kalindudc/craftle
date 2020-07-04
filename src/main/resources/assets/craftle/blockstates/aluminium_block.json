@@ -1,7 +1,7 @@
 {
-    "variants": {
-        "": {
-            "model": "craftle:block/block/aluminium"
-        }
+  "variants": {
+    "": {
+      "model": "craftle:block/block/aluminium"
     }
+  }
 }

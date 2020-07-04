@@ -1,7 +1,7 @@
 {
-    "variants": {
-        "": {
-            "model": "craftle:block/ore/tin"
-        }
+  "variants": {
+    "": {
+      "model": "craftle:block/ore/tin"
     }
+  }
 }

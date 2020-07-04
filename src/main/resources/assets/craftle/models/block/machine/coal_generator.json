@@ -1,8 +1,8 @@
 {
-    "textures": {
-        "front": "craftle:block/machine/coal_generator/front",
-        "top": "craftle:block/machine/coal_generator/top",
-        "side": "craftle:block/machine/coal_generator/side"
-    },
-    "parent": "block/orientable"
+  "textures": {
+    "front": "craftle:block/machine/coal_generator/front",
+    "top": "craftle:block/machine/coal_generator/top",
+    "side": "craftle:block/machine/coal_generator/side"
+  },
+  "parent": "block/orientable"
 }

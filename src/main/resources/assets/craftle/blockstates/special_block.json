@@ -1,19 +1,19 @@
 {
-    "variants": {
-        "facing=north": {
-            "model": "craftle:block/special_block"
-        },
-        "facing=south": {
-            "model": "craftle:block/special_block",
-            "y": 180
-        },
-        "facing=west": {
-            "model": "craftle:block/special_block",
-            "y": 270
-        },
-        "facing=east": {
-            "model": "craftle:block/special_block",
-            "y": 90
-        }
+  "variants": {
+    "facing=north": {
+      "model": "craftle:block/special_block"
+    },
+    "facing=south": {
+      "model": "craftle:block/special_block",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "craftle:block/special_block",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "craftle:block/special_block",
+      "y": 90
     }
+  }
 }

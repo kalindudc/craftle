@@ -1,6 +1,6 @@
 {
-    "parent": "block/fence_post",
-    "textures": {
-        "texture": "craftle:block/test_ore"
-    }
+  "parent": "block/fence_post",
+  "textures": {
+    "texture": "craftle:block/test_ore"
+  }
 }
