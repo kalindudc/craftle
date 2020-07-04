@@ -21,6 +21,7 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
@@ -28,6 +29,35 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
+
+    protected final IIntArray furnaceData = new IIntArray() {
+        public int get(int index) {
+            switch (index) {
+                case 0:
+                    return CoalGeneratorTileEntity.this.burnTime;
+                case 1:
+                    return CoalGeneratorTileEntity.this.totalBurnTime;
+                default:
+                    return 0;
+            }
+        }
+
+        public void set(int index, int value) {
+            switch (index) {
+                case 0:
+                    CoalGeneratorTileEntity.this.burnTime = value;
+                    break;
+                case 1:
+                    CoalGeneratorTileEntity.this.totalBurnTime = value;
+                    break;
+            }
+
+        }
+
+        public int size() {
+            return 2;
+        }
+    };
 
     private int burnTime;
     private int totalBurnTime;
@@ -76,7 +106,7 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
     public Container createMenu(int id, @Nonnull PlayerInventory player) {
 
         return new CoalGeneratorContainer(CraftleContainerTypes.COAL_GENERATOR.get(), id, player,
-            this);
+            this, furnaceData);
     }
 
     public int getBurnTime() {
@@ -121,13 +151,6 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
     @Override
     public ITextComponent getDisplayName() {
         return new TranslationTextComponent(TagConstants.COAL_GENERATOR);
-    }
-
-    public int getBurnPercentage() {
-        if (burnTime == 0 || totalBurnTime == 0) {
-            return 0;
-        }
-        return 100 - (int) ((((float) this.burnTime) / ((float) this.totalBurnTime)) * 100);
     }
 
     @Override

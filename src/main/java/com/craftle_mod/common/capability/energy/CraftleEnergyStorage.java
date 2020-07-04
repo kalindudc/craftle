@@ -15,28 +15,28 @@ public class CraftleEnergyStorage implements ICraftleEnergyStorage {
     public static ICraftleEnergyStorage EMPTY_IE = new CraftleEnergyStorage(0,
         CraftleBaseTier.BASIC);
 
-    private final CraftleBaseTier tier;
+    private CraftleBaseTier tier;
 
     private double energyStored;
     private double capacity;
     private double maxExtract;
     private double maxInject;
 
-    public CraftleEnergyStorage(int capacity, CraftleBaseTier tier) {
+    public CraftleEnergyStorage(double capacity, CraftleBaseTier tier) {
         this(capacity, capacity, capacity, 0, tier);
     }
 
-    public CraftleEnergyStorage(int capacity, int maxTransfer, CraftleBaseTier tier) {
+    public CraftleEnergyStorage(double capacity, double maxTransfer, CraftleBaseTier tier) {
         this(capacity, maxTransfer, maxTransfer, 0, tier);
     }
 
-    public CraftleEnergyStorage(int capacity, int maxReceive, int maxExtract,
+    public CraftleEnergyStorage(double capacity, double maxInject, double maxExtract,
         CraftleBaseTier tier) {
-        this(capacity, maxReceive, maxExtract, 0, tier);
+        this(capacity, maxInject, maxExtract, 0, tier);
     }
 
-    public CraftleEnergyStorage(int capacity, int maxInject, int maxExtract, int energyStored,
-        CraftleBaseTier tier) {
+    public CraftleEnergyStorage(double capacity, double maxInject, double maxExtract,
+        double energyStored, CraftleBaseTier tier) {
 
         this.energyStored = tier.equals(CraftleBaseTier.UNLIMITED) ? capacity : energyStored;
         this.capacity = capacity;
@@ -168,5 +168,24 @@ public class CraftleEnergyStorage implements ICraftleEnergyStorage {
         return "CraftleEnergyStorage{" + "tier=" + tier + ", energyStored=" + energyStored
             + ", capacity=" + capacity + ", maxExtract=" + maxExtract + ", maxInject=" + maxInject
             + '}';
+    }
+
+    @Override
+    public CraftleBaseTier getTier() {
+        return tier;
+    }
+
+    @Override
+    public void copyFrom(ICraftleEnergyStorage storage) {
+        this.energyStored = storage.getEnergy();
+        this.capacity = storage.getCapacity();
+        this.maxExtract = storage.getMaxExtractRate();
+        this.maxInject = storage.getMaxInjectRate();
+        this.tier = storage.getTier();
+    }
+
+    @Override
+    public ICraftleEnergyStorage copy() {
+        return new CraftleEnergyStorage(capacity, maxInject, maxExtract, energyStored, tier);
     }
 }

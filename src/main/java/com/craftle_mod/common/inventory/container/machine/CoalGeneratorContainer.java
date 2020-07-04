@@ -10,26 +10,41 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.IntArray;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class CoalGeneratorContainer extends EnergyContainer {
 
 
+    private final IIntArray generatorData;
+
     public CoalGeneratorContainer(ContainerType<?> container, int windowId,
-        PlayerInventory playerInventory, PoweredMachineTileEntity entity) {
+        PlayerInventory playerInventory, PoweredMachineTileEntity entity,
+        IIntArray generatorDataIn) {
         super(container, windowId, playerInventory, entity);
         initSlots();
+        generatorData = generatorDataIn;
+
+        this.trackIntArray(generatorDataIn);
     }
 
     public CoalGeneratorContainer(ContainerType<?> container, int windowId,
-        PlayerInventory playerInventory, PacketBuffer data) {
+        PlayerInventory playerInventory, PacketBuffer data, IIntArray generatorDataIn) {
         super(container, windowId, playerInventory, data);
         initSlots();
+        generatorData = generatorDataIn;
+
+        this.trackIntArray(generatorDataIn);
     }
 
     public CoalGeneratorContainer(int windowId, PlayerInventory playerInventory,
         PacketBuffer packetBuffer) {
-        this(CraftleContainerTypes.COAL_GENERATOR.get(), windowId, playerInventory, packetBuffer);
+        this(CraftleContainerTypes.COAL_GENERATOR.get(), windowId, playerInventory, packetBuffer,
+            new IntArray(2));
     }
+
 
     @Override
     public void initSlots() {
@@ -52,5 +67,14 @@ public class CoalGeneratorContainer extends EnergyContainer {
 
         return isWithinUsableDistance(getCanInteractWithCallable(), playerIn,
             CraftleBlocks.COAL_GENERATOR.get());
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public int getBurnPercentage() {
+        if (generatorData.get(0) == 0 || generatorData.get(1) == 0) {
+            return 0;
+        }
+        return 100 - (int) ((((float) generatorData.get(0)) / ((float) generatorData.get(1)))
+            * 100);
     }
 }

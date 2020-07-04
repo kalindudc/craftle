@@ -43,7 +43,7 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 
-        Craftle.logInfo("Screen: %f %f %f", this.getContainer().getEnergy(),
+        Craftle.logInfo("Screen: %f %f %f", this.getContainer().getEnergyContainer().getEnergy(),
             entity.getEnergyContainer().getEnergy(), storage.getEnergy());
 
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
@@ -60,7 +60,7 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         double capacity = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
             this.entity.getEnergyContainer().getCapacity());
 
-        int burnPercentage = this.entity.getBurnPercentage();
+        int burnPercentage = this.getContainer().getBurnPercentage();
 
         double input;
         double output = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
@@ -113,7 +113,7 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         double energy = this.entity.getEnergyContainer().getEnergy();
         double maxEnergy = this.entity.getEnergyContainer().getCapacity();
 
-        float burnPercent = this.entity.getBurnPercentage();
+        float burnPercent = this.getContainer().getBurnPercentage();
         float energyPercent = ((float) energy) / ((float) maxEnergy);
 
         int textureX;

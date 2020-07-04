@@ -1,6 +1,7 @@
 package com.craftle_mod.common.capability.energy;
 
 import com.craftle_mod.api.NBTConstants;
+import com.craftle_mod.common.tier.CraftleBaseTier;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -33,6 +34,13 @@ public interface ICraftleEnergyStorage extends INBTSerializable<CompoundNBT> {
      * @return the maximum extraction rate of this container. Extraction rate will always be >= 0.
      */
     double getMaxExtractRate();
+
+    /**
+     * Returns the craftle tier of this container
+     *
+     * @return the craftle tier of this container.
+     */
+    CraftleBaseTier getTier();
 
     /**
      * Returns the total energy required to fill this container.
@@ -147,4 +155,7 @@ public interface ICraftleEnergyStorage extends INBTSerializable<CompoundNBT> {
 
     }
 
+    void copyFrom(ICraftleEnergyStorage storage);
+
+    ICraftleEnergyStorage copy();
 }
