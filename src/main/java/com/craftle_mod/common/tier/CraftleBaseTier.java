@@ -15,6 +15,23 @@ public enum CraftleBaseTier {
         this.formattedName = formattedName;
     }
 
+    public static CraftleBaseTier fromString(String readString) {
+        switch (readString) {
+            case "tier_1":
+                return TIER_1;
+            case "tier_2":
+                return TIER_2;
+            case "tier_3":
+                return TIER_3;
+            case "tier_4":
+                return TIER_4;
+            case "unlimited":
+                return UNLIMITED;
+            default:
+                return BASIC;
+        }
+    }
+
     public String getTier() {
         return tier;
     }

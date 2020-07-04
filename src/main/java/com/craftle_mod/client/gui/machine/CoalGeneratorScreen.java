@@ -1,7 +1,6 @@
 package com.craftle_mod.client.gui.machine;
 
 import com.craftle_mod.api.GUIConstants;
-import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.capability.energy.ICraftleEnergyStorage;
 import com.craftle_mod.common.inventory.container.machine.CoalGeneratorContainer;
 import com.craftle_mod.common.tile.machine.CoalGeneratorTileEntity;
@@ -43,8 +42,8 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 
-        Craftle.logInfo("Screen: %f %f %f", this.getContainer().getEnergyContainer().getEnergy(),
-            entity.getEnergyContainer().getEnergy(), storage.getEnergy());
+//        Craftle.logInfo("Screen: %f %f %f", this.getContainer().getEnergyContainer().getEnergy(),
+//            entity.getEnergyContainer().getEnergy(), storage.getEnergy());
 
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
@@ -56,9 +55,9 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         String unit = EnergyUtils.getUnitForTierItem(this.entity.getCraftleMachineTier());
 
         double energy = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyContainer().getEnergy());
+            this.getContainer().getEnergyContainer().getEnergy());
         double capacity = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyContainer().getCapacity());
+            this.getContainer().getEnergyContainer().getCapacity());
 
         int burnPercentage = this.getContainer().getBurnPercentage();
 
@@ -110,8 +109,8 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         this.blit(x, y, 0, 0, this.xSize, this.ySize);
 
         // draw the animations and other things
-        double energy = this.entity.getEnergyContainer().getEnergy();
-        double maxEnergy = this.entity.getEnergyContainer().getCapacity();
+        double energy = this.getContainer().getEnergyContainer().getEnergy();
+        double maxEnergy = this.getContainer().getEnergyContainer().getCapacity();
 
         float burnPercent = this.getContainer().getBurnPercentage();
         float energyPercent = ((float) energy) / ((float) maxEnergy);

@@ -1,6 +1,8 @@
 package com.craftle_mod.common;
 
 import com.craftle_mod.common.capability.Capabilities;
+import com.craftle_mod.common.lib.Version;
+import com.craftle_mod.common.network.PacketHandler;
 import com.craftle_mod.common.registries.CraftleBiomes;
 import com.craftle_mod.common.registries.CraftleBlocks;
 import com.craftle_mod.common.registries.CraftleContainerTypes;
@@ -13,6 +15,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -29,11 +32,15 @@ public class Craftle {
     public static final String MODID = "craftle";
     public static final String MOD_VERSION = "0.0.1.0";
 
+    public static final PacketHandler packetHandler = new PacketHandler();
+
     public static final Logger LOGGER = LogManager.getLogger(Craftle.MODID);
     public static final ResourceLocation TEST_DIM_TYPE = new ResourceLocation(MODID,
         "test_dimension");
 
     private static Craftle instance;
+
+    private final Version version;
 
     public Craftle() {
 
@@ -50,11 +57,18 @@ public class Craftle {
         CraftleBiomes.BIOMES.register(craftleEventBus);
         CraftleDimensions.DIMENSIONS.register(craftleEventBus);
 
+        version = new Version(
+            ModLoadingContext.get().getActiveContainer().getModInfo().getVersion());
+
         instance = this;
 
     }
 
-    private static Craftle getInstance() {
+    public Version getVersion() {
+        return version;
+    }
+
+    public static Craftle getInstance() {
         return instance;
     }
 
@@ -65,6 +79,9 @@ public class Craftle {
         OreGenHandler.generateOre();
 
         MinecraftForge.EVENT_BUS.register(this);
+
+        // packet handler
+        packetHandler.init();
 
         logInfo("Craftle loaded..");
     }
