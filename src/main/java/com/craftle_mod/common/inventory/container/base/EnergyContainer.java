@@ -35,10 +35,7 @@ public abstract class EnergyContainer extends CraftleContainer {
         this.storage = ((PoweredMachineTileEntity) getEntity()).getEnergyContainer().copy();
     }
 
-    @Override
-    public void detectAndSendChanges() {
-        super.detectAndSendChanges();
-
+    private void synchronizeEnergyContainer() {
         if (!listeners.isEmpty() && this.getEntity() instanceof PoweredMachineTileEntity) {
 
             ICraftleEnergyStorage container = ((PoweredMachineTileEntity) this.getEntity())
@@ -54,6 +51,12 @@ public abstract class EnergyContainer extends CraftleContainer {
         }
     }
 
+    @Override
+    public void detectAndSendChanges() {
+        super.detectAndSendChanges();
+        synchronizeEnergyContainer();
+    }
+
     private void sendPacket(EnergyContainerUpdatePacket packet) {
         for (IContainerListener listener : listeners) {
             if (listener instanceof ServerPlayerEntity) {
@@ -64,6 +67,7 @@ public abstract class EnergyContainer extends CraftleContainer {
 
     public void handlePacket(ICraftleEnergyStorage data) {
         storage.copyFrom(data);
+        ((PoweredMachineTileEntity) this.getEntity()).synchronizeEnergyContainer(storage);
     }
 
     @OnlyIn(Dist.CLIENT)

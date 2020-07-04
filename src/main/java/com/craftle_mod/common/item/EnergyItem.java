@@ -2,6 +2,8 @@ package com.craftle_mod.common.item;
 
 import com.craftle_mod.api.ItemConstants;
 import com.craftle_mod.client.util.handler.CraftleKeyHandler;
+import com.craftle_mod.common.Craftle;
+import com.craftle_mod.common.capability.Capabilities;
 import com.craftle_mod.common.capability.energy.item.ItemEnergyProvider;
 import com.craftle_mod.common.item.base.CraftleItem;
 import com.craftle_mod.common.tier.CraftleBaseTier;
@@ -74,7 +76,7 @@ public class EnergyItem extends CraftleItem {
     public ActionResult<ItemStack> onItemRightClick(@Nonnull World worldIn,
         @Nonnull PlayerEntity playerIn, @Nonnull Hand handIn) {
         // TODO: use on armor
-
+        Craftle.logInfo("Durability: %f", getDurabilityForDisplay(playerIn.getHeldItem(handIn)));
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 
@@ -107,5 +109,31 @@ public class EnergyItem extends CraftleItem {
             tier.equals(CraftleBaseTier.UNLIMITED) ? maxCapacity : 0, tier);
     }
 
+    @Override
+    public boolean shouldSyncTag() {
+        return true;
+    }
 
+    @Nullable
+    @Override
+    public CompoundNBT getShareTag(ItemStack stack) {
+        CompoundNBT compound = stack.getOrCreateTag();
+
+        stack.getCapability(Capabilities.ENERGY_CAPABILITY).ifPresent(handler -> {
+            handler.serializeNBT(compound);
+        });
+
+        return compound;
+    }
+
+    @Override
+    public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
+        super.readShareTag(stack, nbt);
+
+        if (nbt != null) {
+            stack.getCapability(Capabilities.ENERGY_CAPABILITY).ifPresent(handler -> {
+                handler.deserializeNBT(nbt);
+            });
+        }
+    }
 }

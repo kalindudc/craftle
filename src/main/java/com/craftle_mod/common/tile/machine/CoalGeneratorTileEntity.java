@@ -179,14 +179,14 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
                     int energyToBuffer = getFuelValue(stack);
                     this.addToBufferedEnergy(energyToBuffer);
                     if (energyToBuffer > this.getEnergyContainer().getMaxInjectRate()) {
-                        this.setEnergyReceive(this.getEnergyContainer().getMaxInjectRate());
+                        this.setEnergyInjectRate(this.getEnergyContainer().getMaxInjectRate());
                         this.burnTime = (int) Math.ceil(
                             (float) energyToBuffer / (float) this.getEnergyContainer()
                                 .getMaxInjectRate())
                             * TileEntityConstants.COAL_GENERATOR_BURN_MULTIPLIER;
                         this.totalBurnTime = this.burnTime;
                     } else {
-                        this.setEnergyReceive(energyToBuffer);
+                        this.setEnergyInjectRate(energyToBuffer);
                         this.burnTime = 1;
                         this.totalBurnTime = 1;
                     }
@@ -229,12 +229,12 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
     private void burn() {
         burnTime--;
         if (burnTime % TileEntityConstants.COAL_GENERATOR_BURN_MULTIPLIER == 0) {
-            double energyToIncrement = this.getEnergyReceive();
+            double energyToIncrement = this.getEnergyInjectRate();
             this.getEnergyContainer().injectEnergy(energyToIncrement);
             this.decrementBufferedEnergy(energyToIncrement);
 
-            if (this.getBufferedEnergy() < this.getEnergyReceive()) {
-                this.setEnergyReceive(this.getBufferedEnergy());
+            if (this.getBufferedEnergy() < this.getEnergyInjectRate()) {
+                this.setEnergyInjectRate(this.getBufferedEnergy());
             }
             super.setBlockActive(true);
         }

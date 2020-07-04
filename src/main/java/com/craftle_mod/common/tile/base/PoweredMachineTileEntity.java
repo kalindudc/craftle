@@ -4,6 +4,7 @@ import com.craftle_mod.api.NBTConstants;
 import com.craftle_mod.common.block.base.ActiveBlockBase;
 import com.craftle_mod.common.capability.Capabilities;
 import com.craftle_mod.common.capability.energy.CraftleEnergyStorage;
+import com.craftle_mod.common.capability.energy.ICraftleEnergyStorage;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import java.util.Objects;
@@ -35,8 +36,8 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
 
     protected boolean active;
     private double bufferedEnergy;
-    private double energyReceive;
-    private double energyExtract;
+    private double energyInjectRate;
+    private double energyExtractRate;
 
     public PoweredMachineTileEntity(TileEntityType<?> typeIn,
         IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier) {
@@ -73,7 +74,7 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
 
     public void resetBufferedEnergy() {
         this.bufferedEnergy = 0;
-        this.setEnergyReceive(0);
+        this.setEnergyInjectRate(0);
     }
 
     public void setBufferedEnergy(double energy) {
@@ -95,24 +96,24 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
     private void init() {
         active = false;
         bufferedEnergy = 0;
-        energyReceive = 0;
-        energyExtract = 0;
+        energyInjectRate = 0;
+        energyExtractRate = 0;
     }
 
-    public double getEnergyReceive() {
-        return energyReceive;
+    public double getEnergyInjectRate() {
+        return energyInjectRate;
     }
 
-    public void setEnergyReceive(double energyReceive) {
-        this.energyReceive = energyReceive;
+    public void setEnergyInjectRate(double energyInjectRate) {
+        this.energyInjectRate = energyInjectRate;
     }
 
-    public double getEnergyExtract() {
-        return energyExtract;
+    public double getEnergyExtractRate() {
+        return energyExtractRate;
     }
 
-    public void setEnergyExtract(double energyExtract) {
-        this.energyExtract = energyExtract;
+    public void setEnergyExtractRate(double energyExtractRate) {
+        this.energyExtractRate = energyExtractRate;
     }
 
     public void setBlockActive(boolean b) {
@@ -199,8 +200,8 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
     @Override
     public String toString() {
         return "PoweredMachineTileEntity{" + "energyContainer=" + energyContainer + ", active="
-            + active + ", bufferedEnergy=" + bufferedEnergy + ", energyReceive=" + energyReceive
-            + ", energyExtract=" + energyExtract + "super=" + super.toString() + '}';
+            + active + ", bufferedEnergy=" + bufferedEnergy + ", energyReceive=" + energyInjectRate
+            + ", energyExtract=" + energyExtractRate + "super=" + super.toString() + '}';
     }
 
     @Override
@@ -216,15 +217,19 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
         }
         PoweredMachineTileEntity that = (PoweredMachineTileEntity) o;
         return active == that.active && Double.compare(that.bufferedEnergy, bufferedEnergy) == 0
-            && Double.compare(that.energyReceive, energyReceive) == 0
-            && Double.compare(that.energyExtract, energyExtract) == 0 && Objects
+            && Double.compare(that.energyInjectRate, energyInjectRate) == 0
+            && Double.compare(that.energyExtractRate, energyExtractRate) == 0 && Objects
             .equals(energyContainer, that.energyContainer);
     }
 
     @Override
     public int hashCode() {
         return Objects
-            .hash(super.hashCode(), energyContainer, active, bufferedEnergy, energyReceive,
-                energyExtract);
+            .hash(super.hashCode(), energyContainer, active, bufferedEnergy, energyInjectRate,
+                energyExtractRate);
+    }
+
+    public void synchronizeEnergyContainer(ICraftleEnergyStorage storage) {
+        this.energyContainer.copyFrom(storage);
     }
 }

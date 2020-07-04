@@ -1,7 +1,6 @@
 package com.craftle_mod.common.tile.storage.energy_matrix;
 
 import com.craftle_mod.api.TagConstants;
-import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.capability.Capabilities;
 import com.craftle_mod.common.capability.energy.CraftleEnergyStorage;
 import com.craftle_mod.common.capability.energy.ICraftleEnergyStorage;
@@ -35,8 +34,6 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
-
-    private static final boolean DEBUG = true;
 
     public EnergyMatrixTileEntity(TileEntityType<?> typeIn,
         IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier,
@@ -188,13 +185,9 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
             energyExtract += extracted;
         }
 
-        this.setEnergyExtract(energyExtract);
-        this.setEnergyReceive(energyReceive);
+        this.setEnergyExtractRate(energyExtract);
+        this.setEnergyInjectRate(energyReceive);
 
-        if (DEBUG) {
-            Craftle.logInfo("Energy Matrix: %f %f", this.getEnergyContainer().getEnergy(),
-                this.getBufferedEnergy());
-        }
     }
 
     @Override

@@ -47,7 +47,7 @@ public class WorkBenchScreen extends ContainerScreen<WorkBenchContainer> {
             this.entity.getEnergyContainer().getEnergy());
 
         double input = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyReceive());
+            this.entity.getEnergyInjectRate());
         double capacity = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
             this.entity.getEnergyContainer().getCapacity());
 

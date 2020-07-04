@@ -63,13 +63,13 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
 
         double input;
         double output = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-            this.entity.getEnergyExtract());
+            this.entity.getEnergyExtractRate());
 
         if (burnPercentage == 0 || burnPercentage >= 100) {
             input = 0;
         } else {
             input = EnergyUtils.getJoulesForTierItem(this.entity.getCraftleMachineTier(),
-                this.entity.getEnergyReceive());
+                this.entity.getEnergyInjectRate());
         }
 
         this.font.drawString("Energy: ", 10.0f, 48.0f, 6805014);

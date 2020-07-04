@@ -54,6 +54,13 @@ public class ItemEnergyProvider implements ICapabilityProvider, INBTSerializable
     public CompoundNBT serializeNBT() {
         CompoundNBT compound = new CompoundNBT();
 
+        serializeNBT(compound);
+
+        return compound;
+    }
+
+    public CompoundNBT serializeNBT(CompoundNBT compound) {
+
         this.energyContainer.serializeNBT(compound);
 
         return compound;
