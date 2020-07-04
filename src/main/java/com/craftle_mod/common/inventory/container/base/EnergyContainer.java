@@ -2,6 +2,7 @@ package com.craftle_mod.common.inventory.container.base;
 
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.capability.energy.ICraftleEnergyStorage;
+import com.craftle_mod.common.network.packet.EnergyContainerCreatePacket;
 import com.craftle_mod.common.network.packet.EnergyContainerUpdatePacket;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -21,7 +22,8 @@ public abstract class EnergyContainer extends CraftleContainer {
         PlayerInventory playerInventory, PoweredMachineTileEntity entity) {
         super(container, windowId, playerInventory, entity);
 
-        storage = entity.getEnergyContainer().copy();
+        storage = ((PoweredMachineTileEntity) getEntity()).getEnergyContainer().copy();
+        sendPacketToClient(new EnergyContainerUpdatePacket(this.windowId, this.storage));
     }
 
     public EnergyContainer(ContainerType<?> container, int windowId,
@@ -35,7 +37,16 @@ public abstract class EnergyContainer extends CraftleContainer {
         this.storage = ((PoweredMachineTileEntity) getEntity()).getEnergyContainer().copy();
     }
 
-    private void synchronizeEnergyContainer() {
+    @Override
+    public void init() {
+        super.init();
+        Craftle.logInfo("Sending packet to server: energy container");
+        sendPacketToServer(new EnergyContainerCreatePacket(windowId, getEntity().getPos()));
+    }
+
+    @Override
+    public void detectAndSendChanges() {
+        super.detectAndSendChanges();
         if (!listeners.isEmpty() && this.getEntity() instanceof PoweredMachineTileEntity) {
 
             ICraftleEnergyStorage container = ((PoweredMachineTileEntity) this.getEntity())
@@ -46,23 +57,21 @@ public abstract class EnergyContainer extends CraftleContainer {
                 this.storage.copyFrom(container);
 
                 // send packet to listener
-                sendPacket(new EnergyContainerUpdatePacket(this.windowId, this.storage));
+                sendPacketToClient(new EnergyContainerUpdatePacket(this.windowId, this.storage));
             }
         }
     }
 
-    @Override
-    public void detectAndSendChanges() {
-        super.detectAndSendChanges();
-        synchronizeEnergyContainer();
-    }
-
-    private void sendPacket(EnergyContainerUpdatePacket packet) {
+    private void sendPacketToClient(EnergyContainerUpdatePacket packet) {
         for (IContainerListener listener : listeners) {
             if (listener instanceof ServerPlayerEntity) {
                 Craftle.packetHandler.sendToClient(packet, (ServerPlayerEntity) listener);
             }
         }
+    }
+
+    private void sendPacketToServer(EnergyContainerCreatePacket packet) {
+        Craftle.packetHandler.sendToServer(packet);
     }
 
     public void handlePacket(ICraftleEnergyStorage data) {

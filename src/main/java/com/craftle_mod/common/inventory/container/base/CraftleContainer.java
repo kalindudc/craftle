@@ -32,7 +32,11 @@ public abstract class CraftleContainer extends Container {
             .of(Objects.requireNonNull(entity.getWorld()), entity.getPos());
         this.world = entity.getWorld();
         worldPosCallable = IWorldPosCallable.of(this.getWorld(), entity.getPos());
+        init();
 
+    }
+
+    public void init() {
     }
 
     public CraftleContainer(ContainerType<?> container, final int windowId,
