@@ -1,16 +1,16 @@
 {
-    "pattern": [
-        "xxx",
-        "xxx",
-        "xxx"
-    ],
-    "type": "minecraft:crafting_shaped",
-    "result": {
-        "item": "craftle:copper_block"
-    },
-    "key": {
-        "x": {
-            "item": "craftle:copper_ingot"
-        }
+  "pattern": [
+    "xxx",
+    "xxx",
+    "xxx"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "result": {
+    "item": "craftle:copper_block"
+  },
+  "key": {
+    "x": {
+      "item": "craftle:copper_ingot"
     }
+  }
 }

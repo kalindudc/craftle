@@ -1,16 +1,16 @@
 {
-    "pattern": [
-        "xxx",
-        "xxx",
-        "xxx"
-    ],
-    "type": "minecraft:crafting_shaped",
-    "result": {
-        "item": "craftle:steel_block"
-    },
-    "key": {
-        "x": {
-            "item": "craftle:steel_ingot"
-        }
+  "pattern": [
+    "xxx",
+    "xxx",
+    "xxx"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "result": {
+    "item": "craftle:steel_block"
+  },
+  "key": {
+    "x": {
+      "item": "craftle:steel_ingot"
     }
+  }
 }

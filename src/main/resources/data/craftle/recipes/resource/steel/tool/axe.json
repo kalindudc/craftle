@@ -1,19 +1,19 @@
 {
-    "pattern": [
-        "xx",
-        "xy",
-        " y"
-    ],
-    "type": "minecraft:crafting_shaped",
-    "result": {
-        "item": "craftle:steel_axe"
+  "pattern": [
+    "xx",
+    "xy",
+    " y"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "result": {
+    "item": "craftle:steel_axe"
+  },
+  "key": {
+    "y": {
+      "tag": "forge:rods/wooden"
     },
-    "key": {
-        "y": {
-            "tag": "forge:rods/wooden"
-        },
-        "x": {
-            "tag": "forge:ingots/steel"
-        }
+    "x": {
+      "tag": "forge:ingots/steel"
     }
+  }
 }

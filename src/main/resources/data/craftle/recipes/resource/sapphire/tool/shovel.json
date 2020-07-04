@@ -1,19 +1,19 @@
 {
-    "pattern": [
-        "x",
-        "y",
-        "y"
-    ],
-    "type": "minecraft:crafting_shaped",
-    "result": {
-        "item": "craftle:sapphire_shovel"
+  "pattern": [
+    "x",
+    "y",
+    "y"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "result": {
+    "item": "craftle:sapphire_shovel"
+  },
+  "key": {
+    "y": {
+      "tag": "forge:rods/wooden"
     },
-    "key": {
-        "y": {
-            "tag": "forge:rods/wooden"
-        },
-        "x": {
-            "tag": "forge:ingots/sapphire"
-        }
+    "x": {
+      "tag": "forge:ingots/sapphire"
     }
+  }
 }

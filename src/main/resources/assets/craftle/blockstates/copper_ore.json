@@ -1,7 +1,7 @@
 {
-    "variants": {
-        "": {
-            "model": "craftle:block/ore/copper"
-        }
+  "variants": {
+    "": {
+      "model": "craftle:block/ore/copper"
     }
+  }
 }

@@ -1,6 +1,6 @@
 {
-    "replace": false,
-    "values": [
-        "craftle:test_ingot"
-    ]
+  "replace": false,
+  "values": [
+    "craftle:test_ingot"
+  ]
 }

@@ -1,6 +1,6 @@
 {
-    "textures": {
-        "layer0": "craftle:item/motor_tier_2"
-    },
-    "parent": "item/generated"
+  "textures": {
+    "layer0": "craftle:item/motor_tier_2"
+  },
+  "parent": "item/generated"
 }

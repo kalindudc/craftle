@@ -1,6 +1,6 @@
 {
-    "textures": {
-        "layer0": "craftle:item/ruby_pickaxe"
-    },
-    "parent": "item/handheld"
+  "textures": {
+    "layer0": "craftle:item/ruby_pickaxe"
+  },
+  "parent": "item/handheld"
 }

@@ -1,6 +1,6 @@
 {
-    "textures": {
-        "layer0": "craftle:item/copper_dust"
-    },
-    "parent": "item/generated"
+  "textures": {
+    "layer0": "craftle:item/copper_dust"
+  },
+  "parent": "item/generated"
 }

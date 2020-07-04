@@ -1,6 +1,6 @@
 {
-    "textures": {
-        "layer0": "craftle:item/steel_purified"
-    },
-    "parent": "item/generated"
+  "textures": {
+    "layer0": "craftle:item/steel_purified"
+  },
+  "parent": "item/generated"
 }

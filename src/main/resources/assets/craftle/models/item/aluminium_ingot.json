@@ -1,6 +1,6 @@
 {
-    "textures": {
-        "layer0": "craftle:item/aluminium_ingot"
-    },
-    "parent": "item/generated"
+  "textures": {
+    "layer0": "craftle:item/aluminium_ingot"
+  },
+  "parent": "item/generated"
 }

@@ -1,9 +1,9 @@
 {
-    "cookingtime": 100,
-    "type": "minecraft:blasting",
-    "result": "craftle:copper_ingot",
-    "experience": 1.0,
-    "ingredient": {
-        "item": "craftle:copper_ore"
-    }
+  "cookingtime": 100,
+  "type": "minecraft:blasting",
+  "result": "craftle:copper_ingot",
+  "experience": 1.0,
+  "ingredient": {
+    "item": "craftle:copper_ore"
+  }
 }

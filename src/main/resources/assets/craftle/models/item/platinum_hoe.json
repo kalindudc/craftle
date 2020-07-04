@@ -1,6 +1,6 @@
 {
-    "textures": {
-        "layer0": "craftle:item/platinum_hoe"
-    },
-    "parent": "item/handheld"
+  "textures": {
+    "layer0": "craftle:item/platinum_hoe"
+  },
+  "parent": "item/handheld"
 }

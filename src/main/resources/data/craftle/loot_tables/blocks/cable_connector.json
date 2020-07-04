@@ -1,14 +1,14 @@
 {
-    "pools": [
+  "pools": [
+    {
+      "rolls": 1.0,
+      "entries": [
         {
-            "rolls": 1.0,
-            "entries": [
-                {
-                    "type": "minecraft:item",
-                    "name": "craftle:cable_connector"
-                }
-            ]
+          "type": "minecraft:item",
+          "name": "craftle:cable_connector"
         }
-    ],
-    "type": "minecraft:block"
+      ]
+    }
+  ],
+  "type": "minecraft:block"
 }

@@ -1,19 +1,19 @@
 {
-    "pattern": [
-        "xxx",
-        " y ",
-        " y "
-    ],
-    "type": "minecraft:crafting_shaped",
-    "result": {
-        "item": "craftle:platinum_pickaxe"
+  "pattern": [
+    "xxx",
+    " y ",
+    " y "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "result": {
+    "item": "craftle:platinum_pickaxe"
+  },
+  "key": {
+    "y": {
+      "tag": "forge:rods/wooden"
     },
-    "key": {
-        "y": {
-            "tag": "forge:rods/wooden"
-        },
-        "x": {
-            "tag": "forge:ingots/platinum"
-        }
+    "x": {
+      "tag": "forge:ingots/platinum"
     }
+  }
 }

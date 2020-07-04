@@ -1,12 +1,12 @@
 {
-    "replace": false,
-    "values": [
-        "#forge:enhanced/aluminium",
-        "#forge:enhanced/diamond",
-        "#forge:enhanced/iron",
-        "#forge:enhanced/platinum",
-        "#forge:enhanced/steel",
-        "#forge:enhanced/ruby",
-        "#forge:enhanced/sapphire"
-    ]
+  "replace": false,
+  "values": [
+    "#forge:enhanced/aluminium",
+    "#forge:enhanced/diamond",
+    "#forge:enhanced/iron",
+    "#forge:enhanced/platinum",
+    "#forge:enhanced/steel",
+    "#forge:enhanced/ruby",
+    "#forge:enhanced/sapphire"
+  ]
 }

@@ -3,36 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Craftle Documentation</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="description" content="Description">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+    <meta content="Description" name="description">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
 
     <!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css"> -->
-    
-    <link rel="stylesheet" href="https://unpkg.com/docsify-themeable/dist/css/theme-simple.css">
-    <link rel="stylesheet" href="https://unpkg.com/docsify-toc@1.0.0/dist/toc.css">
+
+    <link href="https://unpkg.com/docsify-themeable/dist/css/theme-simple.css" rel="stylesheet">
+    <link href="https://unpkg.com/docsify-toc@1.0.0/dist/toc.css" rel="stylesheet">
 
     <!-- Custom theme styles -->
     <style>
-       :root {
+        :root {
             --base-font-size: 14px;
-            --theme-color   : rgb(40, 75, 128);
+            --theme-color: rgb(40, 75, 128);
         }
     </style>
 
 </head>
 <body>
-  <div id="app"></div>
-  
-  <script src="//unpkg.com/docsify-edit-on-github/index.js"></script>
-  <script>
+<div id="app"></div>
+
+<script src="//unpkg.com/docsify-edit-on-github/index.js"></script>
+<script>
     window.$docsify = {
         name: 'Craftle',
         repo: 'https://github.com/kalindudc/craftle',
         homepage: 'https://raw.githubusercontent.com/kalindudc/craftle/master/README.md',
         logo: 'media/logo_trans.png',
         search: 'auto', // default
-        search : [
+        search: [
             '/',            // => /README.md
             '/items',       // => /guide.md
             '/world',
@@ -46,7 +47,7 @@
         maxLevel: 4,
         subMaxLevel: 2,
         plugins: [
-            EditOnGithubPlugin.create("https://github.com/kalindudc/craftle/tree/1.15.x/docs/", null, function(file) {
+            EditOnGithubPlugin.create("https://github.com/kalindudc/craftle/tree/1.15.x/docs/", null, function (file) {
                 return 'Edit on github!'
             })
         ],
@@ -56,7 +57,7 @@
             title: 'Table of Contents',
         },
         themeable: {
-            readyTransition : true, // default
+            readyTransition: true, // default
             responsiveTables: true  // default
         },
         search: {
@@ -79,20 +80,20 @@
             // Headline depth, 1 - 6
             depth: 4,
 
-            hideOtherSidebarContent: false, 
+            hideOtherSidebarContent: false,
         },
-        auto2top   : true
+        auto2top: true
     }
-  </script>
+</script>
 
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0"></script>
 
-  <script src="https://unpkg.com/docsify/lib/plugins/search.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
-  <script src="https://unpkg.com/docsify-toc@1.0.0/dist/toc.js"></script>
-  <script src="//unpkg.com/docsify-glossary/dist/docsify-glossary.min.js"></script>  
+<script src="https://unpkg.com/docsify/lib/plugins/search.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+<script src="https://unpkg.com/docsify-toc@1.0.0/dist/toc.js"></script>
+<script src="//unpkg.com/docsify-glossary/dist/docsify-glossary.min.js"></script>
 
 </body>
 </html>

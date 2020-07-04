@@ -1,6 +1,6 @@
 {
-    "replace": false,
-    "values": [
-        "craftle:uranium_ore"
-    ]
+  "replace": false,
+  "values": [
+    "craftle:uranium_ore"
+  ]
 }

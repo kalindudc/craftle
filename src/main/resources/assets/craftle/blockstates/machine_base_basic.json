@@ -1,7 +1,7 @@
 {
-    "variants": {
-        "": {
-            "model": "craftle:block/resource/machine_base_basic"
-        }
+  "variants": {
+    "": {
+      "model": "craftle:block/resource/machine_base_basic"
     }
+  }
 }

@@ -1,14 +1,14 @@
 {
-    "type": "minecraft:block",
-    "pools": [
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "entries": [
         {
-            "rolls": 1.0,
-            "entries": [
-                {
-                    "type": "minecraft:item",
-                    "name": "craftle:test_block"
-                }
-            ]
+          "type": "minecraft:item",
+          "name": "craftle:test_block"
         }
-    ]
+      ]
+    }
+  ]
 }

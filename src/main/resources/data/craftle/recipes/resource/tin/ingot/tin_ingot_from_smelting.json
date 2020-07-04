@@ -1,9 +1,9 @@
 {
-    "cookingtime": 200,
-    "type": "minecraft:smelting",
-    "result": "craftle:tin_ingot",
-    "experience": 1.0,
-    "ingredient": {
-        "item": "craftle:tin_ore"
-    }
+  "cookingtime": 200,
+  "type": "minecraft:smelting",
+  "result": "craftle:tin_ingot",
+  "experience": 1.0,
+  "ingredient": {
+    "item": "craftle:tin_ore"
+  }
 }

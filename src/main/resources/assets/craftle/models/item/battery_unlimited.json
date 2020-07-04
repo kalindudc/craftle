@@ -1,6 +1,6 @@
 {
-    "textures": {
-        "layer0": "craftle:item/battery_unlimited"
-    },
-    "parent": "item/generated"
+  "textures": {
+    "layer0": "craftle:item/battery_unlimited"
+  },
+  "parent": "item/generated"
 }

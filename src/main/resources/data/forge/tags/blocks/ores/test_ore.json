@@ -1,6 +1,6 @@
 {
-    "replace": false,
-    "values": [
-        "craftle:test_ore"
-    ]
+  "replace": false,
+  "values": [
+    "craftle:test_ore"
+  ]
 }

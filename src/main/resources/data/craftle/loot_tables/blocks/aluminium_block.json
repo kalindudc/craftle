@@ -1,19 +1,19 @@
 {
-    "pools": [
+  "pools": [
+    {
+      "rolls": 1.0,
+      "entries": [
         {
-            "rolls": 1.0,
-            "entries": [
-                {
-                    "type": "minecraft:item",
-                    "name": "craftle:aluminium_block"
-                }
-            ],
-            "conditions": [
-                {
-                    "condition": "minecraft:survives_explosion"
-                }
-            ]
+          "type": "minecraft:item",
+          "name": "craftle:aluminium_block"
         }
-    ],
-    "type": "minecraft:block"
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ],
+  "type": "minecraft:block"
 }

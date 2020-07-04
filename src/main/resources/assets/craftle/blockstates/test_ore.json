@@ -1,7 +1,7 @@
 {
-    "variants": {
-        "": {
-            "model": "craftle:block/test_ore"
-        }
+  "variants": {
+    "": {
+      "model": "craftle:block/test_ore"
     }
+  }
 }

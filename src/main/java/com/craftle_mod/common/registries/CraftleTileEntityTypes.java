@@ -34,36 +34,35 @@ public class CraftleTileEntityTypes {
 
     public static final RegistryObject<TileEntityType<TileEntityTestChest>> TEST_CHEST =
             register("test_chest", TileEntityTestChest::new, CraftleBlocks.TEST_CHEST);
-    public static final RegistryObject<TileEntityType<CrusherTileEntity>> CRUSHER_TIER_4 =
-            registerCrusher(CraftleBlocks.CRUSHER_TIER_4, CraftleBaseTier.TIER_4);
-    public static final RegistryObject<TileEntityType<CrusherTileEntity>> CRUSHER_TIER_3 =
-            registerCrusher(CraftleBlocks.CRUSHER_TIER_3, CraftleBaseTier.TIER_3);
-    public static final RegistryObject<TileEntityType<CrusherTileEntity>> CRUSHER_TIER_2 =
-            registerCrusher(CraftleBlocks.CRUSHER_TIER_2, CraftleBaseTier.TIER_2);
-    public static final RegistryObject<TileEntityType<CrusherTileEntity>> CRUSHER_TIER_1 =
-            registerCrusher(CraftleBlocks.CRUSHER_TIER_1, CraftleBaseTier.TIER_1);
     // CRUSHER
     public static final RegistryObject<TileEntityType<CrusherTileEntity>> CRUSHER_BASIC =
             registerCrusher(CraftleBlocks.CRUSHER_BASIC, CraftleBaseTier.BASIC);
+    public static final RegistryObject<TileEntityType<CrusherTileEntity>> CRUSHER_TIER_1 =
+            registerCrusher(CraftleBlocks.CRUSHER_TIER_1, CraftleBaseTier.TIER_1);
+    public static final RegistryObject<TileEntityType<CrusherTileEntity>> CRUSHER_TIER_2 =
+            registerCrusher(CraftleBlocks.CRUSHER_TIER_2, CraftleBaseTier.TIER_2);
+    public static final RegistryObject<TileEntityType<CrusherTileEntity>> CRUSHER_TIER_3 =
+            registerCrusher(CraftleBlocks.CRUSHER_TIER_3, CraftleBaseTier.TIER_3);
+    public static final RegistryObject<TileEntityType<CrusherTileEntity>> CRUSHER_TIER_4 =
+            registerCrusher(CraftleBlocks.CRUSHER_TIER_4, CraftleBaseTier.TIER_4);
     // GENERATORS
     public static final RegistryObject<TileEntityType<CoalGeneratorTileEntity>> COAL_GENERATOR =
             register("coal_generator", CoalGeneratorTileEntity::new, CraftleBlocks.COAL_GENERATOR);
-
-    // ENERGY MATRIX
+    public static final RegistryObject<TileEntityType<EnergyMatrixTileEntity>> ENERGY_MATRIX_BASIC =
+            registerEnergyMatrix(CraftleBlocks.ENERGY_MATRIX_BASIC, CraftleBaseTier.BASIC);
     public static final RegistryObject<TileEntityType<EnergyMatrixTileEntity>>
-            ENERGY_MATRIX_TIER_4 =
-            registerEnergyMatrix(CraftleBlocks.ENERGY_MATRIX_TIER_4, CraftleBaseTier.TIER_4);
-    public static final RegistryObject<TileEntityType<EnergyMatrixTileEntity>>
-            ENERGY_MATRIX_TIER_3 =
-            registerEnergyMatrix(CraftleBlocks.ENERGY_MATRIX_TIER_3, CraftleBaseTier.TIER_3);
+            ENERGY_MATRIX_TIER_1 =
+            registerEnergyMatrix(CraftleBlocks.ENERGY_MATRIX_TIER_1, CraftleBaseTier.TIER_1);
     public static final RegistryObject<TileEntityType<EnergyMatrixTileEntity>>
             ENERGY_MATRIX_TIER_2 =
             registerEnergyMatrix(CraftleBlocks.ENERGY_MATRIX_TIER_2, CraftleBaseTier.TIER_2);
     public static final RegistryObject<TileEntityType<EnergyMatrixTileEntity>>
-            ENERGY_MATRIX_TIER_1 =
-            registerEnergyMatrix(CraftleBlocks.ENERGY_MATRIX_TIER_1, CraftleBaseTier.TIER_1);
-    public static final RegistryObject<TileEntityType<EnergyMatrixTileEntity>> ENERGY_MATRIX_BASIC =
-            registerEnergyMatrix(CraftleBlocks.ENERGY_MATRIX_BASIC, CraftleBaseTier.BASIC);
+            ENERGY_MATRIX_TIER_3 =
+            registerEnergyMatrix(CraftleBlocks.ENERGY_MATRIX_TIER_3, CraftleBaseTier.TIER_3);
+    // ENERGY MATRIX
+    public static final RegistryObject<TileEntityType<EnergyMatrixTileEntity>>
+            ENERGY_MATRIX_TIER_4 =
+            registerEnergyMatrix(CraftleBlocks.ENERGY_MATRIX_TIER_4, CraftleBaseTier.TIER_4);
     // WORKBENCH
     public static final RegistryObject<TileEntityType<WorkBenchTileEntity>> WORKBENCH =
             register("workbench", WorkBenchTileEntity::new, CraftleBlocks.WORKBENCH);

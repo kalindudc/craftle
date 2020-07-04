@@ -1,6 +1,6 @@
 {
-    "parent": "item/handheld",
-    "textures": {
-        "layer0": "craftle:item/test_tool"
-    }
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "craftle:item/test_tool"
+  }
 }

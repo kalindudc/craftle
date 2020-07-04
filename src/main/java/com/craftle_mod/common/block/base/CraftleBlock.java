@@ -8,6 +8,7 @@ public abstract class CraftleBlock extends Block {
 
     private final IBlockResource resource;
     private final BlockType blockType;
+
     public CraftleBlock(IBlockResource resource, BlockType blockType, SoundType soundType) {
 
         super(Block.Properties.create(resource.getMaterial())

@@ -1,6 +1,6 @@
 {
-    "replace": false,
-    "values": [
-        "craftle:copper_ore"
-    ]
+  "replace": false,
+  "values": [
+    "craftle:copper_ore"
+  ]
 }

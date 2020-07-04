@@ -1,6 +1,6 @@
 {
-    "textures": {
-        "layer0": "craftle:item/iron_sheet"
-    },
-    "parent": "item/generated"
+  "textures": {
+    "layer0": "craftle:item/iron_sheet"
+  },
+  "parent": "item/generated"
 }

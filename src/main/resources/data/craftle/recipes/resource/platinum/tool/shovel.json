@@ -1,19 +1,19 @@
 {
-    "pattern": [
-        "x",
-        "y",
-        "y"
-    ],
-    "type": "minecraft:crafting_shaped",
-    "result": {
-        "item": "craftle:platinum_shovel"
+  "pattern": [
+    "x",
+    "y",
+    "y"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "result": {
+    "item": "craftle:platinum_shovel"
+  },
+  "key": {
+    "y": {
+      "tag": "forge:rods/wooden"
     },
-    "key": {
-        "y": {
-            "tag": "forge:rods/wooden"
-        },
-        "x": {
-            "tag": "forge:ingots/platinum"
-        }
+    "x": {
+      "tag": "forge:ingots/platinum"
     }
+  }
 }
