@@ -17,7 +17,7 @@ Welcome to the offical Craftle documentation. Here you will find information reg
 
 ### Do you want to contribute?
 
-Please read the contributing [guidelines](CONTRIBUTING.md) for a detailed explanation of the structure of this project and methods of contributing.
+Please read the contributing [guidelines](https://github.com/kalindudc/craftle/blob/develop/CONTRIBUTING.md) for a detailed explanation of the structure of this project and methods of contributing.
 
 ### License
 
