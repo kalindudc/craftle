@@ -66,5 +66,4 @@ public class EnergyMatrixContainer extends EnergyContainer {
         }
     }
 
-
 }

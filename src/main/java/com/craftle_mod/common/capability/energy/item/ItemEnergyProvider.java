@@ -68,6 +68,7 @@ public class ItemEnergyProvider implements ICapabilityProvider, INBTSerializable
 
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
-        this.getEnergyContainer().deserializeNBT(nbt);
+        this.energyContainer.deserializeNBT(nbt);
     }
+
 }

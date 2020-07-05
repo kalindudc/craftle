@@ -136,4 +136,8 @@ public class EnergyItem extends CraftleItem {
             });
         }
     }
+
+    public void handlePacketData(ItemStack stack, Item item) {
+        readShareTag(stack, item.getShareTag(stack));
+    }
 }

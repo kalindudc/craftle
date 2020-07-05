@@ -6,6 +6,7 @@ import com.craftle_mod.common.inventory.container.base.EnergyContainer;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import java.util.function.Supplier;
 import javax.annotation.Nonnull;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.play.ClientPlayNetHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.INetHandler;
@@ -58,15 +59,12 @@ public class EnergyContainerUpdatePacket {
             // on the client need to send the updated storage to container
             INetHandler handler = ctx.getNetworkManager().getNetHandler();
             if (handler instanceof ClientPlayNetHandler) {
-                ClientPlayNetHandler clientHandler = (ClientPlayNetHandler) handler;
-                PlayerEntity player = clientHandler.getWorld()
-                    .getPlayerByUuid(clientHandler.getGameProfile().getId());
+                PlayerEntity player = Minecraft.getInstance().player;
 
                 if (player != null && player.openContainer instanceof EnergyContainer
                     && player.openContainer.windowId == msg.windowId) {
                     msg.handlePacket((EnergyContainer) player.openContainer);
                 }
-
             }
         });
         ctx.setPacketHandled(true);

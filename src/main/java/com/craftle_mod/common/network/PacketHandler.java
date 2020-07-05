@@ -3,13 +3,18 @@ package com.craftle_mod.common.network;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.network.packet.EnergyContainerCreatePacket;
 import com.craftle_mod.common.network.packet.EnergyContainerUpdatePacket;
+import com.craftle_mod.common.network.packet.EnergyItemUpdatePacket;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -62,9 +67,22 @@ public class PacketHandler {
 
         register(EnergyContainerUpdatePacket.class, EnergyContainerUpdatePacket::encode,
             EnergyContainerUpdatePacket::decode, EnergyContainerUpdatePacket::handle);
-
         register(EnergyContainerCreatePacket.class, EnergyContainerCreatePacket::encode,
             EnergyContainerCreatePacket::decode, EnergyContainerCreatePacket::handle);
+        register(EnergyItemUpdatePacket.class, EnergyItemUpdatePacket::encode,
+            EnergyItemUpdatePacket::decode, EnergyItemUpdatePacket::handle);
+    }
+
+    public <MSG> void sendToTrackingClients(MSG packet, @Nonnull TileEntity tile) {
+
+        if (tile.hasWorld() && tile.getWorld() instanceof ServerWorld) {
+            ((ServerWorld) tile.getWorld()).getChunkProvider().chunkManager
+                .getTrackingPlayers(new ChunkPos(tile.getPos()), false)
+                .forEach(p -> sendToClient(packet, p));
+        } else {
+            channel.send(PacketDistributor.TRACKING_CHUNK
+                .with(() -> (Chunk) tile.getWorld().getChunk(tile.getPos())), packet);
+        }
     }
 
     public <MSG> void sendToClient(MSG packet, @Nonnull ServerPlayerEntity player) {

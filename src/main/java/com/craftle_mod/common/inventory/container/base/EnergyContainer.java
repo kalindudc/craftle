@@ -40,7 +40,6 @@ public abstract class EnergyContainer extends CraftleContainer {
     @Override
     public void init() {
         super.init();
-        Craftle.logInfo("Sending packet to server: energy container");
         sendPacketToServer(new EnergyContainerCreatePacket(windowId, getEntity().getPos()));
     }
 

@@ -46,17 +46,16 @@ public class EnergyContainerCreatePacket {
         Context ctx = context.get();
 
         ctx.enqueueWork(() -> {
-
             // on the client need to send the updated storage to container
             ServerPlayerEntity player = ctx.getSender();
-            Craftle.logInfo("Packet Handling: " + player);
+
             if (player != null && player.openContainer instanceof EnergyContainer
                 && player.openContainer.windowId == msg.windowId) {
+
                 TileEntity entity = player.getEntityWorld().getTileEntity(msg.pos);
-                Craftle.logInfo("Entity: " + entity);
+
                 if (entity instanceof PoweredMachineTileEntity) {
-                    Craftle.logInfo(
-                        "Container: " + ((PoweredMachineTileEntity) entity).getEnergyContainer());
+
                     Craftle.packetHandler.sendToClient(new EnergyContainerUpdatePacket(msg.windowId,
                         ((PoweredMachineTileEntity) entity).getEnergyContainer()), player);
                 }

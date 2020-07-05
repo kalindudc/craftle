@@ -1,11 +1,13 @@
 package com.craftle_mod.common.tile.storage.energy_matrix;
 
 import com.craftle_mod.api.TagConstants;
+import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.capability.Capabilities;
 import com.craftle_mod.common.capability.energy.CraftleEnergyStorage;
 import com.craftle_mod.common.capability.energy.ICraftleEnergyStorage;
 import com.craftle_mod.common.inventory.container.storage.energy_matrix.EnergyMatrixContainerFactory;
 import com.craftle_mod.common.item.EnergyItem;
+import com.craftle_mod.common.network.packet.EnergyItemUpdatePacket;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
@@ -140,6 +142,10 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
 
                     EnergyUtils.extractEnergyFromItem(injectStack, received);
                     energyReceive += received;
+
+                    Craftle.logInfo("Sending inject stack packet");
+                    Craftle.packetHandler.sendToTrackingClients(
+                        new EnergyItemUpdatePacket(injectStack, this.getPos()), this);
                 }
             }
 
@@ -169,7 +175,8 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
 
         // check for an item in extract
         ItemStack extractStack = this.getContainerContents().get(1);
-        if (validToReceive(extractStack) && this.getEnergyContainer().getEnergy() > 0) {
+        if (validToReceive(extractStack) && this.getEnergyContainer().getEnergy() > 0
+            && EnergyUtils.getEnergyPercentageFromItem(extractStack) < 1.0D) {
 
             double toExtract = EnergyUtils.getEnergyRequiredForItem(extractStack);
             double received;
@@ -183,6 +190,12 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
 
             extracted = this.getEnergyContainer().extractEnergy(received);
             energyExtract += extracted;
+
+            Craftle.logInfo("Sending extract stack packet %f %f",
+                EnergyUtils.getEnergyPercentageFromItem(extractStack), toExtract);
+            Craftle.packetHandler
+                .sendToTrackingClients(new EnergyItemUpdatePacket(extractStack, this.getPos()),
+                    this);
         }
 
         this.setEnergyExtractRate(energyExtract);
