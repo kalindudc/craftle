@@ -2,9 +2,6 @@ package com.craftle_mod.common.tile.storage.energy_matrix;
 
 import com.craftle_mod.api.TagConstants;
 import com.craftle_mod.common.Craftle;
-import com.craftle_mod.common.capability.Capabilities;
-import com.craftle_mod.common.capability.energy.CraftleEnergyStorage;
-import com.craftle_mod.common.capability.energy.ICraftleEnergyStorage;
 import com.craftle_mod.common.inventory.container.storage.energy_matrix.EnergyMatrixContainerFactory;
 import com.craftle_mod.common.item.EnergyItem;
 import com.craftle_mod.common.network.packet.EnergyItemUpdatePacket;
@@ -106,77 +103,41 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
     @Override
     public void tickServer() {
 
-        int energyExtract = 0;
-        int energyReceive = 0;
+        double energyExtract = 0;
+        double energyReceive = 0;
 
         // check active status
-        if (this.getEnergyContainer().getEnergy() > 0) {
-            super.setBlockActive(true);
-        }
+        super.setBlockActive(!this.getEnergyContainer().isEmpty());
 
-        if (this.getEnergyContainer().getEnergy() == 0) {
-            super.setBlockActive(false);
-        }
+        if (!this.getEnergyContainer().isFilled()) {
 
-        if (this.getEnergyContainer().getEnergy() < this.getEnergyContainer().getCapacity()) {
-
-            // TODO: all this logic can be handled in the energy container
             // refactor later
             if (this.getContainerContents() != null) {
-                // check for an item in inject
-                ItemStack injectStack = this.getContainerContents().get(0);
-                if (!injectStack.isEmpty() && isItemFuel(injectStack)) {
-
-                    double storedEnergy = getFuelValue(injectStack);
-                    double received;
-
-                    if (storedEnergy < this.getEnergyContainer().getCapacity() && storedEnergy < (
-                        this.getEnergyContainer().getCapacity() - this.getEnergyContainer()
-                            .getEnergy())) {
-                        received = this.getEnergyContainer().injectEnergy(storedEnergy);
-                    } else {
-                        received = this.getEnergyContainer().injectEnergy(
-                            this.getEnergyContainer().getCapacity() - this.getEnergyContainer()
-                                .getEnergy());
-                    }
-
-                    EnergyUtils.extractEnergyFromItem(injectStack, received);
-                    energyReceive += received;
-
-                    Craftle.logInfo("Sending inject stack packet");
-                    Craftle.packetHandler.sendToTrackingClients(
-                        new EnergyItemUpdatePacket(injectStack, this.getPos()), this);
-                }
+                energyReceive += injectFromItemSlot();
             }
-
-            List<ICapabilityProvider> energyProvidingBlocks = getNeighborsWithEnergy();
-
-            for (ICapabilityProvider entity : energyProvidingBlocks) {
-                ICraftleEnergyStorage container = entity
-                    .getCapability(Capabilities.ENERGY_CAPABILITY)
-                    .orElse(CraftleEnergyStorage.EMPTY_IE);
-
-                if (container.canExtract()) {
-                    if (container.getEnergy() > 0) {
-
-                        double toReceive = Math.min(container.getEnergy(),
-                            this.getEnergyContainer().getCapacity() - this.getEnergyContainer()
-                                .getEnergy());
-
-                        toReceive = Math.min(container.getMaxExtractRate(), toReceive);
-                        double extracted = container.extractEnergy(toReceive, false);
-                        double received = this.getEnergyContainer().injectEnergy(extracted);
-                        energyReceive += received;
-                    }
-                }
-            }
-
         }
+
+        energyExtract += extractFromItemSlot();
+
+        if (!this.getEnergyContainer().isEmpty()) {
+            energyExtract += EnergyUtils
+                .emitEnergy(getEnergyContainer(), this, getEnergyContainer().getMaxExtractRate());
+        }
+
+        this.setEnergyExtractRate(energyExtract);
+        this.setEnergyInjectRate(energyReceive);
+
+    }
+
+    private double extractFromItemSlot() {
+
+        double energyExtract = 0;
 
         // check for an item in extract
         ItemStack extractStack = this.getContainerContents().get(1);
-        if (validToReceive(extractStack) && this.getEnergyContainer().getEnergy() > 0
-            && EnergyUtils.getEnergyPercentageFromItem(extractStack) < 1.0D) {
+        double stackEnergyLevel = EnergyUtils.getEnergyPercentageFromItem(extractStack);
+        if (validToReceive(extractStack) && !getEnergyContainer().isEmpty()
+            && stackEnergyLevel < 1.0D) {
 
             double toExtract = EnergyUtils.getEnergyRequiredForItem(extractStack);
             double received;
@@ -189,18 +150,46 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
             }
 
             extracted = this.getEnergyContainer().extractEnergy(received);
-            energyExtract += extracted;
+            energyExtract = extracted;
 
-            Craftle.logInfo("Sending extract stack packet %f %f",
-                EnergyUtils.getEnergyPercentageFromItem(extractStack), toExtract);
+            // send packet to client to notify the item stack was given energy
             Craftle.packetHandler
                 .sendToTrackingClients(new EnergyItemUpdatePacket(extractStack, this.getPos()),
                     this);
         }
 
-        this.setEnergyExtractRate(energyExtract);
-        this.setEnergyInjectRate(energyReceive);
+        return energyExtract;
+    }
 
+    private double injectFromItemSlot() {
+
+        double energyReceive = 0;
+        // check for an item in inject
+        ItemStack injectStack = this.getContainerContents().get(0);
+        if (!injectStack.isEmpty() && isItemFuel(injectStack)) {
+
+            double storedEnergy = getFuelValue(injectStack);
+            double received;
+
+            if (storedEnergy < getEnergyContainer().getEnergyToFill()) {
+
+                received = this.getEnergyContainer().injectEnergy(storedEnergy);
+            } else {
+
+                received = this.getEnergyContainer()
+                    .injectEnergy(getEnergyContainer().getEnergyToFill());
+            }
+
+            EnergyUtils.extractEnergyFromItem(injectStack, received);
+            energyReceive = received;
+
+            // send packet to notify client that energy was extracted from the item stack
+            Craftle.packetHandler
+                .sendToTrackingClients(new EnergyItemUpdatePacket(injectStack, this.getPos()),
+                    this);
+        }
+
+        return energyReceive;
     }
 
     @Override

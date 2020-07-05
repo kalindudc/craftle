@@ -74,7 +74,7 @@ public class CoalGeneratorContainer extends EnergyContainer {
         if (generatorData.get(0) == 0 || generatorData.get(1) == 0) {
             return 0;
         }
-        return 100 - (int) ((((float) generatorData.get(0)) / ((float) generatorData.get(1)))
-            * 100);
+        return (int) (100D * (1D - ((double) generatorData.get(0) / (double) generatorData
+            .get(1))));
     }
 }

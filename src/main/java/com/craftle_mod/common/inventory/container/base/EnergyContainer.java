@@ -17,13 +17,17 @@ public abstract class EnergyContainer extends CraftleContainer {
 
 
     private final ICraftleEnergyStorage storage;
+    private double extractRate;
+    private double injectRate;
 
     public EnergyContainer(ContainerType<?> container, int windowId,
         PlayerInventory playerInventory, PoweredMachineTileEntity entity) {
         super(container, windowId, playerInventory, entity);
 
-        storage = ((PoweredMachineTileEntity) getEntity()).getEnergyContainer().copy();
-        sendPacketToClient(new EnergyContainerUpdatePacket(this.windowId, this.storage));
+        storage = entity.getEnergyContainer().copy();
+        //sendPacketToClient(new EnergyContainerUpdatePacket(this.windowId, this.storage));
+        injectRate = entity.getEnergyInjectRate();
+        extractRate = entity.getEnergyExtractRate();
     }
 
     public EnergyContainer(ContainerType<?> container, int windowId,
@@ -34,7 +38,9 @@ public abstract class EnergyContainer extends CraftleContainer {
             throw new IllegalStateException("Tile entity is not correct. ");
         }
 
-        this.storage = ((PoweredMachineTileEntity) getEntity()).getEnergyContainer().copy();
+        storage = ((PoweredMachineTileEntity) getEntity()).getEnergyContainer().copy();
+        injectRate = ((PoweredMachineTileEntity) getEntity()).getEnergyInjectRate();
+        extractRate = ((PoweredMachineTileEntity) getEntity()).getEnergyExtractRate();
     }
 
     @Override
@@ -48,15 +54,29 @@ public abstract class EnergyContainer extends CraftleContainer {
         super.detectAndSendChanges();
         if (!listeners.isEmpty() && this.getEntity() instanceof PoweredMachineTileEntity) {
 
-            ICraftleEnergyStorage container = ((PoweredMachineTileEntity) this.getEntity())
-                .getEnergyContainer();
+            boolean dirtyData = false;
+
+            PoweredMachineTileEntity tile = (PoweredMachineTileEntity) this.getEntity();
+            ICraftleEnergyStorage container = tile.getEnergyContainer();
 
             if (!this.storage.equals(container)) {
                 // We are out of sync and need to sync and update the client
                 this.storage.copyFrom(container);
+                dirtyData = true;
+            }
 
+            if (tile.getEnergyInjectRate() != injectRate
+                || tile.getEnergyExtractRate() != extractRate) {
+                this.injectRate = tile.getEnergyInjectRate();
+                this.extractRate = tile.getEnergyExtractRate();
+                dirtyData = true;
+            }
+
+            if (dirtyData) {
                 // send packet to listener
-                sendPacketToClient(new EnergyContainerUpdatePacket(this.windowId, this.storage));
+                sendPacketToClient(
+                    new EnergyContainerUpdatePacket(this.windowId, this.storage, this.injectRate,
+                        this.extractRate));
             }
         }
     }
@@ -78,9 +98,24 @@ public abstract class EnergyContainer extends CraftleContainer {
         ((PoweredMachineTileEntity) this.getEntity()).synchronizeEnergyContainer(storage);
     }
 
+    public void handlePacket(double injectRate, double extractRate) {
+        this.injectRate = injectRate;
+        this.extractRate = extractRate;
+    }
+
     @OnlyIn(Dist.CLIENT)
     public ICraftleEnergyStorage getEnergyContainer() {
         return this.storage;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public double getInjectRate() {
+        return this.injectRate;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public double getExtractRate() {
+        return this.extractRate;
     }
 
 

@@ -117,6 +117,7 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
     }
 
     public void setBlockActive(boolean b) {
+        active = b;
         notifyBlockActive(b);
     }
 
@@ -231,5 +232,13 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
 
     public void synchronizeEnergyContainer(ICraftleEnergyStorage storage) {
         this.energyContainer.copyFrom(storage);
+    }
+
+    public boolean validAcceptor() {
+        return energyContainer.getEnergyToFill() > 0;
+    }
+
+    public void injectEnergy(double energy) {
+        this.energyContainer.injectEnergy(energy);
     }
 }

@@ -17,11 +17,15 @@ public class EnergyContainerUpdatePacket {
 
     private final int windowId;
     private final ICraftleEnergyStorage data;
+    private final double injectRate;
+    private final double extractRate;
 
-
-    public EnergyContainerUpdatePacket(int windowId, ICraftleEnergyStorage data) {
+    public EnergyContainerUpdatePacket(int windowId, ICraftleEnergyStorage data, double injectRate,
+        double extractRate) {
         this.windowId = windowId;
         this.data = data;
+        this.injectRate = injectRate;
+        this.extractRate = extractRate;
     }
 
     public EnergyContainerUpdatePacket(@Nonnull PacketBuffer buffer) {
@@ -29,6 +33,8 @@ public class EnergyContainerUpdatePacket {
         data = new CraftleEnergyStorage(buffer.readDouble(), buffer.readDouble(),
             buffer.readDouble(), buffer.readDouble(),
             CraftleBaseTier.fromString(buffer.readString()));
+        injectRate = buffer.readDouble();
+        extractRate = buffer.readDouble();
     }
 
     public void encodeFromBuffer(@Nonnull PacketBuffer buffer) {
@@ -38,6 +44,8 @@ public class EnergyContainerUpdatePacket {
         buffer.writeDouble(data.getMaxExtractRate());
         buffer.writeDouble(data.getEnergy());
         buffer.writeString(data.getTier().getTier());
+        buffer.writeDouble(injectRate);
+        buffer.writeDouble(extractRate);
     }
 
     @Nonnull
@@ -72,5 +80,6 @@ public class EnergyContainerUpdatePacket {
 
     private void handlePacket(EnergyContainer openContainer) {
         openContainer.handlePacket(data);
+        openContainer.handlePacket(injectRate, extractRate);
     }
 }

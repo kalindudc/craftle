@@ -51,8 +51,8 @@ public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer> i
         double capacity = EnergyUtils.getJoulesForTierBlock(this.entity.getCraftleMachineTier(),
             this.getContainer().getEnergyContainer().getCapacity());
 
-        double input = this.entity.getEnergyInjectRate();
-        double output = this.entity.getEnergyExtractRate();
+        double input = this.getContainer().getInjectRate();
+        double output = this.getContainer().getExtractRate();
 
         this.font.drawString("Max: ", 10.0f, 26.0f, 13816530);
         this.font.drawString(String.format("%.02f %s", capacity, units), 32.0f, 26.0f, 13816530);

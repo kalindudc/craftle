@@ -130,7 +130,7 @@ jar {
 }
 
 task coreJar(type: Jar) {
-    archiveName = "craftle-${project.version}.jar"
+    archiveName = "Craftle-${project.version}.jar"
     from sourceSets.main.output
 }
 

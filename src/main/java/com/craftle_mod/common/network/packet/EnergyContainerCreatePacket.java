@@ -57,7 +57,9 @@ public class EnergyContainerCreatePacket {
                 if (entity instanceof PoweredMachineTileEntity) {
 
                     Craftle.packetHandler.sendToClient(new EnergyContainerUpdatePacket(msg.windowId,
-                        ((PoweredMachineTileEntity) entity).getEnergyContainer()), player);
+                        ((PoweredMachineTileEntity) entity).getEnergyContainer(),
+                        ((PoweredMachineTileEntity) entity).getEnergyInjectRate(),
+                        ((PoweredMachineTileEntity) entity).getEnergyExtractRate()), player);
                 }
             }
         });
