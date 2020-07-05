@@ -1,6 +1,7 @@
 package com.craftle_mod.common.block.base;
 
 import com.craftle_mod.common.resource.IBlockResource;
+import com.craftle_mod.common.tile.base.CraftleTileEntity;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
@@ -10,6 +11,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
@@ -22,6 +24,11 @@ public class FacedBlockBase extends CraftleBlock {
     public FacedBlockBase(IBlockResource resource, BlockType blockType, SoundType soundType) {
         super(resource, blockType, soundType);
         this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, Direction.NORTH));
+    }
+
+    @Override
+    public TileEntityType<? extends CraftleTileEntity> getTileType() {
+        return null;
     }
 
     @Nullable

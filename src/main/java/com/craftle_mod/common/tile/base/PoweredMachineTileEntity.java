@@ -2,6 +2,7 @@ package com.craftle_mod.common.tile.base;
 
 import com.craftle_mod.api.NBTConstants;
 import com.craftle_mod.common.block.base.ActiveBlockBase;
+import com.craftle_mod.common.block.base.MachineBlock;
 import com.craftle_mod.common.capability.Capabilities;
 import com.craftle_mod.common.capability.energy.CraftleEnergyStorage;
 import com.craftle_mod.common.capability.energy.ICraftleEnergyStorage;
@@ -16,7 +17,6 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.RecipeItemHelper;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -39,34 +39,38 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
     private double energyInjectRate;
     private double energyExtractRate;
 
-    public PoweredMachineTileEntity(TileEntityType<?> typeIn,
+    public PoweredMachineTileEntity(MachineBlock block,
         IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier) {
-        super(typeIn, recipeTypeIn, containerSize, tier);
+
+        super(block, recipeTypeIn, containerSize, tier);
         this.energyContainer = new CraftleEnergyStorage(DEFAULT_POWER_CAPACITY,
             DEFAULT_POWER_CAPACITY, 0, tier);
         init();
     }
 
-    public PoweredMachineTileEntity(TileEntityType<?> typeIn,
+    public PoweredMachineTileEntity(MachineBlock block,
         IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier,
-        int capacity) {
-        super(typeIn, recipeTypeIn, containerSize, tier);
+        double capacity) {
+
+        super(block, recipeTypeIn, containerSize, tier);
         this.energyContainer = new CraftleEnergyStorage(capacity, tier);
         init();
     }
 
-    public PoweredMachineTileEntity(TileEntityType<?> typeIn,
+    public PoweredMachineTileEntity(MachineBlock block,
         IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier,
-        int capacity, int maxReceive, int maxExtract) {
-        super(typeIn, recipeTypeIn, containerSize, tier);
+        double capacity, double maxReceive, double maxExtract) {
+
+        super(block, recipeTypeIn, containerSize, tier);
         this.energyContainer = new CraftleEnergyStorage(capacity, maxReceive, maxExtract, tier);
         init();
     }
 
-    public PoweredMachineTileEntity(TileEntityType<?> typeIn,
+    public PoweredMachineTileEntity(MachineBlock block,
         IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier,
-        int capacity, int maxReceive, int maxExtract, int startingEnergy) {
-        super(typeIn, recipeTypeIn, containerSize, tier);
+        double capacity, double maxReceive, double maxExtract, double startingEnergy) {
+
+        super(block, recipeTypeIn, containerSize, tier);
         this.energyContainer = new CraftleEnergyStorage(capacity, maxReceive, maxExtract,
             startingEnergy, tier);
         init();

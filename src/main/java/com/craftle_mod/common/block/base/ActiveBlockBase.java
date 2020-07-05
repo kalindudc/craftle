@@ -1,6 +1,7 @@
 package com.craftle_mod.common.block.base;
 
 import com.craftle_mod.common.resource.IBlockResource;
+import com.craftle_mod.common.tile.base.CraftleTileEntity;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.RedstoneTorchBlock;
@@ -8,11 +9,12 @@ import net.minecraft.block.SoundType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ActiveBlockBase extends FacedBlockBase {
+public abstract class ActiveBlockBase extends FacedBlockBase {
 
     public static final BooleanProperty LIT = RedstoneTorchBlock.LIT;
 
@@ -48,5 +50,6 @@ public class ActiveBlockBase extends FacedBlockBase {
         this.setActive(b, state, worldIn, pos);
     }
 
-
+    @Override
+    public abstract TileEntityType<? extends CraftleTileEntity> getTileType();
 }

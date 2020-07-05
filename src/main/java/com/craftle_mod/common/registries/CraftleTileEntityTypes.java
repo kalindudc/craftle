@@ -1,15 +1,15 @@
 package com.craftle_mod.common.registries;
 
 import com.craftle_mod.common.Craftle;
+import com.craftle_mod.common.block.machine.Crusher;
+import com.craftle_mod.common.block.storage.EnergyMatrix;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.TileEntityQuarry;
 import com.craftle_mod.common.tile.TileEntityTestChest;
 import com.craftle_mod.common.tile.machine.CoalGeneratorTileEntity;
+import com.craftle_mod.common.tile.machine.CrusherTileEntity;
 import com.craftle_mod.common.tile.machine.WorkBenchTileEntity;
-import com.craftle_mod.common.tile.machine.crusher.CrusherTileEntity;
-import com.craftle_mod.common.tile.machine.crusher.CrusherTileEntityFactory;
-import com.craftle_mod.common.tile.storage.energy_matrix.EnergyMatrixTileEntity;
-import com.craftle_mod.common.tile.storage.energy_matrix.EnergyMatrixTileEntityFactory;
+import com.craftle_mod.common.tile.storage.EnergyMatrixTileEntity;
 import com.mojang.datafixers.DataFixUtils;
 import com.mojang.datafixers.types.Type;
 import java.util.function.Supplier;
@@ -72,14 +72,14 @@ public class CraftleTileEntityTypes {
         RegistryObject<Block> block, CraftleBaseTier tier) {
 
         return register("crusher_" + tier.getTier(),
-            new CrusherTileEntityFactory().buildSupplier(tier), block);
+            () -> new CrusherTileEntity((Crusher) block.get(), tier), block);
     }
 
     private static RegistryObject<TileEntityType<EnergyMatrixTileEntity>> registerEnergyMatrix(
         RegistryObject<Block> block, CraftleBaseTier tier) {
 
         return register("energy_matrix_" + tier.getTier(),
-            new EnergyMatrixTileEntityFactory().buildSupplier(tier), block);
+            () -> new EnergyMatrixTileEntity((EnergyMatrix) block.get(), tier), block);
     }
 
     private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String key,

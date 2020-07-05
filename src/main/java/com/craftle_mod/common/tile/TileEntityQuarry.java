@@ -1,19 +1,22 @@
 package com.craftle_mod.common.tile;
 
-import com.craftle_mod.common.registries.CraftleTileEntityTypes;
+import com.craftle_mod.common.block.machine.Quarry;
+import com.craftle_mod.common.registries.CraftleBlocks;
+import com.craftle_mod.common.tile.base.CraftleTileEntity;
 import com.craftle_mod.common.util.NBTUtils;
 import javax.annotation.Nonnull;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.IFluidState;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 
-public class TileEntityQuarry extends TileEntity implements ITickableTileEntity {
+public class TileEntityQuarry extends CraftleTileEntity implements ITickableTileEntity {
 
     private int x;
     private int y;
@@ -21,13 +24,13 @@ public class TileEntityQuarry extends TileEntity implements ITickableTileEntity 
     private int tick;
     private boolean initialized;
 
-    public TileEntityQuarry(final TileEntityType<?> tileEntityTypeIn) {
-        super(tileEntityTypeIn);
+    public TileEntityQuarry(Quarry block) {
+        super(block, 1);
         this.initialized = false;
     }
 
     public TileEntityQuarry() {
-        this(CraftleTileEntityTypes.QUARRY.get());
+        this((Quarry) CraftleBlocks.QUARRY.get());
         this.initialized = false;
     }
 
@@ -91,6 +94,12 @@ public class TileEntityQuarry extends TileEntity implements ITickableTileEntity 
 
             return world.setBlockState(pos, iFluidState.getBlockState(), 3);
         }
+    }
+
+    @Nonnull
+    @Override
+    public Container createMenu(int id, @Nonnull PlayerInventory player) {
+        return null;
     }
 
     @Nonnull

@@ -1,10 +1,11 @@
-package com.craftle_mod.common.tile.machine.crusher;
+package com.craftle_mod.common.tile.machine;
 
 import com.craftle_mod.common.Craftle;
+import com.craftle_mod.common.block.machine.Crusher;
 import com.craftle_mod.common.inventory.container.machine.crusher.CrusherContainerFactory;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.recipe.base.CraftleRecipe;
-import com.craftle_mod.common.registries.CraftleTileEntityTypes;
+import com.craftle_mod.common.registries.CraftleBlocks;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import javax.annotation.Nonnull;
@@ -19,7 +20,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -37,24 +37,24 @@ public class CrusherTileEntity extends PoweredMachineTileEntity implements ISide
     private static final int[] SLOTS_HORIZONTAL = new int[]{1};
 
 
-    public CrusherTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends CraftleRecipe> recipeTypeIn, CraftleBaseTier tier) {
-        super(typeIn, recipeTypeIn, 3, tier);
+    public CrusherTileEntity(Crusher block, IRecipeType<? extends CraftleRecipe> recipeTypeIn,
+        CraftleBaseTier tier) {
+        super(block, recipeTypeIn, 3, tier);
         init(tier);
     }
 
-    public CrusherTileEntity(TileEntityType<?> typeIn, CraftleBaseTier tier) {
-        this(typeIn, CraftleRecipeType.CRUSHING, tier);
+    public CrusherTileEntity(Crusher block, CraftleBaseTier tier) {
+        this(block, CraftleRecipeType.CRUSHING, tier);
 
     }
 
-    public CrusherTileEntity(TileEntityType<?> typeIn, CraftleBaseTier tier, int energy) {
-        this(typeIn, CraftleRecipeType.CRUSHING, tier);
+    public CrusherTileEntity(Crusher block, CraftleBaseTier tier, int energy) {
+        this(block, CraftleRecipeType.CRUSHING, tier);
         this.getEnergyContainer().setEnergy(energy);
     }
 
     public CrusherTileEntity() {
-        this(CraftleTileEntityTypes.CRUSHER_BASIC.get(), CraftleRecipeType.CRUSHING,
+        this((Crusher) CraftleBlocks.CRUSHER_BASIC.get(), CraftleRecipeType.CRUSHING,
             CraftleBaseTier.BASIC);
     }
 

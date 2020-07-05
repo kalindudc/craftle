@@ -2,10 +2,11 @@ package com.craftle_mod.common.tile.machine;
 
 import com.craftle_mod.api.TagConstants;
 import com.craftle_mod.api.TileEntityConstants;
+import com.craftle_mod.common.block.machine.WorkBench;
 import com.craftle_mod.common.inventory.container.machine.WorkBenchContainer;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
+import com.craftle_mod.common.registries.CraftleBlocks;
 import com.craftle_mod.common.registries.CraftleContainerTypes;
-import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import javax.annotation.Nonnull;
@@ -14,7 +15,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -24,16 +24,16 @@ import net.minecraftforge.items.CapabilityItemHandler;
 
 public class WorkBenchTileEntity extends PoweredMachineTileEntity {
 
-    public WorkBenchTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends IRecipe<?>> recipeTypeIn, CraftleBaseTier tier) {
-        super(typeIn, recipeTypeIn, TileEntityConstants.WORKBENCH_CONTAINER_SIZE + 9
+    public WorkBenchTileEntity(WorkBench block, IRecipeType<? extends IRecipe<?>> recipeTypeIn,
+        CraftleBaseTier tier) {
+        super(block, recipeTypeIn, TileEntityConstants.WORKBENCH_CONTAINER_SIZE + 9
                 + TileEntityConstants.WORKBENCH_CRAFTING_OUTPUT_SIZE, tier,
             (int) (TileEntityConstants.WORKBENCH_BASE_CAPACITY * tier.getMultiplier()),
             (int) (TileEntityConstants.WORKBENCH_BASE_MAX_INPUT * tier.getMultiplier()), 0);
     }
 
     public WorkBenchTileEntity() {
-        this(CraftleTileEntityTypes.WORKBENCH.get(), CraftleRecipeType.CRAFTING,
+        this((WorkBench) CraftleBlocks.WORKBENCH.get(), CraftleRecipeType.CRAFTING,
             CraftleBaseTier.BASIC);
     }
 

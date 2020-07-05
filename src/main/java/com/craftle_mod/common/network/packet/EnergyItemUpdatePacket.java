@@ -1,7 +1,7 @@
 package com.craftle_mod.common.network.packet;
 
 import com.craftle_mod.common.item.EnergyItem;
-import com.craftle_mod.common.tile.storage.energy_matrix.EnergyMatrixTileEntity;
+import com.craftle_mod.common.tile.storage.EnergyMatrixTileEntity;
 import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import net.minecraft.client.Minecraft;

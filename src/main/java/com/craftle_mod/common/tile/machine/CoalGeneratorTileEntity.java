@@ -5,10 +5,11 @@ import com.craftle_mod.api.NBTConstants;
 import com.craftle_mod.api.TagConstants;
 import com.craftle_mod.api.TileEntityConstants;
 import com.craftle_mod.common.Craftle;
+import com.craftle_mod.common.block.machine.CoalGenerator;
 import com.craftle_mod.common.inventory.container.machine.CoalGeneratorContainer;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
+import com.craftle_mod.common.registries.CraftleBlocks;
 import com.craftle_mod.common.registries.CraftleContainerTypes;
-import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import com.craftle_mod.common.util.EnergyUtils;
@@ -22,7 +23,6 @@ import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
@@ -65,17 +65,17 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
     private int burnTime;
     private int totalBurnTime;
 
-    public CoalGeneratorTileEntity(TileEntityType<?> typeIn,
+    public CoalGeneratorTileEntity(CoalGenerator block,
         IRecipeType<? extends IRecipe<?>> recipeTypeIn, CraftleBaseTier tier, int capacity,
         int maxReceive, int maxExtract) {
-        super(typeIn, recipeTypeIn, 1, tier, capacity, maxReceive, maxExtract);
+        super(block, recipeTypeIn, 1, tier, capacity, maxReceive, maxExtract);
         this.burnTime = 0;
         this.totalBurnTime = 0;
     }
 
-    public CoalGeneratorTileEntity(TileEntityType<?> typeIn,
+    public CoalGeneratorTileEntity(CoalGenerator block,
         IRecipeType<? extends IRecipe<?>> recipeTypeIn, CraftleBaseTier tier) {
-        super(typeIn, recipeTypeIn, 1, tier,
+        super(block, recipeTypeIn, 1, tier,
             (int) (TileEntityConstants.COAL_GENERATOR_BASE_CAPACITY * tier.getMultiplier()),
             (int) (TileEntityConstants.COAL_GENERATOR_BASE_MAX_INPUT * tier.getMultiplier()),
             (int) (TileEntityConstants.COAL_GENERATOR_BASE_MAX_OUTPUT * tier.getMultiplier()
@@ -85,7 +85,7 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
     }
 
     public CoalGeneratorTileEntity() {
-        this(CraftleTileEntityTypes.COAL_GENERATOR.get(), CraftleRecipeType.SMELTING,
+        this((CoalGenerator) CraftleBlocks.COAL_GENERATOR.get(), CraftleRecipeType.SMELTING,
             CraftleBaseTier.BASIC);
     }
 
@@ -196,7 +196,7 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
         // emit energy
         if (getEnergyContainer().getEnergy() > 0) {
             this.setEnergyExtractRate(EnergyUtils.emitEnergy(getEnergyContainer(), this,
-                getEnergyContainer().getMaxExtractRate() / 20));
+                getEnergyContainer().getMaxExtractRate() / TileEntityConstants.TICKER_PER_SECOND));
         } else {
             this.setEnergyExtractRate(0);
         }
@@ -214,10 +214,9 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
 
         if (getBufferedEnergy() > this.getEnergyContainer().getMaxInjectRate()) {
 
-            this.setEnergyInjectRate(this.getEnergyContainer().getMaxInjectRate() / 20);
-            this.burnTime = (int) Math.ceil(
-                (float) getBufferedEnergy() / (float) this.getEnergyContainer().getMaxInjectRate())
-                * 20;
+            this.setEnergyInjectRate(this.getEnergyContainer().getMaxInjectRate()
+                / TileEntityConstants.TICKER_PER_SECOND);
+            this.burnTime = (int) Math.ceil(getBufferedEnergy() / this.getEnergyInjectRate());
             this.totalBurnTime = this.burnTime;
         } else {
             this.setEnergyInjectRate(getBufferedEnergy());
@@ -240,6 +239,8 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
             // something went wrong
             Craftle.LOGGER.warn("Coal Generator failed on burn",
                 new CraftleTileEntityException("Coal Generator failed on burn"));
+            resetGenerator();
+            return;
         }
 
         double energyToIncrement = this.getBufferedEnergy() / burnTime;

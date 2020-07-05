@@ -2,6 +2,7 @@ package com.craftle_mod.common.tile.base;
 
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.TestChest;
+import com.craftle_mod.common.block.base.CraftleBlock;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -17,7 +18,6 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
@@ -40,8 +40,8 @@ public abstract class CraftleTileEntity extends LockableLootTileEntity {
     private LazyOptional<IItemHandlerModifiable> itemHandler;
     private int containerSize;
 
-    public CraftleTileEntity(TileEntityType<?> typeIn, int containerSize) {
-        super(typeIn);
+    public CraftleTileEntity(CraftleBlock block, int containerSize) {
+        super(block.getTileType());
         this.containerContents = NonNullList.withSize(containerSize, ItemStack.EMPTY);
         this.items = createHandler();
         this.itemHandler = LazyOptional.of(() -> items);

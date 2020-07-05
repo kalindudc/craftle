@@ -2,6 +2,8 @@ package com.craftle_mod.api;
 
 public class TileEntityConstants {
 
+    public static final int TICKER_PER_SECOND = 20;
+
     // GENERATORS
 
 

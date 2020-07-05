@@ -4,6 +4,7 @@ import com.craftle_mod.common.block.base.MachineBlock;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.resource.IBlockResource;
 import com.craftle_mod.common.tier.CraftleBaseTier;
+import com.craftle_mod.common.tile.base.CraftleTileEntity;
 import com.craftle_mod.common.tile.machine.CoalGeneratorTileEntity;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -13,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -69,6 +71,11 @@ public class CoalGenerator extends MachineBlock {
     @Override
     public void changeState(boolean b, BlockState state, World worldIn, BlockPos pos) {
         this.setActive(b, state, worldIn, pos, this);
+    }
+
+    @Override
+    public TileEntityType<? extends CraftleTileEntity> getTileType() {
+        return CraftleTileEntityTypes.COAL_GENERATOR.get();
     }
 
     @Override

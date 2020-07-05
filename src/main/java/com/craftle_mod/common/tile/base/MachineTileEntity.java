@@ -1,5 +1,6 @@
 package com.craftle_mod.common.tile.base;
 
+import com.craftle_mod.common.block.base.MachineBlock;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.google.common.collect.Maps;
@@ -10,7 +11,6 @@ import net.minecraft.inventory.IRecipeHolder;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -25,9 +25,9 @@ public abstract class MachineTileEntity extends CraftleTileEntity implements IRe
 
     private boolean dirty;
 
-    public MachineTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier) {
-        super(typeIn, containerSize);
+    public MachineTileEntity(MachineBlock block, IRecipeType<? extends IRecipe<?>> recipeTypeIn,
+        int containerSize, CraftleBaseTier tier) {
+        super(block, containerSize);
         this.tier = tier;
         this.recipeType = recipeTypeIn;
         dirty = false;

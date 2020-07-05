@@ -2,7 +2,7 @@ package com.craftle_mod.client.gui.storage;
 
 import com.craftle_mod.api.GUIConstants;
 import com.craftle_mod.common.inventory.container.storage.energy_matrix.EnergyMatrixContainer;
-import com.craftle_mod.common.tile.storage.energy_matrix.EnergyMatrixTileEntity;
+import com.craftle_mod.common.tile.storage.EnergyMatrixTileEntity;
 import com.craftle_mod.common.util.EnergyUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
 import java.util.ArrayList;

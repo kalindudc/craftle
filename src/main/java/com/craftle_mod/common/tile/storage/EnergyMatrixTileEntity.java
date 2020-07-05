@@ -1,7 +1,9 @@
-package com.craftle_mod.common.tile.storage.energy_matrix;
+package com.craftle_mod.common.tile.storage;
 
 import com.craftle_mod.api.TagConstants;
+import com.craftle_mod.api.TileEntityConstants;
 import com.craftle_mod.common.Craftle;
+import com.craftle_mod.common.block.storage.EnergyMatrix;
 import com.craftle_mod.common.inventory.container.storage.energy_matrix.EnergyMatrixContainerFactory;
 import com.craftle_mod.common.item.EnergyItem;
 import com.craftle_mod.common.network.packet.EnergyItemUpdatePacket;
@@ -21,7 +23,6 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -34,19 +35,22 @@ import net.minecraftforge.items.CapabilityItemHandler;
 
 public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
 
-    public EnergyMatrixTileEntity(TileEntityType<?> typeIn,
-        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier,
-        int capacity) {
-        super(typeIn, recipeTypeIn, containerSize, tier, capacity);
+    public EnergyMatrixTileEntity(EnergyMatrix block,
+        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier) {
+        super(block, recipeTypeIn, containerSize, tier,
+            TileEntityConstants.ENERGY_MATRIX_BASE_CAPACITY * tier.getMultiplier());
     }
 
-    public EnergyMatrixTileEntity(TileEntityType<?> typeIn, CraftleBaseTier tier, int capacity) {
-        super(typeIn, CraftleRecipeType.CRAFTING, 2, tier, capacity);
+    public EnergyMatrixTileEntity(EnergyMatrix block, CraftleBaseTier tier) {
+        super(block, CraftleRecipeType.CRAFTING, 2, tier,
+            TileEntityConstants.ENERGY_MATRIX_BASE_CAPACITY * tier.getMultiplier());
     }
 
-    public EnergyMatrixTileEntity(TileEntityType<?> typeIn, CraftleBaseTier tier, int capacity,
-        int energy) {
-        super(typeIn, CraftleRecipeType.CRAFTING, 2, tier, capacity, capacity, capacity, energy);
+    public EnergyMatrixTileEntity(EnergyMatrix block, CraftleBaseTier tier, double energy) {
+        super(block, CraftleRecipeType.CRAFTING, 2, tier,
+            TileEntityConstants.ENERGY_MATRIX_BASE_CAPACITY * tier.getMultiplier(),
+            TileEntityConstants.ENERGY_MATRIX_BASE_CAPACITY * tier.getMultiplier(),
+            TileEntityConstants.ENERGY_MATRIX_BASE_CAPACITY * tier.getMultiplier(), energy);
     }
 
     @Nonnull
