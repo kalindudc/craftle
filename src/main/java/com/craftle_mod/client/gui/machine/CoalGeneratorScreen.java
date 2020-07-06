@@ -113,6 +113,7 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         double maxEnergy = this.getContainer().getEnergyContainer().getCapacity();
 
         double burnPercent = this.getContainer().getBurnPercentage();
+
         double energyPercent = energy / maxEnergy;
 
         int textureX;

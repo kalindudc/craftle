@@ -1,8 +1,9 @@
 package com.craftle_mod.common.tile.machine;
 
+import com.craftle_mod.api.ContainerConstants;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.machine.Crusher;
-import com.craftle_mod.common.inventory.container.machine.crusher.CrusherContainerFactory;
+import com.craftle_mod.common.inventory.slot.SlotConfig;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.recipe.base.CraftleRecipe;
 import com.craftle_mod.common.registries.CraftleBlocks;
@@ -10,11 +11,9 @@ import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IRecipeHelperPopulator;
 import net.minecraft.inventory.IRecipeHolder;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -45,7 +44,6 @@ public class CrusherTileEntity extends PoweredMachineTileEntity implements ISide
 
     public CrusherTileEntity(Crusher block, CraftleBaseTier tier) {
         this(block, CraftleRecipeType.CRUSHING, tier);
-
     }
 
     public CrusherTileEntity(Crusher block, CraftleBaseTier tier, int energy) {
@@ -59,6 +57,52 @@ public class CrusherTileEntity extends PoweredMachineTileEntity implements ISide
     }
 
     // CONSTRUCTORS END -----------------
+
+    private void addContainerSlotData() {
+
+        switch (getCraftleMachineTier()) {
+            case TIER_1:
+                addSlotData(
+                    new SlotConfig(1, 1, this, 0, 46, 17, ContainerConstants.TOTAL_SLOT_SIZE));
+                addSlotData(
+                    new SlotConfig(1, 1, this, 1, 46, 53, ContainerConstants.TOTAL_SLOT_SIZE));
+                addSlotData(
+                    new SlotConfig(2, 2, this, 2, 104, 25, ContainerConstants.TOTAL_SLOT_SIZE));
+                break;
+            case TIER_2:
+                addSlotData(
+                    new SlotConfig(1, 1, this, 0, 36, 17, ContainerConstants.TOTAL_SLOT_SIZE));
+                addSlotData(
+                    new SlotConfig(1, 1, this, 1, 36, 53, ContainerConstants.TOTAL_SLOT_SIZE));
+                addSlotData(
+                    new SlotConfig(4, 2, this, 2, 90, 25, ContainerConstants.TOTAL_SLOT_SIZE));
+                break;
+            case TIER_3:
+                addSlotData(
+                    new SlotConfig(1, 1, this, 0, 36, 17, ContainerConstants.TOTAL_SLOT_SIZE));
+                addSlotData(
+                    new SlotConfig(1, 1, this, 1, 36, 53, ContainerConstants.TOTAL_SLOT_SIZE));
+                addSlotData(
+                    new SlotConfig(4, 4, this, 2, 90, 7, ContainerConstants.TOTAL_SLOT_SIZE));
+                break;
+            case TIER_4:
+                addSlotData(
+                    new SlotConfig(1, 1, this, 0, 12, 17, ContainerConstants.TOTAL_SLOT_SIZE));
+                addSlotData(
+                    new SlotConfig(1, 1, this, 1, 12, 53, ContainerConstants.TOTAL_SLOT_SIZE));
+                addSlotData(
+                    new SlotConfig(6, 4, this, 2, 62, 7, ContainerConstants.TOTAL_SLOT_SIZE));
+                break;
+            default:
+                addSlotData(
+                    new SlotConfig(1, 1, this, 0, 56, 17, ContainerConstants.TOTAL_SLOT_SIZE));
+                addSlotData(
+                    new SlotConfig(1, 1, this, 1, 56, 53, ContainerConstants.TOTAL_SLOT_SIZE));
+                addSlotData(
+                    new SlotConfig(1, 1, this, 2, 116, 35, ContainerConstants.TOTAL_SLOT_SIZE));
+                break;
+        }
+    }
 
     private void init(CraftleBaseTier tier) {
         int chestSize;
@@ -83,6 +127,7 @@ public class CrusherTileEntity extends PoweredMachineTileEntity implements ISide
                 break;
 
         }
+        addContainerSlotData();
         super.resetContainerSize(chestSize);
     }
 
@@ -124,13 +169,6 @@ public class CrusherTileEntity extends PoweredMachineTileEntity implements ISide
     protected ITextComponent getDefaultName() {
         return new TranslationTextComponent(
             "block." + Craftle.MODID + ".crusher_" + this.getCraftleMachineTier().getTier());
-    }
-
-    @Nonnull
-    @Override
-    public Container createMenu(int id, @Nonnull PlayerInventory player) {
-        return CrusherContainerFactory
-            .buildWithTileEntity(this.getCraftleMachineTier(), id, player, this);
     }
 
     @Nullable

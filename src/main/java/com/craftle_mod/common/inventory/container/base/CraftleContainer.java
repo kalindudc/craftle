@@ -1,10 +1,13 @@
 package com.craftle_mod.common.inventory.container.base;
 
+import com.craftle_mod.common.inventory.slot.SlotConfig;
 import com.craftle_mod.common.tile.base.CraftleTileEntity;
+import com.craftle_mod.common.tile.base.MachineTileEntity;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
@@ -14,7 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.world.World;
 
-public abstract class CraftleContainer extends Container {
+public class CraftleContainer extends Container {
 
     private final IWorldPosCallable canInteractWithCallable;
     private final CraftleTileEntity entity;
@@ -33,6 +36,7 @@ public abstract class CraftleContainer extends Container {
         this.world = entity.getWorld();
         worldPosCallable = IWorldPosCallable.of(this.getWorld(), entity.getPos());
         init();
+        initSlots();
 
     }
 
@@ -102,7 +106,18 @@ public abstract class CraftleContainer extends Container {
         return itemStack;
     }
 
-    public void addContainerSlot(int index, int inputX, int inputY) {
+    @Override
+    public boolean canInteractWith(@Nonnull PlayerEntity playerIn) {
+
+        if (!(getEntity() instanceof MachineTileEntity)) {
+            throw new IllegalStateException("Tile entity is not correct. ");
+        }
+
+        return isWithinUsableDistance(getCanInteractWithCallable(), playerIn,
+            this.entity.getBlock());
+    }
+
+    public void addContainerSlot(IInventory entity, int index, int inputX, int inputY) {
         this.addSlot(new Slot(entity, index, inputX, inputY));
     }
 
@@ -117,8 +132,8 @@ public abstract class CraftleContainer extends Container {
         }
 
         // Hot Bar
-        int hotbarX = 8;
-        int hotbarY = 142;
+        int hotbarX = startX;
+        int hotbarY = startY + (totalSlotSpaceSize * 3) + 4;
         for (int col = 0; col < 9; col++) {
             // extra 9 + is to account for the hotbar
             this.addSlot(
@@ -130,6 +145,21 @@ public abstract class CraftleContainer extends Container {
         return playerInventory;
     }
 
-    public abstract void initSlots();
+    public void initSlots() {
+
+        for (SlotConfig config : entity.getSlotData()) {
+
+            for (int row = 0; row < config.getNumRows(); row++) {
+                for (int col = 0; col < config.getNumCols(); col++) {
+                    addContainerSlot(config.getEntity(), config.getIndex(row, col),
+                        config.getX(col), config.getY(row));
+                }
+            }
+        }
+
+        addPlayerInventorySlots(entity.getMainInventorySlotConfig().getStartX(),
+            entity.getMainInventorySlotConfig().getStartY(),
+            entity.getMainInventorySlotConfig().getSlotSize());
+    }
 
 }

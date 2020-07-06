@@ -1,7 +1,7 @@
 package com.craftle_mod.client.gui.machine.crusher;
 
 import com.craftle_mod.api.GUIConstants;
-import com.craftle_mod.common.inventory.container.machine.crusher.CrusherContainer;
+import com.craftle_mod.common.inventory.container.base.EnergyContainer;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class CrusherScreenFactory {
 
-    public static ScreenManager.IScreenFactory<CrusherContainer, ContainerScreen<CrusherContainer>> build(
+    public static ScreenManager.IScreenFactory<EnergyContainer, ContainerScreen<EnergyContainer>> build(
         CraftleBaseTier tier) {
 
         switch (tier) {

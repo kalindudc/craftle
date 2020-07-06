@@ -13,7 +13,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public abstract class EnergyContainer extends CraftleContainer {
+public class EnergyContainer extends CraftleContainer {
 
 
     private final ICraftleEnergyStorage storage;
@@ -45,7 +45,6 @@ public abstract class EnergyContainer extends CraftleContainer {
 
     @Override
     public void init() {
-        super.init();
         sendPacketToServer(new EnergyContainerCreatePacket(windowId, getEntity().getPos()));
     }
 

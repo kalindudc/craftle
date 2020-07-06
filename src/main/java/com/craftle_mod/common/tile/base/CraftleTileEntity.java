@@ -1,8 +1,13 @@
 package com.craftle_mod.common.tile.base;
 
+import com.craftle_mod.api.ContainerConstants;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.TestChest;
 import com.craftle_mod.common.block.base.CraftleBlock;
+import com.craftle_mod.common.inventory.container.base.CraftleContainer;
+import com.craftle_mod.common.inventory.slot.SlotConfig;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,12 +45,41 @@ public abstract class CraftleTileEntity extends LockableLootTileEntity {
     private LazyOptional<IItemHandlerModifiable> itemHandler;
     private int containerSize;
 
+    protected CraftleBlock block;
+
+    private final List<SlotConfig> slotData;
+    private SlotConfig mainInventorySlotConfig;
+
     public CraftleTileEntity(CraftleBlock block, int containerSize) {
         super(block.getTileType());
         this.containerContents = NonNullList.withSize(containerSize, ItemStack.EMPTY);
         this.items = createHandler();
         this.itemHandler = LazyOptional.of(() -> items);
         this.containerSize = containerSize;
+        this.block = block;
+        slotData = new ArrayList<>();
+        mainInventorySlotConfig = new SlotConfig(8, 84, ContainerConstants.TOTAL_SLOT_SIZE);
+    }
+
+    public SlotConfig getMainInventorySlotConfig() {
+        return mainInventorySlotConfig;
+    }
+
+    public void setMainInventorySlotConfig(SlotConfig mainInventorySlotConfig) {
+        this.mainInventorySlotConfig = mainInventorySlotConfig;
+    }
+
+
+    public CraftleBlock getBlock() {
+        return block;
+    }
+
+    public List<SlotConfig> getSlotData() {
+        return slotData;
+    }
+
+    public void addSlotData(SlotConfig config) {
+        slotData.add(config);
     }
 
     @Override
@@ -80,7 +114,10 @@ public abstract class CraftleTileEntity extends LockableLootTileEntity {
 
     @Nonnull
     @Override
-    public abstract Container createMenu(int id, @Nonnull PlayerInventory player);
+    public Container createMenu(int id, @Nonnull PlayerInventory player) {
+
+        return new CraftleContainer(getBlock().getContainerType(), id, player, this);
+    }
 
     @Nonnull
     @Override

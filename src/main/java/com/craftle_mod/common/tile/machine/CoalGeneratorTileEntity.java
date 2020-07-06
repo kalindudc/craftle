@@ -1,5 +1,6 @@
 package com.craftle_mod.common.tile.machine;
 
+import com.craftle_mod.api.ContainerConstants;
 import com.craftle_mod.api.CraftleExceptions.CraftleTileEntityException;
 import com.craftle_mod.api.NBTConstants;
 import com.craftle_mod.api.TagConstants;
@@ -7,9 +8,9 @@ import com.craftle_mod.api.TileEntityConstants;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.machine.CoalGenerator;
 import com.craftle_mod.common.inventory.container.machine.CoalGeneratorContainer;
+import com.craftle_mod.common.inventory.slot.SlotConfig;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.registries.CraftleBlocks;
-import com.craftle_mod.common.registries.CraftleContainerTypes;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import com.craftle_mod.common.util.EnergyUtils;
@@ -66,27 +67,34 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
     private int totalBurnTime;
 
     public CoalGeneratorTileEntity(CoalGenerator block,
-        IRecipeType<? extends IRecipe<?>> recipeTypeIn, CraftleBaseTier tier, int capacity,
-        int maxReceive, int maxExtract) {
+        IRecipeType<? extends IRecipe<?>> recipeTypeIn, CraftleBaseTier tier, double capacity,
+        double maxReceive, double maxExtract) {
         super(block, recipeTypeIn, 1, tier, capacity, maxReceive, maxExtract);
         this.burnTime = 0;
         this.totalBurnTime = 0;
+
+        addSlotData(new SlotConfig(1, 1, this, 0, 80, 20, ContainerConstants.TOTAL_SLOT_SIZE));
     }
 
     public CoalGeneratorTileEntity(CoalGenerator block,
         IRecipeType<? extends IRecipe<?>> recipeTypeIn, CraftleBaseTier tier) {
-        super(block, recipeTypeIn, 1, tier,
-            (int) (TileEntityConstants.COAL_GENERATOR_BASE_CAPACITY * tier.getMultiplier()),
-            (int) (TileEntityConstants.COAL_GENERATOR_BASE_MAX_INPUT * tier.getMultiplier()),
-            (int) (TileEntityConstants.COAL_GENERATOR_BASE_MAX_OUTPUT * tier.getMultiplier()
-                * 1.5));
-        this.burnTime = 0;
-        this.totalBurnTime = 0;
+        this(block, recipeTypeIn, tier,
+            (TileEntityConstants.COAL_GENERATOR_BASE_CAPACITY * tier.getMultiplier()),
+            (TileEntityConstants.COAL_GENERATOR_BASE_MAX_INPUT * tier.getMultiplier()),
+            (TileEntityConstants.COAL_GENERATOR_BASE_MAX_OUTPUT * tier.getMultiplier() * 1.5));
     }
 
     public CoalGeneratorTileEntity() {
         this((CoalGenerator) CraftleBlocks.COAL_GENERATOR.get(), CraftleRecipeType.SMELTING,
             CraftleBaseTier.BASIC);
+    }
+
+    @Nonnull
+    @Override
+    public Container createMenu(int id, @Nonnull PlayerInventory player) {
+
+        return new CoalGeneratorContainer(getBlock().getContainerType(), id, player, this,
+            generatorData);
     }
 
     @Nonnull
@@ -103,14 +111,6 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
     public boolean hasCapability(Capability<?> capability, Direction direction) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super
             .hasCapability(capability, direction);
-    }
-
-    @Nonnull
-    @Override
-    public Container createMenu(int id, @Nonnull PlayerInventory player) {
-
-        return new CoalGeneratorContainer(CraftleContainerTypes.COAL_GENERATOR.get(), id, player,
-            this, generatorData);
     }
 
     public int getBurnTime() {

@@ -1,6 +1,7 @@
 package com.craftle_mod.common.block.storage;
 
 import com.craftle_mod.common.block.base.MachineBlock;
+import com.craftle_mod.common.registries.CraftleContainerTypes;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import com.craftle_mod.common.resource.IBlockResource;
 import com.craftle_mod.common.tier.CraftleBaseTier;
@@ -15,6 +16,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
@@ -189,6 +191,24 @@ public class EnergyMatrix extends MachineBlock {
             case BASIC:
             default:
                 return CraftleTileEntityTypes.ENERGY_MATRIX_BASIC.get();
+        }
+    }
+
+    @Override
+    public ContainerType<?> getContainerType() {
+        switch (getCraftleTier()) {
+            case UNLIMITED:
+            case TIER_4:
+                return CraftleContainerTypes.ENERGY_MATRIX_TIER_4.get();
+            case TIER_3:
+                return CraftleContainerTypes.ENERGY_MATRIX_TIER_3.get();
+            case TIER_2:
+                return CraftleContainerTypes.ENERGY_MATRIX_TIER_2.get();
+            case TIER_1:
+                return CraftleContainerTypes.ENERGY_MATRIX_TIER_1.get();
+            case BASIC:
+            default:
+                return CraftleContainerTypes.ENERGY_MATRIX_BASIC.get();
         }
     }
 }

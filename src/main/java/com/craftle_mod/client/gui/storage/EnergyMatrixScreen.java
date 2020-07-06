@@ -1,7 +1,7 @@
 package com.craftle_mod.client.gui.storage;
 
 import com.craftle_mod.api.GUIConstants;
-import com.craftle_mod.common.inventory.container.storage.energy_matrix.EnergyMatrixContainer;
+import com.craftle_mod.common.inventory.container.base.EnergyContainer;
 import com.craftle_mod.common.tile.storage.EnergyMatrixTileEntity;
 import com.craftle_mod.common.util.EnergyUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -12,12 +12,12 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.client.gui.GuiUtils;
 
-public class EnergyMatrixScreen extends ContainerScreen<EnergyMatrixContainer> implements
-    IHasContainer<EnergyMatrixContainer> {
+public class EnergyMatrixScreen extends ContainerScreen<EnergyContainer> implements
+    IHasContainer<EnergyContainer> {
 
     private final EnergyMatrixTileEntity entity;
 
-    public EnergyMatrixScreen(EnergyMatrixContainer screenContainer, PlayerInventory inv,
+    public EnergyMatrixScreen(EnergyContainer screenContainer, PlayerInventory inv,
         ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
         this.guiLeft = 0;

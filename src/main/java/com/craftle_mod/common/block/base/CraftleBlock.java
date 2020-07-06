@@ -4,6 +4,7 @@ import com.craftle_mod.common.resource.IBlockResource;
 import com.craftle_mod.common.tile.base.CraftleTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.tileentity.TileEntityType;
 
 public abstract class CraftleBlock extends Block {
@@ -34,5 +35,7 @@ public abstract class CraftleBlock extends Block {
     }
 
     public abstract TileEntityType<? extends CraftleTileEntity> getTileType();
+
+    public abstract ContainerType<?> getContainerType();
 
 }

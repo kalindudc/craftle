@@ -27,5 +27,4 @@ public class TileEntityConstants {
     public final static int WORKBENCH_BASE_MAX_OUTPUT = 0;
     public final static int WORKBENCH_CONTAINER_SIZE = 5 * 5;
     public final static int WORKBENCH_CRAFTING_OUTPUT_SIZE = 1;
-
 }

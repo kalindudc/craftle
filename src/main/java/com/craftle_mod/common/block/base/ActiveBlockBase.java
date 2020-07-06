@@ -6,6 +6,7 @@ import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.RedstoneTorchBlock;
 import net.minecraft.block.SoundType;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -52,4 +53,6 @@ public abstract class ActiveBlockBase extends FacedBlockBase {
 
     @Override
     public abstract TileEntityType<? extends CraftleTileEntity> getTileType();
+
+    public abstract ContainerType<?> getContainerType();
 }

@@ -6,12 +6,15 @@ import com.craftle_mod.common.block.base.MachineBlock;
 import com.craftle_mod.common.capability.Capabilities;
 import com.craftle_mod.common.capability.energy.CraftleEnergyStorage;
 import com.craftle_mod.common.capability.energy.ICraftleEnergyStorage;
+import com.craftle_mod.common.inventory.container.base.EnergyContainer;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
@@ -74,6 +77,13 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
         this.energyContainer = new CraftleEnergyStorage(capacity, maxReceive, maxExtract,
             startingEnergy, tier);
         init();
+    }
+
+    @Nonnull
+    @Override
+    public Container createMenu(int id, @Nonnull PlayerInventory player) {
+
+        return new EnergyContainer(getBlock().getContainerType(), id, player, this);
     }
 
     public void resetBufferedEnergy() {

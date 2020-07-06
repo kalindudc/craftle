@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.SoundType;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
@@ -28,6 +29,11 @@ public class FacedBlockBase extends CraftleBlock {
 
     @Override
     public TileEntityType<? extends CraftleTileEntity> getTileType() {
+        return null;
+    }
+
+    @Override
+    public ContainerType<?> getContainerType() {
         return null;
     }
 

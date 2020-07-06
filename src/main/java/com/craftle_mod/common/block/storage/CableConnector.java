@@ -6,6 +6,7 @@ import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.base.CraftleTileEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -23,6 +24,11 @@ public class CableConnector extends MachineBlock {
 
     @Override
     public TileEntityType<? extends CraftleTileEntity> getTileType() {
+        return null; // TODO: implement
+    }
+
+    @Override
+    public ContainerType<?> getContainerType() {
         return null; // TODO: implement
     }
 

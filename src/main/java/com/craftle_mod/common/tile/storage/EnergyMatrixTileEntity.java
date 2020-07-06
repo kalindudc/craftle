@@ -1,10 +1,11 @@
 package com.craftle_mod.common.tile.storage;
 
+import com.craftle_mod.api.ContainerConstants;
 import com.craftle_mod.api.TagConstants;
 import com.craftle_mod.api.TileEntityConstants;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.storage.EnergyMatrix;
-import com.craftle_mod.common.inventory.container.storage.energy_matrix.EnergyMatrixContainerFactory;
+import com.craftle_mod.common.inventory.slot.SlotConfig;
 import com.craftle_mod.common.item.EnergyItem;
 import com.craftle_mod.common.network.packet.EnergyItemUpdatePacket;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
@@ -16,11 +17,8 @@ import java.util.List;
 import javafx.geometry.Point3D;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -35,23 +33,19 @@ import net.minecraftforge.items.CapabilityItemHandler;
 
 public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
 
-    public EnergyMatrixTileEntity(EnergyMatrix block,
-        IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier) {
-        super(block, recipeTypeIn, containerSize, tier,
-            TileEntityConstants.ENERGY_MATRIX_BASE_CAPACITY * tier.getMultiplier());
-    }
-
     public EnergyMatrixTileEntity(EnergyMatrix block, CraftleBaseTier tier) {
-        super(block, CraftleRecipeType.CRAFTING, 2, tier,
-            TileEntityConstants.ENERGY_MATRIX_BASE_CAPACITY * tier.getMultiplier());
+        this(block, tier, 0);
     }
 
     public EnergyMatrixTileEntity(EnergyMatrix block, CraftleBaseTier tier, double energy) {
         super(block, CraftleRecipeType.CRAFTING, 2, tier,
             TileEntityConstants.ENERGY_MATRIX_BASE_CAPACITY * tier.getMultiplier(),
-            TileEntityConstants.ENERGY_MATRIX_BASE_CAPACITY * tier.getMultiplier(),
-            TileEntityConstants.ENERGY_MATRIX_BASE_CAPACITY * tier.getMultiplier(), energy);
+            TileEntityConstants.ENERGY_MATRIX_BASE_CAPACITY * tier.getMultiplier(), 0, energy);
+
+        addSlotData(new SlotConfig(1, 1, this, 0, 114, 23, ContainerConstants.TOTAL_SLOT_SIZE));
+        addSlotData(new SlotConfig(1, 1, this, 1, 114, 58, ContainerConstants.TOTAL_SLOT_SIZE));
     }
+
 
     @Nonnull
     @Override
@@ -67,13 +61,6 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
     public boolean hasCapability(Capability<?> capability, Direction direction) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super
             .hasCapability(capability, direction);
-    }
-
-    @Nonnull
-    @Override
-    public Container createMenu(int id, @Nonnull PlayerInventory player) {
-        return EnergyMatrixContainerFactory
-            .buildWithTileEntity(this.getCraftleMachineTier(), id, player, this);
     }
 
     @Nullable

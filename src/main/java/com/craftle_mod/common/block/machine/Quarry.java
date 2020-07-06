@@ -8,6 +8,7 @@ import com.craftle_mod.common.tile.base.CraftleTileEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.RedstoneTorchBlock;
 import net.minecraft.block.SoundType;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.tileentity.TileEntityType;
 
@@ -22,6 +23,11 @@ public class Quarry extends MachineBlock {
     @Override
     public TileEntityType<? extends CraftleTileEntity> getTileType() {
         return CraftleTileEntityTypes.QUARRY.get();
+    }
+
+    @Override
+    public ContainerType<?> getContainerType() {
+        return null;
     }
 
     @Override

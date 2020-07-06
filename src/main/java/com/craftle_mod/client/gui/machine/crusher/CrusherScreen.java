@@ -1,6 +1,6 @@
 package com.craftle_mod.client.gui.machine.crusher;
 
-import com.craftle_mod.common.inventory.container.machine.crusher.CrusherContainer;
+import com.craftle_mod.common.inventory.container.base.EnergyContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -13,12 +13,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 TODO: Factorize the screen gui.
  */
 @OnlyIn(Dist.CLIENT)
-public class CrusherScreen extends ContainerScreen<CrusherContainer> {
+public class CrusherScreen extends ContainerScreen<EnergyContainer> {
 
     // TODO: make static, store in a config and load through the factory
     private final ResourceLocation backgroundTexture;
 
-    public CrusherScreen(CrusherContainer screenContainer, PlayerInventory inv,
+    public CrusherScreen(EnergyContainer screenContainer, PlayerInventory inv,
         ITextComponent titleIn, ResourceLocation resourceLocation) {
         super(screenContainer, inv, titleIn);
         this.guiLeft = 0;

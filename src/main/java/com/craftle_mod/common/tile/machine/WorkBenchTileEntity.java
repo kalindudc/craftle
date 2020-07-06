@@ -1,12 +1,13 @@
 package com.craftle_mod.common.tile.machine;
 
+import com.craftle_mod.api.ContainerConstants;
 import com.craftle_mod.api.TagConstants;
 import com.craftle_mod.api.TileEntityConstants;
 import com.craftle_mod.common.block.machine.WorkBench;
 import com.craftle_mod.common.inventory.container.machine.WorkBenchContainer;
+import com.craftle_mod.common.inventory.slot.SlotConfig;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.registries.CraftleBlocks;
-import com.craftle_mod.common.registries.CraftleContainerTypes;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import javax.annotation.Nonnull;
@@ -24,17 +25,44 @@ import net.minecraftforge.items.CapabilityItemHandler;
 
 public class WorkBenchTileEntity extends PoweredMachineTileEntity {
 
+    private final SlotConfig craftingMatrixSlotData;
+    private final SlotConfig craftingResultSlotData;
+
     public WorkBenchTileEntity(WorkBench block, IRecipeType<? extends IRecipe<?>> recipeTypeIn,
         CraftleBaseTier tier) {
         super(block, recipeTypeIn, TileEntityConstants.WORKBENCH_CONTAINER_SIZE + 9
                 + TileEntityConstants.WORKBENCH_CRAFTING_OUTPUT_SIZE, tier,
             (int) (TileEntityConstants.WORKBENCH_BASE_CAPACITY * tier.getMultiplier()),
             (int) (TileEntityConstants.WORKBENCH_BASE_MAX_INPUT * tier.getMultiplier()), 0);
+
+        craftingMatrixSlotData = new SlotConfig(3, 3, null, 0, 30, 17,
+            ContainerConstants.TOTAL_SLOT_SIZE);
+        craftingResultSlotData = new SlotConfig(1, 1, null, 0, 124, 35,
+            ContainerConstants.TOTAL_SLOT_SIZE);
+
+        addSlotData(craftingMatrixSlotData);
+        addSlotData(craftingResultSlotData);
+        addSlotData(new SlotConfig(5, 5, this, 10, 184, 70, ContainerConstants.TOTAL_SLOT_SIZE));
     }
 
     public WorkBenchTileEntity() {
         this((WorkBench) CraftleBlocks.WORKBENCH.get(), CraftleRecipeType.CRAFTING,
             CraftleBaseTier.BASIC);
+    }
+
+    @Nonnull
+    @Override
+    public Container createMenu(int id, @Nonnull PlayerInventory player) {
+
+        return new WorkBenchContainer(getBlock().getContainerType(), id, player, this);
+    }
+
+    public SlotConfig getCraftingMatrixSlotData() {
+        return craftingMatrixSlotData;
+    }
+
+    public SlotConfig getCraftingResultSlotData() {
+        return craftingResultSlotData;
     }
 
     @Nonnull
@@ -51,12 +79,6 @@ public class WorkBenchTileEntity extends PoweredMachineTileEntity {
     public boolean hasCapability(Capability<?> capability, Direction direction) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super
             .hasCapability(capability, direction);
-    }
-
-    @Nonnull
-    @Override
-    public Container createMenu(int id, @Nonnull PlayerInventory player) {
-        return new WorkBenchContainer(CraftleContainerTypes.WORKBENCH.get(), id, player, this);
     }
 
     @Nullable
