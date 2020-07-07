@@ -82,19 +82,19 @@ public class EnergyGui<T extends EnergyContainer> extends CraftleGui<T> {
             double input = this.getContainer().getInjectRate();
             double output = this.getContainer().getExtractRate();
 
-            this.font.drawString("Max: ", 12.0f, 12.0f, 13816530);
+            this.font.drawString("Max: ", 12.0f, 14.0f, 13816530);
             this.font
-                .drawString(String.format("%.02f %s", capacity, units), 32.0f, 12.0f, 13816530);
+                .drawString(String.format("%.02f %s", capacity, units), 34.0f, 14.0f, 13816530);
 
             this.font.drawString("Energy: ", 12.0f, 27.0f, 6805014);
-            this.font.drawString(String.format("%.02f %s", energy, units), 51.0f, 27.0f, 6805014);
+            this.font.drawString(String.format("%.02f %s", energy, units), 52.0f, 27.0f, 6805014);
 
-            this.font.drawString("In: ", 12.0f, 40.0f, 6805014);
-            this.font.drawString(String.format("%.02f %s", (input), units), 32.0f, 40.0f, 6805014);
+            this.font.drawString("In: ", 12.0f, 41.0f, 6805014);
+            this.font.drawString(String.format("%.02f %s", (input), units), 32.0f, 41.0f, 6805014);
 
-            this.font.drawString("Out: ", 12.0f, 51.0f, 14823215);
+            this.font.drawString("Out: ", 12.0f, 54.0f, 14823215);
             this.font
-                .drawString(String.format("%.02f %s", (output), units), 32.0f, 51.0f, 14823215);
+                .drawString(String.format("%.02f %s", (output), units), 32.0f, 54.0f, 14823215);
 
             if (CraftleGuiUtils.isWithinBounds(mouseX, mouseY, GUIConstants.ENERGY_BAR_X + offsetX,
                 GUIConstants.ENERGY_BAR_Y + offsetY,
