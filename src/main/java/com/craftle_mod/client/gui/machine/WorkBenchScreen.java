@@ -1,6 +1,6 @@
 package com.craftle_mod.client.gui.machine;
 
-import com.craftle_mod.api.GUIConstants;
+import com.craftle_mod.api.constants.GUIConstants;
 import com.craftle_mod.common.inventory.container.machine.WorkBenchContainer;
 import com.craftle_mod.common.tile.machine.WorkBenchTileEntity;
 import com.craftle_mod.common.util.EnergyUtils;

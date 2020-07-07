@@ -1,11 +1,12 @@
 package com.craftle_mod.common.tile.storage;
 
-import com.craftle_mod.api.ContainerConstants;
-import com.craftle_mod.api.TagConstants;
-import com.craftle_mod.api.TileEntityConstants;
+import com.craftle_mod.api.constants.TagConstants;
+import com.craftle_mod.api.constants.TileEntityConstants;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.storage.EnergyMatrix;
 import com.craftle_mod.common.inventory.slot.SlotConfig;
+import com.craftle_mod.common.inventory.slot.SlotConfig.SlotType;
+import com.craftle_mod.common.inventory.slot.SlotConfigBuilder;
 import com.craftle_mod.common.item.EnergyItem;
 import com.craftle_mod.common.network.packet.EnergyItemUpdatePacket;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
@@ -33,6 +34,9 @@ import net.minecraftforge.items.CapabilityItemHandler;
 
 public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
 
+    private final SlotConfig injectSlotConfig;
+    private final SlotConfig extractSlotConfig;
+
     public EnergyMatrixTileEntity(EnergyMatrix block, CraftleBaseTier tier) {
         this(block, tier, 0);
     }
@@ -42,8 +46,13 @@ public class EnergyMatrixTileEntity extends PoweredMachineTileEntity {
             TileEntityConstants.ENERGY_MATRIX_BASE_CAPACITY * tier.getMultiplier(),
             TileEntityConstants.ENERGY_MATRIX_BASE_CAPACITY * tier.getMultiplier(), 0, energy);
 
-        addSlotData(new SlotConfig(1, 1, this, 0, 114, 23, ContainerConstants.TOTAL_SLOT_SIZE));
-        addSlotData(new SlotConfig(1, 1, this, 1, 114, 58, ContainerConstants.TOTAL_SLOT_SIZE));
+        injectSlotConfig = SlotConfigBuilder.create().inventory(this).startX(135).startY(20)
+            .slotType(SlotType.INJECT).build();
+        extractSlotConfig = SlotConfigBuilder.create().inventory(this).startingIndex(1).startX(135)
+            .startY(50).slotType(SlotType.EXTRACT).build();
+
+        addSlotData(injectSlotConfig);
+        addSlotData(extractSlotConfig);
     }
 
 

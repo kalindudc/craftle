@@ -1,6 +1,6 @@
 package com.craftle_mod.common.tile.base;
 
-import com.craftle_mod.api.NBTConstants;
+import com.craftle_mod.api.constants.NBTConstants;
 import com.craftle_mod.common.block.base.ActiveBlockBase;
 import com.craftle_mod.common.block.base.MachineBlock;
 import com.craftle_mod.common.capability.Capabilities;

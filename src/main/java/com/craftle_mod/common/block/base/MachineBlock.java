@@ -1,6 +1,6 @@
 package com.craftle_mod.common.block.base;
 
-import com.craftle_mod.api.BlockConstants;
+import com.craftle_mod.api.constants.BlockConstants;
 import com.craftle_mod.common.resource.IBlockResource;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import javax.annotation.Nullable;

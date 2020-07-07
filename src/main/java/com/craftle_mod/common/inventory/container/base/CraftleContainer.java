@@ -151,7 +151,7 @@ public class CraftleContainer extends Container {
 
             for (int row = 0; row < config.getNumRows(); row++) {
                 for (int col = 0; col < config.getNumCols(); col++) {
-                    addContainerSlot(config.getEntity(), config.getIndex(row, col),
+                    addContainerSlot(config.getInventory(), config.getIndex(row, col),
                         config.getX(col), config.getY(row));
                 }
             }

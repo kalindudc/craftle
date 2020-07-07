@@ -1,11 +1,13 @@
 package com.craftle_mod.client;
 
 import com.craftle_mod.client.gui.CraftleChestScreen;
-import com.craftle_mod.client.gui.machine.CoalGeneratorScreen;
+import com.craftle_mod.client.gui.EnergyGui;
+import com.craftle_mod.client.gui.machine.GeneratorGui;
 import com.craftle_mod.client.gui.machine.WorkBenchScreen;
 import com.craftle_mod.client.gui.machine.crusher.CrusherScreenFactory;
-import com.craftle_mod.client.gui.storage.EnergyMatrixScreen;
 import com.craftle_mod.common.Craftle;
+import com.craftle_mod.common.inventory.container.base.EnergyContainer;
+import com.craftle_mod.common.inventory.container.machine.CoalGeneratorContainer;
 import com.craftle_mod.common.registries.CraftleContainerTypes;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import net.minecraft.client.gui.ScreenManager;
@@ -34,21 +36,21 @@ public class CraftleClientEventSubscriber {
         ScreenManager.registerFactory(CraftleContainerTypes.CRUSHER_TIER_4.get(),
             CrusherScreenFactory.build(CraftleBaseTier.TIER_4));
 
-        ScreenManager
-            .registerFactory(CraftleContainerTypes.COAL_GENERATOR.get(), CoalGeneratorScreen::new);
+        ScreenManager.registerFactory(CraftleContainerTypes.COAL_GENERATOR.get(),
+            GeneratorGui<CoalGeneratorContainer>::new);
 
         ScreenManager.registerFactory(CraftleContainerTypes.WORKBENCH.get(), WorkBenchScreen::new);
 
         ScreenManager.registerFactory(CraftleContainerTypes.ENERGY_MATRIX_BASIC.get(),
-            EnergyMatrixScreen::new);
+            EnergyGui<EnergyContainer>::new);
         ScreenManager.registerFactory(CraftleContainerTypes.ENERGY_MATRIX_TIER_1.get(),
-            EnergyMatrixScreen::new);
+            EnergyGui<EnergyContainer>::new);
         ScreenManager.registerFactory(CraftleContainerTypes.ENERGY_MATRIX_TIER_2.get(),
-            EnergyMatrixScreen::new);
+            EnergyGui<EnergyContainer>::new);
         ScreenManager.registerFactory(CraftleContainerTypes.ENERGY_MATRIX_TIER_3.get(),
-            EnergyMatrixScreen::new);
+            EnergyGui<EnergyContainer>::new);
         ScreenManager.registerFactory(CraftleContainerTypes.ENERGY_MATRIX_TIER_4.get(),
-            EnergyMatrixScreen::new);
+            EnergyGui<EnergyContainer>::new);
 
         // set transparent blocks
         //        RenderTypeLookup.setRenderLayer(CraftleBlocks.ENERGY_MATRIX_BASIC.get(),

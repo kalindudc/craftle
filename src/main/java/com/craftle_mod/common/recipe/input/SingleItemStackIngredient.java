@@ -1,6 +1,6 @@
 package com.craftle_mod.common.recipe.input;
 
-import com.craftle_mod.api.JsonConstants;
+import com.craftle_mod.api.constants.JsonConstants;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;

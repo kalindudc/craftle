@@ -9,4 +9,10 @@ public class CraftleExceptions {
         }
     }
 
+    public static class CraftleContainerException extends Exception {
+
+        public CraftleContainerException(String s) {
+            super(s);
+        }
+    }
 }

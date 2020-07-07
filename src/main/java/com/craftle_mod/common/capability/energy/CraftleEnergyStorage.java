@@ -1,6 +1,6 @@
 package com.craftle_mod.common.capability.energy;
 
-import com.craftle_mod.api.NBTConstants;
+import com.craftle_mod.api.constants.NBTConstants;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import java.util.Objects;
 import net.minecraft.nbt.CompoundNBT;

@@ -1,14 +1,13 @@
 package com.craftle_mod.common.tile.machine;
 
-import com.craftle_mod.api.ContainerConstants;
 import com.craftle_mod.api.CraftleExceptions.CraftleTileEntityException;
-import com.craftle_mod.api.NBTConstants;
-import com.craftle_mod.api.TagConstants;
-import com.craftle_mod.api.TileEntityConstants;
+import com.craftle_mod.api.constants.NBTConstants;
+import com.craftle_mod.api.constants.TagConstants;
+import com.craftle_mod.api.constants.TileEntityConstants;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.machine.CoalGenerator;
 import com.craftle_mod.common.inventory.container.machine.CoalGeneratorContainer;
-import com.craftle_mod.common.inventory.slot.SlotConfig;
+import com.craftle_mod.common.inventory.slot.SlotConfigBuilder;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.registries.CraftleBlocks;
 import com.craftle_mod.common.tier.CraftleBaseTier;
@@ -73,7 +72,7 @@ public class CoalGeneratorTileEntity extends PoweredMachineTileEntity {
         this.burnTime = 0;
         this.totalBurnTime = 0;
 
-        addSlotData(new SlotConfig(1, 1, this, 0, 80, 20, ContainerConstants.TOTAL_SLOT_SIZE));
+        addSlotData(SlotConfigBuilder.create().inventory(this).startX(135).startY(20).build());
     }
 
     public CoalGeneratorTileEntity(CoalGenerator block,

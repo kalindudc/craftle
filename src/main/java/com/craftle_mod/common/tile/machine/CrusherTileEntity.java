@@ -1,9 +1,8 @@
 package com.craftle_mod.common.tile.machine;
 
-import com.craftle_mod.api.ContainerConstants;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.machine.Crusher;
-import com.craftle_mod.common.inventory.slot.SlotConfig;
+import com.craftle_mod.common.inventory.slot.SlotConfigBuilder;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.recipe.base.CraftleRecipe;
 import com.craftle_mod.common.registries.CraftleBlocks;
@@ -60,48 +59,43 @@ public class CrusherTileEntity extends PoweredMachineTileEntity implements ISide
 
     private void addContainerSlotData() {
 
+        SlotConfigBuilder resourceSlot = SlotConfigBuilder.create().inventory(this)
+            .startingIndex(0);
+        SlotConfigBuilder fuelSlot = SlotConfigBuilder.create().inventory(this).startingIndex(1);
+        SlotConfigBuilder containerSlot = SlotConfigBuilder.create().inventory(this)
+            .startingIndex(2);
+
         switch (getCraftleMachineTier()) {
             case TIER_1:
-                addSlotData(
-                    new SlotConfig(1, 1, this, 0, 46, 17, ContainerConstants.TOTAL_SLOT_SIZE));
-                addSlotData(
-                    new SlotConfig(1, 1, this, 1, 46, 53, ContainerConstants.TOTAL_SLOT_SIZE));
-                addSlotData(
-                    new SlotConfig(2, 2, this, 2, 104, 25, ContainerConstants.TOTAL_SLOT_SIZE));
+                resourceSlot.startX(46).startY(17);
+                fuelSlot.startX(46).startY(53);
+                containerSlot.numCols(2).numRows(2).startX(104).startY(25);
                 break;
             case TIER_2:
-                addSlotData(
-                    new SlotConfig(1, 1, this, 0, 36, 17, ContainerConstants.TOTAL_SLOT_SIZE));
-                addSlotData(
-                    new SlotConfig(1, 1, this, 1, 36, 53, ContainerConstants.TOTAL_SLOT_SIZE));
-                addSlotData(
-                    new SlotConfig(4, 2, this, 2, 90, 25, ContainerConstants.TOTAL_SLOT_SIZE));
+                resourceSlot.startX(36).startY(17);
+                fuelSlot.startX(36).startY(53);
+                containerSlot.numCols(4).numRows(2).startX(90).startY(25);
                 break;
             case TIER_3:
-                addSlotData(
-                    new SlotConfig(1, 1, this, 0, 36, 17, ContainerConstants.TOTAL_SLOT_SIZE));
-                addSlotData(
-                    new SlotConfig(1, 1, this, 1, 36, 53, ContainerConstants.TOTAL_SLOT_SIZE));
-                addSlotData(
-                    new SlotConfig(4, 4, this, 2, 90, 7, ContainerConstants.TOTAL_SLOT_SIZE));
+                resourceSlot.startX(36).startY(17);
+                fuelSlot.startX(36).startY(53);
+                containerSlot.numCols(4).numRows(4).startX(90).startY(7);
                 break;
             case TIER_4:
-                addSlotData(
-                    new SlotConfig(1, 1, this, 0, 12, 17, ContainerConstants.TOTAL_SLOT_SIZE));
-                addSlotData(
-                    new SlotConfig(1, 1, this, 1, 12, 53, ContainerConstants.TOTAL_SLOT_SIZE));
-                addSlotData(
-                    new SlotConfig(6, 4, this, 2, 62, 7, ContainerConstants.TOTAL_SLOT_SIZE));
+                resourceSlot.startX(12).startY(17);
+                fuelSlot.startX(12).startY(53);
+                containerSlot.numCols(6).numRows(4).startX(62).startY(7);
                 break;
             default:
-                addSlotData(
-                    new SlotConfig(1, 1, this, 0, 56, 17, ContainerConstants.TOTAL_SLOT_SIZE));
-                addSlotData(
-                    new SlotConfig(1, 1, this, 1, 56, 53, ContainerConstants.TOTAL_SLOT_SIZE));
-                addSlotData(
-                    new SlotConfig(1, 1, this, 2, 116, 35, ContainerConstants.TOTAL_SLOT_SIZE));
+                resourceSlot.startX(56).startY(17);
+                fuelSlot.startX(56).startY(53);
+                containerSlot.startX(116).startY(35);
                 break;
         }
+
+        addSlotData(resourceSlot.build());
+        addSlotData(fuelSlot.build());
+        addSlotData(containerSlot.build());
     }
 
     private void init(CraftleBaseTier tier) {

@@ -1,6 +1,6 @@
 package com.craftle_mod.common.util;
 
-import com.craftle_mod.api.UnitConstants;
+import com.craftle_mod.api.constants.UnitConstants;
 import com.craftle_mod.common.capability.Capabilities;
 import com.craftle_mod.common.capability.energy.CraftleEnergyStorage;
 import com.craftle_mod.common.capability.energy.ICraftleEnergyStorage;

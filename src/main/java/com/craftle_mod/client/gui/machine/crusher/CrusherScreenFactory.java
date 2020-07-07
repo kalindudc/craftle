@@ -1,6 +1,6 @@
 package com.craftle_mod.client.gui.machine.crusher;
 
-import com.craftle_mod.api.GUIConstants;
+import com.craftle_mod.api.constants.GUIConstants;
 import com.craftle_mod.common.inventory.container.base.EnergyContainer;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import net.minecraft.client.gui.ScreenManager;

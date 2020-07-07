@@ -52,8 +52,10 @@ public class WorkBenchContainer extends EnergyContainer {
         this.onCraftMatrixChanged(this.craftMatrix);
 
         loadToCraftMatrix();
-        ((WorkBenchTileEntity) this.getEntity()).getCraftingMatrixSlotData().setEntity(craftMatrix);
-        ((WorkBenchTileEntity) this.getEntity()).getCraftingResultSlotData().setEntity(craftResult);
+        ((WorkBenchTileEntity) this.getEntity()).getCraftingMatrixSlotData()
+            .setInventory(craftMatrix);
+        ((WorkBenchTileEntity) this.getEntity()).getCraftingResultSlotData()
+            .setInventory(craftResult);
         super.initSlots();
     }
 

@@ -1,7 +1,7 @@
 package com.craftle_mod.common.recipe.serializer;
 
-import com.craftle_mod.api.JsonConstants;
 import com.craftle_mod.api.SerializationHelper;
+import com.craftle_mod.api.constants.JsonConstants;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.recipe.base.ItemsToItemsRecipe;
 import com.craftle_mod.common.recipe.input.ItemStackIngredient;

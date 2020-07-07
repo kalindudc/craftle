@@ -1,6 +1,6 @@
 package com.craftle_mod.common.tile.base;
 
-import com.craftle_mod.api.ContainerConstants;
+import com.craftle_mod.api.constants.ContainerConstants;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.TestChest;
 import com.craftle_mod.common.block.base.CraftleBlock;

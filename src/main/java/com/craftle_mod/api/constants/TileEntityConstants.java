@@ -1,4 +1,4 @@
-package com.craftle_mod.api;
+package com.craftle_mod.api.constants;
 
 public class TileEntityConstants {
 

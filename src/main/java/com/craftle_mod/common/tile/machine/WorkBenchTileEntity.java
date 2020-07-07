@@ -1,11 +1,11 @@
 package com.craftle_mod.common.tile.machine;
 
-import com.craftle_mod.api.ContainerConstants;
-import com.craftle_mod.api.TagConstants;
-import com.craftle_mod.api.TileEntityConstants;
+import com.craftle_mod.api.constants.TagConstants;
+import com.craftle_mod.api.constants.TileEntityConstants;
 import com.craftle_mod.common.block.machine.WorkBench;
 import com.craftle_mod.common.inventory.container.machine.WorkBenchContainer;
 import com.craftle_mod.common.inventory.slot.SlotConfig;
+import com.craftle_mod.common.inventory.slot.SlotConfigBuilder;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.registries.CraftleBlocks;
 import com.craftle_mod.common.tier.CraftleBaseTier;
@@ -35,14 +35,15 @@ public class WorkBenchTileEntity extends PoweredMachineTileEntity {
             (int) (TileEntityConstants.WORKBENCH_BASE_CAPACITY * tier.getMultiplier()),
             (int) (TileEntityConstants.WORKBENCH_BASE_MAX_INPUT * tier.getMultiplier()), 0);
 
-        craftingMatrixSlotData = new SlotConfig(3, 3, null, 0, 30, 17,
-            ContainerConstants.TOTAL_SLOT_SIZE);
-        craftingResultSlotData = new SlotConfig(1, 1, null, 0, 124, 35,
-            ContainerConstants.TOTAL_SLOT_SIZE);
+        craftingMatrixSlotData = SlotConfigBuilder.create().numCols(3).numRows(3).startX(30)
+            .startY(17).build();
+        craftingResultSlotData = SlotConfigBuilder.create().startX(124).startY(35).build();
 
         addSlotData(craftingMatrixSlotData);
         addSlotData(craftingResultSlotData);
-        addSlotData(new SlotConfig(5, 5, this, 10, 184, 70, ContainerConstants.TOTAL_SLOT_SIZE));
+        addSlotData(
+            SlotConfigBuilder.create().inventory(this).numCols(5).numRows(5).startingIndex(10)
+                .startX(184).startY(70).build());
     }
 
     public WorkBenchTileEntity() {

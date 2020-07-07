@@ -1,6 +1,6 @@
 package com.craftle_mod.common.item;
 
-import com.craftle_mod.api.ItemConstants;
+import com.craftle_mod.api.constants.ItemConstants;
 import com.craftle_mod.client.util.handler.CraftleKeyHandler;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.capability.Capabilities;
