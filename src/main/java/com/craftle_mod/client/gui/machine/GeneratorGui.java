@@ -2,9 +2,8 @@ package com.craftle_mod.client.gui.machine;
 
 import com.craftle_mod.api.constants.GUIConstants;
 import com.craftle_mod.client.gui.EnergyGui;
-import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.inventory.container.base.EnergyContainer;
-import com.craftle_mod.common.inventory.container.machine.CoalGeneratorContainer;
+import com.craftle_mod.common.inventory.container.machine.GeneratorContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -19,8 +18,7 @@ public class GeneratorGui<T extends EnergyContainer> extends EnergyGui<T> {
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 
-        double burnPercent =
-            ((CoalGeneratorContainer) this.getContainer()).getBurnPercentage() / 100D;
+        double burnPercent = ((GeneratorContainer) this.getContainer()).getBurnPercentage();
 
         // burn progress
         Minecraft.getInstance().textureManager.bindTexture(GUIConstants.BURN_BAR);
@@ -32,8 +30,6 @@ public class GeneratorGui<T extends EnergyContainer> extends EnergyGui<T> {
         int textureX = 0;
         int textureY = 0;
         blit(x, y, textureX, textureY, width, height, width, GUIConstants.BURN_BAR_HEIGHT * 2);
-        Craftle.logInfo("ORIG y: %d, height:%d, ty: %d, percent: %f", y, height, textureY,
-            burnPercent);
 
         if (burnPercent > 0) {
             // blit something
@@ -44,8 +40,6 @@ public class GeneratorGui<T extends EnergyContainer> extends EnergyGui<T> {
             textureY = (GUIConstants.BURN_BAR_HEIGHT * 2) - height;
 
             blit(x, y, textureX, textureY, width, height, width, GUIConstants.BURN_BAR_HEIGHT * 2);
-            Craftle.logInfo("NEW y: %d, height:%d, ty: %d, percent: %f", y, height, textureY,
-                burnPercent);
         }
     }
 }

@@ -3,13 +3,13 @@ package com.craftle_mod.client;
 import com.craftle_mod.client.gui.CraftleChestScreen;
 import com.craftle_mod.client.gui.EnergyGui;
 import com.craftle_mod.client.gui.machine.GeneratorGui;
-import com.craftle_mod.client.gui.machine.WorkBenchScreen;
-import com.craftle_mod.client.gui.machine.crusher.CrusherScreenFactory;
+import com.craftle_mod.client.gui.machine.ProducerGui;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.inventory.container.base.EnergyContainer;
-import com.craftle_mod.common.inventory.container.machine.CoalGeneratorContainer;
+import com.craftle_mod.common.inventory.container.machine.GeneratorContainer;
+import com.craftle_mod.common.inventory.container.machine.ProducerContainer;
+import com.craftle_mod.common.inventory.container.machine.WorkBenchContainer;
 import com.craftle_mod.common.registries.CraftleContainerTypes;
-import com.craftle_mod.common.tier.CraftleBaseTier;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -26,20 +26,21 @@ public class CraftleClientEventSubscriber {
             .registerFactory(CraftleContainerTypes.TEST_CHEST.get(), CraftleChestScreen::new);
 
         ScreenManager.registerFactory(CraftleContainerTypes.CRUSHER_BASIC.get(),
-            CrusherScreenFactory.build(CraftleBaseTier.BASIC));
+            ProducerGui<ProducerContainer>::new);
         ScreenManager.registerFactory(CraftleContainerTypes.CRUSHER_TIER_1.get(),
-            CrusherScreenFactory.build(CraftleBaseTier.TIER_1));
+            ProducerGui<ProducerContainer>::new);
         ScreenManager.registerFactory(CraftleContainerTypes.CRUSHER_TIER_2.get(),
-            CrusherScreenFactory.build(CraftleBaseTier.TIER_2));
+            ProducerGui<ProducerContainer>::new);
         ScreenManager.registerFactory(CraftleContainerTypes.CRUSHER_TIER_3.get(),
-            CrusherScreenFactory.build(CraftleBaseTier.TIER_3));
+            ProducerGui<ProducerContainer>::new);
         ScreenManager.registerFactory(CraftleContainerTypes.CRUSHER_TIER_4.get(),
-            CrusherScreenFactory.build(CraftleBaseTier.TIER_4));
+            ProducerGui<ProducerContainer>::new);
 
         ScreenManager.registerFactory(CraftleContainerTypes.COAL_GENERATOR.get(),
-            GeneratorGui<CoalGeneratorContainer>::new);
+            GeneratorGui<GeneratorContainer>::new);
 
-        ScreenManager.registerFactory(CraftleContainerTypes.WORKBENCH.get(), WorkBenchScreen::new);
+        ScreenManager.registerFactory(CraftleContainerTypes.WORKBENCH.get(),
+            EnergyGui<WorkBenchContainer>::new);
 
         ScreenManager.registerFactory(CraftleContainerTypes.ENERGY_MATRIX_BASIC.get(),
             EnergyGui<EnergyContainer>::new);

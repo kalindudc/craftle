@@ -6,7 +6,7 @@ import com.craftle_mod.client.util.CraftleGuiUtils;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.inventory.container.base.EnergyContainer;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
-import com.craftle_mod.common.util.EnergyUtils;
+import com.craftle_mod.common.util.EnergyUtils.EnergyConverter;
 import java.util.ArrayList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
@@ -24,10 +24,11 @@ public class EnergyGui<T extends EnergyContainer> extends CraftleGui<T> {
         super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 
         // info screen
-        CraftleGuiUtils.drawExtendedGUI(GUIConstants.BASE_ALT, 6, 6,
+        CraftleGuiUtils.drawExtendedGUI(GUIConstants.BASE_2, 6, 6,
             getGuiLeft() + GUIConstants.INFO_SCREEN_OFFSET_X,
-            getGuiTop() + GUIConstants.INFO_SCREEN_OFFSET_Y, GUIConstants.INFO_SCREEN_WIDTH,
-            GUIConstants.INFO_SCREEN_HEIGHT);
+            getGuiTop() + GUIConstants.INFO_SCREEN_OFFSET_Y,
+            ((PoweredMachineTileEntity) this.getEntity()).getInfoScreenWidth(),
+            ((PoweredMachineTileEntity) this.getEntity()).getInfoScreenHeight());
 
         // energy container
         Minecraft.getInstance().textureManager.bindTexture(GUIConstants.ENERGY_BAR_VERTICAL);
@@ -71,43 +72,51 @@ public class EnergyGui<T extends EnergyContainer> extends CraftleGui<T> {
             int offsetX = (this.width - this.xSize) / 2;
             int offsetY = (this.height - this.ySize) / 2;
 
-            String units = EnergyUtils.getUnitForTierBlock(entity.getCraftleMachineTier());
-
-            double energy = EnergyUtils.getJoulesForTierBlock(entity.getCraftleMachineTier(),
+            EnergyConverter energyStoredConverter = new EnergyConverter(
                 this.getContainer().getEnergyContainer().getEnergy());
-
-            double capacity = EnergyUtils.getJoulesForTierBlock(entity.getCraftleMachineTier(),
+            EnergyConverter capacityConverter = new EnergyConverter(
                 this.getContainer().getEnergyContainer().getCapacity());
+            EnergyConverter inputConverter = new EnergyConverter(
+                this.getContainer().getInjectRate());
+            EnergyConverter outputConverter = new EnergyConverter(
+                this.getContainer().getExtractRate());
 
-            double input = this.getContainer().getInjectRate();
-            double output = this.getContainer().getExtractRate();
+            double percent =
+                (this.getContainer().getEnergyContainer().getEnergy() / this.getContainer()
+                    .getEnergyContainer().getCapacity()) * 100D;
 
-            this.font.drawString("Max: ", 12.0f, 14.0f, 13816530);
-            this.font
-                .drawString(String.format("%.02f %s", capacity, units), 34.0f, 14.0f, 13816530);
+            // setup icons
+            Minecraft.getInstance().getTextureManager().bindTexture(GUIConstants.ICONS);
 
-            this.font.drawString("Energy: ", 12.0f, 27.0f, 6805014);
-            this.font.drawString(String.format("%.02f %s", energy, units), 52.0f, 27.0f, 6805014);
+            blit(12, 15, 0, 0, GUIConstants.ICON_SIZE, GUIConstants.ICON_SIZE, 256, 256);
+            blit(12, 28, 10, 0, GUIConstants.ICON_SIZE, GUIConstants.ICON_SIZE, 256, 256);
+            blit(12, 41, 20, 0, GUIConstants.ICON_SIZE, GUIConstants.ICON_SIZE, 256, 256);
+            blit(12, 54, 30, 0, GUIConstants.ICON_SIZE, GUIConstants.ICON_SIZE, 256, 256);
 
-            this.font.drawString("In: ", 12.0f, 41.0f, 6805014);
-            this.font.drawString(String.format("%.02f %s", (input), units), 32.0f, 41.0f, 6805014);
-
-            this.font.drawString("Out: ", 12.0f, 54.0f, 14823215);
-            this.font
-                .drawString(String.format("%.02f %s", (output), units), 32.0f, 54.0f, 14823215);
+            // draw text
+            this.font.drawString(String
+                    .format("%.02f %s", capacityConverter.getEnergy(), capacityConverter.getUnit()),
+                25.0f, 16.0f, 13816530);
+            this.font.drawString(String.format("%.02f %s", energyStoredConverter.getEnergy(),
+                energyStoredConverter.getUnit()), 25.0f, 29.0f, 6805014);
+            this.font.drawString(
+                String.format("%.02f %s", inputConverter.getEnergy(), inputConverter.getUnit()),
+                25.0f, 42.0f, 6805014);
+            this.font.drawString(
+                String.format("%.02f %s", outputConverter.getEnergy(), outputConverter.getUnit()),
+                25.0f, 55.0f, 14823215);
 
             if (CraftleGuiUtils.isWithinBounds(mouseX, mouseY, GUIConstants.ENERGY_BAR_X + offsetX,
                 GUIConstants.ENERGY_BAR_Y + offsetY,
                 GUIConstants.ENERGY_BAR_X + GUIConstants.ENERGY_BAR_WIDTH + offsetX,
                 GUIConstants.ENERGY_BAR_Y + GUIConstants.ENERGY_BAR_HEIGHT + offsetY)) {
                 GuiUtils.drawHoveringText(new ArrayList<String>() {{
-                                              add(String.format("Energy: %.02f kJ", entity.getEnergyContainer().getEnergy()));
-                                              add(String.format("Input: %.02f kJ", input));
-                                              add(String.format("Output: %.02f kJ", output));
-
+                                              add(String.format("%.02f %s", percent, "%"));
                                           }}, mouseX - offsetX, mouseY - offsetY, this.xSize, this.ySize, this.xSize,
                     this.font);
             }
+
+
         } else {
             Craftle.LOGGER
                 .warn("Invalid Screen", new CraftleContainerException("Invalid tile entity."));

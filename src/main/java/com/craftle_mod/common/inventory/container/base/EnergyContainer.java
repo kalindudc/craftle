@@ -45,6 +45,7 @@ public class EnergyContainer extends CraftleContainer {
 
     @Override
     public void init() {
+        super.init();
         sendPacketToServer(new EnergyContainerCreatePacket(windowId, getEntity().getPos()));
     }
 

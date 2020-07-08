@@ -1,10 +1,8 @@
 package com.craftle_mod.common.util;
 
-import com.craftle_mod.api.constants.UnitConstants;
 import com.craftle_mod.common.capability.Capabilities;
 import com.craftle_mod.common.capability.energy.CraftleEnergyStorage;
 import com.craftle_mod.common.capability.energy.ICraftleEnergyStorage;
-import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,19 +47,23 @@ public abstract class EnergyUtils {
         }
 
         if (totalAcceptors > 0) {
-            double energyForAcceptors = energyToSend / totalAcceptors;
-            acceptors.forEach(acceptor -> {
-                emitToAcceptor(acceptor, energyForAcceptors);
-            });
 
-            return energyToSend;
+            int accepted = totalAcceptors;
+            double energySent = 0;
+
+            for (PoweredMachineTileEntity acceptor : acceptors) {
+                double energy = emitToAcceptor(acceptor, (energyToSend - energySent) / accepted);
+                accepted--;
+                energySent += energy;
+            }
+            return energySent;
         }
 
         return 0;
     }
 
-    public static void emitToAcceptor(PoweredMachineTileEntity tileEntity, double energy) {
-        tileEntity.injectEnergy(energy);
+    public static double emitToAcceptor(PoweredMachineTileEntity tileEntity, double energy) {
+        return tileEntity.injectEnergy(energy);
     }
 
     public static boolean validEnergyAcceptor(TileEntity tileEntity) {
@@ -70,23 +72,73 @@ public abstract class EnergyUtils {
     }
 
     public enum EnergyUnit {
-        JOULE(1D), KILOJOULE(1_000D), MEGAJOULE(1_000_000D), GIGAJOULE(1_000_000_000D), TERAJOULE(
-            1_000_000_000_000D), PETAJOULE(1_000_000_000_000_000D),
-        ;
+        JOULE(1D, "J"),
+        KILOJOULE(1_000D, "kJ"),
+        MEGAJOULE(1_000_000D, "MJ"),
+        GIGAJOULE(1_000_000_000D, "GJ"),
+        TERAJOULE(1_000_000_000_000D, "TJ"),
+        PETAJOULE(1_000_000_000_000_000D, "PJ");
 
         private final double factor;
+        private final String unit;
 
-        EnergyUnit(double factor) {
+        EnergyUnit(double factor, String unit) {
             this.factor = factor;
+            this.unit = unit;
         }
 
         public double getFactor() {
             return factor;
         }
+
+        public String getUnit() {
+            return unit;
+        }
+
+        public static double convertEnergyUnit(double energy, EnergyUnit from, EnergyUnit to) {
+            return energy * from.getFactor() / to.getFactor();
+        }
     }
 
-    public static double convertEnergyUnit(double energy, EnergyUnit from, EnergyUnit to) {
-        return energy * from.getFactor() / to.getFactor();
+    public static class EnergyConverter {
+
+        private double energy;
+        private String unit;
+
+        public EnergyConverter(double energy) {
+            convert(energy);
+        }
+
+        private void convert(double energy) {
+
+            if (energy / EnergyUnit.PETAJOULE.getFactor() > 1) {
+                this.energy = energy / EnergyUnit.PETAJOULE.getFactor();
+                this.unit = EnergyUnit.PETAJOULE.getUnit();
+            } else if (energy / EnergyUnit.TERAJOULE.getFactor() > 1) {
+                this.energy = energy / EnergyUnit.TERAJOULE.getFactor();
+                this.unit = EnergyUnit.TERAJOULE.getUnit();
+            } else if (energy / EnergyUnit.GIGAJOULE.getFactor() > 1) {
+                this.energy = energy / EnergyUnit.GIGAJOULE.getFactor();
+                this.unit = EnergyUnit.GIGAJOULE.getUnit();
+            } else if (energy / EnergyUnit.MEGAJOULE.getFactor() > 1) {
+                this.energy = energy / EnergyUnit.MEGAJOULE.getFactor();
+                this.unit = EnergyUnit.MEGAJOULE.getUnit();
+            } else if (energy / EnergyUnit.KILOJOULE.getFactor() > 1) {
+                this.energy = energy / EnergyUnit.KILOJOULE.getFactor();
+                this.unit = EnergyUnit.KILOJOULE.getUnit();
+            } else {
+                this.energy = energy;
+                this.unit = EnergyUnit.JOULE.getUnit();
+            }
+        }
+
+        public double getEnergy() {
+            return energy;
+        }
+
+        public String getUnit() {
+            return unit;
+        }
     }
 
     public static double extractEnergyFromItem(ItemStack stack, double energy) {
@@ -196,69 +248,4 @@ public abstract class EnergyUtils {
 
         return 0.0D;
     }
-
-    public static String getUnitForTierItem(CraftleBaseTier tier) {
-
-        switch (tier) {
-            case UNLIMITED:
-            case TIER_4:
-            case TIER_3:
-                return UnitConstants.GIGAJOULES;
-            case TIER_2:
-            case TIER_1:
-                return UnitConstants.MEGAJOULES;
-            case BASIC:
-            default:
-                return UnitConstants.KILOJOULES;
-        }
-    }
-
-    public static String getUnitForTierBlock(CraftleBaseTier tier) {
-
-        switch (tier) {
-            case UNLIMITED:
-            case TIER_4:
-                return UnitConstants.TERAJOULES;
-            case TIER_3:
-            case TIER_2:
-                return UnitConstants.GIGAJOULES;
-            case TIER_1:
-            case BASIC:
-            default:
-                return UnitConstants.MEGAJOULES;
-        }
-    }
-
-    public static double getJoulesForTierItem(CraftleBaseTier tier, double energy) {
-
-        switch (tier) {
-            case UNLIMITED:
-            case TIER_4:
-            case TIER_3:
-                return convertEnergyUnit(energy, EnergyUnit.KILOJOULE, EnergyUnit.GIGAJOULE);
-            case TIER_2:
-            case TIER_1:
-                return convertEnergyUnit(energy, EnergyUnit.KILOJOULE, EnergyUnit.MEGAJOULE);
-            case BASIC:
-            default:
-                return energy;
-        }
-    }
-
-    public static double getJoulesForTierBlock(CraftleBaseTier tier, double energy) {
-
-        switch (tier) {
-            case UNLIMITED:
-            case TIER_4:
-                return convertEnergyUnit(energy, EnergyUnit.KILOJOULE, EnergyUnit.TERAJOULE);
-            case TIER_3:
-            case TIER_2:
-                return convertEnergyUnit(energy, EnergyUnit.KILOJOULE, EnergyUnit.GIGAJOULE);
-            case TIER_1:
-            case BASIC:
-            default:
-                return convertEnergyUnit(energy, EnergyUnit.KILOJOULE, EnergyUnit.MEGAJOULE);
-        }
-    }
-
 }

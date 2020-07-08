@@ -1,5 +1,6 @@
 package com.craftle_mod.common.inventory.container.base;
 
+import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.inventory.slot.SlotConfig;
 import com.craftle_mod.common.tile.base.CraftleTileEntity;
 import com.craftle_mod.common.tile.base.MachineTileEntity;
@@ -35,6 +36,8 @@ public class CraftleContainer extends Container {
             .of(Objects.requireNonNull(entity.getWorld()), entity.getPos());
         this.world = entity.getWorld();
         worldPosCallable = IWorldPosCallable.of(this.getWorld(), entity.getPos());
+        this.entity.getHotBarSlotConfig().setInventory(playerInventory);
+        this.entity.getMainInventorySlotConfig().setInventory(playerInventory);
         init();
         initSlots();
 
@@ -101,6 +104,21 @@ public class CraftleContainer extends Container {
             } else {
                 slot.onSlotChanged();
             }
+
+            if (itemStack1.isEmpty()) {
+                slot.putStack(ItemStack.EMPTY);
+            } else {
+                slot.onSlotChanged();
+            }
+
+            if (itemStack1.getCount() == itemStack.getCount()) {
+                return ItemStack.EMPTY;
+            }
+
+            ItemStack itemstack2 = slot.onTake(playerIn, itemStack1);
+            if (index == 0) {
+                playerIn.dropItem(itemstack2, false);
+            }
         }
 
         return itemStack;
@@ -121,45 +139,45 @@ public class CraftleContainer extends Container {
         this.addSlot(new Slot(entity, index, inputX, inputY));
     }
 
-    public void addPlayerInventorySlots(int startX, int startY, int totalSlotSpaceSize) {
-        // Main Player Inventory
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 9; col++) {
-                // extra 9 + is to account for the hotbar
-                this.addSlot(new Slot(playerInventory, (9 + (row * 9)) + col,
-                    startX + (col * totalSlotSpaceSize), startY + (row * totalSlotSpaceSize)));
-            }
-        }
-
-        // Hot Bar
-        int hotbarX = startX;
-        int hotbarY = startY + (totalSlotSpaceSize * 3) + 4;
-        for (int col = 0; col < 9; col++) {
-            // extra 9 + is to account for the hotbar
-            this.addSlot(
-                new Slot(playerInventory, col, hotbarX + (col * totalSlotSpaceSize), hotbarY));
-        }
-    }
-
     public PlayerInventory getPlayerInventory() {
         return playerInventory;
     }
 
     public void initSlots() {
+        openContainer(playerInventory);
 
         for (SlotConfig config : entity.getSlotData()) {
-
             for (int row = 0; row < config.getNumRows(); row++) {
                 for (int col = 0; col < config.getNumCols(); col++) {
-                    addContainerSlot(config.getInventory(), config.getIndex(row, col),
-                        config.getX(col), config.getY(row));
+
+                    if (config.getSlot() == null) {
+                        addContainerSlot(config.getInventory(), config.getIndex(row, col),
+                            config.getX(col), config.getY(row));
+                    } else {
+                        Craftle.logInfo("SPECIAL SLOT " + config.getSlot());
+                        this.addSlot(config.getSlot());
+                    }
                 }
             }
         }
+    }
 
-        addPlayerInventorySlots(entity.getMainInventorySlotConfig().getStartX(),
-            entity.getMainInventorySlotConfig().getStartY(),
-            entity.getMainInventorySlotConfig().getSlotSize());
+    protected void openContainer(@Nonnull PlayerInventory inv) {
+        if (entity != null) {
+            entity.addPlayer(inv.player);
+        }
+    }
+
+    protected void closeContainer(PlayerEntity player) {
+        if (entity != null) {
+            entity.removePlayer(player);
+        }
+    }
+
+    @Override
+    public void onContainerClosed(PlayerEntity player) {
+        super.onContainerClosed(player);
+        closeContainer(player);
     }
 
 }

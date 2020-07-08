@@ -1,5 +1,6 @@
 package com.craftle_mod.common.inventory.container.machine;
 
+import com.craftle_mod.api.CraftleExceptions.CraftleContainerException;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.inventory.container.base.EnergyContainer;
 import com.craftle_mod.common.registries.CraftleContainerTypes;
@@ -15,6 +16,7 @@ import net.minecraft.inventory.CraftResultInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.CraftingResultSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ICraftingRecipe;
 import net.minecraft.item.crafting.IRecipeType;
@@ -37,25 +39,34 @@ public class WorkBenchContainer extends EnergyContainer {
         super(container, windowId, playerInventory, data);
     }
 
-    public WorkBenchContainer(int windowId, PlayerInventory playerInventory,
-        PacketBuffer packetBuffer) {
-        this(CraftleContainerTypes.WORKBENCH.get(), windowId, playerInventory, packetBuffer);
+    public WorkBenchContainer(int windowId, PlayerInventory playerInventory, PacketBuffer data) {
+        this(CraftleContainerTypes.WORKBENCH.get(), windowId, playerInventory, data);
     }
 
     @Override
     public void initSlots() {
 
-        craftMatrix = new CraftingInventory(this,
-            ((WorkBenchTileEntity) this.getEntity()).getCraftingMatrixSlotData().getNumCols(),
-            ((WorkBenchTileEntity) this.getEntity()).getCraftingMatrixSlotData().getNumRows());
-        craftResult = new CraftResultInventory();
-        this.onCraftMatrixChanged(this.craftMatrix);
+        if (getEntity() instanceof WorkBenchTileEntity) {
+            WorkBenchTileEntity entity = (WorkBenchTileEntity) this.getEntity();
+            craftMatrix = new CraftingInventory(this,
+                entity.getCraftingMatrixSlotData().getNumCols(),
+                entity.getCraftingMatrixSlotData().getNumRows());
+            craftResult = new CraftResultInventory();
 
-        loadToCraftMatrix();
-        ((WorkBenchTileEntity) this.getEntity()).getCraftingMatrixSlotData()
-            .setInventory(craftMatrix);
-        ((WorkBenchTileEntity) this.getEntity()).getCraftingResultSlotData()
-            .setInventory(craftResult);
+            entity.getCraftingResultSlotData().setSlot(
+                new CraftingResultSlot(getPlayerInventory().player, this.craftMatrix,
+                    this.craftResult, 0, entity.getCraftingResultSlotData().getStartX(),
+                    entity.getCraftingResultSlotData().getStartY()));
+
+            this.onCraftMatrixChanged(this.craftMatrix);
+
+            loadToCraftMatrix();
+            entity.getCraftingMatrixSlotData().setInventory(craftMatrix);
+            entity.getCraftingResultSlotData().setInventory(craftResult);
+        } else {
+            Craftle.LOGGER.warn("Invalid workbench tile entity.",
+                new CraftleContainerException("Invalid workbench container. " + getEntity()));
+        }
         super.initSlots();
     }
 
@@ -73,8 +84,8 @@ public class WorkBenchContainer extends EnergyContainer {
                 }
             }
 
-            inventoryResult.setInventorySlotContents(9, itemstack);
-            serverplayerentity.connection.sendPacket(new SSetSlotPacket(id, 9, itemstack));
+            inventoryResult.setInventorySlotContents(36 + 9, itemstack);
+            serverplayerentity.connection.sendPacket(new SSetSlotPacket(id, 36 + 9, itemstack));
         }
     }
 
@@ -106,7 +117,6 @@ public class WorkBenchContainer extends EnergyContainer {
                     .getIndex(row, col);
 
                 ItemStack stack = this.getEntity().getContainerContents().get(index);
-                Craftle.logInfo("Craft matrix: " + craftMatrix);
                 craftMatrix.setInventorySlotContents(index, stack);
             }
         }

@@ -3,6 +3,7 @@ package com.craftle_mod.common.inventory.slot;
 import com.craftle_mod.api.ColorData;
 import com.craftle_mod.api.constants.GUIConstants;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.ResourceLocation;
 
 public class SlotConfig {
@@ -45,6 +46,7 @@ public class SlotConfig {
     private int startY;
     private int slotSize;
     private SlotType slotType;
+    private Slot slot;
 
     protected SlotConfig(int numCols, int numRows, IInventory inventory, int startingIndex,
         int startX, int startY, int slotSize) {
@@ -56,10 +58,19 @@ public class SlotConfig {
         this.startY = startY;
         this.slotSize = slotSize;
         this.slotType = SlotType.DEFAULT;
+        this.slot = null;
     }
 
     public SlotConfig(int startX, int startY, int slotSize) {
         this(0, 0, null, 0, startX, startY, slotSize);
+    }
+
+    public Slot getSlot() {
+        return slot;
+    }
+
+    public void setSlot(Slot slot) {
+        this.slot = slot;
     }
 
     public int getSlotSize() {

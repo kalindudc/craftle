@@ -6,6 +6,7 @@ import com.craftle_mod.common.block.storage.EnergyMatrix;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.TileEntityQuarry;
 import com.craftle_mod.common.tile.TileEntityTestChest;
+import com.craftle_mod.common.tile.base.GeneratorTileEntity;
 import com.craftle_mod.common.tile.machine.CoalGeneratorTileEntity;
 import com.craftle_mod.common.tile.machine.CrusherTileEntity;
 import com.craftle_mod.common.tile.machine.WorkBenchTileEntity;
@@ -47,7 +48,7 @@ public class CraftleTileEntityTypes {
         CraftleBlocks.CRUSHER_TIER_4, CraftleBaseTier.TIER_4);
 
     // GENERATORS
-    public static final RegistryObject<TileEntityType<CoalGeneratorTileEntity>> COAL_GENERATOR = register(
+    public static final RegistryObject<TileEntityType<GeneratorTileEntity>> COAL_GENERATOR = register(
         "coal_generator", CoalGeneratorTileEntity::new, CraftleBlocks.COAL_GENERATOR);
 
     // ENERGY MATRIX

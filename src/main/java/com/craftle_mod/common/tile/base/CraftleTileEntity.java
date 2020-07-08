@@ -1,14 +1,16 @@
 package com.craftle_mod.common.tile.base;
 
-import com.craftle_mod.api.constants.ContainerConstants;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.TestChest;
 import com.craftle_mod.common.block.base.CraftleBlock;
 import com.craftle_mod.common.inventory.container.base.CraftleContainer;
 import com.craftle_mod.common.inventory.slot.SlotConfig;
+import com.craftle_mod.common.inventory.slot.SlotConfigBuilder;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
@@ -39,6 +41,9 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 public abstract class CraftleTileEntity extends LockableLootTileEntity {
 
+
+    public Set<PlayerEntity> playersList = new ObjectOpenHashSet<>();
+
     private NonNullList<ItemStack> containerContents;
     protected int numplayersUsing;
     private final IItemHandlerModifiable items;
@@ -49,6 +54,7 @@ public abstract class CraftleTileEntity extends LockableLootTileEntity {
 
     private final List<SlotConfig> slotData;
     private SlotConfig mainInventorySlotConfig;
+    private SlotConfig hotBarSlotConfig;
 
     public CraftleTileEntity(CraftleBlock block, int containerSize) {
         super(block.getTileType());
@@ -58,7 +64,12 @@ public abstract class CraftleTileEntity extends LockableLootTileEntity {
         this.containerSize = containerSize;
         this.block = block;
         slotData = new ArrayList<>();
-        mainInventorySlotConfig = new SlotConfig(8, 84, ContainerConstants.TOTAL_SLOT_SIZE);
+
+        mainInventorySlotConfig = SlotConfigBuilder.create().numCols(9).numRows(3).startX(8)
+            .startingIndex(9).startY(84).build();
+        hotBarSlotConfig = SlotConfigBuilder.create().numCols(9).startX(8).startY(142).build();
+        addSlotData(mainInventorySlotConfig);
+        addSlotData(hotBarSlotConfig);
     }
 
     public SlotConfig getMainInventorySlotConfig() {
@@ -69,6 +80,13 @@ public abstract class CraftleTileEntity extends LockableLootTileEntity {
         this.mainInventorySlotConfig = mainInventorySlotConfig;
     }
 
+    public SlotConfig getHotBarSlotConfig() {
+        return hotBarSlotConfig;
+    }
+
+    public void setHotBarSlotConfig(SlotConfig hotBarSlotConfig) {
+        this.hotBarSlotConfig = hotBarSlotConfig;
+    }
 
     public CraftleBlock getBlock() {
         return block;
@@ -302,5 +320,19 @@ public abstract class CraftleTileEntity extends LockableLootTileEntity {
     public String toString() {
         return "CraftleTileEntity{" + "containerContents=" + containerContents + ", containerSize="
             + containerSize + '}';
+    }
+
+    public void addPlayer(PlayerEntity player) {
+        Craftle.logInfo("adding player: " + player);
+        playersList.add(player);
+    }
+
+    public void removePlayer(PlayerEntity player) {
+        Craftle.logInfo("removing player: " + player);
+        playersList.remove(player);
+    }
+
+    public Set<PlayerEntity> getPlayersList() {
+        return playersList;
     }
 }

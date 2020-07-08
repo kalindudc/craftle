@@ -63,7 +63,6 @@ public class EnergyContainerUpdatePacket {
         Context ctx = context.get();
 
         ctx.enqueueWork(() -> {
-
             // on the client need to send the updated storage to container
             INetHandler handler = ctx.getNetworkManager().getNetHandler();
             if (handler instanceof ClientPlayNetHandler) {

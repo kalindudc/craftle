@@ -11,12 +11,12 @@ import net.minecraft.util.IntArray;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class CoalGeneratorContainer extends EnergyContainer {
+public class GeneratorContainer extends EnergyContainer {
 
 
     private final IIntArray generatorData;
 
-    public CoalGeneratorContainer(ContainerType<?> container, int windowId,
+    public GeneratorContainer(ContainerType<?> container, int windowId,
         PlayerInventory playerInventory, PoweredMachineTileEntity entity,
         IIntArray generatorDataIn) {
         super(container, windowId, playerInventory, entity);
@@ -25,7 +25,7 @@ public class CoalGeneratorContainer extends EnergyContainer {
         this.trackIntArray(generatorDataIn);
     }
 
-    public CoalGeneratorContainer(ContainerType<?> container, int windowId,
+    public GeneratorContainer(ContainerType<?> container, int windowId,
         PlayerInventory playerInventory, PacketBuffer data, IIntArray generatorDataIn) {
         super(container, windowId, playerInventory, data);
         initSlots();
@@ -34,18 +34,17 @@ public class CoalGeneratorContainer extends EnergyContainer {
         this.trackIntArray(generatorDataIn);
     }
 
-    public CoalGeneratorContainer(int windowId, PlayerInventory playerInventory,
+    public GeneratorContainer(int windowId, PlayerInventory playerInventory,
         PacketBuffer packetBuffer) {
         this(CraftleContainerTypes.COAL_GENERATOR.get(), windowId, playerInventory, packetBuffer,
             new IntArray(2));
     }
 
     @OnlyIn(Dist.CLIENT)
-    public int getBurnPercentage() {
+    public double getBurnPercentage() {
         if (generatorData.get(0) == 0 || generatorData.get(1) == 0) {
             return 0;
         }
-        return (int) (100D * (1D - ((double) generatorData.get(0) / (double) generatorData
-            .get(1))));
+        return (1D - ((double) generatorData.get(0) / (double) generatorData.get(1)));
     }
 }

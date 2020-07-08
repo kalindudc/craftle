@@ -1,5 +1,6 @@
 package com.craftle_mod.common.tile.machine;
 
+import com.craftle_mod.api.constants.GUIConstants;
 import com.craftle_mod.api.constants.TagConstants;
 import com.craftle_mod.api.constants.TileEntityConstants;
 import com.craftle_mod.common.block.machine.WorkBench;
@@ -9,6 +10,7 @@ import com.craftle_mod.common.inventory.slot.SlotConfigBuilder;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.registries.CraftleBlocks;
 import com.craftle_mod.common.tier.CraftleBaseTier;
+import com.craftle_mod.common.tile.base.IHasExtraContainerSlots;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -23,27 +25,33 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class WorkBenchTileEntity extends PoweredMachineTileEntity {
+public class WorkBenchTileEntity extends PoweredMachineTileEntity implements
+    IHasExtraContainerSlots {
 
     private final SlotConfig craftingMatrixSlotData;
     private final SlotConfig craftingResultSlotData;
+    private final SlotConfig extraContainerSlots;
 
     public WorkBenchTileEntity(WorkBench block, IRecipeType<? extends IRecipe<?>> recipeTypeIn,
         CraftleBaseTier tier) {
-        super(block, recipeTypeIn, TileEntityConstants.WORKBENCH_CONTAINER_SIZE + 9
+        super(block, recipeTypeIn, TileEntityConstants.WORKBENCH_CONTAINER_SIZE + 10
                 + TileEntityConstants.WORKBENCH_CRAFTING_OUTPUT_SIZE, tier,
-            (int) (TileEntityConstants.WORKBENCH_BASE_CAPACITY * tier.getMultiplier()),
-            (int) (TileEntityConstants.WORKBENCH_BASE_MAX_INPUT * tier.getMultiplier()), 0);
+            TileEntityConstants.WORKBENCH_BASE_CAPACITY * tier.getMultiplier(),
+            TileEntityConstants.WORKBENCH_BASE_MAX_INPUT * tier.getMultiplier(), 0);
 
-        craftingMatrixSlotData = SlotConfigBuilder.create().numCols(3).numRows(3).startX(30)
-            .startY(17).build();
-        craftingResultSlotData = SlotConfigBuilder.create().startX(124).startY(35).build();
+        craftingMatrixSlotData = SlotConfigBuilder.create().numCols(3).numRows(3).inventory(null)
+            .startX(82).startY(17).build();
+        craftingResultSlotData = SlotConfigBuilder.create().startX(139).startY(35).inventory(null)
+            .build();
+        extraContainerSlots = SlotConfigBuilder.create().inventory(this).numCols(4).numRows(6)
+            .startingIndex(10).startX(185).startY(8 + GUIConstants.EXTRA_CONTAINER_TOP_OFFSET)
+            .build();
 
         addSlotData(craftingMatrixSlotData);
         addSlotData(craftingResultSlotData);
-        addSlotData(
-            SlotConfigBuilder.create().inventory(this).numCols(5).numRows(5).startingIndex(10)
-                .startX(184).startY(70).build());
+        addSlotData(extraContainerSlots);
+
+        setInfoScreenWidth(71);
     }
 
     public WorkBenchTileEntity() {
@@ -54,8 +62,12 @@ public class WorkBenchTileEntity extends PoweredMachineTileEntity {
     @Nonnull
     @Override
     public Container createMenu(int id, @Nonnull PlayerInventory player) {
-
         return new WorkBenchContainer(getBlock().getContainerType(), id, player, this);
+    }
+
+    @Override
+    public boolean canEmitEnergy() {
+        return false;
     }
 
     public SlotConfig getCraftingMatrixSlotData() {
@@ -100,5 +112,10 @@ public class WorkBenchTileEntity extends PoweredMachineTileEntity {
 
     @Override
     protected void tickClient() {
+    }
+
+    @Override
+    public SlotConfig getExtraContainerSlotsConfig() {
+        return extraContainerSlots;
     }
 }

@@ -1,14 +1,20 @@
 package com.craftle_mod.common.tile.base;
 
+import com.craftle_mod.api.constants.GUIConstants;
 import com.craftle_mod.api.constants.NBTConstants;
+import com.craftle_mod.api.constants.TileEntityConstants;
+import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.base.ActiveBlockBase;
 import com.craftle_mod.common.block.base.MachineBlock;
 import com.craftle_mod.common.capability.Capabilities;
 import com.craftle_mod.common.capability.energy.CraftleEnergyStorage;
 import com.craftle_mod.common.capability.energy.ICraftleEnergyStorage;
 import com.craftle_mod.common.inventory.container.base.EnergyContainer;
+import com.craftle_mod.common.item.EnergyItem;
+import com.craftle_mod.common.network.packet.EnergyItemUpdatePacket;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.tier.CraftleBaseTier;
+import com.craftle_mod.common.util.EnergyUtils;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -30,8 +36,6 @@ import net.minecraftforge.common.util.LazyOptional;
 public abstract class PoweredMachineTileEntity extends MachineTileEntity implements
     ICapabilityProvider {
 
-    public static final int DEFAULT_POWER_CAPACITY = 1_000;
-
     /*
     TODO: I may have to make my own energy variable, monitor this.
      */
@@ -42,12 +46,17 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
     private double energyInjectRate;
     private double energyExtractRate;
 
+    private int infoScreenWidth;
+    private int infoScreenHeight;
+
+    private boolean energyInjected;
+
     public PoweredMachineTileEntity(MachineBlock block,
         IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier) {
 
         super(block, recipeTypeIn, containerSize, tier);
-        this.energyContainer = new CraftleEnergyStorage(DEFAULT_POWER_CAPACITY,
-            DEFAULT_POWER_CAPACITY, 0, tier);
+        this.energyContainer = new CraftleEnergyStorage(TileEntityConstants.DEFAULT_POWER_CAPACITY,
+            TileEntityConstants.DEFAULT_POWER_CAPACITY, 0, tier);
         init();
     }
 
@@ -112,6 +121,11 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
         bufferedEnergy = 0;
         energyInjectRate = 0;
         energyExtractRate = 0;
+
+        infoScreenWidth = GUIConstants.INFO_SCREEN_WIDTH;
+        infoScreenHeight = GUIConstants.INFO_SCREEN_HEIGHT;
+
+        energyInjected = false;
     }
 
     public double getEnergyInjectRate() {
@@ -249,10 +263,150 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
     }
 
     public boolean validAcceptor() {
-        return energyContainer.getEnergyToFill() > 0;
+        return !energyContainer.isFilled() && getEnergyInjectRate() < energyContainer
+            .getMaxInjectRate();
     }
 
-    public void injectEnergy(double energy) {
-        this.energyContainer.injectEnergy(energy);
+    public double injectEnergy(double energy) {
+        double injectedEnergy = this.energyContainer.injectEnergy(energy);
+
+        if (energyInjected) {
+            this.setEnergyInjectRate(injectedEnergy + getEnergyInjectRate());
+        } else {
+            this.setEnergyInjectRate(injectedEnergy);
+            energyInjected = true;
+        }
+
+        return injectedEnergy;
+    }
+
+    public abstract boolean canEmitEnergy();
+
+    @Override
+    protected void tickServer() {
+        if (canEmitEnergy()) {
+            // emit energy
+            if (!getEnergyContainer().isEmpty()) {
+                this.setEnergyExtractRate(EnergyUtils.emitEnergy(getEnergyContainer(), this,
+                    getEnergyContainer().getMaxExtractRate()
+                        / TileEntityConstants.TICKER_PER_SECOND));
+            } else {
+                this.setEnergyExtractRate(0);
+            }
+        }
+
+        resetInjectRate();
+        //setEnergyInjectRate(new Random().nextDouble() * 20);
+    }
+
+    public void resetInjectRate() {
+        if (!energyInjected) {
+            this.setEnergyInjectRate(0);
+        } else {
+            energyInjected = false;
+        }
+    }
+
+    @Override
+    protected void tickClient() {
+    }
+
+    public int getInfoScreenWidth() {
+        return infoScreenWidth;
+    }
+
+    public void setInfoScreenWidth(int infoScreenWidth) {
+        this.infoScreenWidth = infoScreenWidth;
+    }
+
+    public int getInfoScreenHeight() {
+        return infoScreenHeight;
+    }
+
+    public void setInfoScreenHeight(int infoScreenHeight) {
+        this.infoScreenHeight = infoScreenHeight;
+    }
+
+    public void handlePacket(double injectRate, double extractRate) {
+        this.setEnergyInjectRate(injectRate);
+        this.setEnergyExtractRate(extractRate);
+    }
+
+    public double extractFromItemSlot(ItemStack extractStack) {
+
+        double energyExtract = 0;
+
+        // check for an item in extract
+        double stackEnergyLevel = EnergyUtils.getEnergyPercentageFromItem(extractStack);
+        if (validToReceive(extractStack) && !getEnergyContainer().isEmpty()
+            && stackEnergyLevel < 1.0D) {
+
+            double toExtract = EnergyUtils.getEnergyRequiredForItem(extractStack);
+            double received;
+            double extracted;
+            if (toExtract < this.getEnergyContainer().getEnergy()) {
+                received = EnergyUtils.injectEnergyToItem(extractStack, toExtract);
+            } else {
+                received = EnergyUtils
+                    .injectEnergyToItem(extractStack, this.getEnergyContainer().getEnergy());
+            }
+
+            extracted = this.getEnergyContainer().extractEnergy(received);
+            energyExtract = extracted;
+
+            // send packet to client to notify the item stack was given energy
+            Craftle.packetHandler
+                .sendToTrackingClients(new EnergyItemUpdatePacket(extractStack, this.getPos()),
+                    this);
+        }
+
+        return energyExtract;
+    }
+
+    public double injectFromItemSlot(ItemStack injectStack) {
+
+        double energyReceive = 0;
+        // check for an item in inject
+        if (!injectStack.isEmpty() && isItemFuel(injectStack)) {
+
+            double storedEnergy = getFuelValue(injectStack);
+            double received;
+
+            if (storedEnergy < getEnergyContainer().getEnergyToFill()) {
+
+                received = this.getEnergyContainer().injectEnergy(storedEnergy);
+            } else {
+
+                received = this.getEnergyContainer()
+                    .injectEnergy(getEnergyContainer().getEnergyToFill());
+            }
+
+            EnergyUtils.extractEnergyFromItem(injectStack, received);
+            energyReceive = received;
+
+            // send packet to notify client that energy was extracted from the item stack
+            Craftle.packetHandler
+                .sendToTrackingClients(new EnergyItemUpdatePacket(injectStack, this.getPos()),
+                    this);
+        }
+
+        return energyReceive;
+    }
+
+    private boolean validToReceive(ItemStack stack) {
+        return stack.getItem() instanceof EnergyItem;
+    }
+
+
+    private double getFuelValue(ItemStack stack) {
+        if (validToReceive(stack)) {
+            return EnergyUtils.getEnergyStoredFromItem(stack);
+        }
+
+        return 0;
+    }
+
+    private boolean isItemFuel(ItemStack stackInSlot) {
+        return getFuelValue(stackInSlot) > 0;
     }
 }
