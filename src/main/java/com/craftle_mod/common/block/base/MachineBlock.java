@@ -1,6 +1,6 @@
 package com.craftle_mod.common.block.base;
 
-import com.craftle_mod.api.BlockConstants;
+import com.craftle_mod.api.constants.BlockConstants;
 import com.craftle_mod.common.resource.IBlockResource;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import javax.annotation.Nullable;
@@ -60,13 +60,20 @@ public abstract class MachineBlock extends ActiveBlockBase implements ICraftleMa
         return true;
     }
 
-    @Nullable
-    @Override
-    public abstract TileEntity createTileEntity(BlockState state, IBlockReader world);
-
     @Override
     public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
         // same as a minecraft furnace
         return state.get(LIT) ? 5 : 0;
+    }
+
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+
+        if (getTileType() != null) {
+            return getTileType().create();
+        }
+
+        return null;
     }
 }

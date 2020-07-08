@@ -20,50 +20,44 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 public class CraftleEventSubscriber {
 
     @SubscribeEvent
-    public static void onRegisterItems(
-        final RegistryEvent.Register<Item> event) {
+    public static void onRegisterItems(final RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
 
-        CraftleBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)
-            .forEach(block -> {
-                final Item.Properties properties;
+        CraftleBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).forEach(block -> {
+            final Item.Properties properties;
 
-                if (block instanceof CraftleBlock) {
-                    switch (((CraftleBlock) block)
-                        .getBlockType()) {
-                        case MACHINE:
-                            properties = new Item.Properties()
-                                .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES);
-                            break;
-                        case RESOURCE:
-                            properties = new Item.Properties()
-                                .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_RESOURCES);
-                            break;
-                        default:
-                            properties = new Item.Properties()
-                                .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC);
-                            break;
-                    }
-                } else {
-                    properties = new Item.Properties()
-                        .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC);
+            if (block instanceof CraftleBlock) {
+                switch (((CraftleBlock) block).getBlockType()) {
+                    case MACHINE:
+                        properties = new Item.Properties()
+                            .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES);
+                        break;
+                    case RESOURCE:
+                        properties = new Item.Properties()
+                            .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_RESOURCES);
+                        break;
+                    default:
+                        properties = new Item.Properties()
+                            .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC);
+                        break;
                 }
+            } else {
+                properties = new Item.Properties()
+                    .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC);
+            }
 
-                final BlockItem blockItem =
-                    new BlockItem(block, properties);
-                blockItem.setRegistryName(
-                    Objects.requireNonNull(block.getRegistryName()));
+            final BlockItem blockItem = new BlockItem(block, properties);
+            blockItem.setRegistryName(Objects.requireNonNull(block.getRegistryName()));
 
-                registry.register(blockItem);
-            });
+            registry.register(blockItem);
+        });
 
         Craftle.LOGGER.info("CRAFTLE: Registered block items.");
 
     }
 
     @SubscribeEvent
-    public static void onRegisterBiomes(
-        final RegistryEvent.Register<Biome> event) {
+    public static void onRegisterBiomes(final RegistryEvent.Register<Biome> event) {
         CraftleBiomes.registerBiomes();
     }
 
@@ -74,8 +68,7 @@ public class CraftleEventSubscriber {
         //CraftleRecipeType.registerRecipeTypes(event.getRegistry());
     }
 
-    public static <T extends IForgeRegistryEntry<T>> T setup(final T entry,
-        final String name) {
+    public static <T extends IForgeRegistryEntry<T>> T setup(final T entry, final String name) {
         return setup(entry, new ResourceLocation(Craftle.MODID, name));
     }
 

@@ -54,8 +54,8 @@ public abstract class NBTUtils {
     }
 
     private static ItemStack readItemStack(CompoundNBT compound) {
-        Item item =
-            ForgeRegistries.ITEMS.getValue(new ResourceLocation(compound.getString("item")));
+        Item item = ForgeRegistries.ITEMS
+            .getValue(new ResourceLocation(compound.getString("item")));
         int count = compound.getInt("count");
         return new ItemStack(item, count);
     }

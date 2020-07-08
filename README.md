@@ -3,6 +3,7 @@
 </p>
 
 [![Build Status](https://travis-ci.com/kalindudc/craftle.svg?branch=develop)](https://travis-ci.com/kalindudc/craftle)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/kalindudc/craftle.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/kalindudc/craftle/alerts/)
 
 # Craftle for Minecraft 1.15.x
 > A minecraft addon

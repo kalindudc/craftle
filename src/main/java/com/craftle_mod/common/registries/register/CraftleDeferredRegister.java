@@ -20,9 +20,8 @@ public class CraftleDeferredRegister<T extends IForgeRegistryEntry<T>> {
         internal = new DeferredRegister<>(registry, modid);
     }
 
-    public <I extends T, W extends CraftleRegistryObject<I>> W register(
-        String name, Supplier<? extends I> sup,
-        Function<RegistryObject<I>, W> objectWrapper) {
+    public <I extends T, W extends CraftleRegistryObject<I>> W register(String name,
+        Supplier<? extends I> sup, Function<RegistryObject<I>, W> objectWrapper) {
         return objectWrapper.apply(internal.register(name, sup));
     }
 

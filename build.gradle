@@ -32,6 +32,8 @@ minecraft {
     mappings channel: 'snapshot', version: "${mappings_version}"
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
+    accessTransformers(file('src/main/resources/META-INF/accesstransformer.cfg'))
+
     runs {
         client {
             workingDirectory project.file('run')
@@ -128,7 +130,7 @@ jar {
 }
 
 task coreJar(type: Jar) {
-    archiveName = "craftle-${project.version}.jar"
+    archiveName = "Craftle-${project.version}.jar"
     from sourceSets.main.output
 }
 

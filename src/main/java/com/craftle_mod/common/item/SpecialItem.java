@@ -31,23 +31,20 @@ public class SpecialItem extends Item {
 
     @Override
     public void addInformation(@Nonnull ItemStack stack, @Nullable World worldIn,
-        @Nonnull List<ITextComponent> tooltip,
-        @Nonnull ITooltipFlag flagIn) {
+        @Nonnull List<ITextComponent> tooltip, @Nonnull ITooltipFlag flagIn) {
         if (CraftleKeyHandler.isHoldingShift()) {
             tooltip.add(new StringTextComponent("Test Information ..."));
             tooltip.add(new StringTextComponent("Test a new line ..."));
         } else {
             tooltip.add(new StringTextComponent(
-                "Hold " + "\u00A7e" + "SHIFT" + "\u00A77" + " for more " +
-                    "information."));
+                "Hold " + "\u00A7e" + "SHIFT" + "\u00A77" + " for more " + "information."));
         }
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
     @Nonnull
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn,
-        PlayerEntity playerIn,
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn,
         @Nonnull Hand handIn) {
         playerIn.addPotionEffect(new EffectInstance(Effects.LEVITATION, 10, 2));
         worldIn.setRainStrength(3.0f);
@@ -57,8 +54,7 @@ public class SpecialItem extends Item {
     @Override
     public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entity) {
         entity.world.setBlockState(entity.getPosition().down(),
-            CraftleBlocks.TEST_ORE.get()
-                .getDefaultState());
+            CraftleBlocks.TEST_ORE.get().getDefaultState());
         return super.onEntityItemUpdate(stack, entity);
     }
 
