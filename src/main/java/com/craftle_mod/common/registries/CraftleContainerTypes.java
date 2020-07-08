@@ -37,16 +37,16 @@ public class CraftleContainerTypes {
     public static final RegistryObject<ContainerType<GeneratorContainer>> COAL_GENERATOR = CONTAINER_TYPES
         .register("coal_generator", () -> IForgeContainerType.create(GeneratorContainer::new));
 
-    public static final RegistryObject<ContainerType<EnergyContainer>> ENERGY_MATRIX_BASIC = registerEnergyContainer(
-        "energy_matrix_", CraftleBlocks.ENERGY_MATRIX_BASIC, CraftleBaseTier.BASIC);
-    public static final RegistryObject<ContainerType<EnergyContainer>> ENERGY_MATRIX_TIER_1 = registerEnergyContainer(
-        "energy_matrix_", CraftleBlocks.ENERGY_MATRIX_TIER_1, CraftleBaseTier.TIER_1);
-    public static final RegistryObject<ContainerType<EnergyContainer>> ENERGY_MATRIX_TIER_2 = registerEnergyContainer(
-        "energy_matrix_", CraftleBlocks.ENERGY_MATRIX_TIER_2, CraftleBaseTier.TIER_2);
-    public static final RegistryObject<ContainerType<EnergyContainer>> ENERGY_MATRIX_TIER_3 = registerEnergyContainer(
-        "energy_matrix_", CraftleBlocks.ENERGY_MATRIX_TIER_3, CraftleBaseTier.TIER_3);
-    public static final RegistryObject<ContainerType<EnergyContainer>> ENERGY_MATRIX_TIER_4 = registerEnergyContainer(
-        "energy_matrix_", CraftleBlocks.ENERGY_MATRIX_TIER_4, CraftleBaseTier.TIER_4);
+    public static final RegistryObject<ContainerType<EnergyContainer>> ENERGY_TANK_BASIC = registerEnergyContainer(
+        "energy_tank_", CraftleBlocks.ENERGY_TANK_BASIC, CraftleBaseTier.BASIC);
+    public static final RegistryObject<ContainerType<EnergyContainer>> ENERGY_TANK_TIER_1 = registerEnergyContainer(
+        "energy_tank_", CraftleBlocks.ENERGY_TANK_TIER_1, CraftleBaseTier.TIER_1);
+    public static final RegistryObject<ContainerType<EnergyContainer>> ENERGY_TANK_TIER_2 = registerEnergyContainer(
+        "energy_tank_", CraftleBlocks.ENERGY_TANK_TIER_2, CraftleBaseTier.TIER_2);
+    public static final RegistryObject<ContainerType<EnergyContainer>> ENERGY_TANK_TIER_3 = registerEnergyContainer(
+        "energy_tank_", CraftleBlocks.ENERGY_TANK_TIER_3, CraftleBaseTier.TIER_3);
+    public static final RegistryObject<ContainerType<EnergyContainer>> ENERGY_TANK_TIER_4 = registerEnergyContainer(
+        "energy_tank_", CraftleBlocks.ENERGY_TANK_TIER_4, CraftleBaseTier.TIER_4);
 
 
     public static final RegistryObject<ContainerType<WorkBenchContainer>> WORKBENCH = CONTAINER_TYPES

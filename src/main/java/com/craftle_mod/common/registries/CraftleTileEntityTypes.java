@@ -2,7 +2,7 @@ package com.craftle_mod.common.registries;
 
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.machine.Crusher;
-import com.craftle_mod.common.block.storage.EnergyMatrix;
+import com.craftle_mod.common.block.storage.EnergyTank;
 import com.craftle_mod.common.tier.CraftleBaseTier;
 import com.craftle_mod.common.tile.TileEntityQuarry;
 import com.craftle_mod.common.tile.TileEntityTestChest;
@@ -10,7 +10,7 @@ import com.craftle_mod.common.tile.base.GeneratorTileEntity;
 import com.craftle_mod.common.tile.machine.CoalGeneratorTileEntity;
 import com.craftle_mod.common.tile.machine.CrusherTileEntity;
 import com.craftle_mod.common.tile.machine.WorkBenchTileEntity;
-import com.craftle_mod.common.tile.storage.EnergyMatrixTileEntity;
+import com.craftle_mod.common.tile.storage.EnergyTankTileEntity;
 import com.mojang.datafixers.DataFixUtils;
 import com.mojang.datafixers.types.Type;
 import java.util.function.Supplier;
@@ -53,16 +53,16 @@ public class CraftleTileEntityTypes {
 
     // ENERGY MATRIX
 
-    public static final RegistryObject<TileEntityType<EnergyMatrixTileEntity>> ENERGY_MATRIX_BASIC = registerEnergyMatrix(
-        CraftleBlocks.ENERGY_MATRIX_BASIC, CraftleBaseTier.BASIC);
-    public static final RegistryObject<TileEntityType<EnergyMatrixTileEntity>> ENERGY_MATRIX_TIER_1 = registerEnergyMatrix(
-        CraftleBlocks.ENERGY_MATRIX_TIER_1, CraftleBaseTier.TIER_1);
-    public static final RegistryObject<TileEntityType<EnergyMatrixTileEntity>> ENERGY_MATRIX_TIER_2 = registerEnergyMatrix(
-        CraftleBlocks.ENERGY_MATRIX_TIER_2, CraftleBaseTier.TIER_2);
-    public static final RegistryObject<TileEntityType<EnergyMatrixTileEntity>> ENERGY_MATRIX_TIER_3 = registerEnergyMatrix(
-        CraftleBlocks.ENERGY_MATRIX_TIER_3, CraftleBaseTier.TIER_3);
-    public static final RegistryObject<TileEntityType<EnergyMatrixTileEntity>> ENERGY_MATRIX_TIER_4 = registerEnergyMatrix(
-        CraftleBlocks.ENERGY_MATRIX_TIER_4, CraftleBaseTier.TIER_4);
+    public static final RegistryObject<TileEntityType<EnergyTankTileEntity>> ENERGY_TANK_BASIC = registerEnergyTank(
+        CraftleBlocks.ENERGY_TANK_BASIC, CraftleBaseTier.BASIC);
+    public static final RegistryObject<TileEntityType<EnergyTankTileEntity>> ENERGY_TANK_TIER_1 = registerEnergyTank(
+        CraftleBlocks.ENERGY_TANK_TIER_1, CraftleBaseTier.TIER_1);
+    public static final RegistryObject<TileEntityType<EnergyTankTileEntity>> ENERGY_TANK_TIER_2 = registerEnergyTank(
+        CraftleBlocks.ENERGY_TANK_TIER_2, CraftleBaseTier.TIER_2);
+    public static final RegistryObject<TileEntityType<EnergyTankTileEntity>> ENERGY_TANK_TIER_3 = registerEnergyTank(
+        CraftleBlocks.ENERGY_TANK_TIER_3, CraftleBaseTier.TIER_3);
+    public static final RegistryObject<TileEntityType<EnergyTankTileEntity>> ENERGY_TANK_TIER_4 = registerEnergyTank(
+        CraftleBlocks.ENERGY_TANK_TIER_4, CraftleBaseTier.TIER_4);
 
     // WORKBENCH
     public static final RegistryObject<TileEntityType<WorkBenchTileEntity>> WORKBENCH = register(
@@ -76,11 +76,11 @@ public class CraftleTileEntityTypes {
             () -> new CrusherTileEntity((Crusher) block.get(), tier), block);
     }
 
-    private static RegistryObject<TileEntityType<EnergyMatrixTileEntity>> registerEnergyMatrix(
+    private static RegistryObject<TileEntityType<EnergyTankTileEntity>> registerEnergyTank(
         RegistryObject<Block> block, CraftleBaseTier tier) {
 
-        return register("energy_matrix_" + tier.getTier(),
-            () -> new EnergyMatrixTileEntity((EnergyMatrix) block.get(), tier), block);
+        return register("energy_tank_" + tier.getTier(),
+            () -> new EnergyTankTileEntity((EnergyTank) block.get(), tier), block);
     }
 
     private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String key,
