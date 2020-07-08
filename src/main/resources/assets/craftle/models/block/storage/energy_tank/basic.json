@@ -1,0 +1,6 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "craftle:block/storage/energy_tank/basic"
+    }
+}
