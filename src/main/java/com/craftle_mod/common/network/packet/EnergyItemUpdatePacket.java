@@ -1,7 +1,7 @@
 package com.craftle_mod.common.network.packet;
 
 import com.craftle_mod.common.item.EnergyItem;
-import com.craftle_mod.common.tile.storage.EnergyMatrixTileEntity;
+import com.craftle_mod.common.tile.storage.EnergyTankTileEntity;
 import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import net.minecraft.client.Minecraft;
@@ -56,8 +56,8 @@ public class EnergyItemUpdatePacket {
                 if (Minecraft.getInstance().world != null) {
                     TileEntity tile = Minecraft.getInstance().world.getTileEntity(msg.pos);
 
-                    if (tile instanceof EnergyMatrixTileEntity) {
-                        msg.handlePacket((EnergyMatrixTileEntity) tile);
+                    if (tile instanceof EnergyTankTileEntity) {
+                        msg.handlePacket((EnergyTankTileEntity) tile);
                     }
                 }
 
@@ -66,7 +66,7 @@ public class EnergyItemUpdatePacket {
         ctx.setPacketHandled(true);
     }
 
-    private void handlePacket(EnergyMatrixTileEntity tile) {
+    private void handlePacket(EnergyTankTileEntity tile) {
         ItemStack clientStack1 = tile.getContainerContents().get(0);
         ItemStack clientStack2 = tile.getContainerContents().get(1);
 

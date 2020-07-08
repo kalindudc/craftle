@@ -12,7 +12,7 @@ import com.craftle_mod.common.block.machine.Crusher;
 import com.craftle_mod.common.block.machine.Quarry;
 import com.craftle_mod.common.block.machine.WorkBench;
 import com.craftle_mod.common.block.storage.CableConnector;
-import com.craftle_mod.common.block.storage.EnergyMatrix;
+import com.craftle_mod.common.block.storage.EnergyTank;
 import com.craftle_mod.common.resource.BlockResource;
 import com.craftle_mod.common.resource.OreResource;
 import com.craftle_mod.common.resource.ResourceType;
@@ -102,24 +102,20 @@ public class CraftleBlocks {
             CraftleBaseTier.BASIC));
 
     // ENERGY MATRIX
-    public static final RegistryObject<Block> ENERGY_MATRIX_BASIC = registerMachine("energy_matrix",
-        new EnergyMatrix(BlockResource.STEEL, CraftleBlock.BlockType.MACHINE, SoundType.METAL,
+    public static final RegistryObject<Block> ENERGY_TANK_BASIC = registerMachine("energy_tank",
+        new EnergyTank(BlockResource.STEEL, CraftleBlock.BlockType.MACHINE, SoundType.METAL,
             CraftleBaseTier.BASIC));
-    public static final RegistryObject<Block> ENERGY_MATRIX_TIER_1 = registerMachine(
-        "energy_matrix",
-        new EnergyMatrix(BlockResource.STEEL, CraftleBlock.BlockType.MACHINE, SoundType.METAL,
+    public static final RegistryObject<Block> ENERGY_TANK_TIER_1 = registerMachine("energy_tank",
+        new EnergyTank(BlockResource.STEEL, CraftleBlock.BlockType.MACHINE, SoundType.METAL,
             CraftleBaseTier.TIER_1));
-    public static final RegistryObject<Block> ENERGY_MATRIX_TIER_2 = registerMachine(
-        "energy_matrix",
-        new EnergyMatrix(BlockResource.STEEL, CraftleBlock.BlockType.MACHINE, SoundType.METAL,
+    public static final RegistryObject<Block> ENERGY_TANK_TIER_2 = registerMachine("energy_tank",
+        new EnergyTank(BlockResource.STEEL, CraftleBlock.BlockType.MACHINE, SoundType.METAL,
             CraftleBaseTier.TIER_2));
-    public static final RegistryObject<Block> ENERGY_MATRIX_TIER_3 = registerMachine(
-        "energy_matrix",
-        new EnergyMatrix(BlockResource.STEEL, CraftleBlock.BlockType.MACHINE, SoundType.METAL,
+    public static final RegistryObject<Block> ENERGY_TANK_TIER_3 = registerMachine("energy_tank",
+        new EnergyTank(BlockResource.STEEL, CraftleBlock.BlockType.MACHINE, SoundType.METAL,
             CraftleBaseTier.TIER_3));
-    public static final RegistryObject<Block> ENERGY_MATRIX_TIER_4 = registerMachine(
-        "energy_matrix",
-        new EnergyMatrix(BlockResource.STEEL, CraftleBlock.BlockType.MACHINE, SoundType.METAL,
+    public static final RegistryObject<Block> ENERGY_TANK_TIER_4 = registerMachine("energy_tank",
+        new EnergyTank(BlockResource.STEEL, CraftleBlock.BlockType.MACHINE, SoundType.METAL,
             CraftleBaseTier.TIER_4));
 
     // workbench
