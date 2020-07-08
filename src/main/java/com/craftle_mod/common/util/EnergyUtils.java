@@ -1,214 +1,230 @@
 package com.craftle_mod.common.util;
 
-import com.craftle_mod.api.UnitConstants;
-import com.craftle_mod.common.capability.energy.EnergyContainerCapability;
-import com.craftle_mod.common.tier.CraftleBaseTier;
+import com.craftle_mod.common.capability.Capabilities;
+import com.craftle_mod.common.capability.energy.CraftleEnergyStorage;
+import com.craftle_mod.common.capability.energy.ICraftleEnergyStorage;
+import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
 
 public abstract class EnergyUtils {
 
-    public static float joulesToKiloJoules(float energy) {
-        return energy / 1000f;
+    public static double emitEnergy(CraftleEnergyStorage energyContainer,
+        PoweredMachineTileEntity tileEntity, double maxExtractRate) {
+
+        return energyContainer.extractEnergy(
+            emitEnergy(energyContainer.extractEnergy(maxExtractRate, true), tileEntity));
     }
 
-    public static float joulesToMegaJoules(float energy) {
-        return joulesToKiloJoules(energy) / 1000f;
+    private static double emitEnergy(double energyToSend, PoweredMachineTileEntity fromTile) {
+
+        if (energyToSend < 0) {
+            throw new IllegalArgumentException(
+                "Trying to extract negative energy. How did this even happen. " + fromTile);
+        }
+
+        if (energyToSend == 0) {
+            return 0;
+        }
+
+        List<PoweredMachineTileEntity> acceptors = new ArrayList<>();
+        int totalAcceptors = 0;
+
+        for (Direction side : Direction.values()) {
+
+            // get tile entity relative to fromTile
+            TileEntity tileEntity = Objects.requireNonNull(fromTile.getWorld())
+                .getTileEntity(fromTile.getPos().offset(side));
+            if (validEnergyAcceptor(tileEntity)) {
+                totalAcceptors++;
+                acceptors.add((PoweredMachineTileEntity) tileEntity);
+            }
+        }
+
+        if (totalAcceptors > 0) {
+
+            int accepted = totalAcceptors;
+            double energySent = 0;
+
+            for (PoweredMachineTileEntity acceptor : acceptors) {
+                double energy = emitToAcceptor(acceptor, (energyToSend - energySent) / accepted);
+                accepted--;
+                energySent += energy;
+            }
+            return energySent;
+        }
+
+        return 0;
     }
 
-    public static float joulesToGigaJoules(float energy) {
-        return joulesToMegaJoules(energy) / 1000f;
+    public static double emitToAcceptor(PoweredMachineTileEntity tileEntity, double energy) {
+        return tileEntity.injectEnergy(energy);
     }
 
-    public static float joulesToTeraJoules(float energy) {
-        return joulesToGigaJoules(energy) / 1000f;
+    public static boolean validEnergyAcceptor(TileEntity tileEntity) {
+        return tileEntity instanceof PoweredMachineTileEntity
+            && ((PoweredMachineTileEntity) tileEntity).validAcceptor();
     }
 
-    public static float joulesToPetaJoules(float energy) {
-        return joulesToTeraJoules(energy) / 1000f;
+    public enum EnergyUnit {
+        JOULE(1D, "J"),
+        KILOJOULE(1_000D, "kJ"),
+        MEGAJOULE(1_000_000D, "MJ"),
+        GIGAJOULE(1_000_000_000D, "GJ"),
+        TERAJOULE(1_000_000_000_000D, "TJ"),
+        PETAJOULE(1_000_000_000_000_000D, "PJ");
+
+        private final double factor;
+        private final String unit;
+
+        EnergyUnit(double factor, String unit) {
+            this.factor = factor;
+            this.unit = unit;
+        }
+
+        public double getFactor() {
+            return factor;
+        }
+
+        public String getUnit() {
+            return unit;
+        }
+
+        public static double convertEnergyUnit(double energy, EnergyUnit from, EnergyUnit to) {
+            return energy * from.getFactor() / to.getFactor();
+        }
     }
 
-    public static float kiloJoulesToMegaJoules(float energy) {
-        return energy / 1000f;
+    public static class EnergyConverter {
+
+        private double energy;
+        private String unit;
+
+        public EnergyConverter(double energy) {
+            convert(energy);
+        }
+
+        private void convert(double energy) {
+
+            if (energy / EnergyUnit.PETAJOULE.getFactor() > 1) {
+                this.energy = energy / EnergyUnit.PETAJOULE.getFactor();
+                this.unit = EnergyUnit.PETAJOULE.getUnit();
+            } else if (energy / EnergyUnit.TERAJOULE.getFactor() > 1) {
+                this.energy = energy / EnergyUnit.TERAJOULE.getFactor();
+                this.unit = EnergyUnit.TERAJOULE.getUnit();
+            } else if (energy / EnergyUnit.GIGAJOULE.getFactor() > 1) {
+                this.energy = energy / EnergyUnit.GIGAJOULE.getFactor();
+                this.unit = EnergyUnit.GIGAJOULE.getUnit();
+            } else if (energy / EnergyUnit.MEGAJOULE.getFactor() > 1) {
+                this.energy = energy / EnergyUnit.MEGAJOULE.getFactor();
+                this.unit = EnergyUnit.MEGAJOULE.getUnit();
+            } else if (energy / EnergyUnit.KILOJOULE.getFactor() > 1) {
+                this.energy = energy / EnergyUnit.KILOJOULE.getFactor();
+                this.unit = EnergyUnit.KILOJOULE.getUnit();
+            } else {
+                this.energy = energy;
+                this.unit = EnergyUnit.JOULE.getUnit();
+            }
+        }
+
+        public double getEnergy() {
+            return energy;
+        }
+
+        public String getUnit() {
+            return unit;
+        }
     }
 
-    public static float kiloJoulesToGigaJoules(float energy) {
-        return kiloJoulesToMegaJoules(energy) / 1000f;
-    }
+    public static double extractEnergyFromItem(ItemStack stack, double energy) {
 
-    public static float kiloJoulesToTeraJoules(float energy) {
-        return kiloJoulesToGigaJoules(energy) / 1000f;
-    }
+        LazyOptional<ICraftleEnergyStorage> items = stack
+            .getCapability(Capabilities.ENERGY_CAPABILITY);
 
-    public static float kiloJoulesToPetaJoules(float energy) {
-        return kiloJoulesToTeraJoules(energy) / 1000f;
-    }
+        if (stack.getCapability(Capabilities.ENERGY_CAPABILITY).isPresent()) {
 
-    public static float megaJoulesToGigaJoules(float energy) {
-        return energy / 1000f;
-    }
+            CraftleEnergyStorage container = (CraftleEnergyStorage) items
+                .orElse(CraftleEnergyStorage.EMPTY_IE);
 
-    public static float megaJoulesToTeraJoules(float energy) {
-        return megaJoulesToGigaJoules(energy) / 1000f;
-    }
-
-    public static float megaJoulesToPetaJoules(float energy) {
-        return megaJoulesToTeraJoules(energy) / 1000f;
-    }
-
-    public static float gigaJoulesToTeraJoules(float energy) {
-        return energy / 1000f;
-    }
-
-    public static float gigaJoulesToPetaJoules(float energy) {
-        return gigaJoulesToTeraJoules(energy) / 1000f;
-    }
-
-    public static float teraJoulesToPetaJoules(float energy) {
-        return energy / 1000f;
-    }
-
-    public static float petaJoulesToTeraJoules(float energy) {
-        return energy * 1000f;
-    }
-
-    public static float petaJoulesToGigaJoules(float energy) {
-        return petaJoulesToTeraJoules(energy) * 1000f;
-    }
-
-    public static float petaJoulesToMegaJoules(float energy) {
-        return petaJoulesToGigaJoules(energy) * 1000f;
-    }
-
-    public static float petaJoulesToKiloJoules(float energy) {
-        return petaJoulesToMegaJoules(energy) * 1000f;
-    }
-
-    public static float petaJoulesToJoules(float energy) {
-        return petaJoulesToKiloJoules(energy) * 1000f;
-    }
-
-    public static float teraJoulesToGigaJoules(float energy) {
-        return energy * 1000f;
-    }
-
-    public static float teraJoulesToMegaJoules(float energy) {
-        return teraJoulesToGigaJoules(energy) * 1000f;
-    }
-
-    public static float teraJoulesToKiloJoules(float energy) {
-        return teraJoulesToMegaJoules(energy) * 1000f;
-    }
-
-    public static float teraJoulesToJoules(float energy) {
-        return teraJoulesToKiloJoules(energy) * 1000f;
-    }
-
-    public static float gigaJoulesToMegaJoules(float energy) {
-        return energy * 1000f;
-    }
-
-    public static float gigaJoulesToKiloJoules(float energy) {
-        return gigaJoulesToMegaJoules(energy) * 1000f;
-    }
-
-    public static float gigaJoulesToJoules(float energy) {
-        return gigaJoulesToKiloJoules(energy) * 1000f;
-    }
-
-    public static float megaJoulesToKiloJoules(float energy) {
-        return energy * 1000f;
-    }
-
-    public static float megaJoulesToJoules(float energy) {
-        return megaJoulesToKiloJoules(energy) * 1000f;
-    }
-
-    public static float kiloJoulesToJoules(float energy) {
-        return energy * 1000f;
-    }
-
-    public static int extractEnergyFromItem(ItemStack stack, int energy) {
-
-        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
-
-        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
-
-            EnergyContainerCapability container = (EnergyContainerCapability) items
-                .orElse(EnergyContainerCapability.EMPTY_IE);
-
-            if (container.canExtract() && container.getEnergyStored() > 0) {
+            if (container.canExtract()) {
                 return container.extractEnergy(energy);
             }
         }
 
-        return 0;
+        return 0D;
     }
 
-    public static int injectEnergyToItem(ItemStack stack, int energy) {
+    public static double injectEnergyToItem(ItemStack stack, double energy) {
 
-        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
+        LazyOptional<ICraftleEnergyStorage> items = stack
+            .getCapability(Capabilities.ENERGY_CAPABILITY);
 
-        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+        if (stack.getCapability(Capabilities.ENERGY_CAPABILITY).isPresent()) {
 
-            EnergyContainerCapability container = (EnergyContainerCapability) items
-                .orElse(EnergyContainerCapability.EMPTY_IE);
+            CraftleEnergyStorage container = (CraftleEnergyStorage) items
+                .orElse(CraftleEnergyStorage.EMPTY_IE);
 
-            if (container.canReceive()) {
-                return container.receiveEnergy(energy);
+            if (container.canInject()) {
+                return container.injectEnergy(energy);
             }
         }
 
         return 0;
     }
 
-    public static int getEnergyRequiredForItem(ItemStack stack) {
+    public static double getEnergyRequiredForItem(ItemStack stack) {
 
-        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
+        LazyOptional<ICraftleEnergyStorage> items = stack
+            .getCapability(Capabilities.ENERGY_CAPABILITY);
 
-        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+        if (stack.getCapability(Capabilities.ENERGY_CAPABILITY).isPresent()) {
 
-            EnergyContainerCapability container = (EnergyContainerCapability) items
-                .orElse(EnergyContainerCapability.EMPTY_IE);
+            CraftleEnergyStorage container = (CraftleEnergyStorage) items
+                .orElse(CraftleEnergyStorage.EMPTY_IE);
 
-            if (container.getMaxEnergyStored() > 0) {
-                return container.getMaxEnergyStored() - container.getEnergyStored();
+            if (container.getCapacity() > 0) {
+                return container.getCapacity() - container.getEnergy();
             }
         }
 
         return 0;
     }
 
-    public static int getEnergyStoredFromItem(ItemStack stack) {
+    public static double getEnergyStoredFromItem(ItemStack stack) {
 
-        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
+        LazyOptional<ICraftleEnergyStorage> items = stack
+            .getCapability(Capabilities.ENERGY_CAPABILITY);
 
-        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+        if (stack.getCapability(Capabilities.ENERGY_CAPABILITY).isPresent()) {
 
-            EnergyContainerCapability container = (EnergyContainerCapability) items
-                .orElse(EnergyContainerCapability.EMPTY_IE);
+            CraftleEnergyStorage container = (CraftleEnergyStorage) items
+                .orElse(CraftleEnergyStorage.EMPTY_IE);
 
-            if (container.getEnergyStored() > 0) {
-                return container.getEnergyStored();
+            if (!container.isEmpty()) {
+                return container.getEnergy();
             }
         }
 
         return 0;
     }
 
-    public static int getEnergyCapacityFromItem(ItemStack stack) {
+    public static double getEnergyCapacityFromItem(ItemStack stack) {
 
-        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
+        LazyOptional<ICraftleEnergyStorage> items = stack
+            .getCapability(Capabilities.ENERGY_CAPABILITY);
 
-        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+        if (stack.getCapability(Capabilities.ENERGY_CAPABILITY).isPresent()) {
 
-            EnergyContainerCapability container = (EnergyContainerCapability) items
-                .orElse(EnergyContainerCapability.EMPTY_IE);
+            CraftleEnergyStorage container = (CraftleEnergyStorage) items
+                .orElse(CraftleEnergyStorage.EMPTY_IE);
 
-            if (container.getMaxEnergyStored() > 0) {
-                return container.getMaxEnergyStored();
+            if (container.getCapacity() > 0) {
+                return container.getCapacity();
             }
         }
 
@@ -217,84 +233,19 @@ public abstract class EnergyUtils {
 
     public static double getEnergyPercentageFromItem(ItemStack stack) {
 
-        LazyOptional<IEnergyStorage> items = stack.getCapability(CapabilityEnergy.ENERGY);
+        LazyOptional<ICraftleEnergyStorage> items = stack
+            .getCapability(Capabilities.ENERGY_CAPABILITY);
 
-        if (stack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+        if (stack.getCapability(Capabilities.ENERGY_CAPABILITY).isPresent()) {
 
-            EnergyContainerCapability container = (EnergyContainerCapability) items
-                .orElse(EnergyContainerCapability.EMPTY_IE);
+            CraftleEnergyStorage container = (CraftleEnergyStorage) items
+                .orElse(CraftleEnergyStorage.EMPTY_IE);
 
-            if (container.getMaxEnergyStored() > 0) {
-                return ((double) container.getEnergyStored()) /
-                    ((double) container.getMaxEnergyStored());
+            if (container.getCapacity() > 0) {
+                return container.getEnergy() / container.getCapacity();
             }
         }
 
         return 0.0D;
     }
-
-    public static String getUnitForTierItem(CraftleBaseTier tier) {
-
-        switch (tier) {
-            case UNLIMITED:
-            case TIER_4:
-            case TIER_3:
-                return UnitConstants.GIGAJOULES;
-            case TIER_2:
-            case TIER_1:
-                return UnitConstants.MEGAJOULES;
-            case BASIC:
-            default:
-                return UnitConstants.KILOJOULES;
-        }
-    }
-
-    public static String getUnitForTierBlock(CraftleBaseTier tier) {
-
-        switch (tier) {
-            case UNLIMITED:
-            case TIER_4:
-                return UnitConstants.TERAJOULES;
-            case TIER_3:
-            case TIER_2:
-                return UnitConstants.GIGAJOULES;
-            case TIER_1:
-            case BASIC:
-            default:
-                return UnitConstants.MEGAJOULES;
-        }
-    }
-
-    public static float getJoulesForTierItem(CraftleBaseTier tier, int energy) {
-
-        switch (tier) {
-            case UNLIMITED:
-            case TIER_4:
-            case TIER_3:
-                return kiloJoulesToGigaJoules(energy);
-            case TIER_2:
-            case TIER_1:
-                return kiloJoulesToMegaJoules(energy);
-            case BASIC:
-            default:
-                return energy;
-        }
-    }
-
-    public static float getJoulesForTierBlock(CraftleBaseTier tier, int energy) {
-
-        switch (tier) {
-            case UNLIMITED:
-            case TIER_4:
-                return kiloJoulesToTeraJoules(energy);
-            case TIER_3:
-            case TIER_2:
-                return kiloJoulesToGigaJoules(energy);
-            case TIER_1:
-            case BASIC:
-            default:
-                return kiloJoulesToMegaJoules(energy);
-        }
-    }
-
 }

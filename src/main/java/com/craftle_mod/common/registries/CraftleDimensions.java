@@ -9,10 +9,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class CraftleDimensions {
 
-    public static final DeferredRegister<ModDimension> DIMENSIONS =
-        new DeferredRegister<>(ForgeRegistries.MOD_DIMENSIONS,
-            Craftle.MODID);
+    public static final DeferredRegister<ModDimension> DIMENSIONS = new DeferredRegister<>(
+        ForgeRegistries.MOD_DIMENSIONS, Craftle.MODID);
 
-    public static final RegistryObject<ModDimension> TEST_DIMENSION =
-        DIMENSIONS.register("test_dimension", TestModDimension::new);
+    public static final RegistryObject<ModDimension> TEST_DIMENSION = DIMENSIONS
+        .register("test_dimension", TestModDimension::new);
 }

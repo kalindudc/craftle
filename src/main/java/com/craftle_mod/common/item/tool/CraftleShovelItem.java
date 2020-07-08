@@ -12,10 +12,9 @@ public class CraftleShovelItem extends ShovelItem implements ICraftleToolItem {
     private final String resourceName;
     private final CraftleToolTier tier;
 
-    public CraftleShovelItem(float attackDamage, float attackSpeed,
-        CraftleToolTier tier) {
-        super(tier, attackDamage, attackSpeed, new Item.Properties()
-            .group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_TOOLS));
+    public CraftleShovelItem(float attackDamage, float attackSpeed, CraftleToolTier tier) {
+        super(tier, attackDamage, attackSpeed,
+            new Item.Properties().group(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_TOOLS));
         this.resourceName = tier.getMaterialName() + "_shovel";
         this.tier = tier;
     }

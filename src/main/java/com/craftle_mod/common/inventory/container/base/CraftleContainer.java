@@ -1,10 +1,14 @@
 package com.craftle_mod.common.inventory.container.base;
 
-import com.craftle_mod.common.tile.base.ContainerizedTileEntity;
+import com.craftle_mod.common.Craftle;
+import com.craftle_mod.common.inventory.slot.SlotConfig;
+import com.craftle_mod.common.tile.base.CraftleTileEntity;
+import com.craftle_mod.common.tile.base.MachineTileEntity;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
@@ -14,26 +18,32 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.world.World;
 
-public abstract class CraftleContainer extends Container {
+public class CraftleContainer extends Container {
 
     private final IWorldPosCallable canInteractWithCallable;
-    private final ContainerizedTileEntity entity;
+    private final CraftleTileEntity entity;
     private final PlayerInventory playerInventory;
     private final World world;
     private final IWorldPosCallable worldPosCallable;
 
     public CraftleContainer(ContainerType<?> container, final int windowId,
-        final PlayerInventory playerInventory,
-        final ContainerizedTileEntity entity) {
+        final PlayerInventory playerInventory, final CraftleTileEntity entity) {
 
         super(container, windowId);
         this.playerInventory = playerInventory;
         this.entity = entity;
-        this.canInteractWithCallable = IWorldPosCallable.of(
-            Objects.requireNonNull(entity.getWorld()), entity.getPos());
+        this.canInteractWithCallable = IWorldPosCallable
+            .of(Objects.requireNonNull(entity.getWorld()), entity.getPos());
         this.world = entity.getWorld();
         worldPosCallable = IWorldPosCallable.of(this.getWorld(), entity.getPos());
+        this.entity.getHotBarSlotConfig().setInventory(playerInventory);
+        this.entity.getMainInventorySlotConfig().setInventory(playerInventory);
+        init();
+        initSlots();
 
+    }
+
+    public void init() {
     }
 
     public CraftleContainer(ContainerType<?> container, final int windowId,
@@ -41,7 +51,7 @@ public abstract class CraftleContainer extends Container {
         this(container, windowId, playerInventory, getTileEntity(playerInventory, data));
     }
 
-    public ContainerizedTileEntity getEntity() {
+    public CraftleTileEntity getEntity() {
         return entity;
     }
 
@@ -49,15 +59,15 @@ public abstract class CraftleContainer extends Container {
         return canInteractWithCallable;
     }
 
-    private static ContainerizedTileEntity getTileEntity(final PlayerInventory playerInventory,
+    private static CraftleTileEntity getTileEntity(final PlayerInventory playerInventory,
         final PacketBuffer data) {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null");
         Objects.requireNonNull(data, "data cannot be null");
 
-        final TileEntity tileAtPos =
-            playerInventory.player.world.getTileEntity(data.readBlockPos());
-        if (tileAtPos instanceof ContainerizedTileEntity) {
-            return (ContainerizedTileEntity) tileAtPos;
+        final TileEntity tileAtPos = playerInventory.player.world
+            .getTileEntity(data.readBlockPos());
+        if (tileAtPos instanceof CraftleTileEntity) {
+            return (CraftleTileEntity) tileAtPos;
         }
 
         throw new IllegalStateException("Tile entity is not correct. " + tileAtPos);
@@ -94,40 +104,80 @@ public abstract class CraftleContainer extends Container {
             } else {
                 slot.onSlotChanged();
             }
+
+            if (itemStack1.isEmpty()) {
+                slot.putStack(ItemStack.EMPTY);
+            } else {
+                slot.onSlotChanged();
+            }
+
+            if (itemStack1.getCount() == itemStack.getCount()) {
+                return ItemStack.EMPTY;
+            }
+
+            ItemStack itemstack2 = slot.onTake(playerIn, itemStack1);
+            if (index == 0) {
+                playerIn.dropItem(itemstack2, false);
+            }
         }
 
         return itemStack;
     }
 
-    public void addContainerSlot(int index, int inputX, int inputY) {
-        this.addSlot(new Slot(entity, index, inputX, inputY));
+    @Override
+    public boolean canInteractWith(@Nonnull PlayerEntity playerIn) {
+
+        if (!(getEntity() instanceof MachineTileEntity)) {
+            throw new IllegalStateException("Tile entity is not correct. ");
+        }
+
+        return isWithinUsableDistance(getCanInteractWithCallable(), playerIn,
+            this.entity.getBlock());
     }
 
-    public void addPlayerInventorySlots(int startX, int startY, int totalSlotSpaceSize) {
-        // Main Player Inventory
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 9; col++) {
-                // extra 9 + is to account for the hotbar
-                this.addSlot(new Slot(playerInventory, (9 + (row * 9)) + col,
-                    startX + (col * totalSlotSpaceSize),
-                    startY + (row * totalSlotSpaceSize)));
-            }
-        }
-
-        // Hot Bar
-        int hotbarX = 8;
-        int hotbarY = 142;
-        for (int col = 0; col < 9; col++) {
-            // extra 9 + is to account for the hotbar
-            this.addSlot(
-                new Slot(playerInventory, col, hotbarX + (col * totalSlotSpaceSize), hotbarY));
-        }
+    public void addContainerSlot(IInventory entity, int index, int inputX, int inputY) {
+        this.addSlot(new Slot(entity, index, inputX, inputY));
     }
 
     public PlayerInventory getPlayerInventory() {
         return playerInventory;
     }
 
-    public abstract void initSlots();
+    public void initSlots() {
+        openContainer(playerInventory);
+
+        for (SlotConfig config : entity.getSlotData()) {
+            for (int row = 0; row < config.getNumRows(); row++) {
+                for (int col = 0; col < config.getNumCols(); col++) {
+
+                    if (config.getSlot() == null) {
+                        addContainerSlot(config.getInventory(), config.getIndex(row, col),
+                            config.getX(col), config.getY(row));
+                    } else {
+                        Craftle.logInfo("SPECIAL SLOT " + config.getSlot());
+                        this.addSlot(config.getSlot());
+                    }
+                }
+            }
+        }
+    }
+
+    protected void openContainer(@Nonnull PlayerInventory inv) {
+        if (entity != null) {
+            entity.addPlayer(inv.player);
+        }
+    }
+
+    protected void closeContainer(PlayerEntity player) {
+        if (entity != null) {
+            entity.removePlayer(player);
+        }
+    }
+
+    @Override
+    public void onContainerClosed(PlayerEntity player) {
+        super.onContainerClosed(player);
+        closeContainer(player);
+    }
 
 }

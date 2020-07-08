@@ -4,11 +4,8 @@ import net.minecraft.block.material.Material;
 import net.minecraftforge.common.ToolType;
 
 public enum OreResource implements IBlockResource {
-    COPPER("copper", 1),
-    TIN("tin", 1),
-    URANIUM("uranium", 3),
-    RUBY("ruby", 2),
-    SAPPHIRE("sapphire", 2);
+    COPPER("copper", 1), TIN("tin", 1), URANIUM("uranium", 3), RUBY("ruby", 2), SAPPHIRE("sapphire",
+        2);
 
     private final String name;
     private final float hardness;

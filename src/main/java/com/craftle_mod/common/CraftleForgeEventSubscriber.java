@@ -12,12 +12,11 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 public class CraftleForgeEventSubscriber {
 
     @SubscribeEvent
-    public static void onRegisterDimensions(
-        final RegisterDimensionsEvent event) {
+    public static void onRegisterDimensions(final RegisterDimensionsEvent event) {
         if (DimensionType.byName(Craftle.TEST_DIM_TYPE) == null) {
-            DimensionManager.registerDimension(Craftle.TEST_DIM_TYPE,
-                CraftleDimensions.TEST_DIMENSION
-                    .get(), null, true);
+            DimensionManager
+                .registerDimension(Craftle.TEST_DIM_TYPE, CraftleDimensions.TEST_DIMENSION.get(),
+                    null, true);
         }
 
         Craftle.LOGGER.info("CRAFTLE: Registered Dimensions.");

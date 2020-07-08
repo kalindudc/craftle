@@ -29,9 +29,8 @@ public enum CraftleArmorMaterial implements IArmorMaterial {
     private final float toughness;
     private final LazyValue<Ingredient> repairMaterial;
 
-    CraftleArmorMaterial(String name, int maxDamageFactor,
-        int[] damageReductionAmountArray, int enchantability,
-        SoundEvent soundEvent, float toughness,
+    CraftleArmorMaterial(String name, int maxDamageFactor, int[] damageReductionAmountArray,
+        int enchantability, SoundEvent soundEvent, float toughness,
         Supplier<Ingredient> repairMaterial) {
         this.name = name;
         this.maxDamageFactor = maxDamageFactor;
@@ -39,8 +38,7 @@ public enum CraftleArmorMaterial implements IArmorMaterial {
         this.enchantability = enchantability;
         this.soundEvent = soundEvent;
         this.toughness = toughness;
-        this.repairMaterial =
-            new LazyValue<>(repairMaterial);
+        this.repairMaterial = new LazyValue<>(repairMaterial);
     }
 
     @Override

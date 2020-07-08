@@ -10,8 +10,7 @@ import net.minecraft.world.biome.provider.BiomeProvider;
 
 public class TestBiomeProvider extends BiomeProvider {
 
-    private static final Set<Biome> BIOME_LIST =
-        ImmutableSet.of(CraftleBiomes.TEST_BIOME.get());
+    private static final Set<Biome> BIOME_LIST = ImmutableSet.of(CraftleBiomes.TEST_BIOME.get());
 
     private final Random rand;
 

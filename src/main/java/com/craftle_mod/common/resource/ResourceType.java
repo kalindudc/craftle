@@ -1,13 +1,8 @@
 package com.craftle_mod.common.resource;
 
 public enum ResourceType implements ICraftleResource {
-    ORE("ore"),
-    DUST("dust"),
-    INGOT("ingot"),
-    BIT("bit"),
-    PURIFIED("purified"),
-    BLOCK("block"),
-    ENHANCED("enhanced");
+    ORE("ore"), DUST("dust"), INGOT("ingot"), BIT("bit"), PURIFIED("purified"), BLOCK(
+        "block"), ENHANCED("enhanced");
 
     private final String name;
 
