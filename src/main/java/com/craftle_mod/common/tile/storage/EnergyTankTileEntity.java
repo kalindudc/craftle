@@ -2,17 +2,21 @@ package com.craftle_mod.common.tile.storage;
 
 import com.craftle_mod.api.constants.TagConstants;
 import com.craftle_mod.api.constants.TileEntityConstants;
+import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.storage.EnergyTank;
 import com.craftle_mod.common.inventory.slot.SlotConfig;
 import com.craftle_mod.common.inventory.slot.SlotConfig.SlotType;
 import com.craftle_mod.common.inventory.slot.SlotConfigBuilder;
+import com.craftle_mod.common.network.packet.PowerdMachineUpdatePacket;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.tier.CraftleBaseTier;
+import com.craftle_mod.common.tile.base.IUpdateableTileEntity;
 import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -20,7 +24,8 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class EnergyTankTileEntity extends PoweredMachineTileEntity {
+public class EnergyTankTileEntity extends PoweredMachineTileEntity implements
+    IUpdateableTileEntity {
 
     private final SlotConfig injectSlotConfig;
     private final SlotConfig extractSlotConfig;
@@ -45,7 +50,7 @@ public class EnergyTankTileEntity extends PoweredMachineTileEntity {
 
     @Override
     public boolean canEmitEnergy() {
-        return true;
+        return !getEnergyContainer().isEmpty();
     }
 
     public SlotConfig getInjectSlotConfig() {
@@ -127,10 +132,37 @@ public class EnergyTankTileEntity extends PoweredMachineTileEntity {
         this.setEnergyExtractRate(energyExtract + getEnergyExtractRate());
         this.setEnergyInjectRate(energyReceive + getEnergyInjectRate());
 
+        if (energyExtract > 0 || energyReceive > 0) {
+            sendUpdatePacket();
+        }
+
+    }
+
+    @Override
+    public double injectEnergy(double energy) {
+
+        double energyToReturn = super.injectEnergy(energy);
+
+        sendUpdatePacket();
+
+        return energyToReturn;
     }
 
     @Override
     protected void tickClient() {
     }
 
+    @Override
+    public void sendUpdatePacket(TileEntity tile) {
+        Craftle.packetHandler.sendToTrackingClients(new PowerdMachineUpdatePacket(this), this);
+    }
+
+    @Override
+    public void sendUpdatePacket() {
+        sendUpdatePacket(this);
+    }
+
+    public void handlePacket(CompoundNBT tag) {
+        read(tag);
+    }
 }

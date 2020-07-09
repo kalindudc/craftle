@@ -4,6 +4,7 @@ import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.network.packet.EnergyContainerCreatePacket;
 import com.craftle_mod.common.network.packet.EnergyContainerUpdatePacket;
 import com.craftle_mod.common.network.packet.EnergyItemUpdatePacket;
+import com.craftle_mod.common.network.packet.PowerdMachineUpdatePacket;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -71,6 +72,8 @@ public class PacketHandler {
             EnergyContainerCreatePacket::decode, EnergyContainerCreatePacket::handle);
         register(EnergyItemUpdatePacket.class, EnergyItemUpdatePacket::encode,
             EnergyItemUpdatePacket::decode, EnergyItemUpdatePacket::handle);
+        register(PowerdMachineUpdatePacket.class, PowerdMachineUpdatePacket::encode,
+            PowerdMachineUpdatePacket::decode, PowerdMachineUpdatePacket::handle);
     }
 
     public <MSG> void sendToTrackingClients(MSG packet, @Nonnull TileEntity tile) {

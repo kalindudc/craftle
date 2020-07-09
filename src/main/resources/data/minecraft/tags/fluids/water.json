@@ -1,0 +1,7 @@
+{
+    "replace": false,
+    "values": [
+        "craftle:energy_fluid",
+        "craftle:energy_flowing"
+    ]
+}

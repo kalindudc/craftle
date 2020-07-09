@@ -62,6 +62,22 @@ public abstract class EnergyUtils {
         return 0;
     }
 
+    public static boolean canResetInjectionRate(PoweredMachineTileEntity tile) {
+        for (Direction side : Direction.values()) {
+
+            // get tile entity relative to fromTile
+            TileEntity tileEntity = Objects.requireNonNull(tile.getWorld())
+                .getTileEntity(tile.getPos().offset(side));
+            if (tileEntity instanceof PoweredMachineTileEntity) {
+                if (((PoweredMachineTileEntity) tileEntity).canEmitEnergy()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public static double emitToAcceptor(PoweredMachineTileEntity tileEntity, double energy) {
         return tileEntity.injectEnergy(energy);
     }

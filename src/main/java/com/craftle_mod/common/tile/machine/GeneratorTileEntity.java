@@ -1,4 +1,4 @@
-package com.craftle_mod.common.tile.base;
+package com.craftle_mod.common.tile.machine;
 
 import com.craftle_mod.api.CraftleExceptions.CraftleTileEntityException;
 import com.craftle_mod.api.constants.NBTConstants;
@@ -9,6 +9,7 @@ import com.craftle_mod.common.block.machine.CoalGenerator;
 import com.craftle_mod.common.inventory.container.machine.GeneratorContainer;
 import com.craftle_mod.common.inventory.slot.SlotConfigBuilder;
 import com.craftle_mod.common.tier.CraftleBaseTier;
+import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -275,11 +276,6 @@ public abstract class GeneratorTileEntity extends PoweredMachineTileEntity {
 
     @Override
     public boolean canEmitEnergy() {
-        return true;
-    }
-
-    @Override
-    public void resetInjectRate() {
-        // not used as energy cannot be injected
+        return !getEnergyContainer().isEmpty();
     }
 }

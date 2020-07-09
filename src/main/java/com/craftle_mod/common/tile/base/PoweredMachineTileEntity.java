@@ -49,8 +49,6 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
     private int infoScreenWidth;
     private int infoScreenHeight;
 
-    private boolean energyInjected;
-
     public PoweredMachineTileEntity(MachineBlock block,
         IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier) {
 
@@ -125,7 +123,6 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
         infoScreenWidth = GUIConstants.INFO_SCREEN_WIDTH;
         infoScreenHeight = GUIConstants.INFO_SCREEN_HEIGHT;
 
-        energyInjected = false;
     }
 
     public double getEnergyInjectRate() {
@@ -220,10 +217,12 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
         super.read(compound);
         this.getEnergyContainer().deserializeNBT(compound);
 
-        double bufferedEnergy = compound.getDouble(NBTConstants.GENERATOR_BUFFERED_ENERGY);
-
-        this.bufferedEnergy = bufferedEnergy;
+        this.bufferedEnergy = compound.getDouble(NBTConstants.GENERATOR_BUFFERED_ENERGY);
         this.active = this.bufferedEnergy > 0;
+    }
+
+    public CompoundNBT getTileUpdateTag() {
+        return write(getUpdateTag());
     }
 
     @Override
@@ -268,14 +267,9 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
     }
 
     public double injectEnergy(double energy) {
-        double injectedEnergy = this.energyContainer.injectEnergy(energy);
 
-        if (energyInjected) {
-            this.setEnergyInjectRate(injectedEnergy + getEnergyInjectRate());
-        } else {
-            this.setEnergyInjectRate(injectedEnergy);
-            energyInjected = true;
-        }
+        double injectedEnergy = this.energyContainer.injectEnergy(energy);
+        this.setEnergyInjectRate(injectedEnergy + getEnergyInjectRate());
 
         return injectedEnergy;
     }
@@ -289,21 +283,18 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
             if (!getEnergyContainer().isEmpty()) {
                 this.setEnergyExtractRate(EnergyUtils.emitEnergy(getEnergyContainer(), this,
                     getEnergyContainer().getMaxExtractRate()
-                        / TileEntityConstants.TICKER_PER_SECOND));
+                        / TileEntityConstants.TICKER_PER_SECOND) + getEnergyExtractRate());
             } else {
                 this.setEnergyExtractRate(0);
             }
         }
 
-        resetInjectRate();
-        //setEnergyInjectRate(new Random().nextDouble() * 20);
+        checkAndResetInjectRate();
     }
 
-    public void resetInjectRate() {
-        if (!energyInjected) {
+    public void checkAndResetInjectRate() {
+        if (EnergyUtils.canResetInjectionRate(this)) {
             this.setEnergyInjectRate(0);
-        } else {
-            energyInjected = false;
         }
     }
 
@@ -351,7 +342,7 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
                     .injectEnergyToItem(extractStack, this.getEnergyContainer().getEnergy());
             }
 
-            extracted = this.getEnergyContainer().extractEnergy(received);
+            extracted = this.extractEnergy(received);
             energyExtract = extracted;
 
             // send packet to client to notify the item stack was given energy
@@ -361,6 +352,14 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
         }
 
         return energyExtract;
+    }
+
+    private double extractEnergy(double energy) {
+
+        double extracted = this.energyContainer.extractEnergy(energy);
+        this.setEnergyExtractRate(extracted + getEnergyExtractRate());
+
+        return extracted;
     }
 
     public double injectFromItemSlot(ItemStack injectStack) {
@@ -374,11 +373,10 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
 
             if (storedEnergy < getEnergyContainer().getEnergyToFill()) {
 
-                received = this.getEnergyContainer().injectEnergy(storedEnergy);
+                received = this.injectEnergy(storedEnergy);
             } else {
 
-                received = this.getEnergyContainer()
-                    .injectEnergy(getEnergyContainer().getEnergyToFill());
+                received = this.injectEnergy(getEnergyContainer().getEnergyToFill());
             }
 
             EnergyUtils.extractEnergyFromItem(injectStack, received);

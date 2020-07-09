@@ -7,6 +7,7 @@ import com.craftle_mod.common.registries.CraftleBiomes;
 import com.craftle_mod.common.registries.CraftleBlocks;
 import com.craftle_mod.common.registries.CraftleContainerTypes;
 import com.craftle_mod.common.registries.CraftleDimensions;
+import com.craftle_mod.common.registries.CraftleFluids;
 import com.craftle_mod.common.registries.CraftleItems;
 import com.craftle_mod.common.registries.CraftleRecipeSerializers;
 import com.craftle_mod.common.registries.CraftleTileEntityTypes;
@@ -50,7 +51,9 @@ public class Craftle {
         craftleEventBus.addListener(this::clientRegistries);
 
         CraftleItems.ITEMS.register(craftleEventBus);
+        CraftleFluids.FLUIDS.register(craftleEventBus);
         CraftleBlocks.BLOCKS.register(craftleEventBus);
+
         CraftleTileEntityTypes.TILE_ENTITY_TYPES.register(craftleEventBus);
         CraftleContainerTypes.CONTAINER_TYPES.register(craftleEventBus);
         CraftleRecipeSerializers.SERIALIZERS.register(craftleEventBus);

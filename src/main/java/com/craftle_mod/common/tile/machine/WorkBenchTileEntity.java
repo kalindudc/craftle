@@ -107,14 +107,6 @@ public class WorkBenchTileEntity extends PoweredMachineTileEntity implements
     }
 
     @Override
-    protected void tickServer() {
-    }
-
-    @Override
-    protected void tickClient() {
-    }
-
-    @Override
     public SlotConfig getExtraContainerSlotsConfig() {
         return extraContainerSlots;
     }
