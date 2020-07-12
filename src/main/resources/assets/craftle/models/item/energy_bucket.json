@@ -1,0 +1,6 @@
+{
+    "textures": {
+        "layer0": "craftle:item/energy_bucket"
+    },
+    "parent": "item/generated"
+}

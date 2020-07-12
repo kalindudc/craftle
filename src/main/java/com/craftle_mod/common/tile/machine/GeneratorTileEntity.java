@@ -1,4 +1,4 @@
-package com.craftle_mod.common.tile.base;
+package com.craftle_mod.common.tile.machine;
 
 import com.craftle_mod.api.CraftleExceptions.CraftleTileEntityException;
 import com.craftle_mod.api.constants.NBTConstants;
@@ -9,6 +9,7 @@ import com.craftle_mod.common.block.machine.CoalGenerator;
 import com.craftle_mod.common.inventory.container.machine.GeneratorContainer;
 import com.craftle_mod.common.inventory.slot.SlotConfigBuilder;
 import com.craftle_mod.common.tier.CraftleBaseTier;
+import com.craftle_mod.common.tile.base.PoweredMachineTileEntity;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -150,9 +151,10 @@ public abstract class GeneratorTileEntity extends PoweredMachineTileEntity {
     @Override
     protected void tickServer() {
 
+        super.tickServer();
+
         // burn fuel
-        boolean notFilled =
-            this.getEnergyContainer().getEnergy() < this.getEnergyContainer().getCapacity();
+        boolean notFilled = !this.getEnergyContainer().isFilled();
 
         if (notFilled) {
 
@@ -183,7 +185,8 @@ public abstract class GeneratorTileEntity extends PoweredMachineTileEntity {
             this.markTileDirty();
         }
 
-        super.tickServer();
+        // try to emit energy
+        this.emitEnergy();
     }
 
     private void setupFuel() {
@@ -193,12 +196,9 @@ public abstract class GeneratorTileEntity extends PoweredMachineTileEntity {
                 * this.burnMultiplier);
 
         if (getBufferedEnergy() > injectRate) {
-
-            this.setEnergyInjectRate(injectRate);
-            this.burnTime = (int) Math.ceil(getBufferedEnergy() / this.getEnergyInjectRate());
+            this.burnTime = (int) Math.ceil(getBufferedEnergy() / injectRate);
             this.totalBurnTime = this.burnTime;
         } else {
-            this.setEnergyInjectRate(getBufferedEnergy());
             this.burnTime = this.totalBurnTime = 1;
         }
     }
@@ -229,6 +229,7 @@ public abstract class GeneratorTileEntity extends PoweredMachineTileEntity {
             energyToIncrement = this.getBufferedEnergy();
             burnTime = 0;
         }
+        this.incrementInjectRate(energyToIncrement);
 
         this.getEnergyContainer().injectEnergy(energyToIncrement);
         this.decrementBufferedEnergy(energyToIncrement);
@@ -275,11 +276,6 @@ public abstract class GeneratorTileEntity extends PoweredMachineTileEntity {
 
     @Override
     public boolean canEmitEnergy() {
-        return true;
-    }
-
-    @Override
-    public void resetInjectRate() {
-        // not used as energy cannot be injected
+        return !getEnergyContainer().isEmpty();
     }
 }

@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.play.ClientPlayNetHandler;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.PacketBuffer;
@@ -57,7 +58,8 @@ public class EnergyItemUpdatePacket {
                     TileEntity tile = Minecraft.getInstance().world.getTileEntity(msg.pos);
 
                     if (tile instanceof EnergyTankTileEntity) {
-                        msg.handlePacket((EnergyTankTileEntity) tile);
+                        msg.handlePacket((EnergyTankTileEntity) tile,
+                            Minecraft.getInstance().player);
                     }
                 }
 
@@ -66,16 +68,18 @@ public class EnergyItemUpdatePacket {
         ctx.setPacketHandled(true);
     }
 
-    private void handlePacket(EnergyTankTileEntity tile) {
+    private void handlePacket(EnergyTankTileEntity tile, PlayerEntity playerEntity) {
         ItemStack clientStack1 = tile.getContainerContents().get(0);
         ItemStack clientStack2 = tile.getContainerContents().get(1);
 
+        // energy inject
         if (!clientStack1.isEmpty()) {
             if (clientStack1.getItem() instanceof EnergyItem) {
                 ((EnergyItem) clientStack1.getItem()).handlePacketData(stack, stack.getItem());
             }
         }
 
+        // energy extract
         if (!clientStack2.isEmpty()) {
             if (clientStack2.getItem() instanceof EnergyItem) {
                 ((EnergyItem) clientStack2.getItem()).handlePacketData(stack, stack.getItem());

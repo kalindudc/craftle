@@ -1,6 +1,5 @@
 package com.craftle_mod.common.inventory.container.base;
 
-import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.inventory.slot.SlotConfig;
 import com.craftle_mod.common.tile.base.CraftleTileEntity;
 import com.craftle_mod.common.tile.base.MachineTileEntity;
@@ -146,7 +145,11 @@ public class CraftleContainer extends Container {
     public void initSlots() {
         openContainer(playerInventory);
 
-        for (SlotConfig config : entity.getSlotData()) {
+        // go in reverse order to push adding main inventory slots last
+        for (int i = entity.getSlotData().size() - 1; i >= 0; i--) {
+
+            SlotConfig config = entity.getSlotData().get(i);
+
             for (int row = 0; row < config.getNumRows(); row++) {
                 for (int col = 0; col < config.getNumCols(); col++) {
 
@@ -154,7 +157,6 @@ public class CraftleContainer extends Container {
                         addContainerSlot(config.getInventory(), config.getIndex(row, col),
                             config.getX(col), config.getY(row));
                     } else {
-                        Craftle.logInfo("SPECIAL SLOT " + config.getSlot());
                         this.addSlot(config.getSlot());
                     }
                 }
