@@ -1,5 +1,6 @@
 package com.craftle_mod.common.registries;
 
+import com.craftle_mod.api.constants.FluidConstants;
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.SpecialBlock;
 import com.craftle_mod.common.block.TestChest;
@@ -7,6 +8,7 @@ import com.craftle_mod.common.block.base.CraftleBlock;
 import com.craftle_mod.common.block.base.MachineBlock;
 import com.craftle_mod.common.block.base.OreBlock;
 import com.craftle_mod.common.block.base.ResourceBlock;
+import com.craftle_mod.common.block.fluid.EnergyFluid;
 import com.craftle_mod.common.block.machine.CoalGenerator;
 import com.craftle_mod.common.block.machine.Crusher;
 import com.craftle_mod.common.block.machine.Quarry;
@@ -144,6 +146,10 @@ public class CraftleBlocks {
     public static final RegistryObject<Block> MACHINE_BASE_TIER_4 = registerResource(
         "machine_base_tier_4", BlockResource.STEEL, CraftleBlock.BlockType.MACHINE,
         SoundType.METAL);
+
+    // ENERGY FLUID BLOCK
+    public static final RegistryObject<Block> ENERGY = BLOCKS.register("energy",
+        () -> new EnergyFluid(CraftleFluids.ENERGY_FLUID, FluidConstants.ENERGY_FLUID_PROPERTIES));
 
     // tanks -
 

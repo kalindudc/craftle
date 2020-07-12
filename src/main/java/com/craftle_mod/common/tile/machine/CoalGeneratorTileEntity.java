@@ -6,7 +6,6 @@ import com.craftle_mod.common.inventory.container.machine.GeneratorContainer;
 import com.craftle_mod.common.recipe.CraftleRecipeType;
 import com.craftle_mod.common.registries.CraftleBlocks;
 import com.craftle_mod.common.tier.CraftleBaseTier;
-import com.craftle_mod.common.tile.base.GeneratorTileEntity;
 import javax.annotation.Nonnull;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;

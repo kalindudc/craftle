@@ -49,7 +49,11 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
     private int infoScreenWidth;
     private int infoScreenHeight;
 
-    private boolean energyInjected;
+    /**
+     * Used to calculate inject rate and extract rate when energy is directly injected / extracted
+     * from the energy container.
+     */
+    private double previousEnergyIncrement;
 
     public PoweredMachineTileEntity(MachineBlock block,
         IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier) {
@@ -124,8 +128,7 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
 
         infoScreenWidth = GUIConstants.INFO_SCREEN_WIDTH;
         infoScreenHeight = GUIConstants.INFO_SCREEN_HEIGHT;
-
-        energyInjected = false;
+        previousEnergyIncrement = energyContainer.getEnergy();
     }
 
     public double getEnergyInjectRate() {
@@ -220,10 +223,12 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
         super.read(compound);
         this.getEnergyContainer().deserializeNBT(compound);
 
-        double bufferedEnergy = compound.getDouble(NBTConstants.GENERATOR_BUFFERED_ENERGY);
-
-        this.bufferedEnergy = bufferedEnergy;
+        this.bufferedEnergy = compound.getDouble(NBTConstants.GENERATOR_BUFFERED_ENERGY);
         this.active = this.bufferedEnergy > 0;
+    }
+
+    public CompoundNBT getTileUpdateTag() {
+        return write(getUpdateTag());
     }
 
     @Override
@@ -268,15 +273,10 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
     }
 
     public double injectEnergy(double energy) {
+
         double injectedEnergy = this.energyContainer.injectEnergy(energy);
 
-        if (energyInjected) {
-            this.setEnergyInjectRate(injectedEnergy + getEnergyInjectRate());
-        } else {
-            this.setEnergyInjectRate(injectedEnergy);
-            energyInjected = true;
-        }
-
+        this.incrementInjectRate(injectedEnergy);
         return injectedEnergy;
     }
 
@@ -284,27 +284,42 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
 
     @Override
     protected void tickServer() {
+
+        // reset energy inject and extract
+        this.setEnergyInjectRate(0);
+        this.setEnergyExtractRate(0);
+
+        // handle any energy that was given directly to the energy container
+        if (previousEnergyIncrement < energyContainer.getEnergy()) {
+            this.incrementInjectRate(energyContainer.getEnergy() - previousEnergyIncrement);
+        }
+
+        if (previousEnergyIncrement > energyContainer.getEnergy()) {
+            this.incrementExtractRate(previousEnergyIncrement - energyContainer.getEnergy());
+        }
+
+        this.previousEnergyIncrement = energyContainer.getEnergy();
+    }
+
+    public void emitEnergy() {
         if (canEmitEnergy()) {
             // emit energy
             if (!getEnergyContainer().isEmpty()) {
-                this.setEnergyExtractRate(EnergyUtils.emitEnergy(getEnergyContainer(), this,
+                this.incrementExtractRate(EnergyUtils.emitEnergy(getEnergyContainer(), this,
                     getEnergyContainer().getMaxExtractRate()
                         / TileEntityConstants.TICKER_PER_SECOND));
-            } else {
-                this.setEnergyExtractRate(0);
             }
         }
-
-        resetInjectRate();
-        //setEnergyInjectRate(new Random().nextDouble() * 20);
     }
 
-    public void resetInjectRate() {
-        if (!energyInjected) {
-            this.setEnergyInjectRate(0);
-        } else {
-            energyInjected = false;
-        }
+    public void incrementExtractRate(double energy) {
+        this.previousEnergyIncrement -= energy;
+        this.setEnergyExtractRate(energy + getEnergyExtractRate());
+    }
+
+    public void incrementInjectRate(double energy) {
+        this.previousEnergyIncrement += energy;
+        this.setEnergyInjectRate(energy + getEnergyInjectRate());
     }
 
     @Override
@@ -351,7 +366,7 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
                     .injectEnergyToItem(extractStack, this.getEnergyContainer().getEnergy());
             }
 
-            extracted = this.getEnergyContainer().extractEnergy(received);
+            extracted = this.extractEnergy(received);
             energyExtract = extracted;
 
             // send packet to client to notify the item stack was given energy
@@ -363,9 +378,18 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
         return energyExtract;
     }
 
+    public double extractEnergy(double energy) {
+
+        double extracted = this.energyContainer.extractEnergy(energy);
+        this.setEnergyExtractRate(extracted + getEnergyExtractRate());
+
+        return extracted;
+    }
+
     public double injectFromItemSlot(ItemStack injectStack) {
 
         double energyReceive = 0;
+
         // check for an item in inject
         if (!injectStack.isEmpty() && isItemFuel(injectStack)) {
 
@@ -374,11 +398,10 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
 
             if (storedEnergy < getEnergyContainer().getEnergyToFill()) {
 
-                received = this.getEnergyContainer().injectEnergy(storedEnergy);
+                received = this.injectEnergy(storedEnergy);
             } else {
 
-                received = this.getEnergyContainer()
-                    .injectEnergy(getEnergyContainer().getEnergyToFill());
+                received = this.injectEnergy(getEnergyContainer().getEnergyToFill());
             }
 
             EnergyUtils.extractEnergyFromItem(injectStack, received);
@@ -399,11 +422,8 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
 
 
     private double getFuelValue(ItemStack stack) {
-        if (validToReceive(stack)) {
-            return EnergyUtils.getEnergyStoredFromItem(stack);
-        }
 
-        return 0;
+        return EnergyUtils.getEnergyStoredFromItem(stack);
     }
 
     private boolean isItemFuel(ItemStack stackInSlot) {

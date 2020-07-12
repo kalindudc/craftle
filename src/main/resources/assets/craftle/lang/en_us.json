@@ -18,6 +18,7 @@
     "biome.craftle.test_biome": "Test Biome",
     "dimension.craftle.test_dimension": "Test Dimension",
     "container.test_chest": "Test Chest",
+    "block.craftle.energy": "Energy",
     "______________________________BLOCKS": "_____________________________",
     "______________________________ORE": "_____________________________",
     "block.craftle.copper_ore": "Copper Ore",
@@ -160,5 +161,6 @@
     "item.craftle.battery_tier_4": "Battery Tier 4",
     "item.craftle.battery_unlimited": "Battery Unlimited",
     "item.craftle.rubber": "Rubber",
-    "item.craftle.insulation": "Insulation"
+    "item.craftle.insulation": "Insulation",
+    "item.craftle.energy_bucket": "Energy Bucket"
 }

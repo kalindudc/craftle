@@ -20,7 +20,8 @@ public enum ColorData {
     RED("\u00A7c", "#FF5555", "red", "Red"),
     LIGHT_PURPLE("\u00A7d", "#FF55FF", "light_purple", "Light Purple"),
     YELLOW("\u00A7e", "#FFFF55", "yellow", "Yellow"),
-    WHITE("\u00A7f", "#FFFFFF", "white", "White")
+    WHITE("\u00A7f", "#FFFFFF", "white", "White"),
+    ENERGY("", "#18ec95", "white", "White")
 
     // non-minecraft colors
     ;
@@ -132,4 +133,27 @@ public enum ColorData {
         return String.format("#%02x%02x%02x", rgb[0], rgb[1], rgb[2]);
     }
 
+    public String getTextCode() {
+        return textCode;
+    }
+
+    public int[] getRgb() {
+        return rgb;
+    }
+
+    public int getColorCode() {
+        return colorCode;
+    }
+
+    public String getHexCode() {
+        return hexCode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getRegistryName() {
+        return registryName;
+    }
 }

@@ -2,6 +2,7 @@ package com.craftle_mod.common.registries;
 
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.CraftleCreativeTabs;
+import com.craftle_mod.common.item.EnergyBucket;
 import com.craftle_mod.common.item.EnergyItem;
 import com.craftle_mod.common.item.SpecialItem;
 import com.craftle_mod.common.item.base.CraftleItem;
@@ -235,6 +236,8 @@ public class CraftleItems {
     public static final RegistryObject<Item> INSULATION = registerCraftleItem(
         new CraftleItem("insulation", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
 
+    public static final RegistryObject<Item> ENERGY_BUCKET = registerItem("energy_bucket",
+        new EnergyBucket(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_RESOURCES));
 
     public static RegistryObject<Item> registerSword(CraftleToolTier tier) {
         CraftleSwordItem item = new CraftleSwordItem(3, -2.4F, tier);

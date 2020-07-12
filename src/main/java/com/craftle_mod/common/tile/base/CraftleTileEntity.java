@@ -68,8 +68,10 @@ public abstract class CraftleTileEntity extends LockableLootTileEntity {
         mainInventorySlotConfig = SlotConfigBuilder.create().numCols(9).numRows(3).startX(8)
             .startingIndex(9).startY(84).build();
         hotBarSlotConfig = SlotConfigBuilder.create().numCols(9).startX(8).startY(142).build();
-        addSlotData(mainInventorySlotConfig);
+
+        // add hotbar first and then the mainInv
         addSlotData(hotBarSlotConfig);
+        addSlotData(mainInventorySlotConfig);
     }
 
     public SlotConfig getMainInventorySlotConfig() {
@@ -323,12 +325,10 @@ public abstract class CraftleTileEntity extends LockableLootTileEntity {
     }
 
     public void addPlayer(PlayerEntity player) {
-        Craftle.logInfo("adding player: " + player);
         playersList.add(player);
     }
 
     public void removePlayer(PlayerEntity player) {
-        Craftle.logInfo("removing player: " + player);
         playersList.remove(player);
     }
 
