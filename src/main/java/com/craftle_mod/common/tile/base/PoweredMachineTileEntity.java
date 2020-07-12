@@ -49,6 +49,12 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
     private int infoScreenWidth;
     private int infoScreenHeight;
 
+    /**
+     * Used to calculate inject rate and extract rate when energy is directly injected / extracted
+     * from the energy container.
+     */
+    private double previousEnergyIncrement;
+
     public PoweredMachineTileEntity(MachineBlock block,
         IRecipeType<? extends IRecipe<?>> recipeTypeIn, int containerSize, CraftleBaseTier tier) {
 
@@ -122,7 +128,7 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
 
         infoScreenWidth = GUIConstants.INFO_SCREEN_WIDTH;
         infoScreenHeight = GUIConstants.INFO_SCREEN_HEIGHT;
-
+        previousEnergyIncrement = energyContainer.getEnergy();
     }
 
     public double getEnergyInjectRate() {
@@ -269,8 +275,8 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
     public double injectEnergy(double energy) {
 
         double injectedEnergy = this.energyContainer.injectEnergy(energy);
-        this.setEnergyInjectRate(injectedEnergy + getEnergyInjectRate());
 
+        this.incrementInjectRate(injectedEnergy);
         return injectedEnergy;
     }
 
@@ -278,24 +284,42 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
 
     @Override
     protected void tickServer() {
+
+        // reset energy inject and extract
+        this.setEnergyInjectRate(0);
+        this.setEnergyExtractRate(0);
+
+        // handle any energy that was given directly to the energy container
+        if (previousEnergyIncrement < energyContainer.getEnergy()) {
+            this.incrementInjectRate(energyContainer.getEnergy() - previousEnergyIncrement);
+        }
+
+        if (previousEnergyIncrement > energyContainer.getEnergy()) {
+            this.incrementExtractRate(previousEnergyIncrement - energyContainer.getEnergy());
+        }
+
+        this.previousEnergyIncrement = energyContainer.getEnergy();
+    }
+
+    public void emitEnergy() {
         if (canEmitEnergy()) {
             // emit energy
             if (!getEnergyContainer().isEmpty()) {
-                this.setEnergyExtractRate(EnergyUtils.emitEnergy(getEnergyContainer(), this,
+                this.incrementExtractRate(EnergyUtils.emitEnergy(getEnergyContainer(), this,
                     getEnergyContainer().getMaxExtractRate()
-                        / TileEntityConstants.TICKER_PER_SECOND) + getEnergyExtractRate());
-            } else {
-                this.setEnergyExtractRate(0);
+                        / TileEntityConstants.TICKER_PER_SECOND));
             }
         }
-
-        checkAndResetInjectRate();
     }
 
-    public void checkAndResetInjectRate() {
-        if (EnergyUtils.canResetInjectionRate(this)) {
-            this.setEnergyInjectRate(0);
-        }
+    public void incrementExtractRate(double energy) {
+        this.previousEnergyIncrement -= energy;
+        this.setEnergyExtractRate(energy + getEnergyExtractRate());
+    }
+
+    public void incrementInjectRate(double energy) {
+        this.previousEnergyIncrement += energy;
+        this.setEnergyInjectRate(energy + getEnergyInjectRate());
     }
 
     @Override

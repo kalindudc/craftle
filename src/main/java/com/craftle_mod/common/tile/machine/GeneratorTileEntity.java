@@ -151,9 +151,10 @@ public abstract class GeneratorTileEntity extends PoweredMachineTileEntity {
     @Override
     protected void tickServer() {
 
+        super.tickServer();
+
         // burn fuel
-        boolean notFilled =
-            this.getEnergyContainer().getEnergy() < this.getEnergyContainer().getCapacity();
+        boolean notFilled = !this.getEnergyContainer().isFilled();
 
         if (notFilled) {
 
@@ -184,7 +185,8 @@ public abstract class GeneratorTileEntity extends PoweredMachineTileEntity {
             this.markTileDirty();
         }
 
-        super.tickServer();
+        // try to emit energy
+        this.emitEnergy();
     }
 
     private void setupFuel() {
@@ -194,12 +196,9 @@ public abstract class GeneratorTileEntity extends PoweredMachineTileEntity {
                 * this.burnMultiplier);
 
         if (getBufferedEnergy() > injectRate) {
-
-            this.setEnergyInjectRate(injectRate);
-            this.burnTime = (int) Math.ceil(getBufferedEnergy() / this.getEnergyInjectRate());
+            this.burnTime = (int) Math.ceil(getBufferedEnergy() / injectRate);
             this.totalBurnTime = this.burnTime;
         } else {
-            this.setEnergyInjectRate(getBufferedEnergy());
             this.burnTime = this.totalBurnTime = 1;
         }
     }
@@ -230,6 +229,7 @@ public abstract class GeneratorTileEntity extends PoweredMachineTileEntity {
             energyToIncrement = this.getBufferedEnergy();
             burnTime = 0;
         }
+        this.incrementInjectRate(energyToIncrement);
 
         this.getEnergyContainer().injectEnergy(energyToIncrement);
         this.decrementBufferedEnergy(energyToIncrement);

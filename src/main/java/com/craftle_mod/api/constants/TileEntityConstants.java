@@ -13,7 +13,7 @@ public class TileEntityConstants {
     public final static double COAL_GENERATOR_BASE_CAPACITY = 2_400D;
     public final static double COAL_GENERATOR_BASE_MAX_INPUT = 50D;
     public final static double COAL_GENERATOR_BASE_MAX_OUTPUT = 50D;
-    public final static double COAL_GENERATOR_BURN_MULTIPLIER = 1.3D;
+    public final static double COAL_GENERATOR_BURN_MULTIPLIER = 1.15D;
 
     // ENERGY MATRIX
     public final static double ENERGY_MATRIX_BASE_CAPACITY = 26_000D;

@@ -47,9 +47,11 @@ public class WorkBenchTileEntity extends PoweredMachineTileEntity implements
             .startingIndex(10).startX(185).startY(8 + GUIConstants.EXTRA_CONTAINER_TOP_OFFSET)
             .build();
 
+        // order matters, slot index 0 has to be result so add it last, shift click should prioritize
+        // the container so add that second and finally the craft matrix
         addSlotData(craftingMatrixSlotData);
-        addSlotData(craftingResultSlotData);
         addSlotData(extraContainerSlots);
+        addSlotData(craftingResultSlotData);
 
         setInfoScreenWidth(71);
     }

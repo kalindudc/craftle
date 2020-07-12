@@ -108,11 +108,14 @@ public class EnergyTankTileEntity extends PoweredMachineTileEntity implements
     @Override
     public void tickServer() {
 
+        // this tick will emit energy
+        super.tickServer();
+
         double energyExtract = 0;
         double energyReceive = 0;
 
         // check active status
-        super.setBlockActive(!this.getEnergyContainer().isEmpty());
+        this.setBlockActive(!this.getEnergyContainer().isEmpty());
 
         if (!this.getEnergyContainer().isFilled()) {
 
@@ -126,16 +129,15 @@ public class EnergyTankTileEntity extends PoweredMachineTileEntity implements
             energyExtract += extractFromItemSlot(this.getContainerContents().get(1));
         }
 
-        // this tick will emit energy
-        super.tickServer();
+        this.incrementExtractRate(energyExtract);
+        this.incrementInjectRate(energyReceive);
 
-        this.setEnergyExtractRate(energyExtract + getEnergyExtractRate());
-        this.setEnergyInjectRate(energyReceive + getEnergyInjectRate());
+        // try to emit energy
+        this.emitEnergy();
 
         if (energyExtract > 0 || energyReceive > 0) {
             sendUpdatePacket();
         }
-
     }
 
     @Override

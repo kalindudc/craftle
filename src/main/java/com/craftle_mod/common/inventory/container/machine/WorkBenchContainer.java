@@ -84,8 +84,10 @@ public class WorkBenchContainer extends EnergyContainer {
                 }
             }
 
-            inventoryResult.setInventorySlotContents(36 + 9, itemstack);
-            serverplayerentity.connection.sendPacket(new SSetSlotPacket(id, 36 + 9, itemstack));
+            // according to the slot order. index 0 will be the craft result
+            // figure out a better method than hard coding
+            inventoryResult.setInventorySlotContents(0, itemstack);
+            serverplayerentity.connection.sendPacket(new SSetSlotPacket(id, 0, itemstack));
         }
     }
 

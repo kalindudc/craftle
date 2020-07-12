@@ -79,7 +79,9 @@ public abstract class EnergyUtils {
     }
 
     public static double emitToAcceptor(PoweredMachineTileEntity tileEntity, double energy) {
-        return tileEntity.injectEnergy(energy);
+
+        // directly inject energy (can be generalized for forge energy as well)
+        return tileEntity.getEnergyContainer().injectEnergy(energy);
     }
 
     public static boolean validEnergyAcceptor(TileEntity tileEntity) {
