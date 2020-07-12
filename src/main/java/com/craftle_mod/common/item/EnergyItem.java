@@ -28,9 +28,9 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 public class EnergyItem extends CraftleItem {
 
-    private int input;
-    private int output;
-    private final int maxCapacity;
+    private double input;
+    private double output;
+    private final double maxCapacity;
     private final CraftleBaseTier tier;
 
     public EnergyItem(String registryName, ItemGroup tab, CraftleBaseTier tierConfig) {
@@ -44,11 +44,11 @@ public class EnergyItem extends CraftleItem {
         this.tier = tierConfig;
     }
 
-    public float getInput() {
+    public double getInput() {
         return input;
     }
 
-    public float getOutput() {
+    public double getOutput() {
         return output;
     }
 

@@ -16,12 +16,11 @@ public class ItemEnergyProvider implements ICapabilityProvider, INBTSerializable
 
     private CraftleEnergyStorage energyContainer;
 
-    public ItemEnergyProvider(int capacity, int maxReceive, int maxExtract, int energy,
+    public ItemEnergyProvider(double capacity, double maxReceive, double maxExtract, double energy,
         CraftleBaseTier tier) {
         energyContainer = new CraftleEnergyStorage(capacity, maxReceive, maxExtract, energy, tier);
 
     }
-
 
     public boolean hasCapability(Capability<?> capability) {
         return capability == Capabilities.ENERGY_CAPABILITY;

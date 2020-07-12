@@ -378,7 +378,7 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
         return energyExtract;
     }
 
-    private double extractEnergy(double energy) {
+    public double extractEnergy(double energy) {
 
         double extracted = this.energyContainer.extractEnergy(energy);
         this.setEnergyExtractRate(extracted + getEnergyExtractRate());
@@ -389,6 +389,7 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
     public double injectFromItemSlot(ItemStack injectStack) {
 
         double energyReceive = 0;
+
         // check for an item in inject
         if (!injectStack.isEmpty() && isItemFuel(injectStack)) {
 
@@ -421,11 +422,8 @@ public abstract class PoweredMachineTileEntity extends MachineTileEntity impleme
 
 
     private double getFuelValue(ItemStack stack) {
-        if (validToReceive(stack)) {
-            return EnergyUtils.getEnergyStoredFromItem(stack);
-        }
 
-        return 0;
+        return EnergyUtils.getEnergyStoredFromItem(stack);
     }
 
     private boolean isItemFuel(ItemStack stackInSlot) {

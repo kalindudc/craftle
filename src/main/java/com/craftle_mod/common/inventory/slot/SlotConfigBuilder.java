@@ -3,6 +3,7 @@ package com.craftle_mod.common.inventory.slot;
 import com.craftle_mod.api.constants.ContainerConstants;
 import com.craftle_mod.common.inventory.slot.SlotConfig.SlotType;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.Slot;
 
 public class SlotConfigBuilder {
 
@@ -57,6 +58,11 @@ public class SlotConfigBuilder {
 
     public SlotConfigBuilder slotType(SlotType type) {
         this.config.setSlotType(type);
+        return this;
+    }
+
+    public SlotConfigBuilder slot(Slot slot) {
+        this.config.setSlot(slot);
         return this;
     }
 

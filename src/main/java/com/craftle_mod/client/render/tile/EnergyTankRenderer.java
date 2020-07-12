@@ -36,19 +36,22 @@ public class EnergyTankRenderer extends CraftleTileEntityRenderer<EnergyTankTile
         }
 
         matrixStackIn.push();
-        renderFluid(tileEntityIn, matrixStackIn, bufferIn);
+        renderEnergy(tileEntityIn, matrixStackIn, bufferIn);
         matrixStackIn.pop();
     }
 
-    private void renderFluid(@Nonnull EnergyTankTileEntity tileEntity, MatrixStack matrix,
+    private void renderEnergy(@Nonnull EnergyTankTileEntity tileEntity, MatrixStack matrix,
         IRenderTypeBuffer bufferIn) {
 
         double capacity = tileEntity.getEnergyContainer().getCapacity();
         double amount = tileEntity.getEnergyContainer().getEnergy();
 
-        float scale = (float) ((1.0f - CONTAINER_THICKNESS / 2.0f - CONTAINER_THICKNESS) * amount
-            / capacity);
+        // this will handle the container padding for top and bottom of the tank
+        float scale = (float) ((1 - (2 * CONTAINER_THICKNESS)) * amount / capacity);
+
         if (scale > 0.0f) {
+
+            // following BeaconTileEntityRenderer
 
             Matrix4f matrix4f = matrix.getLast().getMatrix();
             Matrix3f matrix3f = matrix.getLast().getNormal();
