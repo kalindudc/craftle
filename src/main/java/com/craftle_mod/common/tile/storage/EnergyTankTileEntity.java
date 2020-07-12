@@ -135,19 +135,10 @@ public class EnergyTankTileEntity extends PoweredMachineTileEntity implements
         // try to emit energy
         this.emitEnergy();
 
-        if (energyExtract > 0 || energyReceive > 0) {
+        // update container if energy was inserted or extracted.
+        if (getEnergyInjectRate() > 0 || getEnergyExtractRate() > 0) {
             sendUpdatePacket();
         }
-    }
-
-    @Override
-    public double injectEnergy(double energy) {
-
-        double energyToReturn = super.injectEnergy(energy);
-
-        sendUpdatePacket();
-
-        return energyToReturn;
     }
 
     @Override

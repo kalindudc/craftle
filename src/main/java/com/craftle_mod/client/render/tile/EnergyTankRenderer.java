@@ -3,7 +3,6 @@ package com.craftle_mod.client.render.tile;
 import com.craftle_mod.api.ColorData;
 import com.craftle_mod.api.constants.BlockConstants;
 import com.craftle_mod.client.render.CraftleTileEntityRenderer;
-import com.craftle_mod.common.registries.CraftleFluids;
 import com.craftle_mod.common.tile.storage.EnergyTankTileEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -18,7 +17,6 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fluids.FluidStack;
 
 @OnlyIn(Dist.CLIENT)
 public class EnergyTankRenderer extends CraftleTileEntityRenderer<EnergyTankTileEntity> {
@@ -45,12 +43,11 @@ public class EnergyTankRenderer extends CraftleTileEntityRenderer<EnergyTankTile
     private void renderFluid(@Nonnull EnergyTankTileEntity tileEntity, MatrixStack matrix,
         IRenderTypeBuffer bufferIn) {
 
-        int capacity = (int) (tileEntity.getEnergyContainer().getCapacity() * 0.01);
-        int amount = (int) (tileEntity.getEnergyContainer().getEnergy() * 0.01);
+        double capacity = tileEntity.getEnergyContainer().getCapacity();
+        double amount = tileEntity.getEnergyContainer().getEnergy();
 
-        FluidStack fluid = new FluidStack(CraftleFluids.ENERGY_FLUID.get(), amount);
-        float scale = (1.0f - CONTAINER_THICKNESS / 2.0f - CONTAINER_THICKNESS) * fluid.getAmount()
-            / capacity;
+        float scale = (float) ((1.0f - CONTAINER_THICKNESS / 2.0f - CONTAINER_THICKNESS) * amount
+            / capacity);
         if (scale > 0.0f) {
 
             Matrix4f matrix4f = matrix.getLast().getMatrix();
