@@ -18,6 +18,7 @@
     "biome.craftle.test_biome": "Тестовые биомы",
     "dimension.craftle.test_dimension": "Тестовы измерения",
     "container.test_chest": "Тестовый сундук",
+    "block.craftle.energy": "Энергия",
     "______________________________BLOCKS": "_____________________________",
     "______________________________ORE": "_____________________________",
     "block.craftle.copper_ore": "Медная руда",
@@ -159,5 +160,6 @@
     "item.craftle.battery_tier_4": "Аккумулятор, уровень 4",
     "item.craftle.battery_unlimited": "Неограниченный аккумулятор",
     "item.craftle.rubber": "Резина",
-    "item.craftle.insulation": "Изоляционный материал"
+    "item.craftle.insulation": "Изоляционный материал",
+    "item.craftle.energy_bucket": "Ведро энергии"
 }
