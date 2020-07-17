@@ -70,10 +70,12 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', 'craftle', '--all', '--output', file('src/generated/resources/')
+            args '--mod', 'craftle', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+
+            environment 'target', 'fmluserdevdata'
 
             mods {
-                examplemod {
+                craftle {
                     source sourceSets.main
                 }
             }
