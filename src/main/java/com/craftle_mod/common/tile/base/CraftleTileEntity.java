@@ -1,8 +1,8 @@
 package com.craftle_mod.common.tile.base;
 
 import com.craftle_mod.common.Craftle;
-import com.craftle_mod.common.block.TestChest;
 import com.craftle_mod.common.block.base.CraftleBlock;
+import com.craftle_mod.common.block.base.MachineBlock;
 import com.craftle_mod.common.inventory.container.base.CraftleContainer;
 import com.craftle_mod.common.inventory.slot.SlotConfig;
 import com.craftle_mod.common.inventory.slot.SlotConfigBuilder;
@@ -199,7 +199,7 @@ public abstract class CraftleTileEntity extends LockableLootTileEntity {
 
     protected void onOpenOrClose() {
         Block block = this.getBlockState().getBlock();
-        if (block instanceof TestChest) {
+        if (block instanceof MachineBlock) {
             assert this.world != null;
             this.world.addBlockEvent(this.pos, block, 1, this.numplayersUsing);
             this.world.notifyNeighborsOfStateChange(this.pos, block);

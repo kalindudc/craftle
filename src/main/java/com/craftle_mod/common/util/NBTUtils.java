@@ -1,6 +1,5 @@
 package com.craftle_mod.common.util;
 
-import com.craftle_mod.common.tile.TileEntityQuarry;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -17,22 +16,9 @@ public abstract class NBTUtils {
             return writeItemStack((ItemStack) object);
         }
 
-        if (object instanceof TileEntityQuarry) {
-            return writeQuarry((TileEntityQuarry) object);
-        }
-
         return null;
     }
 
-
-    private static CompoundNBT writeQuarry(TileEntityQuarry o) {
-        CompoundNBT compound = new CompoundNBT();
-        compound.putInt("x", o.getX());
-        compound.putInt("y", o.getY());
-        compound.putInt("z", o.getZ());
-
-        return compound;
-    }
 
     private static CompoundNBT writeItemStack(ItemStack o) {
         CompoundNBT compound = new CompoundNBT();

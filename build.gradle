@@ -65,12 +65,16 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
+            environment 'target', 'fmluserdevdata'
+            
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', 'craftle', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            properties 'fml.earlyprogresswindow': 'false'
+
+            args '--mod', 'craftle', '--all', '--output', file('src/generated/resources/'), '--existing', sourceSets.main.resources.srcDirs[0]
 
             environment 'target', 'fmluserdevdata'
 

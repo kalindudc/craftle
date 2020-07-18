@@ -14,7 +14,7 @@ public class CraftleCreativeTabs {
     public static final ItemGroup CRAFTLE_ITEM_GROUP_RESOURCES = new CraftleItemGroup(
         Craftle.MODID + "_resources", () -> new ItemStack(CraftleItems.PLATINUM_INGOT.get()));
     public static final ItemGroup CRAFTLE_ITEM_GROUP_MISC = new CraftleItemGroup(
-        Craftle.MODID + "_misc", () -> new ItemStack(CraftleItems.TEST_FOOD.get()));
+        Craftle.MODID + "_misc", () -> new ItemStack(CraftleItems.ENERGY_BUCKET.get()));
     public static final ItemGroup CRAFTLE_ITEM_GROUP_TOOLS = new CraftleItemGroup(
         Craftle.MODID + "_tools", () -> new ItemStack(CraftleItems.RUBY_PICKAXE.get()));
 

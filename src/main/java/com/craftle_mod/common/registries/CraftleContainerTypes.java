@@ -2,7 +2,6 @@ package com.craftle_mod.common.registries;
 
 import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.base.CraftleBlock;
-import com.craftle_mod.common.inventory.container.CraftleChestContainer;
 import com.craftle_mod.common.inventory.container.base.EnergyContainer;
 import com.craftle_mod.common.inventory.container.machine.GeneratorContainer;
 import com.craftle_mod.common.inventory.container.machine.ProducerContainer;
@@ -19,9 +18,6 @@ public class CraftleContainerTypes {
 
     public static final DeferredRegister<ContainerType<?>> CONTAINER_TYPES = new DeferredRegister<>(
         ForgeRegistries.CONTAINERS, Craftle.MODID);
-
-    public static final RegistryObject<ContainerType<CraftleChestContainer>> TEST_CHEST = CONTAINER_TYPES
-        .register("test_chest", () -> IForgeContainerType.create(CraftleChestContainer::new));
 
     public static final RegistryObject<ContainerType<ProducerContainer>> CRUSHER_BASIC = registerProducerContainer(
         "crusher_", CraftleBlocks.CRUSHER_BASIC, CraftleBaseTier.BASIC);

@@ -22,7 +22,7 @@ public class CraftleBiomes {
             new Biome.Builder().precipitation(Biome.RainType.SNOW).scale(1.2f).temperature(-1.0f)
                 .waterColor(1751970).waterFogColor(11794906).surfaceBuilder(SurfaceBuilder.DEFAULT,
                 new SurfaceBuilderConfig(Blocks.GRASS_BLOCK.getDefaultState(),
-                    CraftleBlocks.TEST_BLOCK.get().getDefaultState(),
+                    CraftleBlocks.STEEL_BLOCK.get().getDefaultState(),
                     Blocks.SAND.getDefaultState())).category(Biome.Category.PLAINS).downfall(0.5f)
                 .depth(0.131f).parent(null)));
 

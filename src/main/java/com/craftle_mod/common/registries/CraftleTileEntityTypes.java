@@ -4,8 +4,6 @@ import com.craftle_mod.common.Craftle;
 import com.craftle_mod.common.block.machine.Crusher;
 import com.craftle_mod.common.block.storage.EnergyTank;
 import com.craftle_mod.common.tier.CraftleBaseTier;
-import com.craftle_mod.common.tile.TileEntityQuarry;
-import com.craftle_mod.common.tile.TileEntityTestChest;
 import com.craftle_mod.common.tile.machine.CoalGeneratorTileEntity;
 import com.craftle_mod.common.tile.machine.CrusherTileEntity;
 import com.craftle_mod.common.tile.machine.GeneratorTileEntity;
@@ -28,12 +26,6 @@ public class CraftleTileEntityTypes {
 
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = new DeferredRegister<>(
         ForgeRegistries.TILE_ENTITIES, Craftle.MODID);
-
-    public static final RegistryObject<TileEntityType<TileEntityQuarry>> QUARRY = register("quarry",
-        TileEntityQuarry::new, CraftleBlocks.QUARRY);
-
-    public static final RegistryObject<TileEntityType<TileEntityTestChest>> TEST_CHEST = register(
-        "test_chest", TileEntityTestChest::new, CraftleBlocks.TEST_CHEST);
 
     // CRUSHER
     public static final RegistryObject<TileEntityType<CrusherTileEntity>> CRUSHER_BASIC = registerCrusher(

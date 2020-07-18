@@ -1,6 +1,5 @@
 package com.craftle_mod.client;
 
-import com.craftle_mod.client.gui.CraftleChestScreen;
 import com.craftle_mod.client.gui.EnergyGui;
 import com.craftle_mod.client.gui.machine.GeneratorGui;
 import com.craftle_mod.client.gui.machine.ProducerGui;
@@ -57,8 +56,6 @@ public class CraftleClientEventSubscriber {
 
     @SubscribeEvent
     public static void registerContainers(RegistryEvent.Register<ContainerType<?>> event) {
-        ScreenManager
-            .registerFactory(CraftleContainerTypes.TEST_CHEST.get(), CraftleChestScreen::new);
 
         ScreenManager.registerFactory(CraftleContainerTypes.CRUSHER_BASIC.get(),
             ProducerGui<ProducerContainer>::new);

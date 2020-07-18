@@ -9,15 +9,13 @@ import net.minecraft.util.LazyValue;
 
 public enum CraftleToolTier implements IItemTier {
 
-    TEST("test", 4, 1500, 15.0F, 12.0F, 250,
-        () -> Ingredient.fromItems(CraftleItems.TEST_INGOT.get())), RUBY(
-        Resource.RUBY.getResourceName(), 2, 630, 7.0F, 2.0F, 14,
-        () -> Ingredient.fromItems(CraftleItems.RUBY_INGOT.get())), SAPPHIRE(
-        Resource.SAPPHIRE.getResourceName(), 2, 630, 7.0F, 2.0F, 10,
-        () -> Ingredient.fromItems(CraftleItems.SAPPHIRE_INGOT.get())), STEEL(
-        Resource.STEEL.getResourceName(), 3, 2100, 8.5F, 3.0F, 10,
-        () -> Ingredient.fromItems(CraftleItems.STEEL_INGOT.get())), PLATINUM(
-        Resource.PLATINUM.getResourceName(), 4, 2400, 9.8F, 4.0F, 12,
+    RUBY(Resource.RUBY.getResourceName(), 2, 630, 7.0F, 2.0F, 14,
+        () -> Ingredient.fromItems(CraftleItems.RUBY_INGOT.get())),
+    SAPPHIRE(Resource.SAPPHIRE.getResourceName(), 2, 630, 7.0F, 2.0F, 10,
+        () -> Ingredient.fromItems(CraftleItems.SAPPHIRE_INGOT.get())),
+    STEEL(Resource.STEEL.getResourceName(), 3, 2100, 8.5F, 3.0F, 10,
+        () -> Ingredient.fromItems(CraftleItems.STEEL_INGOT.get())),
+    PLATINUM(Resource.PLATINUM.getResourceName(), 4, 2400, 9.8F, 4.0F, 12,
         () -> Ingredient.fromItems(CraftleItems.PLATINUM_INGOT.get()));
 
 
