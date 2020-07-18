@@ -145,3 +145,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 local.properties
+
+*/src/generated/**/.cache

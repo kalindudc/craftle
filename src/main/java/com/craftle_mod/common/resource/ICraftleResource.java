@@ -8,4 +8,6 @@ package com.craftle_mod.common.resource;
 public interface ICraftleResource {
 
     String getResourceName();
+
+    String getFormattedName();
 }

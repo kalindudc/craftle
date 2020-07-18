@@ -213,7 +213,7 @@ public class CraftleItems {
         new CraftleItem("insulation", CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MACHINES));
 
     public static final RegistryObject<Item> ENERGY_BUCKET = registerItem("energy_bucket",
-        new EnergyBucket(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_RESOURCES));
+        new EnergyBucket(CraftleCreativeTabs.CRAFTLE_ITEM_GROUP_MISC));
 
     public static RegistryObject<Item> registerSword(CraftleToolTier tier) {
         CraftleSwordItem item = new CraftleSwordItem(3, -2.4F, tier);

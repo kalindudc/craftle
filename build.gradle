@@ -28,6 +28,26 @@ group = "${mod_group}"
 archivesBaseName = "${mod_name}"
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
+sourceSets {
+    api {
+        java {
+            srcDir 'src/api/java'
+        }
+    }
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            include '**/**'
+            //Add the generated main module resources
+            srcDirs += 'src/generated/resources'
+            //But exclude the cache of the generated data from what gets built
+            exclude '.cache'
+        }
+    }
+}
+
 minecraft {
     mappings channel: 'snapshot', version: "${mappings_version}"
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -66,7 +86,7 @@ minecraft {
         data {
             workingDirectory project.file('run')
             environment 'target', 'fmluserdevdata'
-            
+
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             // Recommended logging level for the console
@@ -135,17 +155,12 @@ jar {
     }
 }
 
-task coreJar(type: Jar) {
-    archiveName = "Craftle-${project.version}.jar"
-    from sourceSets.main.output
-}
-
 artifacts {
-    archives coreJar
+    archives jar
 }
 
 reobf {
-    coreJar { classpath = sourceSets.main.compileClasspath }
+    jar { classpath = sourceSets.main.compileClasspath }
 }
 
 // Credit: Mekanism

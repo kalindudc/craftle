@@ -1,13 +1,7 @@
 package com.craftle_mod.datagen;
 
 import com.craftle_mod.common.Craftle;
-import com.craftle_mod.datagen.blockstate.CraftleBlockStateProvider;
 import com.craftle_mod.datagen.lang.CraftleLangProvider;
-import com.craftle_mod.datagen.loot.CraftleLootProvider;
-import com.craftle_mod.datagen.model.CraftleBlockModelProvider;
-import com.craftle_mod.datagen.model.CraftleItemModelProvider;
-import com.craftle_mod.datagen.recipe.CraftleRecipeProvider;
-import com.craftle_mod.datagen.tag.CraftleTagProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -28,14 +22,14 @@ public class CraftleDataGenerator {
 
         if (event.includeClient()) {
             generator.addProvider(new CraftleLangProvider(generator));
-            generator.addProvider(new CraftleItemModelProvider(generator, existingFileHelper));
-            generator.addProvider(new CraftleBlockModelProvider(generator, existingFileHelper));
-            generator.addProvider(new CraftleBlockStateProvider(generator, existingFileHelper));
+            //generator.addProvider(new CraftleItemModelProvider(generator, existingFileHelper));
+            //generator.addProvider(new CraftleBlockModelProvider(generator, existingFileHelper));
+            //generator.addProvider(new CraftleBlockStateProvider(generator, existingFileHelper));
         }
         if (event.includeServer()) {
-            generator.addProvider(new CraftleRecipeProvider(generator));
-            generator.addProvider(new CraftleLootProvider(generator));
-            generator.addProvider(new CraftleTagProvider(generator));
+            //generator.addProvider(new CraftleRecipeProvider(generator));
+            //generator.addProvider(new CraftleLootProvider(generator));
+            //generator.addProvider(new CraftleTagProvider(generator));
         }
     }
 }

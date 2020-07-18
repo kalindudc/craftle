@@ -4,14 +4,18 @@ import net.minecraft.block.material.Material;
 import net.minecraftforge.common.ToolType;
 
 public enum BlockResource implements IBlockResource {
-    COPPER("copper", 3.0f, 10.0f, 1, Material.IRON), TIN("tin", 3.0f, 10.0f, 1,
-        Material.IRON), ALUMINIUM("aluminium", 5.0f, 15.0f, 2, Material.IRON), PLATINUM("platinum",
-        5.0f, 15.0f, 2, Material.IRON), URANIUM("uranium", 7.5f, 22.0f, 3, Material.IRON), RUBY(
-        "ruby", 5.0f, 15.0f, 2, Material.IRON), SAPPHIRE("sapphire", 5.0f, 15.0f, 2,
-        Material.IRON), STEEL("steel", 5.0f, 15.0f, 2, Material.IRON), WOOD("wood", 3.0f, 4.0f, 0,
-        Material.WOOD, ToolType.AXE);
+    COPPER("copper", 3.0f, 10.0f, 1, Material.IRON, "Copper"),
+    TIN("tin", 3.0f, 10.0f, 1, Material.IRON, "Tin"),
+    ALUMINIUM("aluminium", 5.0f, 15.0f, 2, Material.IRON, "Aluminium"),
+    PLATINUM("platinum", 5.0f, 15.0f, 2, Material.IRON, "Platinum"),
+    URANIUM("uranium", 7.5f, 22.0f, 3, Material.IRON, "Uranium"),
+    RUBY("ruby", 5.0f, 15.0f, 2, Material.IRON, "Ruby"),
+    SAPPHIRE("sapphire", 5.0f, 15.0f, 2, Material.IRON, "Sapphire"),
+    STEEL("steel", 5.0f, 15.0f, 2, Material.IRON, "Steel"),
+    WOOD("wood", 3.0f, 4.0f, 0, Material.WOOD, ToolType.AXE, "Wood");
 
     private final String name;
+    private final String formattedName;
     private final float hardness;
     private final float resistance;
     /**
@@ -21,23 +25,26 @@ public enum BlockResource implements IBlockResource {
     private final Material material;
     private final ToolType tool;
 
-    BlockResource(String name, float hardness, float resistance, int harvestLevel) {
-        this(name, hardness, resistance, harvestLevel, Material.ROCK, ToolType.PICKAXE);
+    BlockResource(String name, float hardness, float resistance, int harvestLevel,
+        String formattedName) {
+        this(name, hardness, resistance, harvestLevel, Material.ROCK, ToolType.PICKAXE,
+            formattedName);
     }
 
     BlockResource(String name, float hardness, float resistance, int harvestLevel,
-        Material material) {
-        this(name, hardness, resistance, harvestLevel, material, ToolType.PICKAXE);
+        Material material, String formattedName) {
+        this(name, hardness, resistance, harvestLevel, material, ToolType.PICKAXE, formattedName);
     }
 
     BlockResource(String name, float hardness, float resistance, int harvestLevel,
-        Material material, ToolType tool) {
+        Material material, ToolType tool, String formattedName) {
         this.name = name;
         this.hardness = hardness;
         this.resistance = resistance;
         this.harvestLevel = harvestLevel;
         this.material = material;
         this.tool = tool;
+        this.formattedName = formattedName;
     }
 
 
@@ -69,5 +76,10 @@ public enum BlockResource implements IBlockResource {
     @Override
     public Material getMaterial() {
         return this.material;
+    }
+
+    @Override
+    public String getFormattedName() {
+        return formattedName;
     }
 }

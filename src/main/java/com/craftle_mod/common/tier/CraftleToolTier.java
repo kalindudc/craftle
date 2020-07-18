@@ -9,13 +9,13 @@ import net.minecraft.util.LazyValue;
 
 public enum CraftleToolTier implements IItemTier {
 
-    RUBY(Resource.RUBY.getResourceName(), 2, 630, 7.0F, 2.0F, 14,
+    RUBY(Resource.RUBY, 2, 630, 7.0F, 2.0F, 14,
         () -> Ingredient.fromItems(CraftleItems.RUBY_INGOT.get())),
-    SAPPHIRE(Resource.SAPPHIRE.getResourceName(), 2, 630, 7.0F, 2.0F, 10,
+    SAPPHIRE(Resource.SAPPHIRE, 2, 630, 7.0F, 2.0F, 10,
         () -> Ingredient.fromItems(CraftleItems.SAPPHIRE_INGOT.get())),
-    STEEL(Resource.STEEL.getResourceName(), 3, 2100, 8.5F, 3.0F, 10,
+    STEEL(Resource.STEEL, 3, 2100, 8.5F, 3.0F, 10,
         () -> Ingredient.fromItems(CraftleItems.STEEL_INGOT.get())),
-    PLATINUM(Resource.PLATINUM.getResourceName(), 4, 2400, 9.8F, 4.0F, 12,
+    PLATINUM(Resource.PLATINUM, 4, 2400, 9.8F, 4.0F, 12,
         () -> Ingredient.fromItems(CraftleItems.PLATINUM_INGOT.get()));
 
 
@@ -27,22 +27,23 @@ public enum CraftleToolTier implements IItemTier {
     private final int enchantability;
     private final LazyValue<Ingredient> repairMaterial;
     private final boolean enhanced;
+    private final Resource resource;
 
-    CraftleToolTier(String materialName, int harvestLevel, int maxUses, float efficiency,
+    CraftleToolTier(Resource resource, int harvestLevel, int maxUses, float efficiency,
         float attackDamage, int enchantability, Supplier<Ingredient> repairMaterial) {
-        this(materialName, harvestLevel, maxUses, efficiency, attackDamage, enchantability,
+        this(resource, harvestLevel, maxUses, efficiency, attackDamage, enchantability,
             repairMaterial, false);
     }
 
-    CraftleToolTier(String materialName, CraftleToolTier tier, boolean enhanced) {
-        this(materialName, tier.getHarvestLevel(), tier.getMaxUses(), tier.getEfficiency(),
+    CraftleToolTier(Resource resource, CraftleToolTier tier, boolean enhanced) {
+        this(resource, tier.getHarvestLevel(), tier.getMaxUses(), tier.getEfficiency(),
             tier.getAttackDamage(), tier.getEnchantability(), tier::getRepairMaterial, enhanced);
     }
 
-    CraftleToolTier(String materialName, int harvestLevel, int maxUses, float efficiency,
+    CraftleToolTier(Resource resource, int harvestLevel, int maxUses, float efficiency,
         float attackDamage, int enchantability, Supplier<Ingredient> repairMaterial,
         boolean enhanced) {
-        this.materialName = materialName;
+        this.materialName = resource.getResourceName();
         this.harvestLevel = harvestLevel;
         this.maxUses = maxUses;
         this.efficiency = efficiency;
@@ -50,6 +51,7 @@ public enum CraftleToolTier implements IItemTier {
         this.enchantability = enchantability;
         this.repairMaterial = new LazyValue<>(repairMaterial);
         this.enhanced = enhanced;
+        this.resource = resource;
     }
 
     @Override
@@ -88,5 +90,9 @@ public enum CraftleToolTier implements IItemTier {
     @Override
     public Ingredient getRepairMaterial() {
         return repairMaterial.getValue();
+    }
+
+    public Resource getResource() {
+        return resource;
     }
 }

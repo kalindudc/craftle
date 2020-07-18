@@ -19,5 +19,4 @@ public interface IBlockResource extends ICraftleResource {
     ToolType getHarvestTool();
 
     Material getMaterial();
-
 }
