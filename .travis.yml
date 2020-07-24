@@ -31,11 +31,11 @@ deploy:
     script: if [ "$DEPLOY_RELEASE" = "true" ]; then ./gradlew build; else echo "Skip deploy"; fi
     on:
       all_branches: true
-      condition: $TRAVIS_BRANCH =~ ^(\d*.\d*.x|travis-tests)$
+      condition: $TRAVIS_BRANCH =~ ^(main|travis-tests)$
   # kick off release
   - provider: script
     skip_cleanup: true
     script: if [ "$DEPLOY_RELEASE" = "true" ]; then ./gradlew deployRelease; else echo "Skip deploy"; fi
     on:
       all_branches: true
-      condition: $TRAVIS_BRANCH =~ ^(\d*.\d*.x|travis-tests)$
+      condition: $TRAVIS_BRANCH =~ ^(main|travis-tests)$
