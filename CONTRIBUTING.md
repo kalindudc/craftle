@@ -26,7 +26,7 @@ Craftle is seperated in to the following branches
 - 1.xx.x
 
 # up to date with the latest release of Craftle and holds all documentation for the github pages.
-- master
+- main
 ```
 
 ### License aggreement
@@ -37,7 +37,7 @@ Craftle is licensed under CC-NC-SA 4.0 and any contributions you make will that 
 
 ### Code changes 
 
-1. Fork the repo and create your branch from `master`.
+1. Fork the repo and create your branch from `develop`.
 2. If you've added code that should be tested, add tests.
 3. If you've changed APIs or have added new Objects within the mod, update the documentation under docs/.
 4. Ensure the test suite passes.
