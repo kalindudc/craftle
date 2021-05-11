@@ -1,6 +1,0 @@
-{
-    "textures": {
-        "layer0": "craftle:item/diamond_enhanced"
-    },
-    "parent": "item/generated"
-}

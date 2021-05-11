@@ -1,6 +1,0 @@
-{
-    "textures": {
-        "layer0": "craftle:item/copper_bit"
-    },
-    "parent": "item/generated"
-}

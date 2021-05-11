@@ -1,6 +1,0 @@
-{
-    "textures": {
-        "layer0": "craftle:item/platinum_bit"
-    },
-    "parent": "item/generated"
-}

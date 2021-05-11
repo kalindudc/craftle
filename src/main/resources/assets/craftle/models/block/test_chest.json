@@ -1,8 +1,0 @@
-{
-    "parent": "block/orientable",
-    "textures": {
-        "top": "craftle:block/test_chest/top",
-        "front": "craftle:block/test_chest/front",
-        "side": "craftle:block/test_chest/side"
-    }
-}

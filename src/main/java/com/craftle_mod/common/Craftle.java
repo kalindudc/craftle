@@ -1,17 +1,6 @@
 package com.craftle_mod.common;
 
-import com.craftle_mod.common.capability.Capabilities;
 import com.craftle_mod.common.lib.Version;
-import com.craftle_mod.common.network.PacketHandler;
-import com.craftle_mod.common.registries.CraftleBiomes;
-import com.craftle_mod.common.registries.CraftleBlocks;
-import com.craftle_mod.common.registries.CraftleContainerTypes;
-import com.craftle_mod.common.registries.CraftleDimensions;
-import com.craftle_mod.common.registries.CraftleFluids;
-import com.craftle_mod.common.registries.CraftleItems;
-import com.craftle_mod.common.registries.CraftleRecipeSerializers;
-import com.craftle_mod.common.registries.CraftleTileEntityTypes;
-import com.craftle_mod.common.world.gen.OreGenHandler;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -31,9 +20,7 @@ import org.apache.logging.log4j.Logger;
 public class Craftle {
 
     public static final String MODID = "craftle";
-    public static final String MOD_VERSION = "0.0.1.0";
-
-    public static final PacketHandler packetHandler = new PacketHandler();
+    //public static final PacketHandler packetHandler = new PacketHandler();
 
     public static final Logger LOGGER = LogManager.getLogger(Craftle.MODID);
     public static final ResourceLocation TEST_DIM_TYPE = new ResourceLocation(MODID,
@@ -49,16 +36,6 @@ public class Craftle {
 
         craftleEventBus.addListener(this::setup);
         craftleEventBus.addListener(this::clientRegistries);
-
-        CraftleItems.ITEMS.register(craftleEventBus);
-        CraftleFluids.FLUIDS.register(craftleEventBus);
-        CraftleBlocks.BLOCKS.register(craftleEventBus);
-
-        CraftleTileEntityTypes.TILE_ENTITY_TYPES.register(craftleEventBus);
-        CraftleContainerTypes.CONTAINER_TYPES.register(craftleEventBus);
-        CraftleRecipeSerializers.SERIALIZERS.register(craftleEventBus);
-        CraftleBiomes.BIOMES.register(craftleEventBus);
-        CraftleDimensions.DIMENSIONS.register(craftleEventBus);
 
         version = new Version(
             ModLoadingContext.get().getActiveContainer().getModInfo().getVersion());
@@ -77,15 +54,9 @@ public class Craftle {
 
     private void setup(final FMLCommonSetupEvent event) {
 
-        Capabilities.registerCapabilities();
-
-        OreGenHandler.generateOre();
-
         MinecraftForge.EVENT_BUS.register(this);
 
         // packet handler
-        packetHandler.init();
-
         logInfo("Craftle loaded..");
     }
 

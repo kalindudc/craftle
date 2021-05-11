@@ -1,6 +1,0 @@
-{
-    "textures": {
-        "all": "craftle:block/block/aluminium"
-    },
-    "parent": "block/cube_all"
-}

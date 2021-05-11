@@ -1,6 +1,0 @@
-{
-    "textures": {
-        "layer0": "craftle:item/uranium_purified"
-    },
-    "parent": "item/generated"
-}
