@@ -1,6 +1,9 @@
 package com.craftle_mod.common;
 
 import com.craftle_mod.common.lib.Version;
+import com.craftle_mod.common.registries.CraftleBlocks;
+import com.craftle_mod.common.registries.CraftleItems;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -23,25 +26,26 @@ public class Craftle {
     //public static final PacketHandler packetHandler = new PacketHandler();
 
     public static final Logger LOGGER = LogManager.getLogger(Craftle.MODID);
-    public static final ResourceLocation TEST_DIM_TYPE = new ResourceLocation(MODID,
-        "test_dimension");
+    public static final ResourceLocation TEST_DIM_TYPE = new ResourceLocation(MODID, "test_dimension");
+    public static final ItemGroup ITEM_GROUP = new CraftleCreativeTab(MODID);
 
     private static Craftle instance;
 
     private final Version version;
 
     public Craftle() {
+        instance = this;
 
         final IEventBus craftleEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        // register all registers
+        CraftleBlocks.register(craftleEventBus);
+        CraftleItems.register(craftleEventBus);
 
         craftleEventBus.addListener(this::setup);
         craftleEventBus.addListener(this::clientRegistries);
 
-        version = new Version(
-            ModLoadingContext.get().getActiveContainer().getModInfo().getVersion());
-
-        instance = this;
-
+        version = new Version(ModLoadingContext.get().getActiveContainer().getModInfo().getVersion());
     }
 
     public Version getVersion() {

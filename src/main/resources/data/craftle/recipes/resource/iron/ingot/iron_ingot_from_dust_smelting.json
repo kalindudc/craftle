@@ -1,9 +1,0 @@
-{
-    "cookingtime": 200,
-    "type": "minecraft:smelting",
-    "result": "minecraft:iron_ingot",
-    "experience": 1.0,
-    "ingredient": {
-        "item": "craftle:iron_dust"
-    }
-}

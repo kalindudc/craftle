@@ -17,6 +17,6 @@ public class SerializationHelper {
             throw new JsonSyntaxException("Expected '" + key + "' to be an object");
         }
 
-        return ShapedRecipe.itemFromJson(JSONUtils.getAsJsonObject(json, key));
+        return ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, key));
     }
 }
