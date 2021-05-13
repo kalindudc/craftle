@@ -70,15 +70,22 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', 'craftle', '--all', '--output', file('src/generated/resources/')
+            args '--mod', 'craftle', '--all',
+                    '--existing', file('src/main/resources').toString(),
+                    '--existing', file('src/generated/resources').toString(),
+                    '--output', file('src/generated/resources/')
 
             mods {
-                examplemod {
+                craftle {
                     source sourceSets.main
                 }
             }
         }
     }
+}
+
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
 }
 
 // prevent java 8's strict doclint for javadocs from failing builds

@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "craftle:item/ore/sapphire_ingot"
+    }
+}

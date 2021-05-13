@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:block/cube_all",
+    "textures": {
+        "all": "craftle:block/ore/sapphire_ore"
+    }
+}

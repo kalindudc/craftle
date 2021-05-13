@@ -23,26 +23,30 @@ public class CraftleBlocks {
     private CraftleBlocks() {
     }
 
-    private static final DeferredRegister<Block> BLOCKS = RegistriesUtils.createRegister(ForgeRegistries.BLOCKS);
+    public static final DeferredRegister<Block> BLOCKS = RegistriesUtils.createRegister(ForgeRegistries.BLOCKS);
 
     public static final HashMap<OreTypes, RegistryObject<Block>> ORES = new HashMap<>();
 
     static {
 
         // register ores
-        for (OreTypes ore : OreTypes.VALUES) {
+        for (OreTypes ore : OreTypes.values()) {
             RegistryObject<Block> block = registerOre(ore);
             ORES.put(ore, block);
         }
     }
 
     private static RegistryObject<Block> registerOre(OreTypes ore) {
-        return registerBlock(ore.getName() + "_" + ResourceTypes.ORE.getName(), () -> new CraftleOreBlock(ore));
+        RegistryObject<Block> result = registerBlock(ore.getName(), ResourceTypes.ORE.getName(), () -> new CraftleOreBlock(ore),
+            ResourceTypes.ORE);
+        CraftleItems.registerOreResources(ore);
+        return result;
     }
 
-    private static RegistryObject<Block> registerBlock(String name, Supplier<Block> supplier) {
-        RegistryObject<Block> result = BLOCKS.register(name, supplier);
-        CraftleItems.registerItem(name, () -> new CraftleBlockItem(result.get(), new Item.Properties().group(Craftle.ITEM_GROUP)));
+    public static RegistryObject<Block> registerBlock(String name, String suffix, Supplier<Block> supplier, ResourceTypes type) {
+        RegistryObject<Block> result = BLOCKS.register(name + "_" + suffix, supplier);
+        CraftleItems.registerBlockItem(name + "_" + suffix,
+            () -> new CraftleBlockItem(result.get(), new Item.Properties().group(Craftle.ITEM_GROUP), type), type);
         return result;
     }
 

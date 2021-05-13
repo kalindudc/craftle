@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "": {
+            "model": "craftle:block/copper_block"
+        }
+    }
+}

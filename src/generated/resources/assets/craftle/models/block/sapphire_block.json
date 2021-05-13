@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:block/cube_all",
+    "textures": {
+        "all": "craftle:block/block/sapphire_block"
+    }
+}
