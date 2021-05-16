@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:block/cube_all",
     "textures": {
-        "all": "craftle:block/block/sapphire_block"
+        "all": "craftle:block/storage_block/sapphire_block"
     }
 }

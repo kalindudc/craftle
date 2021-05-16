@@ -1,10 +1,11 @@
 package com.craftle_mod.common.block;
 
 import com.craftle_mod.common.resource.IResourceType;
-import com.craftle_mod.common.resource.OreTypes;
 import com.craftle_mod.common.resource.ResourceTypes;
+import com.craftle_mod.common.resource.ore.OreTypes;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.OreBlock;
+import net.minecraftforge.common.ToolType;
 
 public class CraftleOreBlock extends OreBlock implements IResourceType {
 
@@ -14,7 +15,7 @@ public class CraftleOreBlock extends OreBlock implements IResourceType {
 
     public static Properties getProperties(OreTypes ore) {
         return AbstractBlock.Properties.create(ore.getMaterial()).hardnessAndResistance(ore.getHardness(), ore.getResistance())
-            .setRequiresTool().harvestLevel(ore.getHarvestLevel());
+            .harvestLevel(ore.getHarvestLevel()).harvestTool(ToolType.PICKAXE).setRequiresTool();
     }
 
 

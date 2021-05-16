@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "craftle:item/ore/ruby_ingot"
+        "layer0": "craftle:item/ingot/ruby_ingot"
     }
 }

@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "craftle:item/ore/raw_copper"
+        "layer0": "craftle:item/raw_ore/raw_copper"
     }
 }
