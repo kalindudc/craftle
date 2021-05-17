@@ -1,0 +1,7 @@
+{
+    "replace": false,
+    "values": [
+        "craftle:copper_ingot",
+        "#forge:ingots/copper"
+    ]
+}

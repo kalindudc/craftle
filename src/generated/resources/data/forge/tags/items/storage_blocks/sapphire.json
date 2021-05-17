@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [
+        "craftle:sapphire_block",
+        "craftle:raw_sapphire_block",
+        "craftle:sapphire_block",
+        "craftle:raw_sapphire_block"
+    ]
+}

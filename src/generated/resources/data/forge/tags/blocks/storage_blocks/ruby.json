@@ -1,0 +1,7 @@
+{
+    "replace": false,
+    "values": [
+        "craftle:raw_ruby_block",
+        "craftle:ruby_block"
+    ]
+}

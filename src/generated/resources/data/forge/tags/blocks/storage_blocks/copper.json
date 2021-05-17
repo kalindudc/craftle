@@ -1,0 +1,7 @@
+{
+    "replace": false,
+    "values": [
+        "craftle:raw_copper_block",
+        "craftle:copper_block"
+    ]
+}

@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags.Blocks;
 import net.minecraftforge.common.Tags.Items;
 
-public class CraftleBlockTags implements CraftleTags {
+public class CraftleBlockTags {
 
     public static HashMap<String, ResourceTag<Block>> RESOURCE_ORES = new HashMap<>();
 

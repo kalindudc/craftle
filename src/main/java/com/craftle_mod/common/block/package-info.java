@@ -1,0 +1,5 @@
+@ParametersAreNonnullByDefault @MethodsReturnNonnullByDefault
+package com.craftle_mod.common.block;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+import mcp.MethodsReturnNonnullByDefault;

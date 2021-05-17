@@ -1,0 +1,14 @@
+{
+    "replace": false,
+    "values": [
+        "#forge:ores/copper",
+        "#forge:ores/sapphire",
+        "#forge:ores/ruby",
+        "#forge:ores/copper",
+        "#forge:ores/sapphire",
+        "#forge:ores/ruby",
+        "#forge:ores/copper",
+        "#forge:ores/sapphire",
+        "#forge:ores/ruby"
+    ]
+}

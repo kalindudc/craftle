@@ -4,10 +4,9 @@ import com.craftle_mod.common.resource.IResourceType;
 import com.craftle_mod.common.resource.ResourceTypes;
 import com.craftle_mod.common.resource.ore.OreTypes;
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
 import net.minecraftforge.common.ToolType;
 
-public class CraftleResourceBlock extends Block implements IResourceType {
+public class CraftleResourceBlock extends CraftleBlock implements IResourceType {
 
     private final ResourceTypes type;
 

@@ -1,0 +1,9 @@
+{
+    "type": "minecraft:smelting",
+    "ingredient": {
+        "tag": "forge:dusts/ruby"
+    },
+    "result": "craftle:ruby_ingot",
+    "experience": 0.7,
+    "cookingtime": 200
+}

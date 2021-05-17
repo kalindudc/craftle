@@ -2,7 +2,10 @@ package com.craftle_mod.common;
 
 import com.craftle_mod.common.lib.Version;
 import com.craftle_mod.common.registries.CraftleBlocks;
+import com.craftle_mod.common.registries.CraftleContainerTypes;
 import com.craftle_mod.common.registries.CraftleItems;
+import com.craftle_mod.common.registries.CraftleRecipeSerializers;
+import com.craftle_mod.common.registries.CraftleTileEntityTypes;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -40,7 +43,10 @@ public class Craftle {
 
         // register all registers
         CraftleBlocks.register(craftleEventBus);
+        CraftleContainerTypes.register(craftleEventBus);
         CraftleItems.register(craftleEventBus);
+        CraftleRecipeSerializers.register(craftleEventBus);
+        CraftleTileEntityTypes.register(craftleEventBus);
 
         craftleEventBus.addListener(this::setup);
         craftleEventBus.addListener(this::clientRegistries);

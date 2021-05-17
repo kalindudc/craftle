@@ -1,0 +1,7 @@
+{
+    "replace": false,
+    "values": [
+        "craftle:ruby_ingot",
+        "#forge:ingots/ruby"
+    ]
+}
