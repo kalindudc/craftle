@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Craftle" width="400px" src="https://craftle-mod.com/media/logo.png" />
+  <img alt="Craftle" width="400px" src="https://craftlemod.com/media/logo.png" />
 </p>
 
 [![Build Status](https://travis-ci.com/kalindudc/craftle.svg?branch=develop)](https://travis-ci.com/kalindudc/craftle)
@@ -16,7 +16,7 @@ energy and will use j (joules) as a unit of energy.
 
 ### Homepage
 
-[Craftle homepage](https://craftle-mod.com)
+[Craftle homepage](https://craftlemod.com)
 
 [Curseforge](#)
 
@@ -31,6 +31,6 @@ Craftle is licensed under GNU General Public License v3.0. That means you are al
 have to give Craftle credit for the original work, you're not allowed to profit from it commercially in any way and you have to license it
 under the exact same CC license. You also cannot submit anything to any form of store or any form of sale platform. Under the current
 license you are allowed to include this mod in any modpack or as part of any other collection as long as all criteria that was just
-mentioned and all criteria of the following [license](https://craftle-mod.com/#/LICENSE) are met.
+mentioned and all criteria of the following [license](https://craftlemod.com/#/LICENSE) are met.
 
 ©2020 Craftle / Kalindu De Costa
