@@ -1,0 +1,37 @@
+{
+    "schemaVersion": 1,
+    "id": "craftlemod",
+    "version": "${version}",
+    "name": "Craftle",
+    "description": "A high tech minecraft addon",
+    "authors": [
+        {
+            "name": "Kalindu De Costa",
+            "contact": {
+                "homepage": "kdecosta.com"
+            }
+        }
+    ],
+    "contact": {
+        "website": "craftlemod.com"
+    },
+    "license": "GPL-3.0",
+    "icon": "assets/craftlemod/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "client": [
+            "com.craftlemod.craftlemod.client.CraftlemodClient"
+        ],
+        "main": [
+            "com.craftlemod.craftlemod.Craftlemod"
+        ]
+    },
+    "mixins": [
+        "craftlemod.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.12.12",
+        "fabric": "*",
+        "minecraft": "1.18.1"
+    }
+}
