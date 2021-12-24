@@ -2,7 +2,7 @@
   <img alt="Craftle" width="400px" src="https://craftlemod.com/media/logo.png" />
 </p>
 
-[![Build Status](https://travis-ci.com/kalindudc/craftle.svg?branch=develop)](https://travis-ci.com/kalindudc/craftle)
+[![CircleCI](https://circleci.com/gh/kalindudc/craftle/tree/develop.svg?style=shield)](https://circleci.com/gh/kalindudc/craftle/tree/develop)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/kalindudc/craftle.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/kalindudc/craftle/alerts/)
 
 # Craftle for Frabric MC
