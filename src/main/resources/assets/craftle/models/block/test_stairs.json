@@ -1,8 +1,0 @@
-{
-    "parent": "block/stairs",
-    "textures": {
-        "bottom": "craftle:block/test_ore",
-        "top": "craftle:block/test_ore",
-        "side": "craftle:block/test_ore"
-    }
-}

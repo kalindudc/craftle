@@ -1,6 +1,0 @@
-{
-    "textures": {
-        "layer0": "craftle:item/ruby_bit"
-    },
-    "parent": "item/generated"
-}

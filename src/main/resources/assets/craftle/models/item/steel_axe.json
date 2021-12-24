@@ -1,6 +1,0 @@
-{
-    "textures": {
-        "layer0": "craftle:item/steel_axe"
-    },
-    "parent": "item/handheld"
-}

@@ -1,8 +1,0 @@
-{
-    "textures": {
-        "front": "craftle:block/machine/crusher/tier_3/front_on",
-        "top": "craftle:block/machine/crusher/tier_3/top",
-        "side": "craftle:block/machine/crusher/tier_3/side"
-    },
-    "parent": "block/orientable"
-}

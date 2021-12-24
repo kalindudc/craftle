@@ -1,6 +1,0 @@
-{
-    "textures": {
-        "all": "craftle:block/block/ruby"
-    },
-    "parent": "block/cube_all"
-}

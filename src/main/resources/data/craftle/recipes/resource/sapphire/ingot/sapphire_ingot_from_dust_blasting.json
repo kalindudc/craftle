@@ -1,9 +1,0 @@
-{
-    "cookingtime": 100,
-    "type": "minecraft:blasting",
-    "result": "craftle:sapphire_ingot",
-    "experience": 1.0,
-    "ingredient": {
-        "item": "craftle:sapphire_dust"
-    }
-}

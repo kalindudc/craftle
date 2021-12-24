@@ -1,6 +1,0 @@
-{
-    "textures": {
-        "layer0": "craftle:item/gear"
-    },
-    "parent": "item/generated"
-}

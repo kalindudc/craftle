@@ -1,6 +1,0 @@
-{
-    "textures": {
-        "all": "craftle:block/resource/machine_base_tier_2"
-    },
-    "parent": "block/cube_all"
-}
