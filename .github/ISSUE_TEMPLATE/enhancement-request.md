@@ -1,5 +1,7 @@
 ---
-name: Enhancement request about: Create a detailed report for a new machine or item title: Add \<Machine/Item name> machine to \<purpose>
+name: Enhancement request 
+about: Create a detailed report for a new machine or item 
+title: Add \<Machine/Item name> machine to \<purpose>
 labels: ''
 assignees: ''
 
