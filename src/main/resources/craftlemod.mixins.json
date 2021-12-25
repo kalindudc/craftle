@@ -4,6 +4,7 @@
     "package": "com.craftlemod.common.mixin",
     "compatibilityLevel": "JAVA_17",
     "mixins": [
+        "ModelLoaderMixin"
     ],
     "client": [
     ],

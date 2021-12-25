@@ -16,7 +16,7 @@
         "website": "craftlemod.com"
     },
     "license": "GPL-3.0",
-    "icon": "assets/craftlemod/icon.png",
+    "icon": "assets/craftle/icon.png",
     "environment": "*",
     "entrypoints": {
         "client": [
