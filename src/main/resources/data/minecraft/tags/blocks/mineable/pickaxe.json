@@ -2,6 +2,12 @@
     "replace": false,
     "values": [
         "craftle:lead_block",
-        "craftle:bronze_block"
+        "craftle:bronze_block",
+        "craftle:lead_ore",
+        "craftle:magnesium_ore",
+        "craftle:bauxite_ore",
+        "craftle:deepslate_bauxite_ore",
+        "craftle:deepslate_magnesium_ore",
+        "craftle:deepslate_lead_ore"
     ]
 }

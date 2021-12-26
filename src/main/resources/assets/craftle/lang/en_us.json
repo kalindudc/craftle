@@ -10,5 +10,11 @@
     "item.craftle.raw_magnesium": "Raw Magnesium",
     "item.craftle.raw_bauxite": "Raw Bauxite",
     "block.craftle.bronze_block": "Bronze Block",
-    "block.craftle.lead_block": "Lead Block"
+    "block.craftle.lead_block": "Lead Block",
+    "block.craftle.lead_ore": "Lead Ore",
+    "block.craftle.magnesium_ore": "Magnesium Ore",
+    "block.craftle.bauxite_ore": "Bauxite Ore",
+    "block.craftle.deepslate_bauxite_ore": "Deepslate Bauxite Ore",
+    "block.craftle.deepslate_magnesium_ore": "Deepslate Magnesium Ore",
+    "block.craftle.deepslate_lead_ore": "Deepslate Lead Ore"
 }

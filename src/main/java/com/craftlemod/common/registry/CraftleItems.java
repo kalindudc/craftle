@@ -41,7 +41,7 @@ public class CraftleItems {
     }
 
     public static void registerBlockItem(CraftleBlock block) {
-        CraftleBlockItem blockItem = new CraftleBlockItem(new Identifier(Craftlemod.MODID, block.getId().getPath()), block.getModelPath(), block, new FabricItemSettings().group(Craftlemod.ITEM_GROUP_RESOURCES));
+        CraftleBlockItem blockItem = new CraftleBlockItem(block.getId(), block.getModelPath(), block, new FabricItemSettings().group(Craftlemod.ITEM_GROUP_RESOURCES));
         BLOCK_ITEMS.put(block.getId().getPath(), blockItem);
     }
 

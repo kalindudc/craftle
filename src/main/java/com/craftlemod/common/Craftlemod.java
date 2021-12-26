@@ -28,5 +28,7 @@ public class Craftlemod implements ModInitializer {
     public void onInitialize() {
         CraftleBlocks.registerAll();
         CraftleItems.registerAll();
+
+        CraftleBlocks.generateOres();
     }
 }

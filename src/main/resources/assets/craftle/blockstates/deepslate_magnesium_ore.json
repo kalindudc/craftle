@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": { "model": "craftle:block/resource/ore/deepslate_magnesium_ore" }
+    }
+}
