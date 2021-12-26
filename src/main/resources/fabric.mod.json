@@ -16,14 +16,14 @@
         "website": "craftlemod.com"
     },
     "license": "GPL-3.0",
-    "icon": "assets/craftlemod/icon.png",
+    "icon": "assets/craftle/icon.png",
     "environment": "*",
     "entrypoints": {
         "client": [
-            "com.craftlemod.craftlemod.client.CraftlemodClient"
+            "com.craftlemod.client.CraftlemodClient"
         ],
         "main": [
-            "com.craftlemod.craftlemod.Craftlemod"
+            "com.craftlemod.common.Craftlemod"
         ]
     },
     "mixins": [

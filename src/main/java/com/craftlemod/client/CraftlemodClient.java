@@ -1,4 +1,4 @@
-package com.craftlemod.craftlemod.client;
+package com.craftlemod.client;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
