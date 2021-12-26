@@ -5,6 +5,7 @@ import com.craftlemod.common.block.CraftleBlock;
 import java.util.HashMap;
 import java.util.Map;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -20,13 +21,28 @@ public class CraftleBlocks {
     public static void registerAll() {
         for (Map.Entry<String, CraftleBlock> entry : BLOCKS.entrySet()) {
             Registry.register(Registry.BLOCK, entry.getValue().getId(), entry.getValue());
-            CraftleItems.registerBlockItem(entry.getValue());
         }
     }
 
     private static CraftleBlock registerBlockResource(String name, String resourceType) {
-        CraftleBlock item = new CraftleBlock(new Identifier(Craftlemod.MODID, name), "resource/" + resourceType + "/" + name, FabricBlockSettings.of(Material.METAL).strength(4.0f));
-        BLOCKS.put(item.getId().getPath(), item);
-        return item;
+        CraftleBlock block = new CraftleBlock(new Identifier(Craftlemod.MODID, name), "resource/" + resourceType + "/" + name, FabricBlockSettings.of(Material.METAL).strength(5.0f, 6.0f).requiresTool());
+        BLOCKS.put(name, block);
+        CraftleItems.registerBlockItem(block);
+        return block;
+    }
+
+    public static String createModelJson(String id) {
+        if (!BLOCKS.containsKey(id)) {
+            return "";
+        }
+
+        // @formatter:off
+        return "{\n" +
+            "\"parent\": \"block/cube_all\",\n" +
+            "\"textures\": {\n" +
+                "\"all\": \"" + Craftlemod.MODID + ":block/" + BLOCKS.get(id).getModelPath() + "\"\n" +
+            "}\n" +
+        "}";
+        // @formatter:on
     }
 }

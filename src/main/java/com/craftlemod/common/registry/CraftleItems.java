@@ -34,51 +34,55 @@ public class CraftleItems {
         for (Map.Entry<String, CraftleItem> entry : ITEMS.entrySet()) {
             Registry.register(Registry.ITEM, entry.getValue().getId(), entry.getValue());
         }
+
+        for (Map.Entry<String, CraftleBlockItem> entry : BLOCK_ITEMS.entrySet()) {
+            Registry.register(Registry.ITEM, entry.getValue().getId(), entry.getValue());
+        }
     }
 
     public static void registerBlockItem(CraftleBlock block) {
-        CraftleBlockItem blockItem = new CraftleBlockItem(block.getId(), block.getModelPath(), block, new FabricItemSettings().group(Craftlemod.ITEM_GROUP_RESOURCES));
+        CraftleBlockItem blockItem = new CraftleBlockItem(new Identifier(Craftlemod.MODID, block.getId().getPath()), block.getModelPath(), block, new FabricItemSettings().group(Craftlemod.ITEM_GROUP_RESOURCES));
         BLOCK_ITEMS.put(block.getId().getPath(), blockItem);
-        Registry.register(Registry.ITEM, block.getId(), blockItem);
     }
 
     private static CraftleItem registerItemResource(String name, String resourceType) {
         CraftleItem item = new CraftleItem(new Identifier(Craftlemod.MODID, name), "resource/" + resourceType + "/" + name, new Settings().group(Craftlemod.ITEM_GROUP_RESOURCES));
-        ITEMS.put(item.getId().getPath(), item);
+        ITEMS.put(name, item);
         return item;
     }
 
-    public static String createItemModelJson(String id) {
-        String type = "generated";
+    // @formatter:off
+    private static String createItemModelJson(CraftleItem item) {
+        String modelPath = "item/" + item.getModelPath() + "\"";
+
+        //The two types of items. "handheld" is used mostly for tools and the like, while "generated" is used for everything else.
+        String model = "{\n" +
+            "  \"parent\": \"item/generated\",\n" +
+            "  \"textures\": {\n" +
+            "    \"layer0\": \"" + Craftlemod.MODID + ":" + modelPath + "\n" +
+            "  }\n" +
+            "}";
+        return model;
+    }
+
+    private static String createBlockItemModelJson(CraftleBlockItem item) {
+        String modelPath = "block/" + item.getModelPath() + "\"";
+        //However, if the item is a block-item, it will have a different model json than the previous two.
+        String model = "{\n" +
+            "  \"parent\": \""+ Craftlemod.MODID + ":" + modelPath + "\n" +
+            "}";
+        return model;
+    }
+    // @formatter:on
+
+    public static String createModelJson(String id) {
         if (BLOCK_ITEMS.containsKey(id)) {
-            type = "block";
+            return createBlockItemModelJson(BLOCK_ITEMS.get(id));
+        }
+        if (ITEMS.containsKey(id)) {
+            return createItemModelJson(ITEMS.get(id));
         }
 
-        // @formatter:off
-        if ("generated".equals(type) || "handheld".equals(type)) {
-            String modelPath = "item/" + id + "\"";
-            if (ITEMS.containsKey(id)) {
-                modelPath = "item/" + ITEMS.get(id).getModelPath() + "\"";
-            }
-            //The two types of items. "handheld" is used mostly for tools and the like, while "generated" is used for everything else.
-            String model = "{\n" +
-                "  \"parent\": \"item/" + type + "\",\n" +
-                "  \"textures\": {\n" +
-                "    \"layer0\": \"" + Craftlemod.MODID + ":" + modelPath + "\n" +
-                "  }\n" +
-                "}";
-            return model;
-        } else if ("block".equals(type)) {
-            String modelPath = "block/" + BLOCK_ITEMS.get(id).getModelPath() + "\"";
-            //However, if the item is a block-item, it will have a different model json than the previous two.
-            return "{\n" +
-                "  \"parent\": \""+ Craftlemod.MODID + ":" + modelPath + "\n" +
-                "}";
-        }
-        else {
-            //If the type is invalid, return an empty json string.
-            return "";
-        }
-        // @formatter:on
+        return "";
     }
 }

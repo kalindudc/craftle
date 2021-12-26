@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": { "model": "craftle:block/resource/block/lead_block" }
+    }
+}

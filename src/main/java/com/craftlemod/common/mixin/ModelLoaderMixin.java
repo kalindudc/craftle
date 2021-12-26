@@ -1,6 +1,7 @@
 package com.craftlemod.common.mixin;
 
 import com.craftlemod.common.Craftlemod;
+import com.craftlemod.common.registry.CraftleBlocks;
 import com.craftlemod.common.registry.CraftleItems;
 import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.render.model.json.JsonUnbakedModel;
@@ -19,8 +20,14 @@ public class ModelLoaderMixin {
             return;
         }
 
-        // TODO: come up with a better way to split the identifier in to the id
-        String modelJson = CraftleItems.createItemModelJson(id.getPath().split("/")[1]);
+        String modelJson = "";
+        String[] pathSegments = id.getPath().split("/");
+        if (pathSegments[0].equalsIgnoreCase("item")) {
+            modelJson = CraftleItems.createModelJson(id.getPath().split("/")[pathSegments.length - 1]);
+        }
+        else if (pathSegments[0].equalsIgnoreCase("block")) {
+            modelJson = CraftleBlocks.createModelJson(id.getPath().split("/")[pathSegments.length - 1]);
+        }
         if ("".equals(modelJson)) {
             return;
         }
