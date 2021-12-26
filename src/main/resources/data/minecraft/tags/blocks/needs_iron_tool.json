@@ -1,0 +1,7 @@
+{
+    "replace": false,
+    "values": [
+        "craftle:lead_block",
+        "craftle:bronze_block"
+    ]
+}
