@@ -6,6 +6,7 @@ import com.craftlemod.common.block.CraftleOreBlock;
 import com.craftlemod.common.block.machine.MachineBlock;
 import com.craftlemod.common.block.machine.MachineControllerBlock;
 import com.craftlemod.common.blockentity.BlockEntityRecord;
+import com.craftlemod.common.blockentity.FactoryIOBlockEntity;
 import com.craftlemod.common.blockentity.FluidTankBlockEntity;
 import com.craftlemod.common.shared.IHasModelPath;
 import java.util.HashMap;
@@ -57,11 +58,15 @@ public class CraftleBlocks {
 
     // Machine blocks
     public static final IHasModelPath FACTORY_BLOCK = registerMachineBlock("factory_block","base", FabricBlockSettings.of(Material.METAL).strength(5.0f, 6.0f).requiresTool());
-    public static final IHasModelPath FACTORY_INTAKE = registerMachineBlock("factory_intake", "base", FabricBlockSettings.of(Material.STONE).strength(4.5f, 3.0f).requiresTool());
-    public static final IHasModelPath FACTORY_EXHAUST = registerMachineBlock("factory_exhaust", "base", FabricBlockSettings.of(Material.STONE).strength(4.5f, 3.0f).requiresTool());
     public static final IHasModelPath FLUID_TANK_CONTROLLER = registerMachineBlockWithEntity("fluid_tank_controller", "tank",
-        FabricBlockSettings.of(Material.STONE).strength(4.5f, 3.0f).requiresTool(),
+        FabricBlockSettings.of(Material.METAL).strength(3.0f, 3.0f).requiresTool(),
         (pos, state) -> new FluidTankBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FLUID_TANK_BLOCK_ENTITY, pos, state)));
+    public static final IHasModelPath FACTORY_INTAKE = registerMachineBlockWithEntity("factory_intake", "base",
+        FabricBlockSettings.of(Material.METAL).strength(3.0f, 3.0f).requiresTool(),
+        (pos, state) -> new FactoryIOBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FACTORY_INTAKE_BLOCK_ENTITY, pos, state), true));
+    public static final IHasModelPath FACTORY_EXHAUST = registerMachineBlockWithEntity("factory_exhaust", "base",
+        FabricBlockSettings.of(Material.METAL).strength(3.0f, 3.0f).requiresTool(),
+        (pos, state) -> new FactoryIOBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FACTORY_EXHAUST_BLOCK_ENTITY, pos, state), false));
 
     public static void registerAll() {
         for (Map.Entry<String, IHasModelPath> entry : BLOCKS.entrySet()) {

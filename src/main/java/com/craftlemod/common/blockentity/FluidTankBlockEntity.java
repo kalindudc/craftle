@@ -2,19 +2,19 @@ package com.craftlemod.common.blockentity;
 
 import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.block.machine.MachineBlock;
-import com.craftlemod.common.registry.CraftleBlockEntityTypes;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.block.AbstractGlassBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class FluidTankBlockEntity extends CraftleBlockEntity {
+public class FluidTankBlockEntity extends FactoryBlockEntity {
 
-    public static final int MAX_TANK_LENGTH = 24;
+    public static final int MAX_TANK_LENGTH = 64;
 
     private int fluidCapacity;
     private int currentFluidAmount;
@@ -76,39 +76,97 @@ public class FluidTankBlockEntity extends CraftleBlockEntity {
 
         if (this.isTankActive) {
             // do tank related things
-            testShape(world, pos);
-        }
-        else {
+        } else {
             // check for tank shape
+            Pair<Integer, Integer> siloConfig = testShape(world, pos);
+            CraftleMod.LOGGER.error("\n\nshape: " + siloConfig.getLeft().toString() + "," + siloConfig.getRight().toString());
+
+            for (FactoryIOBlockEntity entity : this.getFactoryIOs()) {
+                CraftleMod.LOGGER.error("pos: " + entity.getPos().toShortString());
+                CraftleMod.LOGGER.error("intake: " + entity.isIntake());
+            }
         }
     }
 
-    private void testShape(World world, BlockPos pos) {
-        /*
-            0: left edge
-            1: bottom edge
-            2: right edge
-            3: top edge
-         */
-        int[][] edgeCords = new int[4][2];
+    @Override
+    public Pair<Integer, Integer> testShape(World world, BlockPos pos) {
+        BlockPos[] baseEdges = new BlockPos[2];
+        int radius = 0;
+        int height = 0;
+        List<FactoryIOBlockEntity> factoryIOs = new ArrayList<>();
 
-        // find edges
-        for (int i = 0; i < 4; i++) {
-            int delta = 1;
-            if (i < 2) {
-                delta = -1;
-            }
+        // check the base
+        for (int i = 1; i < MAX_TANK_LENGTH; i++) {
+            BlockPos pos1 = new BlockPos(pos.getX() - i, pos.getY(), pos.getZ() + i);
+            BlockPos pos2 = new BlockPos(pos.getX() + i, pos.getY(), pos.getZ() - i);
+            int numBlocks = 2 * i + 1;
 
-            for (int j = 0; j < MAX_TANK_LENGTH; j++) {
-                int x = i % 2 == 0 ? pos.getX() + (j * delta) : pos.getX();
-                int z = i % 2 != 0 ? pos.getZ() + (j * delta) : pos.getZ();
-                Block block = world.getBlockState(pos).getBlock();
-
-                if (block instanceof AbstractGlassBlock || block instanceof MachineBlock) {
-                    edgeCords[i][0] = x;
-                    edgeCords[i][1] = z;
-                }
+            Pair<Boolean, List<FactoryIOBlockEntity>> edgeItems = areValidEdges(world, pos1, pos2, numBlocks);
+            if (edgeItems.getLeft()) {
+                baseEdges[0] = pos1;
+                baseEdges[1] = pos2;
+                radius++;
+                factoryIOs.addAll(edgeItems.getRight());
+            } else {
+                break;
             }
         }
+
+        if (baseEdges[0] == null || baseEdges[1] == null) {
+            return new Pair<>(0, 0);
+        }
+
+        // check the walls
+        for (int i = 1; i < MAX_TANK_LENGTH * 2; i++) {
+            BlockPos pos1 = new BlockPos(baseEdges[0].getX(), pos.getY() + i, baseEdges[0].getZ());
+            BlockPos pos2 = new BlockPos(baseEdges[1].getX(), pos.getY() + i, baseEdges[1].getZ());
+            int numBlocks = 2 * radius + 1;
+
+            Pair<Boolean, List<FactoryIOBlockEntity>> edgeItems = areValidEdges(world, pos1, pos2, numBlocks);
+            if (edgeItems.getLeft()) {
+                height++;
+                factoryIOs.addAll(edgeItems.getRight());
+            } else {
+                break;
+            }
+        }
+
+        if (height == 0) {
+            return new Pair<>(0, 0);
+        }
+
+        // check roof
+        boolean validRoof = true;
+        for (int i = 1; i < radius; i++) {
+            BlockPos pos1 = new BlockPos(baseEdges[0].getX() + i, pos.getY() + height, baseEdges[0].getZ() - i);
+            BlockPos pos2 = new BlockPos(baseEdges[1].getX() - i, pos.getY() + height, baseEdges[1].getZ() + i);
+            int numBlocks = (2 * (radius - i)) + 1;
+
+            Pair<Boolean, List<FactoryIOBlockEntity>> edgeItems = areValidEdges(world, pos1, pos2, numBlocks);
+            if (!edgeItems.getLeft()) {
+                validRoof = false;
+                break;
+            } else {
+                factoryIOs.addAll(edgeItems.getRight());
+            }
+        }
+
+        // check roof center
+        validRoof = validRoof && isValidMultiBlock(world.getBlockState(new BlockPos(pos.getX(), pos.getY() + height, pos.getZ())).getBlock());
+        if (!validRoof) {
+            return new Pair<>(0, 0);
+        } else {
+            if (isValidFactoryIO(world.getBlockEntity(new BlockPos(pos.getX(), pos.getY() + height, pos.getZ())))) {
+                factoryIOs.add((FactoryIOBlockEntity) world.getBlockEntity(new BlockPos(pos.getX(), pos.getY() + height, pos.getZ())));
+            }
+        }
+
+        this.setFactoryIOs(factoryIOs);
+        return new Pair<>(radius, height);
+    }
+
+    @Override
+    public boolean isValidMultiBlock(Block block) {
+        return block instanceof AbstractGlassBlock || block instanceof MachineBlock;
     }
 }
