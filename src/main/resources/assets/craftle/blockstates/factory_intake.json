@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": { "model": "craftle:block/machine/base/factory_intake" }
+    }
+}

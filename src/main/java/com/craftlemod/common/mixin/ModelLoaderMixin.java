@@ -1,6 +1,6 @@
 package com.craftlemod.common.mixin;
 
-import com.craftlemod.common.Craftlemod;
+import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.registry.CraftleBlocks;
 import com.craftlemod.common.registry.CraftleItems;
 import net.minecraft.client.render.model.ModelLoader;
@@ -16,7 +16,7 @@ public class ModelLoaderMixin {
 
     @Inject(method = "loadModelFromJson", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourceManager;getResource(Lnet/minecraft/util/Identifier;)Lnet/minecraft/resource/Resource;"), cancellable = true)
     public void loadModelFromJson(Identifier id, CallbackInfoReturnable<JsonUnbakedModel> cir) {
-        if (!Craftlemod.MODID.equals(id.getNamespace())) {
+        if (!CraftleMod.MODID.equals(id.getNamespace())) {
             return;
         }
 

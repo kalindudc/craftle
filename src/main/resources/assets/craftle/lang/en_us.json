@@ -1,5 +1,6 @@
 {
     "itemGroup.craftle.resources": "Craftle Resources",
+    "itemGroup.craftle.machines": "Craftle Machines",
     "item.craftle.lead_ingot": "Lead Ingot",
     "item.craftle.magnesium_ingot": "Magnesium Ingot",
     "item.craftle.bronze_ingot": "Bronze Ingot",
@@ -16,5 +17,9 @@
     "block.craftle.bauxite_ore": "Bauxite Ore",
     "block.craftle.deepslate_bauxite_ore": "Deepslate Bauxite Ore",
     "block.craftle.deepslate_magnesium_ore": "Deepslate Magnesium Ore",
-    "block.craftle.deepslate_lead_ore": "Deepslate Lead Ore"
+    "block.craftle.deepslate_lead_ore": "Deepslate Lead Ore",
+    "block.craftle.factory_intake": "Factory Intake Block",
+    "block.craftle.factory_exhaust": "Factory Exhaust Block",
+    "block.craftle.factory_block": "Factory Block",
+    "block.craftle.fluid_tank_controller": "Fluid Tank Controller"
 }

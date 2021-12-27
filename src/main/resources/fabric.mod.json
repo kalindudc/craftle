@@ -20,10 +20,10 @@
     "environment": "*",
     "entrypoints": {
         "client": [
-            "com.craftlemod.client.CraftlemodClient"
+            "com.craftlemod.client.CraftleModClient"
         ],
         "main": [
-            "com.craftlemod.common.Craftlemod"
+            "com.craftlemod.common.CraftleMod"
         ]
     },
     "mixins": [

@@ -1,6 +1,10 @@
 {
     "replace": false,
     "values": [
+        "craftle:factory_intake",
+        "craftle:factory_exhaust",
+        "craftle:factory_block",
+        "craftle:fluid_tank_controller",
         "craftle:lead_block",
         "craftle:bronze_block",
         "craftle:magnesium_ore",

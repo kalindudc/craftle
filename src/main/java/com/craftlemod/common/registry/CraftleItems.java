@@ -1,12 +1,14 @@
 package com.craftlemod.common.registry;
 
-import com.craftlemod.common.Craftlemod;
-import com.craftlemod.common.block.CraftleBlock;
+import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.item.CraftleItem;
+import com.craftlemod.common.shared.IHasModelPath;
 import java.util.HashMap;
 import java.util.Map;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item.Settings;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -40,13 +42,13 @@ public class CraftleItems {
         }
     }
 
-    public static void registerBlockItem(CraftleBlock block) {
-        CraftleBlockItem blockItem = new CraftleBlockItem(block.getId(), block.getModelPath(), block, new FabricItemSettings().group(Craftlemod.ITEM_GROUP_RESOURCES));
+    public static void registerBlockItem(IHasModelPath block, ItemGroup group) {
+        CraftleBlockItem blockItem = new CraftleBlockItem(block.getId(), block.getModelPath(), (Block) block, new FabricItemSettings().group(group));
         BLOCK_ITEMS.put(block.getId().getPath(), blockItem);
     }
 
     private static CraftleItem registerItemResource(String name, String resourceType) {
-        CraftleItem item = new CraftleItem(new Identifier(Craftlemod.MODID, name), "resource/" + resourceType + "/" + name, new Settings().group(Craftlemod.ITEM_GROUP_RESOURCES));
+        CraftleItem item = new CraftleItem(new Identifier(CraftleMod.MODID, name), "resource/" + resourceType + "/" + name, new Settings().group(CraftleMod.ITEM_GROUP_RESOURCES));
         ITEMS.put(name, item);
         return item;
     }
@@ -59,7 +61,7 @@ public class CraftleItems {
         String model = "{\n" +
             "  \"parent\": \"item/generated\",\n" +
             "  \"textures\": {\n" +
-            "    \"layer0\": \"" + Craftlemod.MODID + ":" + modelPath + "\n" +
+            "    \"layer0\": \"" + CraftleMod.MODID + ":" + modelPath + "\n" +
             "  }\n" +
             "}";
         return model;
@@ -69,7 +71,7 @@ public class CraftleItems {
         String modelPath = "block/" + item.getModelPath() + "\"";
         //However, if the item is a block-item, it will have a different model json than the previous two.
         String model = "{\n" +
-            "  \"parent\": \""+ Craftlemod.MODID + ":" + modelPath + "\n" +
+            "  \"parent\": \""+ CraftleMod.MODID + ":" + modelPath + "\n" +
             "}";
         return model;
     }
