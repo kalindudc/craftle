@@ -20,6 +20,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.structure.rule.RuleTest;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -57,15 +58,15 @@ public class CraftleBlocks {
     public static final IHasModelPath DEEPSLATE_BAUXITE_ORE = registerOreBlock("deepslate_bauxite_ore", FabricBlockSettings.of(Material.STONE).strength(4.5f, 3.0f).requiresTool(), -10, 0, 24);
 
     // Machine blocks
-    public static final IHasModelPath FACTORY_BLOCK = registerMachineBlock("factory_block","base", FabricBlockSettings.of(Material.METAL).strength(5.0f, 6.0f).requiresTool());
+    public static final IHasModelPath FACTORY_BLOCK = registerMachineBlock("factory_block", "base", FabricBlockSettings.of(Material.METAL).strength(5.0f, 6.0f).requiresTool());
+    public static final IHasModelPath FACTORY_GLASS_BLOCK = registerMachineBlock("factory_glass_block", "base",
+        FabricBlockSettings.of(Material.GLASS).strength(2.0f, 2.0f).sounds(BlockSoundGroup.GLASS).nonOpaque());
     public static final IHasModelPath FLUID_TANK_CONTROLLER = registerMachineBlockWithEntity("fluid_tank_controller", "tank",
         FabricBlockSettings.of(Material.METAL).strength(3.0f, 3.0f).requiresTool(),
         (pos, state) -> new FluidTankBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FLUID_TANK_BLOCK_ENTITY, pos, state)));
-    public static final IHasModelPath FACTORY_INTAKE = registerMachineBlockWithEntity("factory_intake", "base",
-        FabricBlockSettings.of(Material.METAL).strength(3.0f, 3.0f).requiresTool(),
+    public static final IHasModelPath FACTORY_INTAKE = registerMachineBlockWithEntity("factory_intake", "base", FabricBlockSettings.of(Material.METAL).strength(3.0f, 3.0f).requiresTool(),
         (pos, state) -> new FactoryIOBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FACTORY_INTAKE_BLOCK_ENTITY, pos, state), true));
-    public static final IHasModelPath FACTORY_EXHAUST = registerMachineBlockWithEntity("factory_exhaust", "base",
-        FabricBlockSettings.of(Material.METAL).strength(3.0f, 3.0f).requiresTool(),
+    public static final IHasModelPath FACTORY_EXHAUST = registerMachineBlockWithEntity("factory_exhaust", "base", FabricBlockSettings.of(Material.METAL).strength(3.0f, 3.0f).requiresTool(),
         (pos, state) -> new FactoryIOBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FACTORY_EXHAUST_BLOCK_ENTITY, pos, state), false));
 
     public static void registerAll() {
@@ -95,20 +96,13 @@ public class CraftleBlocks {
             if (entry.getKey().contains("deepslate")) {
                 configFeature = OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES;
             }
-            ConfiguredFeature<?, ?> config = Feature.ORE
-                .configure(new OreFeatureConfig(
-                    configFeature,
-                    entry.getValue().getDefaultState(),
-                    entry.getValue().getVeinSize()));
-            PlacedFeature feature = config.withPlacement(
-                CountPlacementModifier.of(10),
-                SquarePlacementModifier.of(),
+            ConfiguredFeature<?, ?> config = Feature.ORE.configure(new OreFeatureConfig(configFeature, entry.getValue().getDefaultState(), entry.getValue().getVeinSize()));
+            PlacedFeature feature = config.withPlacement(CountPlacementModifier.of(10), SquarePlacementModifier.of(),
                 HeightRangePlacementModifier.uniform(YOffset.fixed(entry.getValue().getMinY()), YOffset.fixed(entry.getValue().getMaxY())));
 
             Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, entry.getValue().getId(), config);
             Registry.register(BuiltinRegistries.PLACED_FEATURE, entry.getValue().getId(), feature);
-            BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
-                RegistryKey.of(Registry.PLACED_FEATURE_KEY, entry.getValue().getId()));
+            BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, RegistryKey.of(Registry.PLACED_FEATURE_KEY, entry.getValue().getId()));
 
             ORE_CONFIGURATIONS.put(entry.getKey(), config);
             ORE_FEATURES.put(entry.getKey(), feature);

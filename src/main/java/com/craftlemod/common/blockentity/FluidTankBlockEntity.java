@@ -1,11 +1,7 @@
 package com.craftlemod.common.blockentity;
 
-import com.craftlemod.common.CraftleMod;
-import com.craftlemod.common.block.machine.MachineBlock;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.block.AbstractGlassBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Pair;
@@ -18,22 +14,13 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
 
     private int fluidCapacity;
     private int currentFluidAmount;
-    private boolean isTankActive;
 
     public FluidTankBlockEntity(BlockEntityRecord record) {
         super(record);
-        this.fluidCapacity = 8;
+        this.fluidCapacity = 0;
         this.currentFluidAmount = 0;
-        this.isTankActive = false;
     }
 
-    public boolean isTankActive() {
-        return isTankActive;
-    }
-
-    public void setTankActive(boolean tankActive) {
-        isTankActive = tankActive;
-    }
 
     public int getCurrentFluidAmount() {
         return currentFluidAmount;
@@ -57,7 +44,6 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
 
         nbt.putInt("fluid_capacity", this.fluidCapacity);
         nbt.putInt("current_fluid_amount", this.currentFluidAmount);
-        nbt.putBoolean("is_tank_active", this.isTankActive);
     }
 
     @Override
@@ -65,7 +51,6 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
         super.readNbt(nbt);
         this.fluidCapacity = nbt.getInt("fluid_capacity");
         this.currentFluidAmount = nbt.getInt("current_fluid_amount");
-        this.isTankActive = nbt.getBoolean("is_tank_active");
     }
 
     @Override
@@ -74,16 +59,22 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
             return;
         }
 
-        if (this.isTankActive) {
+        if (this.isFactoryActive()) {
             // do tank related things
         } else {
             // check for tank shape
-            Pair<Integer, Integer> siloConfig = testShape(world, pos);
-            CraftleMod.LOGGER.error("\n\nshape: " + siloConfig.getLeft().toString() + "," + siloConfig.getRight().toString());
+            Pair<Integer, Integer> factoryConfig = testShape(world, pos);
+            if (factoryConfig.getLeft() == 0 && factoryConfig.getRight() == 0) {
+                return;
+            }
+
+            // activate tank
+            this.activateFactory(factoryConfig);
+            //CraftleMod.LOGGER.error("\n\nshape: " + siloConfig.getLeft().toString() + "," + siloConfig.getRight().toString());
 
             for (FactoryIOBlockEntity entity : this.getFactoryIOs()) {
-                CraftleMod.LOGGER.error("pos: " + entity.getPos().toShortString());
-                CraftleMod.LOGGER.error("intake: " + entity.isIntake());
+                //CraftleMod.LOGGER.error("pos: " + entity.getPos().toShortString());
+                //CraftleMod.LOGGER.error("intake: " + entity.isIntake());
             }
         }
     }
@@ -116,6 +107,7 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
             return new Pair<>(0, 0);
         }
 
+        height++;
         // check the walls
         for (int i = 1; i < MAX_TANK_LENGTH * 2; i++) {
             BlockPos pos1 = new BlockPos(baseEdges[0].getX(), pos.getY() + i, baseEdges[0].getZ());
@@ -163,10 +155,5 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
 
         this.setFactoryIOs(factoryIOs);
         return new Pair<>(radius, height);
-    }
-
-    @Override
-    public boolean isValidMultiBlock(Block block) {
-        return block instanceof AbstractGlassBlock || block instanceof MachineBlock;
     }
 }

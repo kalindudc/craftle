@@ -21,5 +21,6 @@
     "block.craftle.factory_intake": "Factory Intake Block",
     "block.craftle.factory_exhaust": "Factory Exhaust Block",
     "block.craftle.factory_block": "Factory Block",
+    "block.craftle.factory_glass_block": "Factory Glass Block",
     "block.craftle.fluid_tank_controller": "Fluid Tank Controller"
 }

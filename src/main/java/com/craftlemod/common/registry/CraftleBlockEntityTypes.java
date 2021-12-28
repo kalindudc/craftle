@@ -15,9 +15,9 @@ public class CraftleBlockEntityTypes {
     public static BlockEntityType<BlockEntity> FACTORY_EXHAUST_BLOCK_ENTITY;
 
     public static void registerAll() {
-        FLUID_TANK_BLOCK_ENTITY = registerBlockEntity("fluid_tank_block_entity", (MachineControllerBlock)CraftleBlocks.FLUID_TANK_CONTROLLER);
-        FACTORY_INTAKE_BLOCK_ENTITY = registerBlockEntity("factory_intake_block_entity", (MachineControllerBlock)CraftleBlocks.FACTORY_INTAKE);
-        FACTORY_EXHAUST_BLOCK_ENTITY = registerBlockEntity("factory_exhaust_block_entity", (MachineControllerBlock)CraftleBlocks.FACTORY_EXHAUST);
+        FLUID_TANK_BLOCK_ENTITY = registerBlockEntity("fluid_tank_block_entity", (MachineControllerBlock) CraftleBlocks.FLUID_TANK_CONTROLLER);
+        FACTORY_INTAKE_BLOCK_ENTITY = registerBlockEntity("factory_intake_block_entity", (MachineControllerBlock) CraftleBlocks.FACTORY_INTAKE);
+        FACTORY_EXHAUST_BLOCK_ENTITY = registerBlockEntity("factory_exhaust_block_entity", (MachineControllerBlock) CraftleBlocks.FACTORY_EXHAUST);
     }
 
     private static BlockEntityType<BlockEntity> registerBlockEntity(String name, MachineControllerBlock block) {

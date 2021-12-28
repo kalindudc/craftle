@@ -5,7 +5,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class FactoryIOBlockEntity extends CraftleBlockEntity {
+public class FactoryIOBlockEntity extends FactoryBlockEntity {
 
     private boolean isIntake;
 
