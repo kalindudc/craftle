@@ -5,6 +5,7 @@ import com.craftlemod.common.block.CraftleBlock;
 import com.craftlemod.common.block.CraftleOreBlock;
 import com.craftlemod.common.block.machine.MachineBlock;
 import com.craftlemod.common.block.machine.MachineControllerBlock;
+import com.craftlemod.common.block.machine.MachineGlassBlock;
 import com.craftlemod.common.blockentity.BlockEntityRecord;
 import com.craftlemod.common.blockentity.CraftleBlockEntity;
 import com.craftlemod.common.blockentity.FactoryIOBlockEntity;
@@ -62,18 +63,19 @@ public class CraftleBlocks {
         -10, 0, 24);
 
     // Machine blocks
-    public static final IHasModelPath FACTORY_BLOCK = registerMachineBlock("factory_block", "base", FabricBlockSettings.of(Material.METAL).strength(5.0f, 6.0f).requiresTool(),
+    public static final IHasModelPath FACTORY_BLOCK = registerMachineBlock("factory_block", "base/factory_block",
+        FabricBlockSettings.of(Material.METAL).strength(5.0f, 6.0f).requiresTool(),
         (pos, state) -> new CraftleBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FACTORY_BLOCK_BLOCK_ENTITY, pos, state)));
-    public static final IHasModelPath FACTORY_GLASS_BLOCK = registerMachineBlock("factory_glass_block", "base",
+    public static final IHasModelPath FACTORY_GLASS_BLOCK = registerMachineGlassBlock("factory_glass_block", "base/factory_glass_block",
         FabricBlockSettings.of(Material.GLASS).strength(2.0f, 2.0f).sounds(BlockSoundGroup.GLASS).nonOpaque(),
         (pos, state) -> new CraftleBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FACTORY_GLASS_BLOCK_BLOCK_ENTITY, pos, state)));
     public static final IHasModelPath FLUID_TANK_CONTROLLER = registerMachineControllerBlock("fluid_tank_controller", "tank",
         FabricBlockSettings.of(Material.METAL).strength(3.0f, 3.0f).requiresTool(),
         (pos, state) -> new FluidTankBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FLUID_TANK_BLOCK_ENTITY, pos, state)));
-    public static final IHasModelPath FACTORY_INTAKE = registerMachineControllerBlock("factory_intake", "base",
+    public static final IHasModelPath FACTORY_INTAKE = registerMachineControllerBlock("factory_intake", "base/factory_intake",
         FabricBlockSettings.of(Material.METAL).strength(3.0f, 3.0f).requiresTool(),
         (pos, state) -> new FactoryIOBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FACTORY_INTAKE_BLOCK_ENTITY, pos, state), true));
-    public static final IHasModelPath FACTORY_EXHAUST = registerMachineControllerBlock("factory_exhaust", "base",
+    public static final IHasModelPath FACTORY_EXHAUST = registerMachineControllerBlock("factory_exhaust", "base/factory_exhaust",
         FabricBlockSettings.of(Material.METAL).strength(3.0f, 3.0f).requiresTool(),
         (pos, state) -> new FactoryIOBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FACTORY_EXHAUST_BLOCK_ENTITY, pos, state), false));
 
@@ -84,18 +86,140 @@ public class CraftleBlocks {
     }
 
     public static String createModelJson(String id) {
-        if (!BLOCKS.containsKey(id)) {
-            return "";
+        if (id.startsWith("factory_glass_block") && !id.equalsIgnoreCase("factory_glass_block")) {
+            return handleMultiblockModel(id, FACTORY_GLASS_BLOCK);
+        }
+
+        String modelPath = "";
+        IHasModelPath block = BLOCKS.get(id);
+        if (id.endsWith("_active")) {
+            block = BLOCKS.get(id.substring(0, id.length() - "_active".length()));
+            modelPath = block.getModelPath() + "_0";
+        } else {
+            modelPath = block.getModelPath();
         }
 
         // @formatter:off
         return "{\n" +
             "\"parent\": \"block/cube_all\",\n" +
             "\"textures\": {\n" +
-            "\"all\": \"" + CraftleMod.MODID + ":block/" + BLOCKS.get(id).getModelPath() + "\"\n" +
+            "\"all\": \"" + CraftleMod.MODID + ":block/" + modelPath + "\"\n" +
             "}\n" +
             "}";
         // @formatter:on
+    }
+
+    private static String handleMultiblockModel(String id, IHasModelPath block) {
+        String config = id.split("_")[id.split("_").length - 1];
+        String modelPath = block.getModelPath();
+
+        String north = modelPath, south = modelPath, east = modelPath, west = modelPath, up = modelPath, down = modelPath;
+
+        for (char c : config.toCharArray()) {
+            String complement;
+            String suffix;
+            switch (c) {
+                case 'n':
+                    // udew
+                    complement = getComplement("udew", config);
+                    suffix = getSuffix(complement);
+
+                    if (suffix != null) {
+                        north = modelPath + "_" + suffix;
+                    }
+                    break;
+                case 's':
+                    // udew
+                    complement = getComplement("udew", config);
+                    suffix = getSuffix(complement);
+
+                    if (suffix != null) {
+                        south = modelPath + "_" + suffix;
+                    }
+                    break;
+                case 'e':
+                    // udns
+                    complement = getComplement("udns", config);
+                    suffix = getSuffix(complement);
+
+                    if (suffix != null) {
+                        east = modelPath + "_" + suffix;
+                    }
+                    break;
+                case 'w':
+                    // udns
+                    complement = getComplement("udns", config);
+                    suffix = getSuffix(complement);
+
+                    if (suffix != null) {
+                        west = modelPath + "_" + suffix;
+                    }
+                    break;
+                case 'u':
+                    //nsew
+                    complement = getComplement("nsew", config);
+                    suffix = getSuffix(complement);
+
+                    if (suffix != null) {
+                        up = modelPath + "_" + suffix;
+                    }
+                    break;
+                case 'd':
+                    //nsew
+                    complement = getComplement("nsew", config);
+                    suffix = getSuffix(complement);
+
+                    if (suffix != null) {
+                        down = modelPath + "_" + suffix;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+
+        }
+
+        // @formatter:off
+        String model = "{\n" +
+            "\"parent\": \"block/cube_all\",\n" +
+            "\"textures\": {\n" +
+            "\"north\": \"" + CraftleMod.MODID + ":block/" + north + "\",\n" +
+            "\"south\": \"" + CraftleMod.MODID + ":block/" + south + "\",\n" +
+            "\"east\": \"" + CraftleMod.MODID + ":block/" + east + "\",\n" +
+            "\"west\": \"" + CraftleMod.MODID + ":block/" + west + "\",\n" +
+            "\"up\": \"" + CraftleMod.MODID + ":block/" + up + "\",\n" +
+            "\"down\": \"" + CraftleMod.MODID + ":block/" + down + "\"\n" +
+            "}\n" +
+            "}";
+        // @formatter:on
+        return model;
+    }
+
+    private static String getSuffix(String complement) {
+        if (complement.equals("")) {
+            return "nsew";
+        }
+
+        if (complement.length() == 4) {
+            return null;
+        }
+
+        String parsedCompl = complement.replace('u', 'n');
+        parsedCompl = parsedCompl.replace('d', 's');
+
+        return parsedCompl;
+    }
+
+    private static String getComplement(String expected, String config) {
+        String complement = "";
+        for (char c : expected.toCharArray()) {
+            if (!config.contains(String.valueOf(c))) {
+                complement += String.valueOf(c);
+            }
+        }
+
+        return complement;
     }
 
     public static void generateOres() {
@@ -130,8 +254,14 @@ public class CraftleBlocks {
     }
 
     private static IHasModelPath registerMachineBlock(String name, String machineType, FabricBlockSettings settings, BiFunction<BlockPos, BlockState, BlockEntity> constructor) {
-
         IHasModelPath block = new MachineBlock(new Identifier(CraftleMod.MODID, name), "machine/" + machineType + "/" + name, settings, constructor);
+        return registerBlock(name, block, CraftleMod.ITEM_GROUP_MACHINES);
+    }
+
+    private static IHasModelPath registerMachineGlassBlock(String name, String machineType, FabricBlockSettings settings,
+        BiFunction<BlockPos, BlockState, BlockEntity> constructor) {
+
+        IHasModelPath block = new MachineGlassBlock(new Identifier(CraftleMod.MODID, name), "machine/" + machineType + "/" + name, settings, constructor);
         return registerBlock(name, block, CraftleMod.ITEM_GROUP_MACHINES);
     }
 

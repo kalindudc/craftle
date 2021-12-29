@@ -1,9 +1,12 @@
 package com.craftlemod.common.blockentity;
 
+import com.craftlemod.common.block.machine.MachineBlock;
+import com.craftlemod.common.block.machine.MachineGlassBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
 
 public class CraftleBlockEntity extends BlockEntity {
@@ -31,6 +34,25 @@ public class CraftleBlockEntity extends BlockEntity {
 
     public void setEntityControllerPos(BlockPos entityControllerPos) {
         this.entityControllerPos = entityControllerPos;
+    }
+
+    public void activateBlock(World world, BlockState state, BlockPos entityControllerPos, Vec3f[] bounds) {
+        this.entityControllerPos = entityControllerPos;
+        if (world.getBlockState(pos).getBlock() instanceof MachineGlassBlock block) {
+            block.setDirectionalState(world, state, pos, bounds);
+            return;
+        }
+        world.setBlockState(pos, state.with(MachineBlock.ACTIVE, true));
+
+    }
+
+    public void deactivateBlock(World world, BlockState state) {
+        this.entityControllerPos = null;
+        if (world.getBlockState(pos).getBlock() instanceof MachineGlassBlock block) {
+            block.resetDirectionalState(world, state, pos);
+            return;
+        }
+        world.setBlockState(pos, state.with(MachineBlock.ACTIVE, false));
     }
 
     @Override

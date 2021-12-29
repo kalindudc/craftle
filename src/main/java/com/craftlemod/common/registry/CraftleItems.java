@@ -1,6 +1,7 @@
 package com.craftlemod.common.registry;
 
 import com.craftlemod.common.CraftleMod;
+import com.craftlemod.common.item.CraftleBlockItem;
 import com.craftlemod.common.item.CraftleItem;
 import com.craftlemod.common.shared.IHasModelPath;
 import java.util.HashMap;

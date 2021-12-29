@@ -1,5 +1,10 @@
 {
     "variants": {
-        "": { "model": "craftle:block/machine/base/factory_exhaust" }
+        "active=true": {
+            "model": "craftle:block/machine/base/factory_exhaust/factory_exhaust_active"
+        },
+        "active=false": {
+            "model": "craftle:block/machine/base/factory_exhaust/factory_exhaust"
+        }
     }
 }

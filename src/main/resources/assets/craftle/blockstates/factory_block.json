@@ -1,5 +1,10 @@
 {
     "variants": {
-        "": { "model": "craftle:block/machine/base/factory_block" }
+        "active=true": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_active"
+        },
+        "active=false": {
+            "model": "craftle:block/machine/base/factory_block/factory_block"
+        }
     }
 }

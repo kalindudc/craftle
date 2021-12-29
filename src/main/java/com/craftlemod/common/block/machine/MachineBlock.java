@@ -4,6 +4,7 @@ import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.blockentity.CraftleBlockEntity;
 import com.craftlemod.common.shared.IHasModelPath;
 import java.util.function.BiFunction;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -13,6 +14,8 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.state.StateManager.Builder;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -23,6 +26,8 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class MachineBlock extends BlockWithEntity implements IHasModelPath {
+
+    public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
 
     private final BiFunction<BlockPos, BlockState, BlockEntity> blockEntityConstructor;
     private final Identifier id;
@@ -36,6 +41,12 @@ public class MachineBlock extends BlockWithEntity implements IHasModelPath {
         this.modelPath = modelPath;
         this.blockEntityConstructor = blockEntityConstructor;
         this.entityType = null;
+        setDefaultState(getStateManager().getDefaultState().with(ACTIVE, false));
+    }
+
+    @Override
+    protected void appendProperties(Builder<Block, BlockState> builder) {
+        builder.add(ACTIVE);
     }
 
     @Nullable
@@ -88,6 +99,14 @@ public class MachineBlock extends BlockWithEntity implements IHasModelPath {
 
             CraftleMod.LOGGER.error(entity);
             CraftleMod.LOGGER.error(entity.getEntityControllerPos());
+            if (state.getBlock() instanceof MachineGlassBlock glassBlock) {
+                CraftleMod.LOGGER.error(state.get(MachineGlassBlock.NORTH));
+                CraftleMod.LOGGER.error(state.get(MachineGlassBlock.SOUTH));
+                CraftleMod.LOGGER.error(state.get(MachineGlassBlock.EAST));
+                CraftleMod.LOGGER.error(state.get(MachineGlassBlock.WEST));
+                CraftleMod.LOGGER.error(state.get(MachineGlassBlock.UP));
+                CraftleMod.LOGGER.error(state.get(MachineGlassBlock.DOWN));
+            }
             BlockPos controllerPos = pos;
 
             if (!(this instanceof MachineControllerBlock) && entity.getEntityControllerPos() == null) {

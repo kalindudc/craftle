@@ -1,4 +1,4 @@
-package com.craftlemod.common.registry;
+package com.craftlemod.common.item;
 
 import com.craftlemod.common.shared.IHasModelPath;
 import net.minecraft.block.Block;
