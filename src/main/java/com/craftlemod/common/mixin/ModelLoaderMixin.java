@@ -22,7 +22,6 @@ public class ModelLoaderMixin {
 
         String modelJson = "";
         String[] pathSegments = id.getPath().split("/");
-        CraftleMod.LOGGER.error(id.getPath());
         if (pathSegments[0].equalsIgnoreCase("item")) {
             modelJson = CraftleItems.createModelJson(id.getPath().split("/")[pathSegments.length - 1]);
         } else if (pathSegments[0].equalsIgnoreCase("block")) {

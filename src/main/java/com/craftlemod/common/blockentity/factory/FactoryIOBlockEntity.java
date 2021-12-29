@@ -1,5 +1,6 @@
-package com.craftlemod.common.blockentity;
+package com.craftlemod.common.blockentity.factory;
 
+import com.craftlemod.common.blockentity.BlockEntityRecord;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;

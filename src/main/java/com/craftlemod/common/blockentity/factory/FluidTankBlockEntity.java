@@ -1,6 +1,6 @@
-package com.craftlemod.common.blockentity;
+package com.craftlemod.common.blockentity.factory;
 
-import com.craftlemod.common.CraftleMod;
+import com.craftlemod.common.blockentity.BlockEntityRecord;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.BlockState;
@@ -62,7 +62,6 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
         }
         if (this.isFactoryActive()) {
             if (!this.verifyFactoryShape()) {
-                CraftleMod.LOGGER.error("Deactivate Factory");
                 this.deactivateFactory();
                 return;
             }
@@ -70,30 +69,25 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
             // do other tank related things
             int x = 1;
         } else {
-            Pair<Integer, Integer> factoryConfig = testFactoryShape(world, pos);
+            FactoryConfig factoryConfig = testFactoryShape(world, pos);
             // check for tank shape
-            if (factoryConfig.getLeft() == 0 && factoryConfig.getRight() == 0) {
+            if (factoryConfig == null) {
                 return;
             }
 
-            CraftleMod.LOGGER.error("Activate tank");
             // activate tank
             this.activateFactory(factoryConfig);
             //CraftleMod.LOGGER.error("\n\nshape: " + siloConfig.getLeft().toString() + "," + siloConfig.getRight().toString());
-
-            for (FactoryIOBlockEntity entity : this.getFactoryIOs()) {
-                //CraftleMod.LOGGER.error("pos: " + entity.getPos().toShortString());
-                //CraftleMod.LOGGER.error("intake: " + entity.isIntake());
-            }
         }
     }
 
     @Override
-    public Pair<Integer, Integer> testFactoryShape(World world, BlockPos pos) {
+    public FactoryConfig testFactoryShape(World world, BlockPos pos) {
         BlockPos[] baseEdges = new BlockPos[2];
         int radius = 0;
         int height = 0;
-        List<FactoryIOBlockEntity> factoryIOs = new ArrayList<>();
+        List<BlockPos> intakes = new ArrayList<>();
+        List<BlockPos> exhausts = new ArrayList<>();
 
         // check the base
         for (int i = 1; i < MAX_TANK_LENGTH; i++) {
@@ -101,19 +95,20 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
             BlockPos pos2 = new BlockPos(pos.getX() + i, pos.getY(), pos.getZ() - i);
             int numBlocks = 2 * i + 1;
 
-            Pair<Boolean, List<FactoryIOBlockEntity>> edgeItems = areValidEdges(world, pos1, pos2, numBlocks);
+            Pair<Boolean, List<List<BlockPos>>> edgeItems = areValidEdges(world, pos1, pos2, numBlocks);
             if (edgeItems.getLeft()) {
                 baseEdges[0] = pos1;
                 baseEdges[1] = pos2;
                 radius++;
-                factoryIOs.addAll(edgeItems.getRight());
+                intakes.addAll(edgeItems.getRight().get(0));
+                exhausts.addAll(edgeItems.getRight().get(1));
             } else {
                 break;
             }
         }
 
         if (baseEdges[0] == null || baseEdges[1] == null) {
-            return new Pair<>(0, 0);
+            return null;
         }
 
         height++;
@@ -123,17 +118,18 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
             BlockPos pos2 = new BlockPos(baseEdges[1].getX(), pos.getY() + i, baseEdges[1].getZ());
             int numBlocks = 2 * radius + 1;
 
-            Pair<Boolean, List<FactoryIOBlockEntity>> edgeItems = areValidEdges(world, pos1, pos2, numBlocks);
+            Pair<Boolean, List<List<BlockPos>>> edgeItems = areValidEdges(world, pos1, pos2, numBlocks);
             if (edgeItems.getLeft()) {
                 height++;
-                factoryIOs.addAll(edgeItems.getRight());
+                intakes.addAll(edgeItems.getRight().get(0));
+                exhausts.addAll(edgeItems.getRight().get(1));
             } else {
                 break;
             }
         }
 
         if (height < 3) {
-            return new Pair<>(0, 0);
+            return null;
         }
 
         // check roof
@@ -143,30 +139,33 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
             BlockPos pos2 = new BlockPos(baseEdges[1].getX() - i, pos.getY() + (height - 1), baseEdges[1].getZ() + i);
             int numBlocks = (2 * (radius - i)) + 1;
 
-            Pair<Boolean, List<FactoryIOBlockEntity>> edgeItems = areValidEdges(world, pos1, pos2, numBlocks);
+            Pair<Boolean, List<List<BlockPos>>> edgeItems = areValidEdges(world, pos1, pos2, numBlocks);
             if (!edgeItems.getLeft()) {
                 validRoof = false;
                 break;
             } else {
-                factoryIOs.addAll(edgeItems.getRight());
+                intakes.addAll(edgeItems.getRight().get(0));
+                exhausts.addAll(edgeItems.getRight().get(1));
             }
         }
 
         // check roof center
         validRoof = validRoof && isValidMultiBlock(world.getBlockState(new BlockPos(pos.getX(), pos.getY() + (height - 1), pos.getZ())).getBlock());
         if (!validRoof) {
-            return new Pair<>(0, 0);
+            return null;
         } else {
-            if (isValidFactoryIO(world.getBlockEntity(new BlockPos(pos.getX(), pos.getY() + height, pos.getZ())))) {
-                factoryIOs.add((FactoryIOBlockEntity) world.getBlockEntity(new BlockPos(pos.getX(), pos.getY() + height, pos.getZ())));
+            if (isValidIntake(world.getBlockEntity(new BlockPos(pos.getX(), pos.getY() + height, pos.getZ())))) {
+                intakes.add(new BlockPos(pos.getX(), pos.getY() + height, pos.getZ()));
+            }
+            if (isValidExhaust(world.getBlockEntity(new BlockPos(pos.getX(), pos.getY() + height, pos.getZ())))) {
+                exhausts.add(new BlockPos(pos.getX(), pos.getY() + height, pos.getZ()));
             }
         }
 
         if (!verifyFactoryInterior(new Vec2f(baseEdges[0].getX(), baseEdges[0].getZ()), new Vec2f(baseEdges[1].getX(), baseEdges[1].getZ()), height)) {
-            return new Pair<>(0, 0);
+            return null;
         }
 
-        this.setFactoryIOs(factoryIOs);
-        return new Pair<>(radius, height);
+        return new FactoryConfig(height, radius, new Vec2f(baseEdges[0].getX(), baseEdges[0].getZ()), new Vec2f(baseEdges[1].getX(), baseEdges[1].getZ()), intakes, exhausts);
     }
 }

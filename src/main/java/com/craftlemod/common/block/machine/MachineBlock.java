@@ -1,8 +1,7 @@
 package com.craftlemod.common.block.machine;
 
-import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.blockentity.CraftleBlockEntity;
-import com.craftlemod.common.blockentity.FactoryBlockEntity;
+import com.craftlemod.common.blockentity.factory.FactoryBlockEntity;
 import com.craftlemod.common.shared.IHasModelPath;
 import java.util.function.BiFunction;
 import net.minecraft.block.Block;
@@ -98,21 +97,7 @@ public class MachineBlock extends BlockWithEntity implements IHasModelPath {
                 return ActionResult.PASS;
             }
 
-            CraftleMod.LOGGER.error(entity);
-            CraftleMod.LOGGER.error(entity.getEntityControllerPos());
-            if (state.getBlock() instanceof MachineCTBlock glassBlock) {
-                CraftleMod.LOGGER.error(state.get(MachineCTBlock.NORTH));
-                CraftleMod.LOGGER.error(state.get(MachineCTBlock.SOUTH));
-                CraftleMod.LOGGER.error(state.get(MachineCTBlock.EAST));
-                CraftleMod.LOGGER.error(state.get(MachineCTBlock.WEST));
-                CraftleMod.LOGGER.error(state.get(MachineCTBlock.UP));
-                CraftleMod.LOGGER.error(state.get(MachineCTBlock.DOWN));
-            }
-            CraftleMod.LOGGER.error("pos: " + pos.getX() + "," + pos.getY() + "," + pos.getZ());
             BlockPos controllerPos = pos;
-
-            CraftleMod.LOGGER.error(this);
-            CraftleMod.LOGGER.error(entity.getEntityControllerPos());
             if (!(this instanceof MachineControllerBlock) && entity.getEntityControllerPos() == null) {
                 return ActionResult.PASS;
             }
@@ -141,8 +126,8 @@ public class MachineBlock extends BlockWithEntity implements IHasModelPath {
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof com.craftlemod.common.blockentity.FactoryBlockEntity) {
-                ItemScatterer.spawn(world, pos, (com.craftlemod.common.blockentity.FactoryBlockEntity) blockEntity);
+            if (blockEntity instanceof FactoryBlockEntity) {
+                ItemScatterer.spawn(world, pos, (FactoryBlockEntity) blockEntity);
                 // update comparators
                 world.updateComparators(pos, this);
             }
