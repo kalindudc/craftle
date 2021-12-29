@@ -7,6 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec2f;
 import net.minecraft.world.World;
 
 public class FluidTankBlockEntity extends FactoryBlockEntity {
@@ -138,8 +139,8 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
         // check roof
         boolean validRoof = true;
         for (int i = 1; i < radius; i++) {
-            BlockPos pos1 = new BlockPos(baseEdges[0].getX() + i, pos.getY() + height, baseEdges[0].getZ() - i);
-            BlockPos pos2 = new BlockPos(baseEdges[1].getX() - i, pos.getY() + height, baseEdges[1].getZ() + i);
+            BlockPos pos1 = new BlockPos(baseEdges[0].getX() + i, pos.getY() + (height - 1), baseEdges[0].getZ() - i);
+            BlockPos pos2 = new BlockPos(baseEdges[1].getX() - i, pos.getY() + (height - 1), baseEdges[1].getZ() + i);
             int numBlocks = (2 * (radius - i)) + 1;
 
             Pair<Boolean, List<FactoryIOBlockEntity>> edgeItems = areValidEdges(world, pos1, pos2, numBlocks);
@@ -159,6 +160,10 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
             if (isValidFactoryIO(world.getBlockEntity(new BlockPos(pos.getX(), pos.getY() + height, pos.getZ())))) {
                 factoryIOs.add((FactoryIOBlockEntity) world.getBlockEntity(new BlockPos(pos.getX(), pos.getY() + height, pos.getZ())));
             }
+        }
+
+        if (!verifyFactoryInterior(new Vec2f(baseEdges[0].getX(), baseEdges[0].getZ()), new Vec2f(baseEdges[1].getX(), baseEdges[1].getZ()), height)) {
+            return new Pair<>(0, 0);
         }
 
         this.setFactoryIOs(factoryIOs);

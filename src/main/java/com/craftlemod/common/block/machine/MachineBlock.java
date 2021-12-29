@@ -2,6 +2,7 @@ package com.craftlemod.common.block.machine;
 
 import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.blockentity.CraftleBlockEntity;
+import com.craftlemod.common.blockentity.FactoryBlockEntity;
 import com.craftlemod.common.shared.IHasModelPath;
 import java.util.function.BiFunction;
 import net.minecraft.block.Block;
@@ -110,11 +111,16 @@ public class MachineBlock extends BlockWithEntity implements IHasModelPath {
             CraftleMod.LOGGER.error("pos: " + pos.getX() + "," + pos.getY() + "," + pos.getZ());
             BlockPos controllerPos = pos;
 
+            CraftleMod.LOGGER.error(this);
+            CraftleMod.LOGGER.error(entity.getEntityControllerPos());
             if (!(this instanceof MachineControllerBlock) && entity.getEntityControllerPos() == null) {
                 return ActionResult.PASS;
             }
 
             if (entity.getEntityControllerPos() != null) {
+                if (!(world.getBlockEntity(entity.getEntityControllerPos()) instanceof FactoryBlockEntity)) {
+                    return ActionResult.PASS;
+                }
                 controllerPos = entity.getEntityControllerPos();
             }
 

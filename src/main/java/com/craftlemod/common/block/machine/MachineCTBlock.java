@@ -1,6 +1,5 @@
 package com.craftlemod.common.block.machine;
 
-import com.craftlemod.common.CraftleMod;
 import java.util.function.BiFunction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -50,10 +49,6 @@ public class MachineCTBlock extends MachineBlock {
     }
 
     private int isValidNeighbor(World world, BlockPos current, BlockPos neighbor, Vec3f[] bounds) {
-
-        CraftleMod.LOGGER.error(bounds[0].getX() + "," + bounds[1].getX());
-        CraftleMod.LOGGER.error(bounds[0].getY() + "," + bounds[1].getY());
-        CraftleMod.LOGGER.error(bounds[0].getZ() + "," + bounds[1].getZ());
         if (neighbor.getX() < bounds[0].getX() || neighbor.getX() > bounds[1].getX() || neighbor.getZ() > bounds[0].getZ() || neighbor.getZ() < bounds[1].getZ()
             || neighbor.getY() < bounds[0].getY() || neighbor.getY() > bounds[1].getY()) {
             return 0;

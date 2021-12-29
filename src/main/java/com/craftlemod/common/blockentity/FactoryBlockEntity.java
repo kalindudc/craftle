@@ -1,5 +1,6 @@
 package com.craftlemod.common.blockentity;
 
+import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.block.machine.MachineBlock;
 import com.craftlemod.common.block.machine.MachineControllerBlock;
 import com.craftlemod.common.blockentity.inventory.ICraftleInventory;
@@ -7,6 +8,7 @@ import com.craftlemod.common.screen.FactoryScreenHandler;
 import java.util.ArrayList;
 import java.util.List;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -124,6 +126,12 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
         this.bottomRightCord = new Vec2f(nbt.getFloat("bottom_right_x"), nbt.getFloat("bottom_right_z"));
         this.isFactoryActive = nbt.getBoolean("is_factory_active");
         this.height = nbt.getInt("factory_height");
+
+        if (this.height == 0) {
+            this.topLeftCord = null;
+            this.bottomRightCord = null;
+            this.isFactoryActive = false;
+        }
     }
 
     @Override
@@ -132,10 +140,14 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
         Inventories.writeNbt(nbt, this.inventory);
         nbt.putBoolean("is_factory_active", isFactoryActive);
         nbt.putInt("factory_height", height);
-        nbt.putFloat("top_left_x", topLeftCord.x);
-        nbt.putFloat("top_left_z", topLeftCord.y);
-        nbt.putFloat("bottom_right_x", bottomRightCord.x);
-        nbt.putFloat("bottom_right_z", bottomRightCord.y);
+        if (this.topLeftCord != null) {
+            nbt.putFloat("top_left_x", topLeftCord.x);
+            nbt.putFloat("top_left_z", topLeftCord.y);
+        }
+        if (this.bottomRightCord != null) {
+            nbt.putFloat("bottom_right_x", bottomRightCord.x);
+            nbt.putFloat("bottom_right_z", bottomRightCord.y);
+        }
     }
 
     @Override
@@ -170,6 +182,9 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
     public void activateFactory(Pair<Integer, Integer> factoryConfig) {
         this.isFactoryActive = true;
         this.height = factoryConfig.getRight();
+        int radius = factoryConfig.getLeft();
+        this.topLeftCord = new Vec2f(getPos().getX() - radius, getPos().getZ() + radius);
+        this.bottomRightCord = new Vec2f(getPos().getX() + radius, getPos().getZ() - radius);
         setFactoryController(factoryConfig, true);
     }
 
@@ -177,6 +192,8 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
         this.isFactoryActive = false;
         setFactoryController(new Pair<>((int) (getPos().getX() - this.topLeftCord.x), this.height), false);
         this.height = 0;
+        this.topLeftCord = null;
+        this.bottomRightCord = null;
     }
 
     public boolean verifyFactoryShape() {
@@ -214,14 +231,30 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
             }
         }
 
+        return verifyFactoryInterior(this.topLeftCord, this.bottomRightCord, this.height);
+    }
+
+    public boolean verifyFactoryInterior(Vec2f topLeftCord, Vec2f bottomRightCord, int height) {
+        assert world != null;
+        if (topLeftCord == null || bottomRightCord == null) {
+            return false;
+        }
+        CraftleMod.LOGGER.error(topLeftCord.x + "," + topLeftCord.y + " | " + bottomRightCord.x + "," + bottomRightCord.y);
+
+        for (int x = (int) topLeftCord.x + 1; x <= bottomRightCord.x - 1; x++) {
+            for (int z = (int) topLeftCord.y - 1; z >= bottomRightCord.y + 1; z--) {
+                for (int y = getPos().getY() + 1; y < getPos().getY() + (height - 2); y++) {
+                    if (!(world.getBlockState(new BlockPos(x, y, z)).getBlock() instanceof AirBlock)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
         return true;
     }
 
     public void setFactoryController(Pair<Integer, Integer> factoryConfig, boolean activateFactory) {
-        int radius = factoryConfig.getLeft();
-        this.topLeftCord = new Vec2f(getPos().getX() - radius, getPos().getZ() + radius);
-        this.bottomRightCord = new Vec2f(getPos().getX() + radius, getPos().getZ() - radius);
-
         // bottom layer and top layer
         for (int x = (int) topLeftCord.x; x <= bottomRightCord.x; x++) {
             for (int z = (int) topLeftCord.y; z >= bottomRightCord.y; z--) {
