@@ -1,6 +1,5 @@
 package com.craftlemod.common.blockentity;
 
-import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.block.machine.MachineBlock;
 import com.craftlemod.common.block.machine.MachineControllerBlock;
 import com.craftlemod.common.blockentity.inventory.ICraftleInventory;
@@ -262,10 +261,6 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
             return;
         }
 
-        CraftleMod.LOGGER.error(world.getBlockEntity(pos));
-        if (controller != null) {
-            CraftleMod.LOGGER.error("pos: " + controller.getX() + "," + controller.getY() + "," + controller.getZ());
-        }
         if (world.getBlockEntity(pos) instanceof CraftleBlockEntity entity) {
 
             if (activateFactory) {

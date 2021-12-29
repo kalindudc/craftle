@@ -1,10 +1,196 @@
 {
     "variants": {
-        "active=true": {
-            "model": "craftle:block/machine/base/factory_block/factory_block_active"
-        },
-        "active=false": {
+        "n=0,s=0,e=0,w=0,u=0,d=0": {
             "model": "craftle:block/machine/base/factory_block/factory_block"
+        },
+        "n=0,s=0,e=0,w=0,u=0,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_d"
+        },
+        "n=0,s=0,e=0,w=0,u=1,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_u"
+        },
+        "n=0,s=0,e=0,w=0,u=1,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_ud"
+        },
+        "n=0,s=0,e=0,w=1,u=0,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_w"
+        },
+        "n=0,s=0,e=0,w=1,u=0,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_wd"
+        },
+        "n=0,s=0,e=0,w=1,u=1,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_wu"
+        },
+        "n=0,s=0,e=0,w=1,u=1,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_wud"
+        },
+        "n=0,s=0,e=1,w=0,u=0,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_e"
+        },
+        "n=0,s=0,e=1,w=0,u=0,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_ed"
+        },
+        "n=0,s=0,e=1,w=0,u=1,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_eu"
+        },
+        "n=0,s=0,e=1,w=0,u=1,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_eud"
+        },
+        "n=0,s=0,e=1,w=1,u=0,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_ew"
+        },
+        "n=0,s=0,e=1,w=1,u=0,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_ewd"
+        },
+        "n=0,s=0,e=1,w=1,u=1,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_ewu"
+        },
+        "n=0,s=0,e=1,w=1,u=1,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_ewud"
+        },
+        "n=0,s=1,e=0,w=0,u=0,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_s"
+        },
+        "n=0,s=1,e=0,w=0,u=0,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_sd"
+        },
+        "n=0,s=1,e=0,w=0,u=1,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_su"
+        },
+        "n=0,s=1,e=0,w=0,u=1,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_sud"
+        },
+        "n=0,s=1,e=0,w=1,u=0,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_sw"
+        },
+        "n=0,s=1,e=0,w=1,u=0,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_swd"
+        },
+        "n=0,s=1,e=0,w=1,u=1,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_swu"
+        },
+        "n=0,s=1,e=0,w=1,u=1,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_swud"
+        },
+        "n=0,s=1,e=1,w=0,u=0,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_se"
+        },
+        "n=0,s=1,e=1,w=0,u=0,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_sed"
+        },
+        "n=0,s=1,e=1,w=0,u=1,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_seu"
+        },
+        "n=0,s=1,e=1,w=0,u=1,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_seud"
+        },
+        "n=0,s=1,e=1,w=1,u=0,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_sew"
+        },
+        "n=0,s=1,e=1,w=1,u=0,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_sewd"
+        },
+        "n=0,s=1,e=1,w=1,u=1,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_sewu"
+        },
+        "n=0,s=1,e=1,w=1,u=1,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_sewud"
+        },
+        "n=1,s=0,e=0,w=0,u=0,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_n"
+        },
+        "n=1,s=0,e=0,w=0,u=0,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nd"
+        },
+        "n=1,s=0,e=0,w=0,u=1,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nu"
+        },
+        "n=1,s=0,e=0,w=0,u=1,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nud"
+        },
+        "n=1,s=0,e=0,w=1,u=0,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nw"
+        },
+        "n=1,s=0,e=0,w=1,u=0,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nwd"
+        },
+        "n=1,s=0,e=0,w=1,u=1,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nwu"
+        },
+        "n=1,s=0,e=0,w=1,u=1,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nwud"
+        },
+        "n=1,s=0,e=1,w=0,u=0,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_ne"
+        },
+        "n=1,s=0,e=1,w=0,u=0,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_ned"
+        },
+        "n=1,s=0,e=1,w=0,u=1,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_neu"
+        },
+        "n=1,s=0,e=1,w=0,u=1,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_neud"
+        },
+        "n=1,s=0,e=1,w=1,u=0,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_new"
+        },
+        "n=1,s=0,e=1,w=1,u=0,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_newd"
+        },
+        "n=1,s=0,e=1,w=1,u=1,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_newu"
+        },
+        "n=1,s=0,e=1,w=1,u=1,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_newud"
+        },
+        "n=1,s=1,e=0,w=0,u=0,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_ns"
+        },
+        "n=1,s=1,e=0,w=0,u=0,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nsd"
+        },
+        "n=1,s=1,e=0,w=0,u=1,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nsu"
+        },
+        "n=1,s=1,e=0,w=0,u=1,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nsud"
+        },
+        "n=1,s=1,e=0,w=1,u=0,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nsw"
+        },
+        "n=1,s=1,e=0,w=1,u=0,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nswd"
+        },
+        "n=1,s=1,e=0,w=1,u=1,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nswu"
+        },
+        "n=1,s=1,e=0,w=1,u=1,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nswud"
+        },
+        "n=1,s=1,e=1,w=0,u=0,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nse"
+        },
+        "n=1,s=1,e=1,w=0,u=0,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nsed"
+        },
+        "n=1,s=1,e=1,w=0,u=1,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nseu"
+        },
+        "n=1,s=1,e=1,w=0,u=1,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nseud"
+        },
+        "n=1,s=1,e=1,w=1,u=0,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nsew"
+        },
+        "n=1,s=1,e=1,w=1,u=0,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nsewd"
+        },
+        "n=1,s=1,e=1,w=1,u=1,d=0": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nsewu"
+        },
+        "n=1,s=1,e=1,w=1,u=1,d=1": {
+            "model": "craftle:block/machine/base/factory_block/factory_block_nsewud"
         }
     }
 }

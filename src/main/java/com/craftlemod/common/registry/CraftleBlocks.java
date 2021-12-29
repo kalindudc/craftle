@@ -3,7 +3,7 @@ package com.craftlemod.common.registry;
 import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.block.CraftleBlock;
 import com.craftlemod.common.block.CraftleOreBlock;
-import com.craftlemod.common.block.machine.MachineBlock;
+import com.craftlemod.common.block.machine.MachineCTBlock;
 import com.craftlemod.common.block.machine.MachineControllerBlock;
 import com.craftlemod.common.block.machine.MachineGlassBlock;
 import com.craftlemod.common.blockentity.BlockEntityRecord;
@@ -86,15 +86,20 @@ public class CraftleBlocks {
     }
 
     public static String createModelJson(String id) {
+        // TODO: figure out a better way to match this, make it more generic
         if (id.startsWith("factory_glass_block") && !id.equalsIgnoreCase("factory_glass_block")) {
             return handleMultiblockModel(id, FACTORY_GLASS_BLOCK);
+        }
+
+        if (id.startsWith("factory_block") && !id.equalsIgnoreCase("factory_block")) {
+            return handleMultiblockModel(id, FACTORY_BLOCK);
         }
 
         String modelPath = "";
         IHasModelPath block = BLOCKS.get(id);
         if (id.endsWith("_active")) {
             block = BLOCKS.get(id.substring(0, id.length() - "_active".length()));
-            modelPath = block.getModelPath() + "_0";
+            modelPath = block.getModelPath() + "_active";
         } else {
             modelPath = block.getModelPath();
         }
@@ -115,75 +120,22 @@ public class CraftleBlocks {
 
         String north = modelPath, south = modelPath, east = modelPath, west = modelPath, up = modelPath, down = modelPath;
 
-        for (char c : config.toCharArray()) {
-            String complement;
-            String suffix;
-            switch (c) {
-                case 'n':
-                    // udew
-                    complement = getComplement("udew", config);
-                    suffix = getSuffix(complement);
-
-                    if (suffix != null) {
-                        north = modelPath + "_" + suffix;
-                    }
-                    break;
-                case 's':
-                    // udew
-                    complement = getComplement("udew", config);
-                    suffix = getSuffix(complement);
-
-                    if (suffix != null) {
-                        south = modelPath + "_" + suffix;
-                    }
-                    break;
-                case 'e':
-                    // udns
-                    complement = getComplement("udns", config);
-                    suffix = getSuffix(complement);
-
-                    if (suffix != null) {
-                        east = modelPath + "_" + suffix;
-                    }
-                    break;
-                case 'w':
-                    // udns
-                    complement = getComplement("udns", config);
-                    suffix = getSuffix(complement);
-
-                    if (suffix != null) {
-                        west = modelPath + "_" + suffix;
-                    }
-                    break;
-                case 'u':
-                    //nsew
-                    complement = getComplement("nsew", config);
-                    suffix = getSuffix(complement);
-
-                    if (suffix != null) {
-                        up = modelPath + "_" + suffix;
-                    }
-                    break;
-                case 'd':
-                    //nsew
-                    complement = getComplement("nsew", config);
-                    suffix = getSuffix(complement);
-
-                    if (suffix != null) {
-                        down = modelPath + "_" + suffix;
-                    }
-                    break;
-                default:
-                    break;
-            }
-
-
-        }
+        /*
+         * Use the perspective of a block for its relative NSEW.
+         * For example, for the north face, north is up, south is down, east is west and west is east
+         */
+        north += getRelativeSuffix("udwe", config);
+        south += getRelativeSuffix("udew", config);
+        east += getRelativeSuffix("udns", config);
+        west += getRelativeSuffix("udsn", config);
+        up += getRelativeSuffix("nsew", config);
+        down += getRelativeSuffix("nswe", config);
 
         // @formatter:off
         String model = "{\n" +
             "\"parent\": \"block/cube_all\",\n" +
             "\"textures\": {\n" +
+            "\"particle\": \"" + CraftleMod.MODID + ":block/" + modelPath + "\",\n" +
             "\"north\": \"" + CraftleMod.MODID + ":block/" + north + "\",\n" +
             "\"south\": \"" + CraftleMod.MODID + ":block/" + south + "\",\n" +
             "\"east\": \"" + CraftleMod.MODID + ":block/" + east + "\",\n" +
@@ -196,30 +148,22 @@ public class CraftleBlocks {
         return model;
     }
 
-    private static String getSuffix(String complement) {
-        if (complement.equals("")) {
-            return "nsew";
+    private static String getRelativeSuffix(String perspectiveConfig, String config) {
+        String res = "";
+        if (config.contains(Character.toString(perspectiveConfig.charAt(0)))) {
+            res += "n";
+        }
+        if (config.contains(Character.toString(perspectiveConfig.charAt(1)))) {
+            res += "s";
+        }
+        if (config.contains(Character.toString(perspectiveConfig.charAt(2)))) {
+            res += "e";
+        }
+        if (config.contains(Character.toString(perspectiveConfig.charAt(3)))) {
+            res += "w";
         }
 
-        if (complement.length() == 4) {
-            return null;
-        }
-
-        String parsedCompl = complement.replace('u', 'n');
-        parsedCompl = parsedCompl.replace('d', 's');
-
-        return parsedCompl;
-    }
-
-    private static String getComplement(String expected, String config) {
-        String complement = "";
-        for (char c : expected.toCharArray()) {
-            if (!config.contains(String.valueOf(c))) {
-                complement += String.valueOf(c);
-            }
-        }
-
-        return complement;
+        return res.length() == 0 ? res : "_" + res;
     }
 
     public static void generateOres() {
@@ -254,7 +198,7 @@ public class CraftleBlocks {
     }
 
     private static IHasModelPath registerMachineBlock(String name, String machineType, FabricBlockSettings settings, BiFunction<BlockPos, BlockState, BlockEntity> constructor) {
-        IHasModelPath block = new MachineBlock(new Identifier(CraftleMod.MODID, name), "machine/" + machineType + "/" + name, settings, constructor);
+        IHasModelPath block = new MachineCTBlock(new Identifier(CraftleMod.MODID, name), "machine/" + machineType + "/" + name, settings, constructor);
         return registerBlock(name, block, CraftleMod.ITEM_GROUP_MACHINES);
     }
 

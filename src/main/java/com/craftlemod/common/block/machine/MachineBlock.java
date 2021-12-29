@@ -99,14 +99,15 @@ public class MachineBlock extends BlockWithEntity implements IHasModelPath {
 
             CraftleMod.LOGGER.error(entity);
             CraftleMod.LOGGER.error(entity.getEntityControllerPos());
-            if (state.getBlock() instanceof MachineGlassBlock glassBlock) {
-                CraftleMod.LOGGER.error(state.get(MachineGlassBlock.NORTH));
-                CraftleMod.LOGGER.error(state.get(MachineGlassBlock.SOUTH));
-                CraftleMod.LOGGER.error(state.get(MachineGlassBlock.EAST));
-                CraftleMod.LOGGER.error(state.get(MachineGlassBlock.WEST));
-                CraftleMod.LOGGER.error(state.get(MachineGlassBlock.UP));
-                CraftleMod.LOGGER.error(state.get(MachineGlassBlock.DOWN));
+            if (state.getBlock() instanceof MachineCTBlock glassBlock) {
+                CraftleMod.LOGGER.error(state.get(MachineCTBlock.NORTH));
+                CraftleMod.LOGGER.error(state.get(MachineCTBlock.SOUTH));
+                CraftleMod.LOGGER.error(state.get(MachineCTBlock.EAST));
+                CraftleMod.LOGGER.error(state.get(MachineCTBlock.WEST));
+                CraftleMod.LOGGER.error(state.get(MachineCTBlock.UP));
+                CraftleMod.LOGGER.error(state.get(MachineCTBlock.DOWN));
             }
+            CraftleMod.LOGGER.error("pos: " + pos.getX() + "," + pos.getY() + "," + pos.getZ());
             BlockPos controllerPos = pos;
 
             if (!(this instanceof MachineControllerBlock) && entity.getEntityControllerPos() == null) {
