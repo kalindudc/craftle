@@ -2,8 +2,8 @@ package com.craftlemod.common.block.machine;
 
 import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.blockentity.CraftleBlockEntity;
-import com.craftlemod.common.blockentity.FactoryBlockEntity;
 import com.craftlemod.common.shared.IHasModelPath;
+import java.util.function.BiFunction;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -24,24 +24,32 @@ import org.jetbrains.annotations.Nullable;
 
 public class MachineBlock extends BlockWithEntity implements IHasModelPath {
 
+    private final BiFunction<BlockPos, BlockState, BlockEntity> blockEntityConstructor;
     private final Identifier id;
 
-    private FactoryBlockEntity controller;
     private String modelPath;
-    private CraftleBlockEntity entity;
+    private BlockEntityType<BlockEntity> entityType;
 
-    public MachineBlock(Identifier id, String modelPath, Settings settings) {
+    public MachineBlock(Identifier id, String modelPath, Settings settings, BiFunction<BlockPos, BlockState, BlockEntity> blockEntityConstructor) {
         super(settings);
         this.id = id;
         this.modelPath = modelPath;
-        this.controller = null;
-        this.entity = null;
+        this.blockEntityConstructor = blockEntityConstructor;
+        this.entityType = null;
     }
 
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return null;
+        return blockEntityConstructor.apply(pos, state);
+    }
+
+    public BlockEntityType<BlockEntity> getEntityType() {
+        return entityType;
+    }
+
+    public void setEntityType(BlockEntityType<BlockEntity> entityType) {
+        this.entityType = entityType;
     }
 
     @Override
@@ -71,25 +79,23 @@ public class MachineBlock extends BlockWithEntity implements IHasModelPath {
         return null;
     }
 
-    public FactoryBlockEntity getController() {
-        return controller;
-    }
-
-    public void setController(FactoryBlockEntity controller) {
-        this.controller = controller;
-    }
-
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
-            CraftleMod.LOGGER.error(this.controller);
-            BlockPos controllerPos = pos;
-            if (this.entity == null && this.controller == null) {
+            if (!(world.getBlockEntity(pos) instanceof CraftleBlockEntity entity)) {
                 return ActionResult.PASS;
             }
 
-            if (this.controller != null) {
-                controllerPos = getController().getPos();
+            CraftleMod.LOGGER.error(entity);
+            CraftleMod.LOGGER.error(entity.getEntityControllerPos());
+            BlockPos controllerPos = pos;
+
+            if (!(this instanceof MachineControllerBlock) && entity.getEntityControllerPos() == null) {
+                return ActionResult.PASS;
+            }
+
+            if (entity.getEntityControllerPos() != null) {
+                controllerPos = entity.getEntityControllerPos();
             }
 
             //This will call the createScreenHandlerFactory method from BlockWithEntity, which will return our blockEntity casted to
@@ -128,11 +134,7 @@ public class MachineBlock extends BlockWithEntity implements IHasModelPath {
         return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos));
     }
 
-    public CraftleBlockEntity getEntity() {
-        return entity;
-    }
-
-    public void setEntity(CraftleBlockEntity entity) {
-        this.entity = entity;
+    public BiFunction<BlockPos, BlockState, BlockEntity> getBlockEntityConstructor() {
+        return blockEntityConstructor;
     }
 }

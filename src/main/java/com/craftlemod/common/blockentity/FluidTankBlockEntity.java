@@ -59,12 +59,8 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
         if (world.isClient()) {
             return;
         }
-        CraftleMod.LOGGER.error("\n\n\n\n\n\n");
-        CraftleMod.LOGGER.error("Ticking Fluid Tank");
-        Pair<Integer, Integer> factoryConfig = testShape(world, pos);
         if (this.isFactoryActive()) {
-            CraftleMod.LOGGER.error("Factory is active");
-            if (factoryConfig.getLeft() == 0 && factoryConfig.getRight() == 0) {
+            if (!this.verifyFactoryShape()) {
                 CraftleMod.LOGGER.error("Deactivate Factory");
                 this.deactivateFactory();
                 return;
@@ -73,7 +69,7 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
             // do other tank related things
             int x = 1;
         } else {
-            CraftleMod.LOGGER.error("Tank is not active");
+            Pair<Integer, Integer> factoryConfig = testFactoryShape(world, pos);
             // check for tank shape
             if (factoryConfig.getLeft() == 0 && factoryConfig.getRight() == 0) {
                 return;
@@ -92,7 +88,7 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
     }
 
     @Override
-    public Pair<Integer, Integer> testShape(World world, BlockPos pos) {
+    public Pair<Integer, Integer> testFactoryShape(World world, BlockPos pos) {
         BlockPos[] baseEdges = new BlockPos[2];
         int radius = 0;
         int height = 0;
@@ -116,13 +112,10 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
         }
 
         if (baseEdges[0] == null || baseEdges[1] == null) {
-            CraftleMod.LOGGER.error("break 1");
             return new Pair<>(0, 0);
         }
 
         height++;
-        CraftleMod.LOGGER.error("Current: " + getPos().getX() + "," + getPos().getZ());
-        CraftleMod.LOGGER.error("Edges: " + baseEdges[0].getX() + "," + baseEdges[0].getZ() + " -- " + baseEdges[1].getX() + "," + baseEdges[1].getZ());
         // check the walls
         for (int i = 1; i < MAX_TANK_LENGTH * 2; i++) {
             BlockPos pos1 = new BlockPos(baseEdges[0].getX(), pos.getY() + i, baseEdges[0].getZ());
@@ -139,7 +132,6 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
         }
 
         if (height < 3) {
-            CraftleMod.LOGGER.error("break 2");
             return new Pair<>(0, 0);
         }
 
@@ -160,10 +152,8 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
         }
 
         // check roof center
-        CraftleMod.LOGGER.error("checking valid roof: " + validRoof);
         validRoof = validRoof && isValidMultiBlock(world.getBlockState(new BlockPos(pos.getX(), pos.getY() + (height - 1), pos.getZ())).getBlock());
         if (!validRoof) {
-            CraftleMod.LOGGER.error("break 3: ");
             return new Pair<>(0, 0);
         } else {
             if (isValidFactoryIO(world.getBlockEntity(new BlockPos(pos.getX(), pos.getY() + height, pos.getZ())))) {

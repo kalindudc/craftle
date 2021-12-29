@@ -14,26 +14,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class MachineControllerBlock extends MachineBlock {
 
-    private final BiFunction<BlockPos, BlockState, BlockEntity> blockEntityConstructor;
-
-    private BlockEntityType<BlockEntity> entityType;
-
 
     public MachineControllerBlock(Identifier id, String modelPath, Settings settings, BiFunction<BlockPos, BlockState, BlockEntity> blockEntityConstructor) {
-        super(id, modelPath, settings);
-        this.blockEntityConstructor = blockEntityConstructor;
-        this.entityType = null;
-    }
-
-    @Nullable
-    @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        this.setEntity((CraftleBlockEntity) blockEntityConstructor.apply(pos, state));
-        return this.getEntity();
-    }
-
-    public BiFunction<BlockPos, BlockState, BlockEntity> getConstructor() {
-        return blockEntityConstructor;
+        super(id, modelPath, settings, blockEntityConstructor);
     }
 
     @Override
@@ -44,14 +27,6 @@ public class MachineControllerBlock extends MachineBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, this.entityType, CraftleBlockEntity::tick);
-    }
-
-    public BlockEntityType<BlockEntity> getEntityType() {
-        return entityType;
-    }
-
-    public void setEntityType(BlockEntityType<BlockEntity> entityType) {
-        this.entityType = entityType;
+        return checkType(type, this.getEntityType(), CraftleBlockEntity::tick);
     }
 }

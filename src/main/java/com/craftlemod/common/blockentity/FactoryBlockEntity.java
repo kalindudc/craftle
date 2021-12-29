@@ -86,7 +86,10 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
         return true;
     }
 
-    public Pair<Integer, Integer> testShape(World world, BlockPos pos) {
+    /**
+     * Given the postition of this entity, test the factory to shape to ensure it is a valid factory multiblock configuration
+     */
+    public Pair<Integer, Integer> testFactoryShape(World world, BlockPos pos) {
         return null;
     }
 
@@ -168,7 +171,7 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
     public void activateFactory(Pair<Integer, Integer> factoryConfig) {
         this.isFactoryActive = true;
         this.height = factoryConfig.getRight();
-        setFactoryController(factoryConfig, this);
+        setFactoryController(factoryConfig, this.getPos());
     }
 
     public void deactivateFactory() {
@@ -177,8 +180,45 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
         this.height = 0;
     }
 
+    public boolean verifyFactoryShape() {
+        assert world != null;
+        // bottom layer and top layer
+        for (int x = (int) topLeftCord.x; x <= bottomRightCord.x; x++) {
+            for (int z = (int) topLeftCord.y; z >= bottomRightCord.y; z--) {
+                // bottom layer and top layer
+                BlockPos pos1 = new BlockPos(x, getPos().getY(), z);
+                BlockPos pos2 = new BlockPos(x, getPos().getY() + (height - 1), z);
+                if (!isValidMultiBlock(world.getBlockState(pos1).getBlock()) || !isValidMultiBlock(world.getBlockState(pos2).getBlock())) {
+                    return false;
+                }
+            }
+        }
 
-    public void setFactoryController(Pair<Integer, Integer> factoryConfig, FactoryBlockEntity entity) {
+        // walls, (height - 2) because top and bottom layers are done above
+        for (int y = getPos().getY() + 1; y < getPos().getY() + (height - 1); y++) {
+            for (int x = (int) topLeftCord.x; x <= bottomRightCord.x; x++) {
+                // blocks of opposing walls
+                BlockPos pos1 = new BlockPos(x, y, (int) topLeftCord.y);
+                BlockPos pos2 = new BlockPos(x, y, (int) bottomRightCord.y);
+                if (!isValidMultiBlock(world.getBlockState(pos1).getBlock()) || !isValidMultiBlock(world.getBlockState(pos2).getBlock())) {
+                    return false;
+                }
+            }
+
+            for (int z = (int) topLeftCord.y; z >= bottomRightCord.y; z--) {
+                // blocks of opposing walls
+                BlockPos pos1 = new BlockPos((int) topLeftCord.x, y, z);
+                BlockPos pos2 = new BlockPos((int) bottomRightCord.x, y, z);
+                if (!isValidMultiBlock(world.getBlockState(pos1).getBlock()) || !isValidMultiBlock(world.getBlockState(pos2).getBlock())) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public void setFactoryController(Pair<Integer, Integer> factoryConfig, BlockPos controllerPos) {
         int radius = factoryConfig.getLeft();
         this.topLeftCord = new Vec2f(getPos().getX() - radius, getPos().getZ() + radius);
         this.bottomRightCord = new Vec2f(getPos().getX() + radius, getPos().getZ() - radius);
@@ -186,42 +226,46 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
         // bottom layer and top layer
         for (int x = (int) topLeftCord.x; x <= bottomRightCord.x; x++) {
             for (int z = (int) topLeftCord.y; z >= bottomRightCord.y; z--) {
-                CraftleMod.LOGGER.error("inf 1");
+                // bottom layer and top layer
                 BlockPos pos1 = new BlockPos(x, getPos().getY(), z);
                 BlockPos pos2 = new BlockPos(x, getPos().getY() + (height - 1), z);
-                setController(pos1, entity);
-                setController(pos2, entity);
+                setController(pos1, controllerPos);
+                setController(pos2, controllerPos);
             }
         }
 
         // walls, (height - 2) because top and bottom layers are done above
-        for (int y = getPos().getY() + 1; y < getPos().getY() + (height - 2); y++) {
+        for (int y = getPos().getY() + 1; y < getPos().getY() + (height - 1); y++) {
             for (int x = (int) topLeftCord.x; x <= bottomRightCord.x; x++) {
-                CraftleMod.LOGGER.error("inf 2");
-                BlockPos pos1 = new BlockPos(x, getPos().getY(), (int) topLeftCord.y);
-                BlockPos pos2 = new BlockPos(x, getPos().getY(), (int) bottomRightCord.y);
-                setController(pos1, entity);
-                setController(pos2, entity);
+                // blocks of opposing walls
+                BlockPos pos1 = new BlockPos(x, y, (int) topLeftCord.y);
+                BlockPos pos2 = new BlockPos(x, y, (int) bottomRightCord.y);
+                setController(pos1, controllerPos);
+                setController(pos2, controllerPos);
             }
 
             for (int z = (int) topLeftCord.y; z >= bottomRightCord.y; z--) {
-                CraftleMod.LOGGER.error("inf 3");
-                BlockPos pos1 = new BlockPos((int) topLeftCord.x, getPos().getY(), z);
-                BlockPos pos2 = new BlockPos((int) bottomRightCord.x, getPos().getY(), z);
-                setController(pos1, entity);
-                setController(pos2, entity);
+                // blocks of opposing walls
+                BlockPos pos1 = new BlockPos((int) topLeftCord.x, y, z);
+                BlockPos pos2 = new BlockPos((int) bottomRightCord.x, y, z);
+                setController(pos1, controllerPos);
+                setController(pos2, controllerPos);
             }
         }
     }
 
-    private void setController(BlockPos pos, FactoryBlockEntity entity) {
+    private void setController(BlockPos pos, BlockPos controller) {
         assert world != null;
         if (world.getBlockState(pos).getBlock() instanceof MachineControllerBlock) {
             return;
         }
 
-        if (world.getBlockState(pos).getBlock() instanceof MachineBlock block) {
-            block.setController(entity);
+        CraftleMod.LOGGER.error(world.getBlockEntity(pos));
+        if (controller != null) {
+            CraftleMod.LOGGER.error("pos: " + controller.getX() + "," + controller.getY() + "," + controller.getZ());
+        }
+        if (world.getBlockEntity(pos) instanceof CraftleBlockEntity entity) {
+            entity.setEntityControllerPos(controller);
         }
     }
 

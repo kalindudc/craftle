@@ -6,6 +6,7 @@ import com.craftlemod.common.block.CraftleOreBlock;
 import com.craftlemod.common.block.machine.MachineBlock;
 import com.craftlemod.common.block.machine.MachineControllerBlock;
 import com.craftlemod.common.blockentity.BlockEntityRecord;
+import com.craftlemod.common.blockentity.CraftleBlockEntity;
 import com.craftlemod.common.blockentity.FactoryIOBlockEntity;
 import com.craftlemod.common.blockentity.FluidTankBlockEntity;
 import com.craftlemod.common.shared.IHasModelPath;
@@ -51,22 +52,29 @@ public class CraftleBlocks {
 
     // ores
     public static final IHasModelPath LEAD_ORE = registerOreBlock("lead_ore", FabricBlockSettings.of(Material.STONE).strength(3.0f, 3.0f).requiresTool(), 2, 64, 9);
-    public static final IHasModelPath DEEPSLATE_LEAD_ORE = registerOreBlock("deepslate_lead_ore", FabricBlockSettings.of(Material.STONE).strength(4.5f, 3.0f).requiresTool(), -50, 0, 9);
+    public static final IHasModelPath DEEPSLATE_LEAD_ORE = registerOreBlock("deepslate_lead_ore", FabricBlockSettings.of(Material.STONE).strength(4.5f, 3.0f).requiresTool(), -50,
+        0, 9);
     public static final IHasModelPath MAGNESIUM_ORE = registerOreBlock("magnesium_ore", FabricBlockSettings.of(Material.STONE).strength(3.0f, 3.0f).requiresTool(), 24, 128, 12);
-    public static final IHasModelPath DEEPSLATE_MAGNESIUM_ORE = registerOreBlock("deepslate_magnesium_ore", FabricBlockSettings.of(Material.STONE).strength(4.5f, 3.0f).requiresTool(), -30, 10, 12);
+    public static final IHasModelPath DEEPSLATE_MAGNESIUM_ORE = registerOreBlock("deepslate_magnesium_ore",
+        FabricBlockSettings.of(Material.STONE).strength(4.5f, 3.0f).requiresTool(), -30, 10, 12);
     public static final IHasModelPath BAUXITE_ORE = registerOreBlock("bauxite_ore", FabricBlockSettings.of(Material.STONE).strength(3.0f, 3.0f).requiresTool(), 2, 256, 24);
-    public static final IHasModelPath DEEPSLATE_BAUXITE_ORE = registerOreBlock("deepslate_bauxite_ore", FabricBlockSettings.of(Material.STONE).strength(4.5f, 3.0f).requiresTool(), -10, 0, 24);
+    public static final IHasModelPath DEEPSLATE_BAUXITE_ORE = registerOreBlock("deepslate_bauxite_ore", FabricBlockSettings.of(Material.STONE).strength(4.5f, 3.0f).requiresTool(),
+        -10, 0, 24);
 
     // Machine blocks
-    public static final IHasModelPath FACTORY_BLOCK = registerMachineBlock("factory_block", "base", FabricBlockSettings.of(Material.METAL).strength(5.0f, 6.0f).requiresTool());
+    public static final IHasModelPath FACTORY_BLOCK = registerMachineBlock("factory_block", "base", FabricBlockSettings.of(Material.METAL).strength(5.0f, 6.0f).requiresTool(),
+        (pos, state) -> new CraftleBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FACTORY_BLOCK_BLOCK_ENTITY, pos, state)));
     public static final IHasModelPath FACTORY_GLASS_BLOCK = registerMachineBlock("factory_glass_block", "base",
-        FabricBlockSettings.of(Material.GLASS).strength(2.0f, 2.0f).sounds(BlockSoundGroup.GLASS).nonOpaque());
-    public static final IHasModelPath FLUID_TANK_CONTROLLER = registerMachineBlockWithEntity("fluid_tank_controller", "tank",
+        FabricBlockSettings.of(Material.GLASS).strength(2.0f, 2.0f).sounds(BlockSoundGroup.GLASS).nonOpaque(),
+        (pos, state) -> new CraftleBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FACTORY_GLASS_BLOCK_BLOCK_ENTITY, pos, state)));
+    public static final IHasModelPath FLUID_TANK_CONTROLLER = registerMachineControllerBlock("fluid_tank_controller", "tank",
         FabricBlockSettings.of(Material.METAL).strength(3.0f, 3.0f).requiresTool(),
         (pos, state) -> new FluidTankBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FLUID_TANK_BLOCK_ENTITY, pos, state)));
-    public static final IHasModelPath FACTORY_INTAKE = registerMachineBlockWithEntity("factory_intake", "base", FabricBlockSettings.of(Material.METAL).strength(3.0f, 3.0f).requiresTool(),
+    public static final IHasModelPath FACTORY_INTAKE = registerMachineControllerBlock("factory_intake", "base",
+        FabricBlockSettings.of(Material.METAL).strength(3.0f, 3.0f).requiresTool(),
         (pos, state) -> new FactoryIOBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FACTORY_INTAKE_BLOCK_ENTITY, pos, state), true));
-    public static final IHasModelPath FACTORY_EXHAUST = registerMachineBlockWithEntity("factory_exhaust", "base", FabricBlockSettings.of(Material.METAL).strength(3.0f, 3.0f).requiresTool(),
+    public static final IHasModelPath FACTORY_EXHAUST = registerMachineControllerBlock("factory_exhaust", "base",
+        FabricBlockSettings.of(Material.METAL).strength(3.0f, 3.0f).requiresTool(),
         (pos, state) -> new FactoryIOBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FACTORY_EXHAUST_BLOCK_ENTITY, pos, state), false));
 
     public static void registerAll() {
@@ -102,7 +110,8 @@ public class CraftleBlocks {
 
             Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, entry.getValue().getId(), config);
             Registry.register(BuiltinRegistries.PLACED_FEATURE, entry.getValue().getId(), feature);
-            BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, RegistryKey.of(Registry.PLACED_FEATURE_KEY, entry.getValue().getId()));
+            BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
+                RegistryKey.of(Registry.PLACED_FEATURE_KEY, entry.getValue().getId()));
 
             ORE_CONFIGURATIONS.put(entry.getKey(), config);
             ORE_FEATURES.put(entry.getKey(), feature);
@@ -120,13 +129,14 @@ public class CraftleBlocks {
         return registerBlock(name, block, CraftleMod.ITEM_GROUP_RESOURCES);
     }
 
-    private static IHasModelPath registerMachineBlock(String name, String machineType, FabricBlockSettings settings) {
+    private static IHasModelPath registerMachineBlock(String name, String machineType, FabricBlockSettings settings, BiFunction<BlockPos, BlockState, BlockEntity> constructor) {
 
-        IHasModelPath block = new MachineBlock(new Identifier(CraftleMod.MODID, name), "machine/" + machineType + "/" + name, settings);
+        IHasModelPath block = new MachineBlock(new Identifier(CraftleMod.MODID, name), "machine/" + machineType + "/" + name, settings, constructor);
         return registerBlock(name, block, CraftleMod.ITEM_GROUP_MACHINES);
     }
 
-    private static IHasModelPath registerMachineBlockWithEntity(String name, String machineType, FabricBlockSettings settings, BiFunction<BlockPos, BlockState, BlockEntity> constructor) {
+    private static IHasModelPath registerMachineControllerBlock(String name, String machineType, FabricBlockSettings settings,
+        BiFunction<BlockPos, BlockState, BlockEntity> constructor) {
 
         IHasModelPath block = new MachineControllerBlock(new Identifier(CraftleMod.MODID, name), "machine/" + machineType + "/" + name, settings, constructor);
         return registerBlock(name, block, CraftleMod.ITEM_GROUP_MACHINES);
