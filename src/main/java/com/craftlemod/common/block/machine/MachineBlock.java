@@ -1,5 +1,6 @@
 package com.craftlemod.common.block.machine;
 
+import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.blockentity.CraftleBlockEntity;
 import com.craftlemod.common.blockentity.FactoryBlockEntity;
 import com.craftlemod.common.shared.IHasModelPath;
@@ -81,6 +82,7 @@ public class MachineBlock extends BlockWithEntity implements IHasModelPath {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
+            CraftleMod.LOGGER.error(this.controller);
             BlockPos controllerPos = pos;
             if (this.entity == null && this.controller == null) {
                 return ActionResult.PASS;

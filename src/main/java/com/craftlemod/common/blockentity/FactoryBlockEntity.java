@@ -1,5 +1,6 @@
 package com.craftlemod.common.blockentity;
 
+import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.block.machine.MachineBlock;
 import com.craftlemod.common.block.machine.MachineControllerBlock;
 import com.craftlemod.common.blockentity.inventory.ICraftleInventory;
@@ -167,47 +168,60 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
     public void activateFactory(Pair<Integer, Integer> factoryConfig) {
         this.isFactoryActive = true;
         this.height = factoryConfig.getRight();
+        setFactoryController(factoryConfig, this);
+    }
 
+    public void deactivateFactory() {
+        this.isFactoryActive = false;
+        setFactoryController(new Pair<>((int) (getPos().getX() - this.topLeftCord.x), this.height), null);
+        this.height = 0;
+    }
+
+
+    public void setFactoryController(Pair<Integer, Integer> factoryConfig, FactoryBlockEntity entity) {
         int radius = factoryConfig.getLeft();
         this.topLeftCord = new Vec2f(getPos().getX() - radius, getPos().getZ() + radius);
         this.bottomRightCord = new Vec2f(getPos().getX() + radius, getPos().getZ() - radius);
 
         // bottom layer and top layer
         for (int x = (int) topLeftCord.x; x <= bottomRightCord.x; x++) {
-            for (int z = (int) topLeftCord.y; z >= bottomRightCord.y; z++) {
+            for (int z = (int) topLeftCord.y; z >= bottomRightCord.y; z--) {
+                CraftleMod.LOGGER.error("inf 1");
                 BlockPos pos1 = new BlockPos(x, getPos().getY(), z);
-                BlockPos pos2 = new BlockPos(x, getPos().getY() + height, z);
-                setController(pos1);
-                setController(pos2);
+                BlockPos pos2 = new BlockPos(x, getPos().getY() + (height - 1), z);
+                setController(pos1, entity);
+                setController(pos2, entity);
             }
         }
 
-        // walls
-        for (int y = getPos().getY() + 1; y < getPos().getY() + height; y++) {
+        // walls, (height - 2) because top and bottom layers are done above
+        for (int y = getPos().getY() + 1; y < getPos().getY() + (height - 2); y++) {
             for (int x = (int) topLeftCord.x; x <= bottomRightCord.x; x++) {
+                CraftleMod.LOGGER.error("inf 2");
                 BlockPos pos1 = new BlockPos(x, getPos().getY(), (int) topLeftCord.y);
                 BlockPos pos2 = new BlockPos(x, getPos().getY(), (int) bottomRightCord.y);
-                setController(pos1);
-                setController(pos2);
+                setController(pos1, entity);
+                setController(pos2, entity);
             }
 
-            for (int z = (int) topLeftCord.y; z >= bottomRightCord.y; z++) {
+            for (int z = (int) topLeftCord.y; z >= bottomRightCord.y; z--) {
+                CraftleMod.LOGGER.error("inf 3");
                 BlockPos pos1 = new BlockPos((int) topLeftCord.x, getPos().getY(), z);
                 BlockPos pos2 = new BlockPos((int) bottomRightCord.x, getPos().getY(), z);
-                setController(pos1);
-                setController(pos2);
+                setController(pos1, entity);
+                setController(pos2, entity);
             }
         }
     }
 
-    private void setController(BlockPos pos) {
+    private void setController(BlockPos pos, FactoryBlockEntity entity) {
         assert world != null;
         if (world.getBlockState(pos).getBlock() instanceof MachineControllerBlock) {
             return;
         }
 
         if (world.getBlockState(pos).getBlock() instanceof MachineBlock block) {
-            block.setController(this);
+            block.setController(entity);
         }
     }
 
