@@ -54,10 +54,10 @@ public class MachineCTBlock extends MachineBlock {
         CraftleMod.LOGGER.error(bounds[0].getX() + "," + bounds[1].getX());
         CraftleMod.LOGGER.error(bounds[0].getY() + "," + bounds[1].getY());
         CraftleMod.LOGGER.error(bounds[0].getZ() + "," + bounds[1].getZ());
-//        if (neighbor.getX() < bounds[0].getX() || neighbor.getX() > bounds[1].getX() || neighbor.getZ() > bounds[0].getZ() || neighbor.getZ() < bounds[1].getZ()
-//            || neighbor.getY() < bounds[0].getY() || neighbor.getZ() > bounds[1].getZ()) {
-//            return 0;
-//        }
+        if (neighbor.getX() < bounds[0].getX() || neighbor.getX() > bounds[1].getX() || neighbor.getZ() > bounds[0].getZ() || neighbor.getZ() < bounds[1].getZ()
+            || neighbor.getY() < bounds[0].getY() || neighbor.getY() > bounds[1].getY()) {
+            return 0;
+        }
 
         if (world.getBlockState(neighbor).getBlock() instanceof MachineCTBlock block && block.getId().equals(((MachineCTBlock) world.getBlockState(current).getBlock()).getId())) {
             return 1;
