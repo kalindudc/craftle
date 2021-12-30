@@ -9,8 +9,3 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Linter
-        uses: github/super-linter@v4
-        env:
-          VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: develop
