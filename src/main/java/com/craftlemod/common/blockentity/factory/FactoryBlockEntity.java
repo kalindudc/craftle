@@ -1,5 +1,6 @@
 package com.craftlemod.common.blockentity.factory;
 
+import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.block.machine.MachineBlock;
 import com.craftlemod.common.block.machine.MachineControllerBlock;
 import com.craftlemod.common.blockentity.BlockEntityRecord;
@@ -123,6 +124,8 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
 
     public void readFactoryFromNbt(NbtCompound nbt) {
         this.isFactoryActive = nbt.getBoolean("is_factory_active");
+        this.errorString = nbt.getString("error_string");
+
         if (!this.isFactoryActive) {
             this.factoryConfig = null;
             return;
@@ -156,6 +159,7 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
 
     private void writeFactoryToNbt(NbtCompound nbt) {
         nbt.putBoolean("is_factory_active", isFactoryActive);
+        nbt.putString("error_string", this.errorString);
 
         if (!this.isFactoryActive) {
             return;
@@ -195,6 +199,7 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
         buf.writeBlockPos(pos);
         NbtCompound nbt = new NbtCompound();
         this.writeFactoryToNbt(nbt);
+        CraftleMod.LOGGER.error(nbt);
         buf.writeNbt(nbt);
     }
 
@@ -309,6 +314,7 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
 
         if (world.getBlockEntity(pos) instanceof CraftleBlockEntity entity) {
 
+            // TODO: this needs a massive cleanup, very very ugly
             if (activateFactory) {
                 Vec3f[] bounds = null;
                 if (activateBlock) {
@@ -344,5 +350,13 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
 
     public void setErrorString(String errorString) {
         this.errorString = errorString;
+    }
+
+    public int getFactoryVolume() {
+        if (this.factoryConfig == null) {
+            return 0;
+        }
+
+        return this.factoryConfig.height() * ((this.factoryConfig.radius() * 2) + 1) * 2;
     }
 }

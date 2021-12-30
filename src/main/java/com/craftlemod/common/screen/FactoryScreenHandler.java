@@ -1,5 +1,6 @@
 package com.craftlemod.common.screen;
 
+import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.blockentity.factory.FactoryBlockEntity;
 import com.craftlemod.common.registry.CraftleScreenHandlers;
 import net.minecraft.block.entity.BlockEntity;
@@ -52,6 +53,7 @@ public class FactoryScreenHandler extends ScreenHandler {
             NbtCompound nbt = buffer.readNbt();
             assert nbt != null;
             facEntity.readFactoryFromNbt(nbt);
+            CraftleMod.LOGGER.error("ERROR STRING: " + facEntity.getErrorString());
             // ignore close exception
             return facEntity;
         }

@@ -134,8 +134,8 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
         }
 
         var factoryConfig = new FactoryConfig(height, radius, topLeftCords, bottomRightCords, intakes, exhausts);
+        this.setFactoryConfig(factoryConfig);
         if (height < 3) {
-            this.setFactoryConfig(factoryConfig);
             this.setErrorString("Invalid height, factory must be at least 3 blocks high");
             return false;
         }
@@ -161,7 +161,6 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
         // check roof center
         validRoof = validRoof && isValidMultiBlock(world.getBlockState(roofCenterPos).getBlock(), roofCenterPos);
         if (!validRoof) {
-            this.setFactoryConfig(factoryConfig);
             this.setErrorString("Invalid factory roof");
             return false;
         } else {
@@ -173,7 +172,6 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
             }
         }
 
-        this.setFactoryConfig(factoryConfig);
         if (!verifyFactoryInterior(topLeftCords, bottomRightCords, height)) {
             this.setErrorString("Factory interior is not empty");
             return false;
