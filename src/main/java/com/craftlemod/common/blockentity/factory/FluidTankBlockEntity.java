@@ -113,6 +113,9 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
             return false;
         }
 
+        Vec2f topLeftCords = new Vec2f(baseEdges[0].getX(), baseEdges[0].getZ());
+        Vec2f bottomRightCords = new Vec2f(baseEdges[1].getX(), baseEdges[1].getZ());
+
         height++;
         // check the walls
         for (int i = 1; i < MAX_TANK_LENGTH * 2; i++) {
@@ -130,9 +133,9 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
             }
         }
 
+        var factoryConfig = new FactoryConfig(height, radius, topLeftCords, bottomRightCords, intakes, exhausts);
         if (height < 3) {
-            this.setFactoryConfig(
-                new FactoryConfig(height, radius, new Vec2f(baseEdges[0].getX(), baseEdges[0].getZ()), new Vec2f(baseEdges[1].getX(), baseEdges[1].getZ()), intakes, exhausts));
+            this.setFactoryConfig(factoryConfig);
             this.setErrorString("Invalid height, factory must be at least 3 blocks high");
             return false;
         }
@@ -154,11 +157,11 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
             }
         }
 
+        BlockPos roofCenterPos = new BlockPos(pos.getX(), pos.getY() + (height - 1), pos.getZ());
         // check roof center
-        validRoof = validRoof && isValidMultiBlock(world.getBlockState(new BlockPos(pos.getX(), pos.getY() + (height - 1), pos.getZ())).getBlock());
+        validRoof = validRoof && isValidMultiBlock(world.getBlockState(roofCenterPos).getBlock(), roofCenterPos);
         if (!validRoof) {
-            this.setFactoryConfig(
-                new FactoryConfig(height, radius, new Vec2f(baseEdges[0].getX(), baseEdges[0].getZ()), new Vec2f(baseEdges[1].getX(), baseEdges[1].getZ()), intakes, exhausts));
+            this.setFactoryConfig(factoryConfig);
             this.setErrorString("Invalid factory roof");
             return false;
         } else {
@@ -170,9 +173,8 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
             }
         }
 
-        this.setFactoryConfig(
-            new FactoryConfig(height, radius, new Vec2f(baseEdges[0].getX(), baseEdges[0].getZ()), new Vec2f(baseEdges[1].getX(), baseEdges[1].getZ()), intakes, exhausts));
-        if (!verifyFactoryInterior(new Vec2f(baseEdges[0].getX(), baseEdges[0].getZ()), new Vec2f(baseEdges[1].getX(), baseEdges[1].getZ()), height)) {
+        this.setFactoryConfig(factoryConfig);
+        if (!verifyFactoryInterior(topLeftCords, bottomRightCords, height)) {
             this.setErrorString("Factory interior is not empty");
             return false;
         }
@@ -181,7 +183,7 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
             this.setErrorString("Missing intake, factory must include at least one intake");
             return false;
         }
-        
+
         if (exhausts.size() == 0) {
             this.setErrorString("Missing exhaust, factory must include at least one exhaust");
             return false;

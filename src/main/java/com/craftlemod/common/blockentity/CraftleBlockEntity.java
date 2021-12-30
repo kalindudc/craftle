@@ -36,13 +36,15 @@ public class CraftleBlockEntity extends BlockEntity {
         this.entityControllerPos = entityControllerPos;
     }
 
-    public void activateBlock(World world, BlockState state, BlockPos entityControllerPos, Vec3f[] bounds) {
+    public void activateBlock(World world, BlockState state, BlockPos entityControllerPos, Vec3f[] bounds, boolean activateBlock) {
         this.entityControllerPos = entityControllerPos;
-        if (world.getBlockState(pos).getBlock() instanceof MachineCTBlock block) {
-            block.setDirectionalState(world, state, pos, bounds);
-            return;
+        if (activateBlock) {
+            if (world.getBlockState(pos).getBlock() instanceof MachineCTBlock block) {
+                block.setDirectionalState(world, state, pos, bounds);
+                return;
+            }
+            world.setBlockState(pos, state.with(MachineBlock.ACTIVE, true));
         }
-        world.setBlockState(pos, state.with(MachineBlock.ACTIVE, true));
 
     }
 

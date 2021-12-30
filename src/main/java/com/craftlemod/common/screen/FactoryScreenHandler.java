@@ -1,6 +1,5 @@
 package com.craftlemod.common.screen;
 
-import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.blockentity.factory.FactoryBlockEntity;
 import com.craftlemod.common.registry.CraftleScreenHandlers;
 import net.minecraft.block.entity.BlockEntity;
@@ -9,6 +8,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
@@ -47,11 +47,13 @@ public class FactoryScreenHandler extends ScreenHandler {
 
     private static Inventory parseInventory(PlayerInventory inv, PacketByteBuf buffer) {
         final BlockEntity entity = inv.player.world.getBlockEntity(buffer.readBlockPos());
-        CraftleMod.LOGGER.error("on parse: " + entity);
 
         if (entity instanceof FactoryBlockEntity facEntity) {
-            CraftleMod.LOGGER.error("fac: " + ((FactoryBlockEntity) entity).getFactoryConfig().toString());
-            return (Inventory) entity;
+            NbtCompound nbt = buffer.readNbt();
+            assert nbt != null;
+            facEntity.readFactoryFromNbt(nbt);
+            // ignore close exception
+            return facEntity;
         }
         return new SimpleInventory(1);
     }

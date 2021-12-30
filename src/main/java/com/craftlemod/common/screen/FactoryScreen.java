@@ -3,6 +3,8 @@ package com.craftlemod.common.screen;
 import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.block.machine.MachineBlock;
 import com.craftlemod.common.blockentity.factory.FactoryBlockEntity;
+import com.craftlemod.common.util.ColourUtil;
+import com.craftlemod.common.util.ColourUtil.Colour;
 import com.mojang.blaze3d.systems.RenderSystem;
 import java.util.Optional;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -80,8 +82,20 @@ public class FactoryScreen extends HandledScreen<ScreenHandler> {
             return;
         }
 
-        textRenderer.draw(matrices, "Height: ", screenX, screenY, 16777215);
-        textRenderer.draw(matrices, String.valueOf(entity.getFactoryConfig().height()), screenX + 15, screenY, 16777215);
+        Colour labelColour = ColourUtil.createColour(180, 180, 180);
+        Colour defaultColour = ColourUtil.createColour(210, 180, 78);
+        Colour activeColour = ColourUtil.createColour(30, 255, 100);
+        if (!entity.isFactoryActive()) {
+            activeColour = ColourUtil.createColour(255, 45, 80);
+        }
+
+        drawTextPairs(matrices, "Factory active: ", String.valueOf(entity.isFactoryActive()), screenX, screenY, 1, labelColour.encode(), activeColour.encode());
+        drawTextPairs(matrices, "Height: ", String.valueOf(entity.getFactoryConfig().height()), screenX, screenY, 2, labelColour.encode(), defaultColour.encode());
+    }
+
+    public void drawTextPairs(MatrixStack matrices, String key, String value, int startX, int startY, int rowPos, int color1, int color2) {
+        textRenderer.draw(matrices, key, startX, startY + ((rowPos - 1) * 12), color1);
+        textRenderer.draw(matrices, value, startX + (key.length() * 5), startY + ((rowPos - 1) * 12), color2);
     }
 
     @Override
