@@ -1,6 +1,5 @@
 package com.craftlemod.common.blockentity.factory;
 
-import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.block.machine.MachineBlock;
 import com.craftlemod.common.block.machine.MachineControllerBlock;
 import com.craftlemod.common.blockentity.BlockEntityRecord;
@@ -36,12 +35,14 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
     private final DefaultedList<ItemStack> inventory;
     private boolean isFactoryActive;
     private FactoryConfig factoryConfig;
+    private String errorString;
 
     public FactoryBlockEntity(BlockEntityRecord record) {
         super(record);
         inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
         this.factoryConfig = null;
         this.isFactoryActive = false;
+        this.errorString = "";
     }
 
     /**
@@ -96,8 +97,8 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
     /**
      * Given the postition of this entity, test the factory to shape to ensure it is a valid factory multiblock configuration
      */
-    public FactoryConfig testFactoryShape(World world, BlockPos pos) {
-        return null;
+    public boolean testFactoryShape(World world, BlockPos pos) {
+        return false;
     }
 
     @Override
@@ -181,9 +182,9 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
         buf.writeBlockPos(pos);
     }
 
-    public void activateFactory(FactoryConfig factoryConfig) {
+    public void activateFactory() {
         this.isFactoryActive = true;
-        this.factoryConfig = factoryConfig;
+        this.errorString = "";
         setFactoryController(factoryConfig, true);
     }
 
@@ -236,7 +237,6 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
         if (topLeftCord == null || bottomRightCord == null) {
             return false;
         }
-        CraftleMod.LOGGER.error(topLeftCord.x + "," + topLeftCord.y + " | " + bottomRightCord.x + "," + bottomRightCord.y);
 
         for (int x = (int) topLeftCord.x + 1; x <= bottomRightCord.x - 1; x++) {
             for (int z = (int) topLeftCord.y - 1; z >= bottomRightCord.y + 1; z--) {
@@ -320,4 +320,11 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
     }
 
 
+    public String getErrorString() {
+        return errorString;
+    }
+
+    public void setErrorString(String errorString) {
+        this.errorString = errorString;
+    }
 }

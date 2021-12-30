@@ -1,6 +1,9 @@
 package com.craftlemod.common.screen;
 
+import com.craftlemod.common.CraftleMod;
+import com.craftlemod.common.blockentity.factory.FactoryBlockEntity;
 import com.craftlemod.common.registry.CraftleScreenHandlers;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -18,7 +21,7 @@ public class FactoryScreenHandler extends ScreenHandler {
     private BlockPos pos;
 
     public FactoryScreenHandler(int syncId, PlayerInventory inv, PacketByteBuf buffer) {
-        this(syncId, inv, new SimpleInventory(1));
+        this(syncId, inv, parseInventory(inv, buffer));
     }
 
     public FactoryScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
@@ -27,19 +30,30 @@ public class FactoryScreenHandler extends ScreenHandler {
         this.inventory = inventory;
         this.pos = BlockPos.ORIGIN;
 
-        this.addSlot(new Slot(inventory, 0, 62, 17));
+        //this.addSlot(new Slot(inventory, 0, 62, 17));
 
         //The player inventory
         for (int m = 0; m < 3; ++m) {
             for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(playerInventory, l + m * 9 + 9, 8 + l * 18, 84 + m * 18));
+                this.addSlot(new Slot(playerInventory, l + m * 9 + 9, 8 + l * 18, 140 + m * 18));
             }
         }
         //The player Hotbar
         for (int m = 0; m < 9; ++m) {
-            this.addSlot(new Slot(playerInventory, m, 8 + m * 18, 142));
+            this.addSlot(new Slot(playerInventory, m, 8 + m * 18, 198));
         }
 
+    }
+
+    private static Inventory parseInventory(PlayerInventory inv, PacketByteBuf buffer) {
+        final BlockEntity entity = inv.player.world.getBlockEntity(buffer.readBlockPos());
+        CraftleMod.LOGGER.error("on parse: " + entity);
+
+        if (entity instanceof FactoryBlockEntity facEntity) {
+            CraftleMod.LOGGER.error("fac: " + ((FactoryBlockEntity) entity).getFactoryConfig().toString());
+            return (Inventory) entity;
+        }
+        return new SimpleInventory(1);
     }
 
     @Override
@@ -61,27 +75,7 @@ public class FactoryScreenHandler extends ScreenHandler {
 
     @Override
     public ItemStack transferSlot(PlayerEntity player, int invSlot) {
-        ItemStack newStack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(invSlot);
-        if (slot != null && slot.hasStack()) {
-            ItemStack originalStack = slot.getStack();
-            newStack = originalStack.copy();
-            if (invSlot < this.inventory.size()) {
-                if (!this.insertItem(originalStack, this.inventory.size(), this.slots.size(), true)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (!this.insertItem(originalStack, 0, this.inventory.size(), false)) {
-                return ItemStack.EMPTY;
-            }
-
-            if (originalStack.isEmpty()) {
-                slot.setStack(ItemStack.EMPTY);
-            } else {
-                slot.markDirty();
-            }
-        }
-
-        return newStack;
+        return ItemStack.EMPTY;
     }
 
 }

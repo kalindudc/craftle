@@ -1,6 +1,8 @@
 package com.craftlemod.common.screen;
 
+import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.block.machine.MachineBlock;
+import com.craftlemod.common.blockentity.factory.FactoryBlockEntity;
 import com.mojang.blaze3d.systems.RenderSystem;
 import java.util.Optional;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -15,10 +17,12 @@ import net.minecraft.util.Identifier;
 
 public class FactoryScreen extends HandledScreen<ScreenHandler> {
 
-    private static final Identifier TEXTURE = new Identifier("minecraft", "textures/gui/container/dispenser.png");
+    private static final Identifier TEXTURE = new Identifier("craftle", "textures/gui/container/factory.png");
 
     public FactoryScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, getPositionText(handler).orElse(title));
+        this.backgroundHeight = 222;
+        this.playerInventoryTitleY = this.backgroundHeight - 94;
     }
 
     private static Optional<Text> getPositionText(ScreenHandler handler) {
@@ -49,6 +53,35 @@ public class FactoryScreen extends HandledScreen<ScreenHandler> {
         renderBackground(matrices);
         super.render(matrices, mouseX, mouseY, delta);
         drawMouseoverTooltip(matrices, mouseX, mouseY);
+    }
+
+    @Override
+    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+        super.drawForeground(matrices, mouseX, mouseY);
+
+        int screenX = 10 + 1;
+        int screenY = 19 + 1;
+        int screenWidth = 158;
+        int screenHeight = 105;
+
+        if (!(handler instanceof FactoryScreenHandler factoryScreenHandler)) {
+            CraftleMod.LOGGER.error("break 1");
+            return;
+        }
+
+        if (!(factoryScreenHandler.getInventory() instanceof FactoryBlockEntity entity)) {
+            CraftleMod.LOGGER.error("break 2");
+            CraftleMod.LOGGER.error(factoryScreenHandler.getInventory());
+            return;
+        }
+
+        if (entity.getFactoryConfig() == null) {
+            CraftleMod.LOGGER.error(entity);
+            return;
+        }
+
+        textRenderer.draw(matrices, "Height: ", screenX, screenY, 16777215);
+        textRenderer.draw(matrices, String.valueOf(entity.getFactoryConfig().height()), screenX + 15, screenY, 16777215);
     }
 
     @Override
