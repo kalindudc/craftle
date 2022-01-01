@@ -7,7 +7,7 @@ import com.craftlemod.common.block.machine.MachineCTBlock;
 import com.craftlemod.common.block.machine.MachineControllerBlock;
 import com.craftlemod.common.block.machine.MachineGlassBlock;
 import com.craftlemod.common.blockentity.BlockEntityRecord;
-import com.craftlemod.common.blockentity.CraftleBlockEntity;
+import com.craftlemod.common.blockentity.factory.FactoryBlockEntity;
 import com.craftlemod.common.blockentity.factory.FactoryIOBlockEntity;
 import com.craftlemod.common.blockentity.factory.FluidTankBlockEntity;
 import com.craftlemod.common.shared.IHasModelPath;
@@ -65,10 +65,10 @@ public class CraftleBlocks {
     // Machine blocks
     public static final IHasModelPath FACTORY_BLOCK = registerMachineBlock("factory_block", "base/factory_block",
         FabricBlockSettings.of(Material.METAL).strength(5.0f, 6.0f).requiresTool(),
-        (pos, state) -> new CraftleBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FACTORY_BLOCK_BLOCK_ENTITY, pos, state)));
+        (pos, state) -> new FactoryBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FACTORY_BLOCK_BLOCK_ENTITY, pos, state)));
     public static final IHasModelPath FACTORY_GLASS_BLOCK = registerMachineGlassBlock("factory_glass_block", "base/factory_glass_block",
         FabricBlockSettings.of(Material.GLASS).strength(2.0f, 2.0f).sounds(BlockSoundGroup.GLASS).nonOpaque(),
-        (pos, state) -> new CraftleBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FACTORY_GLASS_BLOCK_BLOCK_ENTITY, pos, state)));
+        (pos, state) -> new FactoryBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FACTORY_GLASS_BLOCK_BLOCK_ENTITY, pos, state)));
     public static final IHasModelPath FLUID_TANK_CONTROLLER = registerMachineControllerBlock("fluid_tank_controller", "tank",
         FabricBlockSettings.of(Material.METAL).strength(3.0f, 3.0f).requiresTool(),
         (pos, state) -> new FluidTankBlockEntity(new BlockEntityRecord(CraftleBlockEntityTypes.FLUID_TANK_BLOCK_ENTITY, pos, state)));

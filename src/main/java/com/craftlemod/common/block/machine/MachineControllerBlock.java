@@ -1,16 +1,11 @@
 package com.craftlemod.common.block.machine;
 
-import com.craftlemod.common.blockentity.CraftleBlockEntity;
 import java.util.function.BiFunction;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 public class MachineControllerBlock extends MachineBlock {
 
@@ -22,11 +17,5 @@ public class MachineControllerBlock extends MachineBlock {
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
-    }
-
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, this.getEntityType(), CraftleBlockEntity::tick);
     }
 }

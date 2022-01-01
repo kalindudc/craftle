@@ -1,5 +1,10 @@
 {
     "variants": {
-        "": { "model": "craftle:block/machine/tank/fluid_tank_controller" }
+        "active=true": {
+            "model": "craftle:block/machine/tank/fluid_tank_controller_active"
+        },
+        "active=false": {
+            "model": "craftle:block/machine/tank/fluid_tank_controller"
+        }
     }
 }

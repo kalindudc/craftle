@@ -1,17 +1,17 @@
 package com.craftlemod.common.blockentity.factory;
 
-import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.block.machine.MachineBlock;
-import com.craftlemod.common.block.machine.MachineControllerBlock;
+import com.craftlemod.common.block.machine.MachineCTBlock;
 import com.craftlemod.common.blockentity.BlockEntityRecord;
 import com.craftlemod.common.blockentity.CraftleBlockEntity;
 import com.craftlemod.common.blockentity.inventory.ICraftleInventory;
-import com.craftlemod.common.screen.FactoryScreenHandler;
+import com.craftlemod.common.screen.FactoryControllerScreenHandler;
 import java.util.ArrayList;
 import java.util.List;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -37,12 +37,47 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
     private boolean isFactoryActive;
     private FactoryConfig factoryConfig;
     private String errorString;
+    private BlockPos entityControllerPos;
+    private boolean hasController;
 
     public FactoryBlockEntity(BlockEntityRecord record) {
         super(record);
         inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
         this.isFactoryActive = false;
         this.errorString = "";
+        this.entityControllerPos = null;
+        this.hasController = false;
+    }
+
+    @Override
+    public void tick(World world, BlockPos pos, BlockState state) {
+    }
+
+    public BlockPos getEntityControllerPos() {
+        return entityControllerPos;
+    }
+
+    public void setEntityControllerPos(BlockPos entityControllerPos) {
+        this.hasController = entityControllerPos != null;
+        this.entityControllerPos = entityControllerPos;
+    }
+
+    public void activateBlock(World world, BlockState state, BlockPos entityControllerPos, Vec3f[] bounds) {
+        this.setEntityControllerPos(entityControllerPos);
+        if (world.getBlockState(pos).getBlock() instanceof MachineCTBlock block) {
+            block.setDirectionalState(world, state, pos, bounds);
+            return;
+        }
+        world.setBlockState(pos, state.with(MachineBlock.ACTIVE, true));
+    }
+
+    public void deactivateBlock(World world, BlockState state) {
+        this.setEntityControllerPos(null);
+        if (world.getBlockState(pos).getBlock() instanceof MachineCTBlock block) {
+            block.resetDirectionalState(world, state, pos);
+            return;
+        }
+        world.setBlockState(pos, state.with(MachineBlock.ACTIVE, false));
     }
 
     /**
@@ -50,7 +85,6 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
      */
     public boolean isValidMultiBlock(Block block, BlockPos pos) {
         if (block instanceof MachineBlock) {
-            setController(pos, true, false);
             return true;
         }
         return false;
@@ -64,39 +98,45 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
         return entity instanceof FactoryIOBlockEntity && !((FactoryIOBlockEntity) entity).isIntake();
     }
 
-    public Pair<Boolean, List<List<BlockPos>>> areValidEdges(World world, BlockPos pos1, BlockPos pos2, int numBlocks) {
+    public Pair<Boolean, List<List<BlockPos>>> areValidEdges(World world, BlockPos topLeft, BlockPos bottomRight, int numBlocks) {
         List<List<BlockPos>> factoryIOs = new ArrayList<>();
         factoryIOs.add(new ArrayList<>());
         factoryIOs.add(new ArrayList<>());
 
-        boolean top = isValidRow(world, pos1, new Vec3f(1, 0, 0), numBlocks, factoryIOs);
-        boolean left = isValidRow(world, pos1, new Vec3f(0, 0, -1), numBlocks, factoryIOs);
-        boolean bottom = isValidRow(world, pos2, new Vec3f(-1, 0, 0), numBlocks, factoryIOs);
-        boolean right = isValidRow(world, pos2, new Vec3f(0, 0, 1), numBlocks, factoryIOs);
-
-        return new Pair<>(top && left && bottom && right, factoryIOs);
-    }
-
-    public boolean isValidRow(World world, BlockPos pos, Vec3f dir, int numBlocks, List<List<BlockPos>> factoryIOs) {
-        for (int i = 0; i < numBlocks; i++) {
-            int x = pos.getX() + (i * (int) dir.getX());
-            int y = pos.getY() + (i * (int) dir.getY());
-            int z = pos.getZ() + (i * (int) dir.getZ());
-            BlockPos blockPos = new BlockPos(x, y, z);
-
-            if (!isValidMultiBlock(world.getBlockState(blockPos).getBlock(), blockPos)) {
-                return false;
+        for (int x = topLeft.getX(); x <= bottomRight.getX(); x++) {
+            // blocks of opposing walls
+            BlockPos pos1 = new BlockPos(x, topLeft.getY(), topLeft.getZ());
+            BlockPos pos2 = new BlockPos(x, bottomRight.getY(), bottomRight.getZ());
+            if (!isValidMultiBlock(world.getBlockState(pos1).getBlock(), pos1) || !isValidMultiBlock(world.getBlockState(pos2).getBlock(), pos2)) {
+                return new Pair<>(false, factoryIOs);
             } else {
-                BlockPos factoryIOPos = new BlockPos(x, y, z);
-                if (isValidIntake(world.getBlockEntity(factoryIOPos))) {
-                    factoryIOs.get(0).add(factoryIOPos);
-                }
-                if (isValidExhaust(world.getBlockEntity(factoryIOPos))) {
-                    factoryIOs.get(1).add(factoryIOPos);
-                }
+                validateIO(world, pos1, factoryIOs);
+                validateIO(world, pos2, factoryIOs);
             }
         }
-        return true;
+
+        for (int z = topLeft.getZ() - 1; z >= bottomRight.getZ() + 1; z--) {
+            // blocks of opposing walls
+            BlockPos pos1 = new BlockPos(topLeft.getX(), topLeft.getY(), z);
+            BlockPos pos2 = new BlockPos(bottomRight.getX(), bottomRight.getY(), z);
+            if (!isValidMultiBlock(world.getBlockState(pos1).getBlock(), pos1) || !isValidMultiBlock(world.getBlockState(pos2).getBlock(), pos2)) {
+                return new Pair<>(false, factoryIOs);
+            } else {
+                validateIO(world, pos1, factoryIOs);
+                validateIO(world, pos2, factoryIOs);
+            }
+        }
+
+        return new Pair<>(true, factoryIOs);
+    }
+
+    public void validateIO(World world, BlockPos pos, List<List<BlockPos>> factoryIOs) {
+        if (isValidIntake(world.getBlockEntity(pos))) {
+            factoryIOs.get(0).add(pos);
+        }
+        if (isValidExhaust(world.getBlockEntity(pos))) {
+            factoryIOs.get(1).add(pos);
+        }
     }
 
     /**
@@ -104,6 +144,14 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
      */
     public boolean testFactoryShape(World world, BlockPos pos) {
         return false;
+    }
+
+    public boolean hasController() {
+        return hasController;
+    }
+
+    public void setHasController(boolean hasController) {
+        this.hasController = hasController;
     }
 
     @Override
@@ -119,10 +167,18 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new FactoryScreenHandler(syncId, inv, this);
+        return new FactoryControllerScreenHandler(syncId, inv, this);
     }
 
     public void readFactoryFromNbt(NbtCompound nbt) {
+        this.hasController = nbt.getBoolean("entity_has_controller");
+        if (hasController) {
+            int x = nbt.getInt("factory_controller_x");
+            int y = nbt.getInt("factory_controller_y");
+            int z = nbt.getInt("factory_controller_z");
+            this.entityControllerPos = new BlockPos(x, y, z);
+        }
+
         this.isFactoryActive = nbt.getBoolean("is_factory_active");
         this.errorString = nbt.getString("error_string");
 
@@ -145,7 +201,7 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
             intakes.add(new BlockPos(nbt.getInt("intake_" + i + "_x"), nbt.getInt("intake_" + i + "_y"), nbt.getInt("intake_" + i + "_z")));
         }
         for (int i = 0; i < numExhausts; i++) {
-            intakes.add(new BlockPos(nbt.getInt("exhaust_" + i + "_x"), nbt.getInt("exhaust_" + i + "_y"), nbt.getInt("exhaust_" + i + "_z")));
+            exhausts.add(new BlockPos(nbt.getInt("exhaust_" + i + "_x"), nbt.getInt("exhaust_" + i + "_y"), nbt.getInt("exhaust_" + i + "_z")));
         }
         this.factoryConfig = new FactoryConfig(height, radius, topLeftCords, bottomRightCords, intakes, exhausts);
     }
@@ -158,6 +214,13 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
     }
 
     private void writeFactoryToNbt(NbtCompound nbt) {
+        nbt.putBoolean("entity_has_controller", this.hasController);
+        if (hasController) {
+            nbt.putInt("factory_controller_x", entityControllerPos.getX());
+            nbt.putInt("factory_controller_y", entityControllerPos.getY());
+            nbt.putInt("factory_controller_z", entityControllerPos.getZ());
+        }
+
         nbt.putBoolean("is_factory_active", isFactoryActive);
         nbt.putString("error_string", this.errorString);
 
@@ -198,8 +261,7 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
     public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
         buf.writeBlockPos(pos);
         NbtCompound nbt = new NbtCompound();
-        this.writeFactoryToNbt(nbt);
-        CraftleMod.LOGGER.error(nbt);
+        this.writeNbt(nbt);
         buf.writeNbt(nbt);
     }
 
@@ -279,8 +341,8 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
                 // bottom layer and top layer
                 BlockPos pos1 = new BlockPos(x, getPos().getY(), z);
                 BlockPos pos2 = new BlockPos(x, getPos().getY() + (factoryConfig.height() - 1), z);
-                setController(pos1, activateFactory, activateFactory);
-                setController(pos2, activateFactory, activateFactory);
+                setController(pos1, activateFactory);
+                setController(pos2, activateFactory);
             }
         }
 
@@ -290,38 +352,31 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
                 // blocks of opposing walls
                 BlockPos pos1 = new BlockPos(x, y, (int) factoryConfig.topLeftCords().y);
                 BlockPos pos2 = new BlockPos(x, y, (int) factoryConfig.bottomRightCords().y);
-                setController(pos1, activateFactory, activateFactory);
-                setController(pos2, activateFactory, activateFactory);
+                setController(pos1, activateFactory);
+                setController(pos2, activateFactory);
             }
 
             for (int z = (int) factoryConfig.topLeftCords().y; z >= factoryConfig.bottomRightCords().y; z--) {
                 // blocks of opposing walls
                 BlockPos pos1 = new BlockPos((int) factoryConfig.topLeftCords().x, y, z);
                 BlockPos pos2 = new BlockPos((int) factoryConfig.bottomRightCords().x, y, z);
-                setController(pos1, activateFactory, activateFactory);
-                setController(pos2, activateFactory, activateFactory);
+                setController(pos1, activateFactory);
+                setController(pos2, activateFactory);
             }
         }
     }
 
-    public void setController(BlockPos pos, boolean activateFactory, boolean activateBlock) {
+    public void setController(BlockPos pos, boolean activateFactory) {
         BlockPos controller = this.pos;
 
         assert world != null;
-        if (world.getBlockState(pos).getBlock() instanceof MachineControllerBlock) {
-            return;
-        }
 
-        if (world.getBlockEntity(pos) instanceof CraftleBlockEntity entity) {
-
-            // TODO: this needs a massive cleanup, very very ugly
+        if (world.getBlockEntity(pos) instanceof FactoryBlockEntity entity) {
             if (activateFactory) {
-                Vec3f[] bounds = null;
-                if (activateBlock) {
-                    bounds = new Vec3f[]{new Vec3f(this.factoryConfig.topLeftCords().x, this.getPos().getY(), this.factoryConfig.topLeftCords().y),
-                        new Vec3f(this.factoryConfig.bottomRightCords().x, this.getPos().getY() + factoryConfig.height() - 1, this.factoryConfig.bottomRightCords().y)};
-                }
-                entity.activateBlock(world, world.getBlockState(pos), controller, bounds, activateBlock);
+                Vec3f[] bounds = new Vec3f[]{new Vec3f(this.factoryConfig.topLeftCords().x, this.getPos().getY(), this.factoryConfig.topLeftCords().y),
+                    new Vec3f(this.factoryConfig.bottomRightCords().x, this.getPos().getY() + factoryConfig.height() - 1, this.factoryConfig.bottomRightCords().y)};
+                entity.setEntityControllerPos(this.pos);
+                entity.activateBlock(world, world.getBlockState(pos), controller, bounds);
             } else {
                 entity.deactivateBlock(world, world.getBlockState(pos));
             }

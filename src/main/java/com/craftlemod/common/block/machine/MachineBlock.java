@@ -1,11 +1,11 @@
 package com.craftlemod.common.block.machine;
 
-import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.blockentity.CraftleBlockEntity;
 import com.craftlemod.common.blockentity.factory.FactoryBlockEntity;
 import com.craftlemod.common.shared.IHasModelPath;
 import java.util.function.BiFunction;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -26,7 +26,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class MachineBlock extends BlockWithEntity implements IHasModelPath {
+public class MachineBlock extends BlockWithEntity implements IHasModelPath, BlockEntityProvider {
 
     public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
 
@@ -85,30 +85,27 @@ public class MachineBlock extends BlockWithEntity implements IHasModelPath {
         return BlockRenderType.MODEL;
     }
 
+
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return null;
+        return checkType(type, this.getEntityType(), CraftleBlockEntity::tick);
     }
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
-            CraftleMod.LOGGER.error("Using");
-            if (!(world.getBlockEntity(pos) instanceof CraftleBlockEntity entity)) {
-                CraftleMod.LOGGER.error("break 1");
+            if (!(world.getBlockEntity(pos) instanceof FactoryBlockEntity entity)) {
                 return ActionResult.PASS;
             }
 
             BlockPos controllerPos = pos;
-            if (!(this instanceof MachineControllerBlock) && entity.getEntityControllerPos() == null) {
-                CraftleMod.LOGGER.error("break 2");
+            if (!(this instanceof MachineControllerBlock) && !entity.hasController()) {
                 return ActionResult.PASS;
             }
 
-            if (!(this instanceof MachineControllerBlock) && entity.getEntityControllerPos() != null) {
+            if (!(this instanceof MachineControllerBlock) && entity.hasController()) {
                 if (!(world.getBlockEntity(entity.getEntityControllerPos()) instanceof FactoryBlockEntity)) {
-                    CraftleMod.LOGGER.error("break 3");
                     return ActionResult.PASS;
                 }
                 controllerPos = entity.getEntityControllerPos();

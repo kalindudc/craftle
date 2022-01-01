@@ -1,8 +1,9 @@
 package com.craftlemod.client;
 
+import com.craftlemod.client.screen.FactoryControllerScreen;
+import com.craftlemod.client.screen.FactoryIOScreen;
 import com.craftlemod.common.registry.CraftleBlocks;
 import com.craftlemod.common.registry.CraftleScreenHandlers;
-import com.craftlemod.common.screen.FactoryScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -19,6 +20,7 @@ public class CraftleModClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock((Block) CraftleBlocks.FACTORY_GLASS_BLOCK, RenderLayer.getCutout());
 
         // screens
-        ScreenRegistry.register(CraftleScreenHandlers.FACTORY_SCREEN_HANDLER, FactoryScreen::new);
+        ScreenRegistry.register(CraftleScreenHandlers.FACTORY_CONTROLLER_SCREEN_HANDLER, FactoryControllerScreen::new);
+        ScreenRegistry.register(CraftleScreenHandlers.FACTORY_IO_SCREEN_HANDLER, FactoryIOScreen::new);
     }
 }

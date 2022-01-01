@@ -1,8 +1,6 @@
 package com.craftlemod.common.screen;
 
-import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.blockentity.factory.FactoryBlockEntity;
-import com.craftlemod.common.registry.CraftleScreenHandlers;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -12,21 +10,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.math.BlockPos;
 
-public class FactoryScreenHandler extends ScreenHandler {
+public abstract class FactoryScreenHandler extends ScreenHandler {
 
     private final Inventory inventory;
 
     private BlockPos pos;
 
-    public FactoryScreenHandler(int syncId, PlayerInventory inv, PacketByteBuf buffer) {
-        this(syncId, inv, parseInventory(inv, buffer));
-    }
-
-    public FactoryScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
-        super(CraftleScreenHandlers.FACTORY_SCREEN_HANDLER, syncId);
+    public FactoryScreenHandler(ScreenHandlerType<FactoryScreenHandler> handler, int syncId, PlayerInventory playerInventory, Inventory inventory) {
+        super(handler, syncId);
         checkSize(inventory, 1);
         this.inventory = inventory;
         this.pos = BlockPos.ORIGIN;
@@ -46,14 +41,13 @@ public class FactoryScreenHandler extends ScreenHandler {
 
     }
 
-    private static Inventory parseInventory(PlayerInventory inv, PacketByteBuf buffer) {
+    protected static Inventory parseInventory(PlayerInventory inv, PacketByteBuf buffer) {
         final BlockEntity entity = inv.player.world.getBlockEntity(buffer.readBlockPos());
 
         if (entity instanceof FactoryBlockEntity facEntity) {
             NbtCompound nbt = buffer.readNbt();
             assert nbt != null;
-            facEntity.readFactoryFromNbt(nbt);
-            CraftleMod.LOGGER.error("ERROR STRING: " + facEntity.getErrorString());
+            facEntity.readNbt(nbt);
             // ignore close exception
             return facEntity;
         }
@@ -81,5 +75,4 @@ public class FactoryScreenHandler extends ScreenHandler {
     public ItemStack transferSlot(PlayerEntity player, int invSlot) {
         return ItemStack.EMPTY;
     }
-
 }

@@ -1,10 +1,7 @@
-package com.craftlemod.common.screen;
+package com.craftlemod.client.screen;
 
-import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.block.machine.MachineBlock;
-import com.craftlemod.common.blockentity.factory.FactoryBlockEntity;
-import com.craftlemod.common.util.ColourUtil;
-import com.craftlemod.common.util.ColourUtil.Colour;
+import com.craftlemod.common.screen.FactoryControllerScreenHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
 import java.util.List;
 import java.util.Optional;
@@ -32,8 +29,8 @@ public class FactoryScreen extends HandledScreen<ScreenHandler> {
     }
 
     private static Optional<Text> getPositionText(ScreenHandler handler) {
-        if (handler instanceof FactoryScreenHandler) {
-            Inventory inv = ((FactoryScreenHandler) handler).getInventory();
+        if (handler instanceof FactoryControllerScreenHandler) {
+            Inventory inv = ((FactoryControllerScreenHandler) handler).getInventory();
             if (!(inv instanceof MachineBlock block)) {
                 return Optional.empty();
             }
@@ -61,47 +58,6 @@ public class FactoryScreen extends HandledScreen<ScreenHandler> {
         drawMouseoverTooltip(matrices, mouseX, mouseY);
     }
 
-    @Override
-    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-        super.drawForeground(matrices, mouseX, mouseY);
-
-        int screenX = 10 + 1;
-        int screenY = 19 + 1;
-        int screenWidth = 158;
-        int screenHeight = 105;
-
-        if (!(handler instanceof FactoryScreenHandler factoryScreenHandler)) {
-            CraftleMod.LOGGER.error("break 1 screen");
-            return;
-        }
-
-        if (!(factoryScreenHandler.getInventory() instanceof FactoryBlockEntity entity)) {
-            CraftleMod.LOGGER.error("break 2 screen");
-            return;
-        }
-
-        Colour labelColour = ColourUtil.createColour(180, 180, 180);
-        Colour defaultColour = ColourUtil.createColour(210, 180, 78);
-        Colour errorColour = ColourUtil.createColour(210, 82, 82);
-        Colour activeColour = ColourUtil.createColour(30, 255, 100);
-        if (!entity.isFactoryActive()) {
-            activeColour = errorColour;
-        }
-
-        if (entity.getErrorString().length() > 0) {
-            drawWrappedText(matrices, entity.getErrorString(), screenX, screenY + (4 * 12), screenWidth, errorColour.encode());
-        }
-
-        drawTextPairs(matrices, "Factory active: ", String.valueOf(entity.isFactoryActive()), screenX, screenY, 1, labelColour.encode(), activeColour.encode());
-        if (entity.getFactoryConfig() == null) {
-            return;
-        }
-        drawTextPairs(matrices, "Height: ", String.valueOf(entity.getFactoryConfig().height()), screenX, screenY, 2, labelColour.encode(), defaultColour.encode());
-        drawTextPairs(matrices, "Volume: ", String.valueOf(entity.getFactoryVolume()), screenX, screenY, 3, labelColour.encode(), defaultColour.encode());
-        drawTextPairs(matrices, "# of intakes: ", String.valueOf(entity.getFactoryConfig().intakes().size()), screenX, screenY, 4, labelColour.encode(), defaultColour.encode());
-        drawTextPairs(matrices, "# of exhausts: ", String.valueOf(entity.getFactoryConfig().exhausts().size()), screenX, screenY, 5, labelColour.encode(), defaultColour.encode());
-    }
-
     public void drawTextPairs(MatrixStack matrices, String key, String value, int startX, int startY, int rowPos, int color1, int color2) {
         textRenderer.draw(matrices, key, startX, startY + ((rowPos - 1) * 12), color1);
         textRenderer.draw(matrices, value, startX + (key.length() * 5), startY + ((rowPos - 1) * 12), color2);
@@ -117,8 +73,14 @@ public class FactoryScreen extends HandledScreen<ScreenHandler> {
     }
 
     @Override
+    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+        super.drawForeground(matrices, mouseX, mouseY);
+    }
+
+    @Override
     protected void init() {
         super.init();
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
     }
+
 }
