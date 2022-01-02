@@ -2,13 +2,14 @@ package com.craftlemod.common.blockentity.factory;
 
 import com.craftlemod.common.blockentity.BlockEntityRecord;
 import com.craftlemod.common.screen.FactoryIOScreenHandler;
+import java.util.Objects;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -22,15 +23,16 @@ public class FactoryIOBlockEntity extends FactoryBlockEntity {
         this.isIntake = isIntake;
     }
 
-    public void useItem(World world, ItemStack stack) {
-        this.useItem(world, stack, isIntake);
+    public void useItem(World world, PlayerEntity player, Hand hand, ItemStack stack) {
+        this.useItem(world, player, hand, stack, isIntake);
     }
 
     @Override
-    public void useItem(World world, ItemStack itemStack, boolean isIntake) {
+    public boolean useItem(World world, PlayerEntity player, Hand hand, ItemStack itemStack, boolean isIntake) {
         if (this.hasController()) {
-            ((FactoryBlockEntity) world.getBlockEntity(this.getEntityControllerPos())).useItem(world, itemStack, isIntake);
+            return ((FactoryBlockEntity) Objects.requireNonNull(world.getBlockEntity(this.getEntityControllerPos()))).useItem(world, player, hand, itemStack, isIntake);
         }
+        return false;
     }
 
     public boolean isIntake() {

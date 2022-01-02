@@ -1,15 +1,17 @@
 package com.craftlemod.common.blockentity.factory;
 
 import com.craftlemod.api.constant.FactoryConstants;
-import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.blockentity.BlockEntityRecord;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.PropertyDelegate;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec2f;
@@ -42,7 +44,7 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
 
             @Override
             public void set(int index, int value) {
-                FluidTankBlockEntity.this.setUsedVolume(value);
+                //FluidTankBlockEntity.this.setUsedVolume(value);
             }
 
             @Override
@@ -99,8 +101,6 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
             }
 
             // do other tank related things
-            this.setUsedVolume((int) (100 * Math.random()));
-            CraftleMod.LOGGER.error("volume: " + this.getUsedVolume());
         } else {
             boolean validFactory = testFactoryShape(world, pos);
             // check for tank shape
@@ -115,13 +115,73 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
     }
 
     @Override
-    public void useItem(World world, ItemStack itemStack, boolean isIntake) {
+    public boolean canUseItem(ItemStack stack) {
+        return stack.getItem() instanceof BucketItem;
+    }
+
+    @Override
+    public boolean useItem(World world, PlayerEntity player, Hand hand, ItemStack itemStack, boolean isIntake) {
+        if (!canUseItem(itemStack)) {
+            return false;
+        }
+
+        BucketItem bucket = (BucketItem) itemStack.getItem();
+        if (!FactoryConstants.BUCKET_TYPE_TO_FLUID_TYPE.containsKey(bucket.getTranslationKey())) {
+            return false;
+        }
+
+        int fluidType = FactoryConstants.BUCKET_TYPE_TO_FLUID_TYPE.get(bucket.getTranslationKey());
+        if (this.fluidType == FactoryConstants.FLUID_TYPE_DEFAULT && fluidType == FactoryConstants.FLUID_TYPE_DEFAULT) {
+            return false;
+        }
+
         if (isIntake) {
+            if (this.fluidType == FactoryConstants.FLUID_TYPE_DEFAULT) {
+                this.fluidType = fluidType;
+            }
 
-        }
-        else {
+            // the current fluid type must be the same as the intake fluid type
+            if (this.fluidType != fluidType) {
+                return false;
+            }
 
+            // tank is full
+            if (!this.insert()) {
+                return false;
+            }
+
+            ItemStack emptied = BucketItem.getEmptiedStack(itemStack, player);
+            player.setStackInHand(hand, emptied);
+        } else {
+            if (fluidType != FactoryConstants.FLUID_TYPE_DEFAULT) {
+                return false;
+            }
+
+            if (!this.extract()) {
+                return false;
+            }
+
+            ItemStack newStack = null;
+            if (this.fluidType == FactoryConstants.FLUID_TYPE_LAVA) {
+                newStack = new ItemStack(Items.LAVA_BUCKET);
+            } else if (this.fluidType == FactoryConstants.FLUID_TYPE_WATER) {
+                newStack = new ItemStack(Items.WATER_BUCKET);
+            }
+
+            if (newStack == null) {
+                return false;
+            }
+
+            if (!player.getAbilities().creativeMode) {
+                player.setStackInHand(hand, newStack);
+            }
+
+            if (this.getUsedVolume() == 0) {
+                this.fluidType = FactoryConstants.FLUID_TYPE_DEFAULT;
+            }
         }
+
+        return true;
     }
 
     @Override

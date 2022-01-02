@@ -24,6 +24,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Pair;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -68,7 +69,24 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
         this.entityControllerPos = entityControllerPos;
     }
 
-    public void useItem(World world, ItemStack itemStack, boolean isIntake) {
+    public boolean insert() {
+        if (this.usedVolume == getFactoryVolume()) {
+            return false;
+        }
+        this.usedVolume++;
+        return true;
+    }
+
+    public boolean extract() {
+        if (this.usedVolume == 0) {
+            return false;
+        }
+        this.usedVolume--;
+        return true;
+    }
+
+    public boolean useItem(World world, PlayerEntity player, Hand hand, ItemStack itemStack, boolean isIntake) {
+        return false;
     }
 
     public void activateBlock(World world, BlockState state, BlockPos entityControllerPos, Vec3f[] bounds) {
@@ -146,6 +164,10 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
         if (isValidExhaust(world.getBlockEntity(pos))) {
             factoryIOs.get(1).add(pos);
         }
+    }
+
+    public boolean canUseItem(ItemStack stack) {
+        return false;
     }
 
     /**

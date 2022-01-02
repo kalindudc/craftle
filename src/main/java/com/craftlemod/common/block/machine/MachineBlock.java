@@ -2,6 +2,7 @@ package com.craftlemod.common.block.machine;
 
 import com.craftlemod.common.blockentity.CraftleBlockEntity;
 import com.craftlemod.common.blockentity.factory.FactoryBlockEntity;
+import com.craftlemod.common.blockentity.factory.FactoryIOBlockEntity;
 import com.craftlemod.common.shared.IHasModelPath;
 import java.util.function.BiFunction;
 import net.minecraft.block.Block;
@@ -13,6 +14,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.state.StateManager.Builder;
@@ -95,13 +97,22 @@ public class MachineBlock extends BlockWithEntity implements IHasModelPath, Bloc
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
+            // if this is not a factory part, ignore it
             if (!(world.getBlockEntity(pos) instanceof FactoryBlockEntity entity)) {
                 return ActionResult.PASS;
             }
 
             BlockPos controllerPos = pos;
+            // if this is a regular factory block without an interface, ignore it
             if (!(this instanceof MachineControllerBlock) && !entity.hasController()) {
                 return ActionResult.PASS;
+            }
+
+            // if this is a factory IO block, try to use it with the current item in hand.
+            if (this instanceof MachineControllerBlock && entity instanceof FactoryIOBlockEntity factoryIO) {
+                ItemStack itemStack = player.getStackInHand(hand);
+                factoryIO.useItem(world, player, hand, itemStack);
+                return ActionResult.SUCCESS;
             }
 
             if (!(this instanceof MachineControllerBlock) && entity.hasController()) {

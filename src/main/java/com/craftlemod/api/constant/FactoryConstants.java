@@ -1,10 +1,8 @@
 package com.craftlemod.api.constant;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-
 import java.util.HashMap;
 import java.util.Map;
+import net.minecraft.item.Items;
 
 public class FactoryConstants {
 
@@ -12,12 +10,12 @@ public class FactoryConstants {
     public static final int FLUID_TYPE_WATER = 0;
     public static final int FLUID_TYPE_LAVA = 1;
 
-    public static final Map<Integer, ItemStack> FLUID_TYPE_TO_BUCKET_DATA = new HashMap<>();
+    public static final Map<String, Integer> BUCKET_TYPE_TO_FLUID_TYPE = new HashMap<>();
 
     static {
-        FLUID_TYPE_TO_BUCKET_DATA.put(FLUID_TYPE_DEFAULT, ItemStack.EMPTY);
-        FLUID_TYPE_TO_BUCKET_DATA.put(FLUID_TYPE_WATER, Items.WATER_BUCKET.getDefaultStack());
-        FLUID_TYPE_TO_BUCKET_DATA.put(FLUID_TYPE_DEFAULT, Items.LAVA_BUCKET.getDefaultStack());
+        BUCKET_TYPE_TO_FLUID_TYPE.put(Items.BUCKET.getTranslationKey(), FLUID_TYPE_DEFAULT);
+        BUCKET_TYPE_TO_FLUID_TYPE.put(Items.WATER_BUCKET.getTranslationKey(), FLUID_TYPE_WATER);
+        BUCKET_TYPE_TO_FLUID_TYPE.put(Items.LAVA_BUCKET.getTranslationKey(), FLUID_TYPE_LAVA);
     }
 
 }
