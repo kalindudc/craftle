@@ -9,6 +9,7 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
@@ -17,14 +18,19 @@ import net.minecraft.util.math.BlockPos;
 public abstract class FactoryScreenHandler extends ScreenHandler {
 
     private final Inventory inventory;
+    private final PropertyDelegate propertyDelegate;
 
     private BlockPos pos;
 
-    public FactoryScreenHandler(ScreenHandlerType<FactoryScreenHandler> handler, int syncId, PlayerInventory playerInventory, Inventory inventory) {
+    public FactoryScreenHandler(ScreenHandlerType<FactoryScreenHandler> handler, int syncId, PlayerInventory playerInventory, Inventory inventory,
+        PropertyDelegate propertyDelegate) {
         super(handler, syncId);
         checkSize(inventory, 1);
         this.inventory = inventory;
+        this.propertyDelegate = propertyDelegate;
         this.pos = BlockPos.ORIGIN;
+
+        this.addProperties(propertyDelegate);
 
         //this.addSlot(new Slot(inventory, 0, 62, 17));
 
@@ -39,6 +45,10 @@ public abstract class FactoryScreenHandler extends ScreenHandler {
             this.addSlot(new Slot(playerInventory, m, 8 + m * 18, 198));
         }
 
+    }
+
+    public int getSyncedNumber() {
+        return propertyDelegate.get(0);
     }
 
     protected static Inventory parseInventory(PlayerInventory inv, PacketByteBuf buffer) {

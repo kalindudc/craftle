@@ -46,7 +46,7 @@ public class FactoryIOBlockEntity extends FactoryBlockEntity {
 
     @Override
     public @Nullable ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new FactoryIOScreenHandler(syncId, inv, this);
+        return new FactoryIOScreenHandler(syncId, inv, this, propertyDelegate);
     }
 
 }

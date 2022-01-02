@@ -19,6 +19,7 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -34,11 +35,14 @@ import org.jetbrains.annotations.Nullable;
 public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedScreenHandlerFactory, ICraftleInventory {
 
     private final DefaultedList<ItemStack> inventory;
+
+    protected PropertyDelegate propertyDelegate;
     private boolean isFactoryActive;
     private FactoryConfig factoryConfig;
     private String errorString;
     private BlockPos entityControllerPos;
     private boolean hasController;
+    private int usedVolume;
 
     public FactoryBlockEntity(BlockEntityRecord record) {
         super(record);
@@ -47,6 +51,8 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
         this.errorString = "";
         this.entityControllerPos = null;
         this.hasController = false;
+        usedVolume = 0;
+        this.propertyDelegate = null;
     }
 
     @Override
@@ -167,7 +173,7 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new FactoryControllerScreenHandler(syncId, inv, this);
+        return new FactoryControllerScreenHandler(syncId, inv, this, propertyDelegate);
     }
 
     public void readFactoryFromNbt(NbtCompound nbt) {
@@ -181,6 +187,7 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
 
         this.isFactoryActive = nbt.getBoolean("is_factory_active");
         this.errorString = nbt.getString("error_string");
+        this.usedVolume = nbt.getInt("factory_used_volume");
 
         if (!this.isFactoryActive) {
             this.factoryConfig = null;
@@ -223,6 +230,7 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
 
         nbt.putBoolean("is_factory_active", isFactoryActive);
         nbt.putString("error_string", this.errorString);
+        nbt.putInt("factory_used_volume", this.usedVolume);
 
         if (!this.isFactoryActive) {
             return;
@@ -413,5 +421,17 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
         }
 
         return this.factoryConfig.height() * ((this.factoryConfig.radius() * 2) + 1) * 2;
+    }
+
+    public int getUsedVolume() {
+        return usedVolume;
+    }
+
+    public void setUsedVolume(int volume) {
+        this.usedVolume = volume;
+    }
+
+    public PropertyDelegate getPropertyDelegate() {
+        return propertyDelegate;
     }
 }

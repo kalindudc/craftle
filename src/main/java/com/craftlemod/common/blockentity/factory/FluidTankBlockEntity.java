@@ -1,10 +1,12 @@
 package com.craftlemod.common.blockentity.factory;
 
+import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.blockentity.BlockEntityRecord;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec2f;
@@ -21,6 +23,22 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
         super(record);
         this.fluidCapacity = 0;
         this.currentFluidAmount = 0;
+        this.propertyDelegate = new PropertyDelegate() {
+            @Override
+            public int get(int index) {
+                return FluidTankBlockEntity.this.getUsedVolume();
+            }
+
+            @Override
+            public void set(int index, int value) {
+                FluidTankBlockEntity.this.setUsedVolume(value);
+            }
+
+            @Override
+            public int size() {
+                return 1;
+            }
+        };
     }
 
 
@@ -67,7 +85,8 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
             }
 
             // do other tank related things
-            int x = 1;
+            this.setUsedVolume((int) (100 * Math.random()));
+            CraftleMod.LOGGER.error("volume: " + this.getUsedVolume());
         } else {
             boolean validFactory = testFactoryShape(world, pos);
             // check for tank shape

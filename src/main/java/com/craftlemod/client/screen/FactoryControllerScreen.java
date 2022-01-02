@@ -53,8 +53,9 @@ public class FactoryControllerScreen extends FactoryScreen {
             return;
         }
         drawTextPairs(matrices, "Height: ", String.valueOf(entity.getFactoryConfig().height()), screenX, screenY, 2, labelColour.encode(), defaultColour.encode());
-        drawTextPairs(matrices, "Volume: ", String.valueOf(entity.getFactoryVolume()), screenX, screenY, 3, labelColour.encode(), defaultColour.encode());
-        drawTextPairs(matrices, "# of intakes: ", String.valueOf(entity.getFactoryConfig().intakes().size()), screenX, screenY, 4, labelColour.encode(), defaultColour.encode());
-        drawTextPairs(matrices, "# of exhausts: ", String.valueOf(entity.getFactoryConfig().exhausts().size()), screenX, screenY, 5, labelColour.encode(), defaultColour.encode());
+        drawTextPairs(matrices, "Capacity: ", String.valueOf(entity.getFactoryVolume()), screenX, screenY, 3, labelColour.encode(), defaultColour.encode());
+        drawTextPairs(matrices, "Used: ", String.valueOf(factoryControllerScreenHandler.getSyncedNumber()), screenX, screenY, 4, labelColour.encode(), defaultColour.encode());
+        drawTextPairs(matrices, "# of intakes: ", String.valueOf(entity.getFactoryConfig().intakes().size()), screenX, screenY, 5, labelColour.encode(), defaultColour.encode());
+        drawTextPairs(matrices, "# of exhausts: ", String.valueOf(entity.getFactoryConfig().exhausts().size()), screenX, screenY, 6, labelColour.encode(), defaultColour.encode());
     }
 }
