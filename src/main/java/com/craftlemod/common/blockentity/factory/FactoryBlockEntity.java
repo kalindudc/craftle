@@ -68,6 +68,9 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
         this.entityControllerPos = entityControllerPos;
     }
 
+    public void useItem(World world, ItemStack itemStack, boolean isIntake) {
+    }
+
     public void activateBlock(World world, BlockState state, BlockPos entityControllerPos, Vec3f[] bounds) {
         this.setEntityControllerPos(entityControllerPos);
         if (world.getBlockState(pos).getBlock() instanceof MachineCTBlock block) {

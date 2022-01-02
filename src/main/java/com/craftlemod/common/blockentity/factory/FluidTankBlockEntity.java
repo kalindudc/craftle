@@ -1,10 +1,13 @@
 package com.craftlemod.common.blockentity.factory;
 
+import com.craftlemod.api.constant.FactoryConstants;
 import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.blockentity.BlockEntityRecord;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.BlockState;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.util.Pair;
@@ -18,6 +21,7 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
 
     private int fluidCapacity;
     private int currentFluidAmount;
+    private int fluidType;
 
     public FluidTankBlockEntity(BlockEntityRecord record) {
         super(record);
@@ -26,6 +30,13 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
         this.propertyDelegate = new PropertyDelegate() {
             @Override
             public int get(int index) {
+                switch (index) {
+                    case 0:
+                        FluidTankBlockEntity.this.getUsedVolume();
+                        break;
+                    default:
+                        break;
+                }
                 return FluidTankBlockEntity.this.getUsedVolume();
             }
 
@@ -39,6 +50,7 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
                 return 1;
             }
         };
+        this.fluidType = FactoryConstants.FLUID_TYPE_DEFAULT;
     }
 
 
@@ -64,6 +76,7 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
 
         nbt.putInt("fluid_capacity", this.fluidCapacity);
         nbt.putInt("current_fluid_amount", this.currentFluidAmount);
+        nbt.putInt("fluid_type", this.fluidType);
     }
 
     @Override
@@ -71,6 +84,7 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
         super.readNbt(nbt);
         this.fluidCapacity = nbt.getInt("fluid_capacity");
         this.currentFluidAmount = nbt.getInt("current_fluid_amount");
+        this.fluidType = nbt.getInt("fluid_type");
     }
 
     @Override
@@ -97,6 +111,16 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
             // activate tank
             this.activateFactory();
             //CraftleMod.LOGGER.error("\n\nshape: " + siloConfig.getLeft().toString() + "," + siloConfig.getRight().toString());
+        }
+    }
+
+    @Override
+    public void useItem(World world, ItemStack itemStack, boolean isIntake) {
+        if (isIntake) {
+
+        }
+        else {
+
         }
     }
 
@@ -207,5 +231,13 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
         }
 
         return true;
+    }
+
+    public int getFluidType() {
+        return fluidType;
+    }
+
+    public void setFluidType(int fluidType) {
+        this.fluidType = fluidType;
     }
 }

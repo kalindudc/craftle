@@ -5,7 +5,9 @@ import com.craftlemod.common.screen.FactoryIOScreenHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -18,6 +20,17 @@ public class FactoryIOBlockEntity extends FactoryBlockEntity {
     public FactoryIOBlockEntity(BlockEntityRecord record, boolean isIntake) {
         super(record);
         this.isIntake = isIntake;
+    }
+
+    public void useItem(World world, ItemStack stack) {
+        this.useItem(world, stack, isIntake);
+    }
+
+    @Override
+    public void useItem(World world, ItemStack itemStack, boolean isIntake) {
+        if (this.hasController()) {
+            ((FactoryBlockEntity) world.getBlockEntity(this.getEntityControllerPos())).useItem(world, itemStack, isIntake);
+        }
     }
 
     public boolean isIntake() {
