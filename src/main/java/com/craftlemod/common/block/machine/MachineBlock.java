@@ -111,8 +111,9 @@ public class MachineBlock extends BlockWithEntity implements IHasModelPath, Bloc
             // if this is a factory IO block, try to use it with the current item in hand.
             if (this instanceof MachineControllerBlock && entity instanceof FactoryIOBlockEntity factoryIO) {
                 ItemStack itemStack = player.getStackInHand(hand);
-                factoryIO.useItem(world, player, hand, itemStack);
-                return ActionResult.SUCCESS;
+                if (factoryIO.useItem(world, player, hand, itemStack)) {
+                    return ActionResult.SUCCESS;
+                }
             }
 
             if (!(this instanceof MachineControllerBlock) && entity.hasController()) {

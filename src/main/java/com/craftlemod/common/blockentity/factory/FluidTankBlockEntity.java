@@ -1,6 +1,7 @@
 package com.craftlemod.common.blockentity.factory;
 
 import com.craftlemod.api.constant.FactoryConstants;
+import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.blockentity.BlockEntityRecord;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,9 +92,6 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state) {
-        if (world.isClient()) {
-            return;
-        }
         if (this.isFactoryActive()) {
             if (!this.verifyFactoryShape()) {
                 this.deactivateFactory();
@@ -121,6 +119,9 @@ public class FluidTankBlockEntity extends FactoryBlockEntity {
 
     @Override
     public boolean useItem(World world, PlayerEntity player, Hand hand, ItemStack itemStack, boolean isIntake) {
+        CraftleMod.LOGGER.error("used volume: " + getUsedVolume());
+        CraftleMod.LOGGER.error("world client: " + world.isClient);
+
         if (!canUseItem(itemStack)) {
             return false;
         }

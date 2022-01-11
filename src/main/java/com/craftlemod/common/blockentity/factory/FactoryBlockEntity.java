@@ -1,5 +1,6 @@
 package com.craftlemod.common.blockentity.factory;
 
+import com.craftlemod.common.CraftleMod;
 import com.craftlemod.common.block.machine.MachineBlock;
 import com.craftlemod.common.block.machine.MachineCTBlock;
 import com.craftlemod.common.blockentity.BlockEntityRecord;
@@ -53,7 +54,21 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
         this.entityControllerPos = null;
         this.hasController = false;
         usedVolume = 0;
-        this.propertyDelegate = null;
+        this.propertyDelegate = new PropertyDelegate() {
+            @Override
+            public int get(int index) {
+                return 0;
+            }
+
+            @Override
+            public void set(int index, int value) {
+            }
+
+            @Override
+            public int size() {
+                return 0;
+            }
+        };
     }
 
     @Override
@@ -240,6 +255,7 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
 
     @Override
     public void readNbt(NbtCompound nbt) {
+        CraftleMod.LOGGER.error("read: " + nbt);
         super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
         readFactoryFromNbt(nbt);
@@ -288,6 +304,7 @@ public class FactoryBlockEntity extends CraftleBlockEntity implements ExtendedSc
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
         writeFactoryToNbt(nbt);
+        CraftleMod.LOGGER.error("write: " + nbt);
     }
 
     @Override

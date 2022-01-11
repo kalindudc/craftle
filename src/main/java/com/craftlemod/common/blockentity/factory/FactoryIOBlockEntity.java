@@ -23,8 +23,8 @@ public class FactoryIOBlockEntity extends FactoryBlockEntity {
         this.isIntake = isIntake;
     }
 
-    public void useItem(World world, PlayerEntity player, Hand hand, ItemStack stack) {
-        this.useItem(world, player, hand, stack, isIntake);
+    public boolean useItem(World world, PlayerEntity player, Hand hand, ItemStack stack) {
+        return this.useItem(world, player, hand, stack, isIntake);
     }
 
     @Override
